@@ -26,7 +26,7 @@ const fetchJson = async (url, options = {}) => {
     // console.warn('CSRF token was empty');
   }
 
-  const absoluteUrl = Api.baseUrl + url;
+  const absoluteUrl = Api.urls.base + url;
 
   console.log('fetchJson', options);
 

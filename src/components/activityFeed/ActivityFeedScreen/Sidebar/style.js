@@ -16,6 +16,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
     color: Theme.toolbarInputColor,
   },
+  username: {
+    fontSize: 14,
+    alignSelf: 'center',
+    color: Theme.toolbarInputColor,
+  },
   logo: {
     alignSelf: 'center',
     width: 63,

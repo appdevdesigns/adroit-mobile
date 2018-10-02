@@ -1,6 +1,8 @@
 import { AsyncStorage } from 'react-native';
 import { observable, computed, action } from 'mobx';
+import { Toast } from 'native-base';
 import fetchJson from '../util/fetch';
+import Api from '../util/api';
 
 export const AuthStatus = {
   LoggingIn: 'LoggingIn',
@@ -10,6 +12,10 @@ export const AuthStatus = {
 };
 
 export default class AuthStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
+
   @observable
   status = AuthStatus.LoggedOut;
 
@@ -28,29 +34,23 @@ export default class AuthStore {
     return this.status === AuthStatus.AuthenticationFailed;
   }
 
-  @observable
-  user = {
-    id: null,
-    displayName: null,
-  };
-
   @action.bound
   login(username, password) {
     this.status = AuthStatus.LoggingIn;
-    fetchJson('/csrfToken', { method: 'GET' })
+    fetchJson(Api.urls.csrfToken, { method: 'GET' })
       .then(async csrfResponse => {
         await AsyncStorage.setItem('adroit_csrf', csrfResponse.json._csrf); // eslint-disable-line
-        fetchJson('/site/login', {
+        fetchJson(Api.urls.login, {
           method: 'POST',
           body: JSON.stringify({
             username,
             password,
           }),
         })
-          .then(async loginResponse => {
+          .then(async () => {
             await AsyncStorage.setItem('adroit_username', username);
             await AsyncStorage.setItem('adroit_password', password);
-            this.onLoggedIn(loginResponse.json);
+            this.onLoggedIn();
           })
           .catch(this.onLoginFailed);
       })
@@ -67,16 +67,18 @@ export default class AuthStore {
   @action.bound
   onLoggedIn() {
     this.status = AuthStatus.Authenticated;
+    this.rootStore.users.getAuthenticatedUser();
+    this.rootStore.teams.listUserTeams();
   }
 
   @action.bound
-  onLoginFailed() {
+  onLoginFailed(error) {
+    Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
     this.status = AuthStatus.AuthenticationFailed;
   }
 
   @action.bound
   onLoggedOut() {
     this.status = AuthStatus.LoggedOut;
-    console.log('Logged out');
   }
 }

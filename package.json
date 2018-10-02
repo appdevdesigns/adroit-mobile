@@ -14,6 +14,7 @@
     "appcenter-crashes": "^1.8.1",
     "color": "^3.0.0",
     "date-fns": "^1.29.0",
+    "lodash-es": "^4.17.11",
     "mobx": "^4.5.0",
     "mobx-react": "^5.2.8",
     "native-base": "^2.8.0",
