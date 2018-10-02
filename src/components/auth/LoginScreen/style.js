@@ -1,12 +1,11 @@
 import { StyleSheet } from 'react-native';
+import Color from 'color';
 import Theme from '../../../assets/theme';
-
-const { Color } = Theme;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.Background1,
+    backgroundColor: Color(Theme.toolbarDefaultBg).fade(0.25),
     justifyContent: 'center',
   },
   logo: {
@@ -19,7 +18,7 @@ export default StyleSheet.create({
     fontSize: 40,
     alignSelf: 'center',
     marginBottom: 20,
-    color: Color.Foreground1,
+    color: Theme.toolbarInputColor,
   },
   item: {
     marginLeft: 20,

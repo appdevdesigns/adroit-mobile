@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native';
-import Theme from '../../../../assets/theme';
-
-const { Color } = Theme;
+import Theme, { Color } from '../../../../assets/theme';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.BackgroundAlt1,
+    backgroundColor: Theme.containerBgColor,
   },
   header: {
-    backgroundColor: Color.Background1,
+    backgroundColor: Theme.toolbarDefaultBg,
     paddingTop: 20,
     paddingBottom: 10,
   },

@@ -1,6 +1,9 @@
 import React from 'react';
 // import { autorun } from 'mobx';
 import { Provider } from 'mobx-react';
+import { StyleProvider } from 'native-base';
+import getTheme from '../../../native-base-theme/components';
+import theme from '../../assets/theme';
 import Navigation from './Navigation';
 import Store from '../../store';
 
@@ -10,9 +13,11 @@ console.ignoredYellowBox = ['Warning: isMounted']; // eslint-disable-line
 const App = () => {
   const store = new Store();
   return (
-    <Provider {...store}>
-      <Navigation />
-    </Provider>
+    <StyleProvider style={getTheme(theme)}>
+      <Provider {...store}>
+        <Navigation />
+      </Provider>
+    </StyleProvider>
   );
 };
 

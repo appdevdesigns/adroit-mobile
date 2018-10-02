@@ -11,6 +11,7 @@
     "appcenter": "^1.8.1",
     "appcenter-analytics": "^1.8.1",
     "appcenter-crashes": "^1.8.1",
+    "color": "^3.0.0",
     "date-fns": "^1.29.0",
     "mobx": "^4.5.0",
     "mobx-react": "^5.2.8",

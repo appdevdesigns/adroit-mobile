@@ -1,9 +1,12 @@
-const Color = {
-  Background1: '#302e4f',
-  BackgroundAlt1: '#fff',
-  Foreground1: '#fff',
+import material from 'native-base/src/theme/variables/material';
+
+export const Color = {
+  darkBackground: '#302e4f',
+  lightTextMuted: '#ccc',
 };
 
 export default {
-  Color,
+  ...material,
+  toolbarDefaultBg: Color.darkBackground,
+  statusBarColor: Color.darkBackground,
 };
