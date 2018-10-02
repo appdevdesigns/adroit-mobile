@@ -8,6 +8,11 @@ export default StyleSheet.create({
     backgroundColor: Color(Theme.toolbarDefaultBg).fade(0.25),
     justifyContent: 'center',
   },
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   logo: {
     alignSelf: 'center',
     width: 63,
@@ -21,17 +26,15 @@ export default StyleSheet.create({
     color: Theme.toolbarInputColor,
   },
   item: {
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 40,
+    marginRight: 40,
+    marginBottom: 10,
   },
   input: {
     color: '#fff',
   },
   loginButton: {
-    marginTop: 20,
-    // marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
+    marginTop: 10,
   },
   spinner: {
     margin: 40,

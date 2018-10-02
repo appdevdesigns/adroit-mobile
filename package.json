@@ -1,5 +1,6 @@
 {
   "name": "adroit-mobile",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "emu": "emulator -avd Nexus_4_API_21",

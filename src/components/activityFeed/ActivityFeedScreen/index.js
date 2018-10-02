@@ -9,7 +9,7 @@ import AppScreen from '../../App/AppScreen';
 import Sidebar from './Sidebar';
 import styles from './style';
 
-@inject(stores => ({ auth: stores.auth }))
+@inject('auth')
 @observer
 class ActivityFeedScreen extends React.Component {
   constructor(props) {
@@ -18,12 +18,10 @@ class ActivityFeedScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log('ActivityFeedScreen componentDidMount');
     this.disposeLogoutWatcher = when(() => this.props.auth.isLoggedOut, this.onLoggedOut);
   }
 
   componentWillUnmount() {
-    console.log('ActivityFeedScreen componentWillUnmount');
     this.disposeLogoutWatcher();
   }
 

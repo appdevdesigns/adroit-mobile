@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { View, Image, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import AppScreen from '../../App/AppScreen';
 import AuthStore, { AuthStatus } from '../../../store/AuthStore';
@@ -10,6 +10,7 @@ import { NavigationPropTypes } from '../../../util/PropTypes';
 import styles from './style';
 
 const logoImage = require('../../../assets/img/fcf-logo.png');
+const bgImage = require('../../../assets/img/collage.jpg');
 
 @inject(stores => ({ auth: stores.auth }))
 @observer
@@ -87,54 +88,56 @@ class LoginScreen extends React.Component {
     const { auth } = this.props;
     const { username, password, preCheck } = this.state;
     return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView enabled behavior="position">
-          <Image source={logoImage} style={styles.logo} />
-          <Text style={styles.title}>ADROIT</Text>
-          {preCheck ? (
-            <Spinner style={styles.spinner} />
-          ) : (
-            <Form>
-              <Item style={styles.item}>
-                <Input
-                  blurOnSubmit={false}
-                  onSubmitEditing={() => {
-                    this.focusNextField('password');
-                  }}
-                  returnKeyType="next"
-                  ref={input => {
-                    this.inputs.username = input;
-                  }}
-                  value={username}
-                  onChangeText={this.updateUsername}
-                  style={styles.input}
-                  placeholder="Username"
-                  placeholderTextColor="#aaa"
-                />
-              </Item>
-              <Item style={styles.item}>
-                <Input
-                  blurOnSubmit
-                  returnKeyType="done"
-                  ref={input => {
-                    this.inputs.password = input;
-                  }}
-                  value={password}
-                  onChangeText={this.updatePassword}
-                  secureTextEntry
-                  style={styles.input}
-                  placeholder="Password"
-                  onSubmitEditing={this.login}
-                  placeholderTextColor="#aaa"
-                />
-              </Item>
-              <Button style={styles.loginButton} bordered block light onPress={this.login}>
-                {auth.status === AuthStatus.LoggingIn ? <Spinner size="small" /> : <Text>Login</Text>}
-              </Button>
-            </Form>
-          )}
-        </KeyboardAvoidingView>
-      </View>
+      <ImageBackground style={styles.bgImage} source={bgImage}>
+        <View style={styles.container}>
+          <KeyboardAvoidingView enabled behavior="position">
+            <Image source={logoImage} style={styles.logo} />
+            <Text style={styles.title}>ADROIT</Text>
+            {preCheck ? (
+              <Spinner style={styles.spinner} />
+            ) : (
+              <Form>
+                <Item style={styles.item}>
+                  <Input
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => {
+                      this.focusNextField('password');
+                    }}
+                    returnKeyType="next"
+                    ref={input => {
+                      this.inputs.username = input;
+                    }}
+                    value={username}
+                    onChangeText={this.updateUsername}
+                    style={styles.input}
+                    placeholder="Username"
+                    placeholderTextColor="#aaa"
+                  />
+                </Item>
+                <Item style={styles.item}>
+                  <Input
+                    blurOnSubmit
+                    returnKeyType="done"
+                    ref={input => {
+                      this.inputs.password = input;
+                    }}
+                    value={password}
+                    onChangeText={this.updatePassword}
+                    secureTextEntry
+                    style={styles.input}
+                    placeholder="Password"
+                    onSubmitEditing={this.login}
+                    placeholderTextColor="#aaa"
+                  />
+                </Item>
+                <Button style={[styles.item, styles.loginButton]} bordered block light onPress={this.login}>
+                  {auth.status === AuthStatus.LoggingIn ? <Spinner size="small" /> : <Text>Login</Text>}
+                </Button>
+              </Form>
+            )}
+          </KeyboardAvoidingView>
+        </View>
+      </ImageBackground>
     );
   }
 }
