@@ -72,9 +72,9 @@ class ActivityFeedScreen extends React.Component {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          console.log('Opening Camera roll!');
+          this.props.navigation.navigate(AppScreen.Photos);
         } else if (buttonIndex === 1) {
-          console.log('Opening camera!');
+          this.props.navigation.navigate(AppScreen.Camera);
         }
       }
     );

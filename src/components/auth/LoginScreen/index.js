@@ -6,13 +6,14 @@ import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground } from
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
+import PermissionsStore from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import styles from './style';
 
 const logoImage = require('src/assets/img/fcf-logo.png');
 const bgImage = require('src/assets/img/collage.jpg');
 
-@inject(stores => ({ auth: stores.auth }))
+@inject('auth', 'permissions')
 @observer
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class LoginScreen extends React.Component {
   async componentDidMount() {
     this.cancelLoginListener = when(() => this.props.auth.isLoggedIn, this.onAuthenticated);
     await this.checkLogin();
+    await this.props.permissions.init();
   }
 
   componentDidUpdate(nextProps) {
@@ -148,6 +150,7 @@ LoginScreen.propTypes = {
 
 LoginScreen.wrappedComponent.propTypes = {
   auth: PropTypes.instanceOf(AuthStore).isRequired,
+  permissions: PropTypes.instanceOf(PermissionsStore).isRequired,
 };
 
 // const mapStateToProps = state => ({
