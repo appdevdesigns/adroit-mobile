@@ -1,8 +1,8 @@
 import { AsyncStorage } from 'react-native';
 import { observable, computed, action } from 'mobx';
 import { Toast } from 'native-base';
-import fetchJson from '../util/fetch';
-import Api from '../util/api';
+import fetchJson from 'src/util/fetch';
+import Api from 'src/util/api';
 
 export const AuthStatus = {
   LoggingIn: 'LoggingIn',

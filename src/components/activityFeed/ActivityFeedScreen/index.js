@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { Container, Header, Title, Content, Button, Left, Right, Body, Icon, Drawer } from 'native-base';
-import AuthStore from '../../../store/AuthStore';
-import { NavigationPropTypes } from '../../../util/PropTypes';
-import AppScreen from '../../App/AppScreen';
+import AuthStore from 'src/store/AuthStore';
+import { NavigationPropTypes } from 'src/util/PropTypes';
+import AppScreen from 'src/components/App/AppScreen';
 import Sidebar from './Sidebar';
 import styles from './style';
 

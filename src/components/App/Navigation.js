@@ -1,8 +1,8 @@
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import LoginScreen from 'src/components/auth/LoginScreen';
+import ActivityFeedScreen from 'src/components/activityFeed/ActivityFeedScreen';
+import HelpScreen from 'src/components/help/HelpScreen';
 import AppScreen from './AppScreen';
-import LoginScreen from '../auth/LoginScreen';
-import ActivityFeedScreen from '../activityFeed/ActivityFeedScreen';
-import HelpScreen from '../help/HelpScreen';
 
 const AppStack = createStackNavigator(
   {

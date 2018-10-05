@@ -11,6 +11,11 @@
   "env": {
     "react-native/react-native": true
   },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
   "rules": {
     "linebreak-style": 0,
     "react-native/no-unused-styles": 2,

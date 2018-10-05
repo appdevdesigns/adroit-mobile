@@ -1,8 +1,8 @@
 import { observable, action, runInAction, reaction } from 'mobx';
 import { Toast } from 'native-base';
 import keyBy from 'lodash-es/keyBy';
-import fetchJson from '../util/fetch';
-import Api from '../util/api';
+import fetchJson from 'src/util/fetch';
+import Api from 'src/util/api';
 
 export default class UsersStore {
   constructor(rootStore) {

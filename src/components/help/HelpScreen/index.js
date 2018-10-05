@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Header, Title, Content, Left, Right, Body } from 'native-base';
-import BackButton from '../../common/BackButton';
+import BackButton from 'src/components/common/BackButton';
 
 export default class HelpScreen extends React.PureComponent {
   constructor(props) {

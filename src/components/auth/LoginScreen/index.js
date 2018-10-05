@@ -4,13 +4,13 @@ import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
-import AppScreen from '../../App/AppScreen';
-import AuthStore, { AuthStatus } from '../../../store/AuthStore';
-import { NavigationPropTypes } from '../../../util/PropTypes';
+import AppScreen from 'src/components/App/AppScreen';
+import AuthStore, { AuthStatus } from 'src/store/AuthStore';
+import { NavigationPropTypes } from 'src/util/PropTypes';
 import styles from './style';
 
-const logoImage = require('../../../assets/img/fcf-logo.png');
-const bgImage = require('../../../assets/img/collage.jpg');
+const logoImage = require('src/assets/img/fcf-logo.png');
+const bgImage = require('src/assets/img/collage.jpg');
 
 @inject(stores => ({ auth: stores.auth }))
 @observer

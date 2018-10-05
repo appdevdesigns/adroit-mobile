@@ -4,14 +4,14 @@ import { inject, observer } from 'mobx-react';
 import { withNavigation } from 'react-navigation';
 import { View, Image } from 'react-native';
 import { List, ListItem, Text, Left, Body, Icon } from 'native-base';
-import { NavigationPropTypes } from '../../../../util/PropTypes';
-import AuthStore from '../../../../store/AuthStore';
-import UsersStore from '../../../../store/UsersStore';
-import AppScreen from '../../../App/AppScreen';
-import { version } from '../../../../../package.json';
+import { NavigationPropTypes } from 'src/util/PropTypes';
+import AuthStore from 'src/store/AuthStore';
+import UsersStore from 'src/store/UsersStore';
+import AppScreen from 'src/components/App/AppScreen';
+import { version } from 'package.json';
 import styles from './style';
 
-const logoImage = require('../../../../assets/img/fcf-logo.png');
+const logoImage = require('src/assets/img/fcf-logo.png');
 
 const Sidebar = inject(stores => ({ auth: stores.auth, users: stores.users }))(
   observer(({ navigation, auth, users }) => (
