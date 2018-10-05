@@ -22,7 +22,7 @@ import TeamsStore from 'src/store/TeamsStore';
 import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import AppScreen from 'src/components/App/AppScreen';
+import AppScreen from 'src/components/app/AppScreen';
 import Sidebar from './Sidebar';
 import AddPhotoCta from './AddPhotoCta';
 import ActivityFeedList from './ActivityFeedList';

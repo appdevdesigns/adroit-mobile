@@ -7,7 +7,7 @@ import { List, ListItem, Text, Left, Body, Icon } from 'native-base';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
-import AppScreen from 'src/components/App/AppScreen';
+import AppScreen from 'src/components/app/AppScreen';
 import { version } from 'package.json';
 import styles from './style';
 

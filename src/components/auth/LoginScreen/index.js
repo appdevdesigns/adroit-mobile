@@ -4,7 +4,7 @@ import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
-import AppScreen from 'src/components/App/AppScreen';
+import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import styles from './style';
