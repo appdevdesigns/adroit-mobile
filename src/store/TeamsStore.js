@@ -1,4 +1,4 @@
-import { observable, computed, action, runInAction } from 'mobx';
+import { observable, action, runInAction, reaction } from 'mobx';
 import { Toast } from 'native-base';
 import fetchJson from '../util/fetch';
 import Api from '../util/api';
@@ -6,6 +6,14 @@ import Api from '../util/api';
 export default class TeamsStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
+    reaction(
+      () => this.rootStore.auth.isLoggedIn,
+      isLoggedIn => {
+        if (isLoggedIn) {
+          this.listUserTeams();
+        }
+      }
+    );
   }
 
   @observable

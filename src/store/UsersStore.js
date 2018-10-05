@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from 'mobx';
+import { observable, action, runInAction, reaction } from 'mobx';
 import { Toast } from 'native-base';
 import keyBy from 'lodash-es/keyBy';
 import fetchJson from '../util/fetch';
@@ -7,6 +7,14 @@ import Api from '../util/api';
 export default class UsersStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
+    reaction(
+      () => this.rootStore.auth.isLoggedIn,
+      isLoggedIn => {
+        if (isLoggedIn) {
+          this.getAuthenticatedUser();
+        }
+      }
+    );
   }
 
   @observable

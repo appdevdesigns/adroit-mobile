@@ -67,8 +67,6 @@ export default class AuthStore {
   @action.bound
   onLoggedIn() {
     this.status = AuthStatus.Authenticated;
-    this.rootStore.users.getAuthenticatedUser();
-    this.rootStore.teams.listUserTeams();
   }
 
   @action.bound
