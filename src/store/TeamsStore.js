@@ -41,7 +41,7 @@ export default class TeamsStore {
         });
         teamList.forEach(team => {
           this.rootStore.users.getTeamMembers(team.IDMinistry);
-          this.rootStore.teamActivities.getTeamActivities(team.IDMinistry);
+          this.rootStore.teamActivities.getTeamActivities(team);
         });
       })
       .catch(error => {

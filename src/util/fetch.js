@@ -40,7 +40,7 @@ const fetchJson = async (url, options = {}) => {
       }))
     )
     .then(async ({ status, statusText, headers, body }) => {
-      console.log(`${url} returned`, status, statusText, headers, body);
+      // console.log(`${url} returned`, status, statusText, headers, body);
       let json;
       try {
         json = JSON.parse(body);

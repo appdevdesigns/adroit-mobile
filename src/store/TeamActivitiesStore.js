@@ -19,21 +19,25 @@ export default class TeamActivitiesStore {
   map = new Map();
 
   @action.bound
-  getTeamActivities(teamId) {
-    console.log('getTeamActivities', teamId);
+  getTeamActivities(team) {
+    console.log('getTeamActivities', team.IDMinistry);
     this.fetchCount += 1;
-    fetchJson(Api.urls.teamActivities(teamId), {
+    fetchJson(Api.urls.teamActivities(team.IDMinistry), {
       method: 'GET',
     })
       .then(teamActivitiesResponse => {
         console.log('getTeamActivities response', teamActivitiesResponse);
-        const activitiesMap = keyBy(teamActivitiesResponse.json.data, activity => activity.id);
+        const withContext = teamActivitiesResponse.json.data.map(teamActivity => ({
+          ...teamActivity,
+          team,
+        }));
+        const activitiesMap = keyBy(withContext, activity => activity.id);
         runInAction(() => {
           this.map.merge(activitiesMap);
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });
-        teamActivitiesResponse.json.data.forEach(activity => {
-          this.rootStore.activityImages.getActivityImages(activity.id);
+        withContext.forEach(activity => {
+          this.rootStore.activityImages.getActivityImages(activity);
         });
       })
       .catch(error => {
