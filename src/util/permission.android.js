@@ -1,9 +1,9 @@
 import { PermissionsAndroid } from 'react-native';
 
 const PermissionMap = {
-  Camera: PermissionsAndroid.PERMISSIONS.CAMERA,
-  CameraRoll: PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-  SavePhoto: PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+  TakePhotos: PermissionsAndroid.PERMISSIONS.CAMERA,
+  ReadExternalStorage: PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+  WriteToExternalStorage: PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
 };
 
 class Permission {

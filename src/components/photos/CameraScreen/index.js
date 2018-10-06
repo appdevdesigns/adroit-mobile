@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Header, Content, Left, Body, Text } from 'native-base';
+import { TouchableHighlight, CameraRoll, View } from 'react-native';
+import { Container, Left, Body, Icon, Right } from 'native-base';
+import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
 import BackButton from 'src/components/common/BackButton';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
-import ErrorState from 'src/components/common/ErrorState';
 import { NavigationPropTypes } from 'src/util/PropTypes';
+import styles from './style';
+
+const PHOTO_OPTIONS = {
+  quality: 0.5,
+  base64: true,
+};
 
 @inject('permissions')
 @observer
@@ -15,35 +22,51 @@ class CameraScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const hasPermission = await this.props.permissions.requestPermission(Permission.Camera, {
-      title: 'Permission to take photos',
-      message: 'Adroit needs access to your camera so you can take a photo',
+    const hasPermission = await this.props.permissions.requestPermission(Permission.WriteToExternalStorage, {
+      title: 'Permission to save photos',
+      message: 'Adroit needs access to your external storage so you can save photos to your camera roll',
     });
-    console.log('has camera permission', hasPermission);
+    console.log('has WriteToExternalStorage permission', hasPermission);
   }
+
+  takePicture = async () => {
+    console.log('Taking picture', this.camera);
+    if (this.camera) {
+      const data = await this.camera.takePictureAsync(PHOTO_OPTIONS);
+
+      if (this.props.permissions.canWriteToExternalStorage) {
+        const uri = await CameraRoll.saveToCameraRoll(data.uri, 'photo');
+        console.log(uri);
+      }
+      this.props.navigation.navigate('AddPhoto', { image: data });
+    }
+  };
 
   render() {
     const { navigation, permissions } = this.props;
     return (
       <Container>
-        <Header>
+        <RNCamera
+          ref={ref => {
+            this.camera = ref;
+          }}
+          style={styles.preview}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          permissionDialogTitle="Permission to use camera"
+          permissionDialogMessage="We need your permission to use your camera phone"
+        />
+        <View style={styles.footer}>
           <Left>
-            <BackButton />
+            <BackButton light />
           </Left>
-          <Body />
-        </Header>
-        {permissions.canAccessCamera ? (
-          <Content>
-            <Text>Camera!</Text>
-          </Content>
-        ) : (
-          <ErrorState
-            title="Uh-oh!"
-            message="You don't have permission to access the camera roll"
-            iconName="lock"
-            iconType="FontAwesome"
-          />
-        )}
+          <Body>
+            <TouchableHighlight onPress={this.takePicture}>
+              <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
+            </TouchableHighlight>
+          </Body>
+          <Right />
+        </View>
       </Container>
     );
   }

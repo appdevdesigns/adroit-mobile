@@ -7,8 +7,8 @@ import theme from 'src/assets/theme';
 import Store from 'src/store';
 import Navigation from './Navigation';
 
-// Disable the 'isMounted() deprecation warning from showing up in the yellow box
-console.ignoredYellowBox = ['Warning: isMounted']; // eslint-disable-line
+// Disable the 'isMounted() and MobX Provider deprecation warnings from showing up in the yellow box
+console.ignoredYellowBox = ['Warning: isMounted', 'MobX Provider:']; // eslint-disable-line
 
 const App = () => {
   const store = new Store();

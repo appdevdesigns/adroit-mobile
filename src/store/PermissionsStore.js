@@ -1,35 +1,36 @@
 import { observable, action, runInAction } from 'mobx';
 import permission from 'src/util/permission';
+import keys from 'lodash-es/keys';
 
 export const Permission = {
-  CameraRoll: 'CameraRoll',
-  Camera: 'Camera',
+  ReadExternalStorage: 'ReadExternalStorage',
+  WriteToExternalStorage: 'WriteToExternalStorage',
+  TakePhotos: 'TakePhotos',
 };
 
 export default class PermissionsStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
+    keys(Permission).forEach(key => {
+      // this[`can${key}`] = observable(false);
+    });
   }
-
-  @observable
-  canAccessCameraRoll = false;
-
-  @observable
-  canAccessCamera = false;
 
   @action.bound
   async init() {
-    const canAccessCameraRoll = !!(await permission.hasPermission(Permission.CameraRoll));
-    const canAccessCamera = !!(await permission.hasPermission(Permission.Camera));
-    runInAction(() => {
-      this.canAccessCameraRoll = canAccessCameraRoll;
-      this.canAccessCamera = canAccessCamera;
+    const permKeys = keys(Permission);
+    Promise.all(permKeys.map(key => permission.hasPermission(Permission[key]))).then(values => {
+      runInAction(() => {
+        permKeys.forEach((key, index) => {
+          this[`can${key}`] = values[index];
+        });
+      });
     });
   }
 
   @action.bound
   async requestPermission(perm, rationale) {
-    if (!this[`canAccess${perm}`]) {
+    if (!this[`can${perm}`]) {
       return permission.requestPermission(perm, rationale);
     }
     return Promise.resolve(true);

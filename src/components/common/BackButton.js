@@ -3,12 +3,13 @@ import { withNavigation } from 'react-navigation';
 import { Button, Icon } from 'native-base';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 
-const BackButton = ({ navigation: { goBack } }) => (
+const BackButton = ({ navigation: { goBack }, ...props }) => (
   <Button
     transparent
     onPress={() => {
       goBack();
     }}
+    {...props}
   >
     <Icon type="FontAwesome" name="arrow-left" />
   </Button>

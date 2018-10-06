@@ -31,6 +31,7 @@ export default class TeamActivitiesStore {
           ...teamActivity,
           team,
         }));
+        // this.rootStore.teams.addActivities(team, withContext);
         const activitiesMap = keyBy(withContext, activity => activity.id);
         runInAction(() => {
           this.map.merge(activitiesMap);
@@ -43,7 +44,6 @@ export default class TeamActivitiesStore {
       .catch(error => {
         Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
         runInAction(() => {
-          this.map.clear();
           this.latestError = error;
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });
