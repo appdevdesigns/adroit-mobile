@@ -63,3 +63,15 @@ buck-out/
 
 # Env files
 .env
+
+# Output of react-native bundle
+**/index.android.bundle
+**/index.android.bundle.meta
+android/app/src/main/res/drawable-hdpi/node_modules_reactnavigationstack_dist_views_assets_backicon\.png
+android/app/src/main/res/drawable-mdpi/node_modules_reactnavigationstack_dist_views_assets_backicon\.png
+android/app/src/main/res/drawable-mdpi/node_modules_reactnavigationstack_dist_views_assets_backiconmask\.png
+android/app/src/main/res/drawable-mdpi/src_assets_img_collage\.jpg
+android/app/src/main/res/drawable-mdpi/src_assets_img_fcflogo\.png
+android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigationstack_dist_views_assets_backicon\.png
+android/app/src/main/res/drawable-xxhdpi/node_modules_reactnavigationstack_dist_views_assets_backicon\.png
+android/app/src/main/res/drawable-xxxhdpi/node_modules_reactnavigationstack_dist_views_assets_backicon\.png

@@ -5,6 +5,7 @@
   "scripts": {
     "emu": "emulator -avd Nexus_4_API_21",
     "start": "react-native start",
+    "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "android": "adb reverse tcp:8081 tcp:8010 & react-native run-android",
     "ios": "react-native run-ios"
   },
