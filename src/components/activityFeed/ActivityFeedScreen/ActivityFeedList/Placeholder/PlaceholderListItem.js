@@ -20,7 +20,7 @@ const PlaceholderListItem = () => (
         <Placeholder.Line textSize={12} animate={animate} />
       </View>
       <View style={styles.caption}>
-        <Placeholder.Paragraph textSize={14} lineNumber={3} lineSpacing={0} animate={animate} />
+        <Placeholder.Paragraph textSize={12} lineNumber={3} lineSpacing={3} animate={animate} />
       </View>
     </Body>
   </View>

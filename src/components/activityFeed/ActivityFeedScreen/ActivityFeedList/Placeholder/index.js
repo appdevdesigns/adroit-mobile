@@ -2,15 +2,14 @@ import React from 'react';
 import { View } from 'react-native';
 import PlaceholderListItem from './PlaceholderListItem';
 
-const ActivityFeedPlaceholder = () => {
-  const placeholders = [...Array(5).keys()];
-  return (
-    <View>
-      {placeholders.map(i => (
-        <PlaceholderListItem key={i} />
-      ))}
-    </View>
-  );
-};
+const ActivityFeedPlaceholder = () => (
+  <View>
+    <PlaceholderListItem />
+    <PlaceholderListItem />
+    <PlaceholderListItem />
+    <PlaceholderListItem />
+    <PlaceholderListItem />
+  </View>
+);
 
 export default ActivityFeedPlaceholder;
