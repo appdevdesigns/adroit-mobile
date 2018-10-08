@@ -2,20 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Left,
-  Right,
-  Body,
-  Icon,
-  Drawer,
-  Spinner,
-  ActionSheet,
-} from 'native-base';
+import { Container, Header, Title, Content, Button, Left, Right, Body, Icon, Drawer, ActionSheet } from 'native-base';
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
@@ -26,6 +13,7 @@ import AppScreen from 'src/components/app/AppScreen';
 import Sidebar from './Sidebar';
 import AddPhotoCta from './AddPhotoCta';
 import ActivityFeedList from './ActivityFeedList';
+import ActivityFeedPlaceholder from './ActivityFeedList/Placeholder';
 
 const ACTION_BUTTONS = [
   { text: 'Camera Roll', icon: 'photos' },
@@ -104,7 +92,13 @@ class ActivityFeedScreen extends React.Component {
             <Right />
           </Header>
           <AddPhotoCta onPress={this.openActionSheet} />
-          <Content>{loading ? <Spinner /> : <ActivityFeedList />}</Content>
+          {loading ? (
+            <ActivityFeedPlaceholder />
+          ) : (
+            <Content>
+              <ActivityFeedList />
+            </Content>
+          )}
         </Container>
       </Drawer>
     );
