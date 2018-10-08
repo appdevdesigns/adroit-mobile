@@ -32,7 +32,7 @@ export default class ResourceStore {
     this.errors = [];
     fetchJson(url, options)
       .then(response => {
-        console.log('response', response);
+        console.log(`${url} response`, response);
         const map = keyBy(response.json.data, this.idAttribute);
         runInAction(() => {
           this.map.merge(map);

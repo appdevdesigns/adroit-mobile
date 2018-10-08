@@ -28,7 +28,7 @@ const fetchJson = async (url, options = {}) => {
 
   const absoluteUrl = Api.urls.base + url;
 
-  console.log('fetchJson', options);
+  console.log('fetchJson', url, options);
 
   return fetch(absoluteUrl, { ...options, headers: requestHeaders })
     .then(response =>

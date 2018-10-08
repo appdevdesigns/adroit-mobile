@@ -22,9 +22,11 @@ export default StyleSheet.create({
     color: Color.darkTextMuted,
     marginLeft: 0,
     marginRight: 0,
+    marginBottom: 4,
   },
   caption: {
-    fontSize: 11,
+    fontSize: 12,
+    lineHeight: 14,
     marginLeft: 0,
     marginRight: 0,
     color: Color.darkTextSecondary,

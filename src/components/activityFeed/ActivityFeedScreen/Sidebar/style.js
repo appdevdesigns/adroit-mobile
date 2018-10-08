@@ -11,21 +11,16 @@ export default StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 10,
   },
-  title: {
-    fontSize: 40,
-    alignSelf: 'center',
-    color: Theme.toolbarInputColor,
-  },
   username: {
     fontSize: 14,
     alignSelf: 'center',
-    color: Theme.toolbarInputColor,
+    color: Color.lightTextMuted,
   },
   logo: {
     alignSelf: 'center',
-    width: 63,
-    height: 69,
-    paddingBottom: 10,
+    width: 150,
+    height: 110,
+    marginBottom: 10,
   },
   version: {
     alignSelf: 'flex-end',

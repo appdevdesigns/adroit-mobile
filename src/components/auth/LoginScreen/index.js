@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground } from 'react-native';
+import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground, Keyboard } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
@@ -10,7 +10,7 @@ import PermissionsStore from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import styles from './style';
 
-const logoImage = require('src/assets/img/fcf-logo.png');
+const logoImage = require('src/assets/img/AdroitLogo.png');
 const bgImage = require('src/assets/img/collage.jpg');
 
 @inject('auth', 'permissions')
@@ -83,6 +83,7 @@ class LoginScreen extends React.Component {
 
   login = () => {
     const { username, password } = this.state;
+    Keyboard.dismiss();
     this.props.auth.login(username, password);
   };
 
@@ -92,9 +93,8 @@ class LoginScreen extends React.Component {
     return (
       <ImageBackground style={styles.bgImage} source={bgImage}>
         <View style={styles.container}>
-          <KeyboardAvoidingView enabled behavior="position">
+          <KeyboardAvoidingView enabled behavior="position" keyboardVerticalOffset={-60}>
             <Image source={logoImage} style={styles.logo} />
-            <Text style={styles.title}>ADROIT</Text>
             {preCheck ? (
               <Spinner style={styles.spinner} />
             ) : (
