@@ -16,11 +16,10 @@ class CameraRollScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const hasPermission = await this.props.permissions.requestPermission(Permission.ReadExternalStorage, {
+    await this.props.permissions.requestPermission(Permission.ReadExternalStorage, {
       title: 'Permission to read storage',
       message: 'Adroit needs access to your storage so you can select a photo',
     });
-    console.log('has camera roll permission', hasPermission);
   }
 
   render() {

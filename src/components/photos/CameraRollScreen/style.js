@@ -26,4 +26,21 @@ export default StyleSheet.create({
     fontSize: 20,
     color: Color.darkTextMuted,
   },
+  lightboxImage: {
+    position: 'absolute',
+    top: 56,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  lightboxHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: GridSize,
+    alignItems: 'center',
+  },
+  closeButton: {
+    color: 'white',
+    fontSize: 28,
+  },
 });

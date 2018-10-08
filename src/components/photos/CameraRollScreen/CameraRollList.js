@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FlatList, TouchableOpacity, Image, CameraRoll } from 'react-native';
-import { Spinner, Text } from 'native-base';
+import { FlatList, TouchableOpacity, Image, CameraRoll, View } from 'react-native';
+import Lightbox from 'react-native-lightbox';
+import { Spinner, Text, Icon, Button } from 'native-base';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns } from './style';
@@ -32,18 +33,30 @@ class CameraRollList extends Component {
 
   keyExtractor = item => item.node.image.uri;
 
-  renderRowItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          console.log('Pressed image in camera roll');
-          this.props.navigation.navigate(AppScreen.AddPhoto, { image: item.node.image });
-        }}
-      >
-        <Image style={styles.image} source={{ uri: item.node.image.uri }} resizeMode="cover" />
-      </TouchableOpacity>
-    );
-  };
+  renderRowItem = ({ item }) => (
+    <Lightbox
+      activeProps={{ resizeMode: 'contain', style: styles.lightboxImage }}
+      renderHeader={close => (
+        <View style={styles.lightboxHeader}>
+          <Button onPress={close} transparent>
+            <Icon type="FontAwesome" name="times" style={styles.closeButton} />
+          </Button>
+          <Button
+            bordered
+            light
+            onPress={() => {
+              close();
+              this.props.navigation.navigate(AppScreen.AddPhoto, { image: item.node.image });
+            }}
+          >
+            <Text>Use this photo</Text>
+          </Button>
+        </View>
+      )}
+    >
+      <Image style={styles.image} source={{ uri: item.node.image.uri }} resizeMode="cover" />
+    </Lightbox>
+  );
 
   render() {
     const { photos } = this.state;
