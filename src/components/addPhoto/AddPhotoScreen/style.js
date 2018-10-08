@@ -35,6 +35,7 @@ export default StyleSheet.create({
   },
   textArea: {
     fontSize: 17,
+    marginTop: 4,
   },
   textInput: {
     marginLeft: 4,

@@ -5,17 +5,26 @@ export default StyleSheet.create({
   preview: {
     flex: 1,
   },
-  footer: {
+  overlay: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    flex: 0,
+    top: 0,
+    backgroundColor: 'rgba(0,0,0,0)',
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  overlayItem: {
     backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingTop: GridSize,
+    paddingBottom: GridSize,
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: GridSize * 2,
-    paddingBottom: GridSize * 2,
+    flex: 0,
+  },
+  header: {},
+  footer: {
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   captureIcon: {
     backgroundColor: '#fff',

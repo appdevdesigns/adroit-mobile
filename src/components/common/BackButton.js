@@ -11,7 +11,7 @@ const BackButton = ({ navigation: { goBack }, ...props }) => (
     }}
     {...props}
   >
-    <Icon type="FontAwesome" name="arrow-left" />
+    <Icon type="FontAwesome" name="chevron-left" />
   </Button>
 );
 

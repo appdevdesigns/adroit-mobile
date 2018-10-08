@@ -42,6 +42,8 @@
 		4B83CF955309471E80BE0762 /* libAppCenterReactNativeAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F701AEA5164B5FB9F4701C /* libAppCenterReactNativeAnalytics.a */; };
 		FF257CB9CD6B44E48D544670 /* libAppCenterReactNativeCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDFB29CDA1F4853A2194ABF /* libAppCenterReactNativeCrashes.a */; };
 		44CC6177B4B842B0B81FD53D /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC710BB5E9E04722B3F8047E /* libRNCamera.a */; };
+		9F680802007844E1A869BDEB /* libReactNativeExif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9A95426B6D4F9386F15EE6 /* libReactNativeExif.a */; };
+		BCCE8F364BDC442485B2BC81 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1189DBFC91F044E5A96AC0A5 /* libReactNativeConfig.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +358,10 @@
 		7DDFB29CDA1F4853A2194ABF /* libAppCenterReactNativeCrashes.a */ = {isa = PBXFileReference; name = "libAppCenterReactNativeCrashes.a"; path = "libAppCenterReactNativeCrashes.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		971B4FBDED984CDAB4CD8171 /* RNCamera.xcodeproj */ = {isa = PBXFileReference; name = "RNCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RNCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		CC710BB5E9E04722B3F8047E /* libRNCamera.a */ = {isa = PBXFileReference; name = "libRNCamera.a"; path = "libRNCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8A9D2CAD66EE4329BD344A9A /* ReactNativeExif.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeExif.xcodeproj"; path = "../node_modules/react-native-exif/ios/ReactNativeExif.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		3E9A95426B6D4F9386F15EE6 /* libReactNativeExif.a */ = {isa = PBXFileReference; name = "libReactNativeExif.a"; path = "libReactNativeExif.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		AB591E2A469A4AD5A899A44A /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeConfig.xcodeproj"; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		1189DBFC91F044E5A96AC0A5 /* libReactNativeConfig.a */ = {isa = PBXFileReference; name = "libReactNativeConfig.a"; path = "libReactNativeConfig.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,6 +394,8 @@
 				4B83CF955309471E80BE0762 /* libAppCenterReactNativeAnalytics.a in Frameworks */,
 				FF257CB9CD6B44E48D544670 /* libAppCenterReactNativeCrashes.a in Frameworks */,
 				44CC6177B4B842B0B81FD53D /* libRNCamera.a in Frameworks */,
+				9F680802007844E1A869BDEB /* libReactNativeExif.a in Frameworks */,
+				BCCE8F364BDC442485B2BC81 /* libReactNativeConfig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +586,8 @@
 				5A51DB1344BE43C7A80E1B47 /* AppCenterReactNativeAnalytics.xcodeproj */,
 				F7FA6BC673B347E0B17EC863 /* AppCenterReactNativeCrashes.xcodeproj */,
 				971B4FBDED984CDAB4CD8171 /* RNCamera.xcodeproj */,
+				8A9D2CAD66EE4329BD344A9A /* ReactNativeExif.xcodeproj */,
+				AB591E2A469A4AD5A899A44A /* ReactNativeConfig.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1210,6 +1220,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1217,6 +1229,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1241,6 +1255,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1248,6 +1264,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;
@@ -1273,6 +1291,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1297,6 +1317,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;
@@ -1330,6 +1352,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1337,6 +1361,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1370,6 +1396,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1377,6 +1405,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;
@@ -1409,6 +1439,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1416,6 +1448,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1448,6 +1482,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1455,6 +1491,8 @@
 					"$(SRCROOT)\..\node_modules\appcenter-analytics\ios\AppCenterReactNativeAnalytics",
 					"$(SRCROOT)\..\node_modules\appcenter-crashes\ios\AppCenterReactNativeCrashes",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-exif\ios\ReactNativeExif",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;

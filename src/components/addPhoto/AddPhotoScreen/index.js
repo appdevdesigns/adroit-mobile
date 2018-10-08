@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Image, View } from 'react-native';
+import Exif from 'react-native-exif';
+import Geocode from 'react-geocode';
 import {
   Container,
   Header,
@@ -34,6 +36,7 @@ class AddPhotoScreen extends React.Component {
       caption: undefined,
       date: new Date(),
       location: undefined,
+      fetchingLocation: true,
       teamId: undefined,
       activityId: undefined,
     };
@@ -41,6 +44,30 @@ class AddPhotoScreen extends React.Component {
 
   async componentDidMount() {
     this.initTeamActivities(this.props);
+    Exif.getLatLong(this.props.navigation.state.params.image.uri)
+      .then(({ latitude, longitude }) => {
+        console.log(`Photo lat/long: ${latitude}, ${longitude}`);
+        // Temp:
+        latitude = 18.732084;
+        longitude = 98.9349063;
+        Geocode.fromLatLng(String(latitude), String(longitude)).then(
+          response => {
+            const address = response.results[0].formatted_address;
+            console.log('Address', address, response.results);
+            if (!this.state.location) {
+              this.setState({ location: address, fetchingLocation: false });
+            }
+          },
+          error => {
+            console.log('fromLatLng ERROR', error);
+            this.setState({ fetchingLocation: false });
+          }
+        );
+      })
+      .catch(msg => {
+        console.log('getLatLong ERROR', msg);
+        this.setState({ fetchingLocation: false });
+      });
   }
 
   componentDidUpdate(nextProps) {
@@ -94,7 +121,7 @@ class AddPhotoScreen extends React.Component {
 
   render() {
     const { navigation, teams, teamActivities } = this.props;
-    const { caption, date, location, teamId, activityId } = this.state;
+    const { caption, date, location, teamId, activityId, fetchingLocation } = this.state;
     const { image } = navigation.state.params;
     const teamScopedActivites = teamActivities.fetchCount ? undefined : [];
     if (!teamActivities.fetchCount) {
@@ -157,12 +184,17 @@ class AddPhotoScreen extends React.Component {
               <View style={styles.iconWrapper}>
                 <Icon style={styles.icon} type="FontAwesome" name="map-marker" />
               </View>
-              <Input
-                style={[styles.input, styles.textInput]}
-                value={location}
-                placeholder="Current location"
-                placeholderTextColor="#999"
-              />
+              {fetchingLocation ? (
+                <Spinner style={[styles.input, styles.spinner]} size="small" />
+              ) : (
+                <Input
+                  style={[styles.input, styles.textInput]}
+                  value={location}
+                  placeholder="Current location"
+                  placeholderTextColor="#999"
+                  onChangeText={this.setLocation}
+                />
+              )}
             </View>
             <View style={styles.row}>
               <View style={styles.iconWrapper}>

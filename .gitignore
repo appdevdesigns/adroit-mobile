@@ -33,6 +33,8 @@ build/
 .gradle
 local.properties
 *.iml
+**/.project
+android/app/bin/
 
 # node.js
 #
@@ -58,3 +60,6 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+
+# Env files
+.env

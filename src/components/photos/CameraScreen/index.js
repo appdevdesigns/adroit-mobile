@@ -56,16 +56,21 @@ class CameraScreen extends React.Component {
           permissionDialogTitle="Permission to use camera"
           permissionDialogMessage="We need your permission to use your camera phone"
         />
-        <View style={styles.footer}>
-          <Left>
-            <BackButton light />
-          </Left>
-          <Body>
-            <TouchableHighlight onPress={this.takePicture}>
-              <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
-            </TouchableHighlight>
-          </Body>
-          <Right />
+        <View style={styles.overlay}>
+          <View style={[styles.overlayItem, styles.header]}>
+            <Left>
+              <BackButton light />
+            </Left>
+          </View>
+          <View style={[styles.overlayItem, styles.footer]}>
+            <Left />
+            <Body>
+              <TouchableHighlight onPress={this.takePicture}>
+                <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
+              </TouchableHighlight>
+            </Body>
+            <Right />
+          </View>
         </View>
       </Container>
     );
