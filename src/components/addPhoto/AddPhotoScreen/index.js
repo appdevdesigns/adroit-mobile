@@ -81,7 +81,7 @@ class AddPhotoScreen extends React.Component {
     }
     if (!activityId && teamId && props.teamActivities && props.teamActivities.map && props.teamActivities.map.size) {
       props.teamActivities.map.forEach(activity => {
-        if (!this.state.activityId && activity.team.IDMinistry === teamId) {
+        if (!this.state.activityId && activity.team === teamId) {
           this.setState({ activityId: activity.id });
         }
       });
@@ -126,7 +126,7 @@ class AddPhotoScreen extends React.Component {
     const teamScopedActivites = teamActivities.fetchCount ? undefined : [];
     if (!teamActivities.fetchCount) {
       teamActivities.map.forEach(activity => {
-        if (!teamId || activity.team.IDMinistry === teamId) {
+        if (!teamId || activity.team === teamId) {
           teamScopedActivites.push(activity);
         }
       });

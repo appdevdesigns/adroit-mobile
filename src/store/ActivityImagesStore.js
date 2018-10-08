@@ -1,34 +1,20 @@
-import { observable, action, runInAction, computed } from 'mobx';
-import { Toast } from 'native-base';
-import keyBy from 'lodash-es/keyBy';
+import { action, computed } from 'mobx';
 import compareDesc from 'date-fns/compare_desc';
-import fetchJson from 'src/util/fetch';
 import Api from 'src/util/api';
+import ResourceStore from './ResourceStore';
 
-export default class ActivityImagesStore {
+export default class ActivityImagesStore extends ResourceStore {
   constructor(rootStore) {
-    this.rootStore = rootStore;
+    super(rootStore, 'id');
   }
-
-  @observable
-  fetchCount = 0;
-
-  @observable
-  latestError = null;
-
-  @observable
-  map = new Map();
 
   @computed
   get myActivityImages() {
     if (!this.rootStore.users.me.id) {
       return [];
     }
-    const images = [];
-    this.map.forEach(i => {
-      images.push(i);
-    });
-    return images
+    console.log('this.list', this.list);
+    return this.list
       .filter(i => i.taggedPeople.includes(this.rootStore.users.me.id))
       .sort((a, b) => compareDesc(a.date, b.date));
   }
@@ -36,29 +22,6 @@ export default class ActivityImagesStore {
   @action.bound
   getActivityImages(activity) {
     console.log('getActivityImages', activity.id);
-    this.fetchCount += 1;
-    fetchJson(Api.urls.activityImages(activity.id), {
-      method: 'GET',
-    })
-      .then(activityImagesResponse => {
-        console.log('getActivityImages response', activityImagesResponse);
-        const withContext = activityImagesResponse.json.data.map(activityImage => ({
-          ...activityImage,
-          activity,
-        }));
-        const imagesMap = keyBy(withContext, image => image.id);
-        runInAction(() => {
-          this.map.merge(imagesMap);
-          this.fetchCount = Math.max(this.fetchCount - 1, 0);
-        });
-      })
-      .catch(error => {
-        Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
-        runInAction(() => {
-          this.map.clear();
-          this.latestError = error;
-          this.fetchCount = Math.max(this.fetchCount - 1, 0);
-        });
-      });
+    this.fetchList(Api.urls.activityImages(activity.id));
   }
 }
