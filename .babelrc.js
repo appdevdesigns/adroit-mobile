@@ -12,7 +12,7 @@ function preset() {
         {
           root: sourcePaths,
           alias: {
-            src: `${root}/src`,
+            src: `${root}src`,
           },
           extensions: ['.js', '.ios.js', '.android.js'],
         },
