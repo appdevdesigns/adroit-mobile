@@ -40,12 +40,15 @@ export default class ResourceStore {
         });
         this.onFetchListSuccess(response.json.data);
       })
-      .catch(error => {
+      .catch(async error => {
         runInAction(() => {
           this.errors.push(error);
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });
         this.onFetchListFail(error);
+        if (error.status === 401) {
+          await this.onUnauthorised();
+        }
       });
   }
 
@@ -55,5 +58,10 @@ export default class ResourceStore {
 
   onFetchListFail(error) {
     Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
+  }
+
+  async onUnauthorised() {
+    Toast.show({ text: 'Please login again', type: 'danger', buttonText: 'OKAY' });
+    await this.rootStore.auth.logout();
   }
 }

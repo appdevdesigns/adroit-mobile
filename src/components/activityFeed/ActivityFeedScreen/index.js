@@ -29,14 +29,15 @@ class ActivityFeedScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
 
-  componentDidMount() {
-    this.disposeLogoutWatcher = when(() => this.props.auth.isLoggedOut, this.onLoggedOut);
-  }
-
-  componentWillUnmount() {
-    this.disposeLogoutWatcher();
+    // Set up a 'global' handler to return to the login screen if we're logged out
+    const { navigate } = this.props.navigation;
+    when(
+      () => this.props.auth.isLoggedOut,
+      () => {
+        navigate(AppScreen.Login);
+      }
+    );
   }
 
   onLoggedOut = () => {

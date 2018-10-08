@@ -36,7 +36,7 @@ export default class UsersStore extends ResourceStore {
           };
         });
       })
-      .catch(error => {
+      .catch(async error => {
         Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
         runInAction(() => {
           this.me = {
@@ -44,6 +44,9 @@ export default class UsersStore extends ResourceStore {
             displayName: null,
           };
         });
+        if (error.status === 401) {
+          await this.onUnauthorised();
+        }
       });
   }
 

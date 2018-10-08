@@ -48,10 +48,6 @@ const fetchJson = async (url, options = {}) => {
         // not json, no big deal
         console.log('Body is not a well formatted Json');
       }
-      if (status === 401) {
-        await AsyncStorage.removeItem('adroit_csrf');
-        // TODO: redirect to Login page
-      }
       if (status < 200 || status >= 300) {
         const errorMessage = (json && json.message) || statusText;
         console.log('fetch failed', status, errorMessage);
