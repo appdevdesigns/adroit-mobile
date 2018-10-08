@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Container, Header, Title, Content, Button, Left, Right, Body, Icon, Drawer, ActionSheet } from 'native-base';
+import { Container, Header, Title, Button, Left, Right, Body, Icon, Drawer, ActionSheet } from 'native-base';
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
@@ -93,13 +93,7 @@ class ActivityFeedScreen extends React.Component {
             <Right />
           </Header>
           <AddPhotoCta onPress={this.openActionSheet} />
-          {loading ? (
-            <ActivityFeedPlaceholder />
-          ) : (
-            <Content>
-              <ActivityFeedList />
-            </Content>
-          )}
+          {loading ? <ActivityFeedPlaceholder /> : <ActivityFeedList />}
         </Container>
       </Drawer>
     );

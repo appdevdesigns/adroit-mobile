@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Color } from 'src/assets/theme';
+import { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
   date: {
@@ -30,5 +30,15 @@ export default StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
     color: Color.darkTextSecondary,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: GridSize * 4,
+  },
+  emptyText: {
+    color: Color.darkTextMuted,
+    textAlign: 'center',
   },
 });
