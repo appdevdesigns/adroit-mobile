@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-locale')
     compile project(':react-native-exif')
     compile project(':react-native-config')
     compile project(':appcenter-crashes')

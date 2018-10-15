@@ -3,6 +3,7 @@ package com.adroit;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.fixd.rctlocale.RCTLocalePackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.devialab.exif.RCTExifPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RCTLocalePackage(),
             new ReactNativeConfigPackage(),
             new RCTExifPackage(),
             new RNCameraPackage(),
