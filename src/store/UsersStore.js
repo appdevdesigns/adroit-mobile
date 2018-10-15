@@ -23,6 +23,10 @@ export default class UsersStore extends ResourceStore {
     displayName: null,
   };
 
+  getUserById(userId) {
+    return this.map.get(String(userId));
+  }
+
   @action.bound
   getAuthenticatedUser() {
     console.log('getAuthenticatedUser');
@@ -53,6 +57,11 @@ export default class UsersStore extends ResourceStore {
   @action.bound
   getTeamMembers(teamId) {
     console.log('getTeamMembers', teamId);
-    this.fetchList(Api.urls.teamMembers(teamId));
+    this.fetchList(Api.urls.teamMembers(teamId), undefined, { teamId });
+  }
+
+  @action.bound
+  onFetchListSuccess(list, meta) {
+    this.rootStore.teams.updateTeamMembers(meta.teamId, list.map(u => u.IDPerson));
   }
 }

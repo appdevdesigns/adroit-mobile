@@ -14,6 +14,17 @@ export default StyleSheet.create({
   main: {
     margin: GridSize,
   },
+  item: {
+    alignItems: 'flex-start',
+    marginLeft: 0,
+  },
+  charCount: {
+    position: 'absolute',
+    top: 10,
+    right: GridSize,
+    fontSize: 10,
+    color: Color.darkTextMuted,
+  },
   row: {
     // flex: 1,
     flexDirection: 'row',
@@ -28,17 +39,14 @@ export default StyleSheet.create({
     color: '#999',
   },
   input: {
-    flex: 1,
+    alignSelf: 'stretch',
   },
   date: {
     marginTop: 4,
   },
-  textArea: {
-    fontSize: 17,
-    marginTop: 4,
-  },
+  textArea: {},
   textInput: {
-    marginLeft: 4,
+    paddingLeft: 10, // Match other NativeBase inputs
   },
   footer: {
     justifyContent: 'space-between',
@@ -48,6 +56,5 @@ export default StyleSheet.create({
   },
   spinner: {
     height: 45,
-    flex: 0,
   },
 });

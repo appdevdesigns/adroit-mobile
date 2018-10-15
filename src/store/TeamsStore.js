@@ -15,6 +15,24 @@ export default class TeamsStore extends ResourceStore {
     );
   }
 
+  getTeamMembers(teamId) {
+    if (teamId) {
+      const team = this.map.get(String(teamId));
+      if (team.memberIds) {
+        return team.memberIds.map(id => this.rootStore.users.map.get(String(id)));
+      }
+    }
+    return undefined;
+  }
+
+  @action.bound
+  updateTeamMembers(teamId, userIds) {
+    console.log('updateTeamMembers', teamId, userIds);
+    const team = this.map.get(String(teamId));
+    team.memberIds = userIds;
+    this.map.set(String(teamId), team);
+  }
+
   @action.bound
   listUserTeams() {
     console.log('listUserTeams');

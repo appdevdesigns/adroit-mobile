@@ -10,7 +10,7 @@ export default class TeamActivitiesStore extends ResourceStore {
   @action.bound
   getTeamActivities(team) {
     console.log('getTeamActivities', team.IDMinistry);
-    this.fetchList(Api.urls.teamActivities(team.IDMinistry));
+    this.fetchList(Api.urls.teamActivities(team.IDMinistry), undefined, { team });
   }
 
   @action.bound

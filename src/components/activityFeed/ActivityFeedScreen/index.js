@@ -9,6 +9,7 @@ import TeamsStore from 'src/store/TeamsStore';
 import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
+import MultiSelect from 'src/components/common/MultiSelect';
 import AppScreen from 'src/components/app/AppScreen';
 import Sidebar from './Sidebar';
 import AddPhotoCta from './AddPhotoCta';
@@ -23,12 +24,24 @@ const ACTION_BUTTONS = [
 
 const CANCEL_INDEX = 2;
 
+const SELECT_ITEMS = [
+  { id: 1, label: 'Graham McCulloch' },
+  { id: 2, label: 'James Duncan' },
+  { id: 3, label: 'Johnny Hausman' },
+  { id: 4, label: 'Ric Poolman' },
+  { id: 5, label: 'Joshua Chan' },
+  { id: 6, label: 'Wongpratan' },
+  { id: 7, label: 'Isaac Schubert' },
+];
+
 @inject('auth', 'users', 'activityImages', 'teams', 'teamActivities')
 @observer
 class ActivityFeedScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      tempItems: [],
+    };
 
     // Set up a 'global' handler to return to the login screen if we're logged out
     const { navigate } = this.props.navigation;
@@ -71,7 +84,7 @@ class ActivityFeedScreen extends React.Component {
 
   render() {
     const { users, teams, teamActivities, activityImages } = this.props;
-    const loading = users.fetchCount || teams.fetchCount || teamActivities.fetchCount || activityImages.fetchCount;
+    const loading = users.isBusy || teams.isBusy || teamActivities.isBusy || activityImages.isBusy;
     return (
       <Drawer
         ref={ref => {
@@ -113,3 +126,14 @@ ActivityFeedScreen.wrappedComponent.propTypes = {
 };
 
 export default ActivityFeedScreen;
+
+// <MultiSelect
+//   modalHeader="Tag people"
+//   displayKey="label"
+//   items={SELECT_ITEMS}
+//   selectedItems={this.state.tempItems}
+//   onSelectedItemsChange={items => {
+//     console.log('onSelectedItemsChange', items);
+//     this.setState({ tempItems: items });
+//   }}
+// />

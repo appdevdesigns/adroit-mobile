@@ -22,30 +22,35 @@ export default class ResourceStore {
   map = new Map();
 
   @computed
+  get isBusy() {
+    return this.fetchCount > 0;
+  }
+
+  @computed
   get list() {
     return sortBy(Array.from(this.map.values()), [this.idAttribute]);
   }
 
   @action.bound
-  fetchList(url, options = defaultOptions) {
+  fetchList(url, options = defaultOptions, meta = {}) {
     this.fetchCount += 1;
     this.errors = [];
     fetchJson(url, options)
       .then(response => {
         console.log(`${url} response`, response);
-        const map = keyBy(response.json.data, this.idAttribute);
+        const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
         runInAction(() => {
           this.map.merge(map);
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });
-        this.onFetchListSuccess(response.json.data);
+        this.onFetchListSuccess(response.json.data, meta);
       })
       .catch(async error => {
         runInAction(() => {
           this.errors.push(error);
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });
-        this.onFetchListFail(error);
+        this.onFetchListFail(error, meta);
         if (error.status === 401) {
           await this.onUnauthorised();
         }

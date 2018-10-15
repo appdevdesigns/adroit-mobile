@@ -58,6 +58,16 @@ class CameraRollList extends Component {
     </Lightbox>
   );
 
+  renderRowItemQuick = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        this.props.navigation.navigate(AppScreen.AddPhoto, { image: item.node.image });
+      }}
+    >
+      <Image style={styles.image} source={{ uri: item.node.image.uri }} resizeMode="cover" />
+    </TouchableOpacity>
+  );
+
   render() {
     const { photos } = this.state;
     if (!photos) {
@@ -68,7 +78,7 @@ class CameraRollList extends Component {
         data={photos}
         numColumns={numColumns}
         keyExtractor={this.keyExtractor}
-        renderItem={this.renderRowItem}
+        renderItem={this.renderRowItemQuick}
         style={styles.list}
       />
     ) : (

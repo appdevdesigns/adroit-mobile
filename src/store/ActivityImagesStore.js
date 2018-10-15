@@ -28,6 +28,6 @@ export default class ActivityImagesStore extends ResourceStore {
   @action.bound
   getActivityImages(activity) {
     console.log('getActivityImages', activity.id);
-    this.fetchList(Api.urls.activityImages(activity.id));
+    this.fetchList(Api.urls.activityImages(activity.id), undefined, { activity });
   }
 }
