@@ -15,18 +15,16 @@ import {
   Body,
   Right,
   Button,
-  Icon,
   Spinner,
   Textarea,
   DatePicker,
-  Picker,
   Input,
   Text,
   Item,
   Label,
 } from 'native-base';
+import { MultiSelect, Select } from 'src/components/common/Select';
 import BackButton from 'src/components/common/BackButton';
-import MultiSelect from 'src/components/common/MultiSelect';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
@@ -47,9 +45,9 @@ class AddPhotoScreen extends React.Component {
       date: undefined,
       location: undefined,
       fetchingLocation: true,
-      taggedPeople: undefined,
-      teamId: undefined,
-      activityId: undefined,
+      taggedPeople: [],
+      team: undefined,
+      activity: undefined,
     };
   }
 
@@ -62,7 +60,6 @@ class AddPhotoScreen extends React.Component {
             const formattedDate = data.exif.DateTime.replace(':', '-').replace(':', '-');
             const date = parse(formattedDate);
             this.setState({ date });
-            console.log(`Set photo date to ${date}`);
           } catch (err) {
             console.log('Failed to parse exif date', err);
             this.setState({ date: new Date() });
@@ -75,7 +72,7 @@ class AddPhotoScreen extends React.Component {
       });
     Exif.getLatLong(this.props.navigation.state.params.image.uri)
       .then(({ latitude, longitude }) => {
-        console.log(`Photo lat/long: ${latitude}, ${longitude}`);
+        console.log(`Photo lat/long ignored: ${latitude}, ${longitude}`);
         // Temp:
         latitude = 18.732084;
         longitude = 98.9349063;
@@ -104,19 +101,21 @@ class AddPhotoScreen extends React.Component {
   }
 
   initTeamActivities = props => {
-    const { teamId, activityId, taggedPeople } = this.state;
+    const { team, activity, taggedPeople } = this.state;
     const { teams, teamActivities, users } = props;
-    if (!teamId && teams.list && teams.list.length) {
-      this.setState({ teamId: teams.list[0].IDMinistry });
+    let initTeam = team;
+    if (!team && teams.list && teams.list.length) {
+      initTeam = teams.list[0];
+      this.setState({ team: initTeam });
     }
-    if (!activityId && teamId && teamActivities && teamActivities.map && teamActivities.map.size) {
-      teamActivities.map.forEach(activity => {
-        if (!this.state.activityId && activity.team === teamId) {
-          this.setState({ activityId: activity.id });
+    if (!activity && initTeam && teamActivities && teamActivities.map && teamActivities.map.size) {
+      teamActivities.map.forEach(a => {
+        if (a.team === initTeam.IDMinistry) {
+          this.setState({ activity: a });
         }
       });
     }
-    if (!taggedPeople && teamId && users.list && users.list.length && users.me.id) {
+    if (!taggedPeople.length && users.list && users.list.length && users.me.id) {
       // Tag yourself by default
       this.setState({ taggedPeople: [users.getUserById(users.me.id)] });
     }
@@ -134,21 +133,21 @@ class AddPhotoScreen extends React.Component {
     this.setState({ location });
   };
 
-  setTeam = teamId => {
-    const prevTeamId = this.state.teamId;
+  setTeam = team => {
+    const prevTeam = this.state.team;
     const newState = {
-      teamId,
+      team,
     };
-    if (prevTeamId !== teamId) {
-      newState.activityId = undefined;
-      const newTeamMembers = this.props.teams.getTeamMembers(teamId);
+    if (prevTeam.IDMinistry !== team.IDMinistry) {
+      newState.activity = undefined;
+      const newTeamMembers = this.props.teams.getTeamMembers(team.IDMinistry);
       newState.taggedPeople = unionBy(this.state.taggedPeople || [], newTeamMembers, 'IDPerson');
     }
     this.setState(newState);
   };
 
-  setActivity = activityId => {
-    this.setState({ activityId });
+  setActivity = activity => {
+    this.setState({ activity });
   };
 
   setTaggedPeople = taggedPeople => {
@@ -161,17 +160,17 @@ class AddPhotoScreen extends React.Component {
 
   render() {
     const { navigation, teams, teamActivities, users, activityImages } = this.props;
-    const { caption, date, location, teamId, activityId, fetchingLocation, taggedPeople } = this.state;
+    const { caption, date, location, team, activity, fetchingLocation, taggedPeople } = this.state;
     const { image } = navigation.state.params;
     const teamScopedActivites = teamActivities.isBusy ? undefined : [];
     if (!teamActivities.isBusy) {
-      teamActivities.map.forEach(activity => {
-        if (!teamId || activity.team === teamId) {
-          teamScopedActivites.push(activity);
+      teamActivities.map.forEach(a => {
+        if (!team || a.team === team.IDMinistry) {
+          teamScopedActivites.push(a);
         }
       });
     }
-    const userItems = teams.getTeamMembers(teamId);
+    const userItems = team ? teams.getTeamMembers(team.IDMinistry) : [];
     return (
       <Container>
         <Header>
@@ -242,18 +241,15 @@ class AddPhotoScreen extends React.Component {
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
-                <Picker
-                  note
-                  mode="dialog"
-                  prompt="Select Team..."
-                  style={styles.input}
-                  selectedValue={teamId}
-                  onValueChange={this.setTeam}
-                >
-                  {teams.list.map(t => (
-                    <Picker.Item key={t.IDMinistry} label={t.MinistryDisplayName} value={t.IDMinistry} />
-                  ))}
-                </Picker>
+                <Select
+                  uniqueKey="IDMinistry"
+                  displayKey="MinistryDisplayName"
+                  modalHeader="Select Team"
+                  placeholder="Select Team..."
+                  selectedItem={team}
+                  onSelectedItemChange={this.setTeam}
+                  items={teams.list}
+                />
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
@@ -261,18 +257,15 @@ class AddPhotoScreen extends React.Component {
               {!teamScopedActivites ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
-                <Picker
-                  note
-                  mode="dialog"
-                  prompt="Select Activity..."
-                  style={styles.input}
-                  selectedValue={activityId}
-                  onValueChange={this.setActivity}
-                >
-                  {teamScopedActivites.map(a => (
-                    <Picker.Item key={a.id} label={a.activity_name} value={a.id} />
-                  ))}
-                </Picker>
+                <Select
+                  uniqueKey="id"
+                  displayKey="activity_name"
+                  modalHeader="Select Activity"
+                  placeholder="Select Activity..."
+                  selectedItem={activity}
+                  onSelectedItemChange={this.setActivity}
+                  items={teamScopedActivites}
+                />
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
@@ -282,7 +275,7 @@ class AddPhotoScreen extends React.Component {
               ) : (
                 <MultiSelect
                   items={userItems}
-                  selectedItems={taggedPeople || []}
+                  selectedItems={taggedPeople}
                   uniqueKey="IDPerson"
                   displayKey="display_name"
                   placeholder="Tag team members..."
@@ -312,17 +305,3 @@ AddPhotoScreen.wrappedComponent.propTypes = {
 };
 
 export default AddPhotoScreen;
-
-// <View style={styles.row}>
-//   <View style={styles.iconWrapper}>
-//     <Icon style={styles.icon} type="FontAwesome" name="commenting" />
-//   </View>
-//   <Textarea
-//     value={caption}
-//     onChangeText={this.setCaption}
-//     style={[styles.input, styles.textArea]}
-//     rowSpan={3}
-//     placeholder="Describe what you did and why it helps local Thais..."
-//     placeholderTextColor="#999"
-//   />
-//   </View>

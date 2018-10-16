@@ -2,14 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Container, Header, Title, Button, Left, Right, Body, Icon, Drawer, ActionSheet } from 'native-base';
+import {
+  Container,
+  Header,
+  Title,
+  Button,
+  Left,
+  Right,
+  Body,
+  Icon,
+  Drawer,
+  ActionSheet,
+  Item,
+  Label,
+  Input,
+} from 'native-base';
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import MultiSelect from 'src/components/common/MultiSelect';
+import { Select, MultiSelect } from 'src/components/common/Select';
 import AppScreen from 'src/components/app/AppScreen';
 import Sidebar from './Sidebar';
 import AddPhotoCta from './AddPhotoCta';
@@ -40,6 +54,7 @@ class ActivityFeedScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tempItem: undefined,
       tempItems: [],
     };
 
@@ -127,13 +142,31 @@ ActivityFeedScreen.wrappedComponent.propTypes = {
 
 export default ActivityFeedScreen;
 
-// <MultiSelect
-//   modalHeader="Tag people"
-//   displayKey="label"
-//   items={SELECT_ITEMS}
-//   selectedItems={this.state.tempItems}
-//   onSelectedItemsChange={items => {
-//     console.log('onSelectedItemsChange', items);
-//     this.setState({ tempItems: items });
-//   }}
-// />
+// <Item stackedLabel>
+//   <Label>Tagged person</Label>
+//   <Select
+//     modalHeader="Set tagged person"
+//     displayKey="label"
+//     items={SELECT_ITEMS}
+//     selectedItem={this.state.tempItem}
+//     onSelectedItemChange={item => {
+//       this.setState({ tempItem: item });
+//     }}
+//   />
+// </Item>
+// <Item stackedLabel>
+//   <Label>Tagged people</Label>
+//   <MultiSelect
+//     modalHeader="Tag people"
+//     displayKey="label"
+//     items={SELECT_ITEMS}
+//     selectedItems={this.state.tempItems}
+//     onSelectedItemsChange={items => {
+//       this.setState({ tempItems: items });
+//     }}
+//   />
+// </Item>
+// <Item stackedLabel>
+//   <Label>Test</Label>
+//   <Input placeholder="Testing" />
+// </Item>

@@ -6,8 +6,6 @@ import zh_tw from 'date-fns/locale/zh_tw';
 import zh_cn from 'date-fns/locale/zh_cn';
 import Locale from 'react-native-locale';
 
-console.log('Locale', Locale.constants());
-
 const localeId = Locale.constants().localeIdentifier;
 
 const locales = {

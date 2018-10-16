@@ -1,4 +1,5 @@
 import { action, reaction } from 'mobx';
+import sortBy from 'lodash-es/sortBy';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
@@ -19,7 +20,7 @@ export default class TeamsStore extends ResourceStore {
     if (teamId) {
       const team = this.map.get(String(teamId));
       if (team.memberIds) {
-        return team.memberIds.map(id => this.rootStore.users.map.get(String(id)));
+        return sortBy(team.memberIds.map(id => this.rootStore.users.map.get(String(id))), ['display_name']);
       }
     }
     return undefined;
