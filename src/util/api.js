@@ -1,6 +1,8 @@
+const BASE_URL = 'https://adroit.appdevdesigns.net';
+
 const Api = {
   urls: {
-    base: 'https://adroit.appdevdesigns.net',
+    base: BASE_URL,
     csrfToken: '/csrfToken',
     login: '/site/login',
     whoami: '/fcf_activities/activityreport/whoami',
@@ -9,6 +11,8 @@ const Api = {
     activityImages: activityId => `/fcf_activities/activityimage?activity=${activityId}`,
     teamMembers: teamId => `/fcf_activities/teammembers?teamID=${teamId}`,
   },
+
+  absoluteUrl: relativeUrl => `${BASE_URL}${relativeUrl}`,
 };
 
 export default Api;

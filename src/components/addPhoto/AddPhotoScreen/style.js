@@ -1,7 +1,16 @@
 import { StyleSheet } from 'react-native';
 import { Color, GridSize } from 'src/assets/theme';
 
+const centerContent = {
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 export default StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
   container: {
     flex: 1,
     alignItems: 'stretch',
@@ -25,36 +34,38 @@ export default StyleSheet.create({
     fontSize: 10,
     color: Color.darkTextMuted,
   },
-  row: {
-    // flex: 1,
-    flexDirection: 'row',
-  },
-  iconWrapper: {
-    marginTop: 10,
-    flex: 0,
-    width: 36,
-    alignItems: 'center',
-  },
-  icon: {
-    color: '#999',
-  },
   input: {
     alignSelf: 'stretch',
   },
-  date: {
-    marginTop: 4,
-  },
+  date: {},
   textArea: {},
-  textInput: {
-    paddingLeft: 10, // Match other NativeBase inputs
-  },
-  footer: {
-    justifyContent: 'space-between',
-  },
-  footerButton: {
-    flex: 0,
-  },
+  textInput: {},
   spinner: {
     height: 45,
+  },
+  teamMember: {
+    flexDirection: 'row',
+  },
+  avatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+  },
+  avatarIconWrapper: {
+    backgroundColor: Color.lightBackground1,
+    ...centerContent,
+  },
+  avatarIcon: {
+    fontSize: 17,
+  },
+  currentLocationItem: {
+    flexDirection: 'row',
+  },
+  currentLocationIconWrapper: {
+    ...centerContent,
+  },
+  currentLocationIcon: {
+    fontSize: 17,
+    marginTop: 2,
   },
 });

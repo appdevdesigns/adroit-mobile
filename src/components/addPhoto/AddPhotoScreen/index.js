@@ -22,20 +22,27 @@ import {
   Text,
   Item,
   Label,
+  Icon,
 } from 'native-base';
 import { MultiSelect, Select } from 'src/components/common/Select';
+import selectStyles from 'src/components/common/Select/style';
 import BackButton from 'src/components/common/BackButton';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
+import LocationsStore from 'src/store/LocationsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import { format } from 'src/util/date';
+import Api from 'src/util/api';
+import ConfirmationModal from './ConfirmationModal';
 import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-@inject('teams', 'teamActivities', 'users', 'activityImages')
+const PHOTO_LOCATION = { location: 'Photo location' };
+
+@inject('teams', 'teamActivities', 'users', 'activityImages', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
   constructor(props) {
@@ -43,11 +50,13 @@ class AddPhotoScreen extends React.Component {
     this.state = {
       caption: '',
       date: undefined,
-      location: undefined,
+      location: PHOTO_LOCATION,
+      currentLocation: undefined,
       fetchingLocation: true,
       taggedPeople: [],
       team: undefined,
       activity: undefined,
+      isModalOpen: false,
     };
   }
 
@@ -78,11 +87,10 @@ class AddPhotoScreen extends React.Component {
         longitude = 98.9349063;
         Geocode.fromLatLng(String(latitude), String(longitude)).then(
           response => {
-            const address = response.results[0].formatted_address;
+            const addrToUse = Math.max(0, Math.min(1, response.results.length - 1));
+            const address = response.results[addrToUse].formatted_address;
             console.log('Address', address, response.results);
-            if (!this.state.location) {
-              this.setState({ location: address, fetchingLocation: false });
-            }
+            this.setState({ currentLocation: address, fetchingLocation: false });
           },
           error => {
             console.log('fromLatLng ERROR', error);
@@ -121,6 +129,14 @@ class AddPhotoScreen extends React.Component {
     }
   };
 
+  openConfirmation = () => {
+    this.setState({ isModalOpen: true });
+  };
+
+  closeConfirmation = () => {
+    this.setState({ isModalOpen: false });
+  };
+
   setCaption = caption => {
     this.setState({ caption });
   };
@@ -156,11 +172,63 @@ class AddPhotoScreen extends React.Component {
 
   upload = () => {
     console.log('Uploading!');
+    this.closeConfirmation();
+  };
+
+  renderTeamMember = person => (
+    <View style={styles.teamMember}>
+      {!person.avatar || person.avatar.startsWith('images') ? (
+        <View style={[styles.avatar, styles.avatarIconWrapper]}>
+          <Icon style={styles.avatarIcon} type="FontAwesome" name="user" />
+        </View>
+      ) : (
+        <Image style={styles.avatar} source={{ uri: Api.absoluteUrl(person.avatar) }} />
+      )}
+      <Text ellipsizeMode="tail" style={selectStyles.item}>
+        {person.display_name}
+      </Text>
+    </View>
+  );
+
+  renderSelectedLocation = selectedLocation => {
+    if (selectedLocation === PHOTO_LOCATION) {
+      return (
+        <View style={styles.row}>
+          <Icon style={styles.currentLocationIcon} type="FontAwesome" name="location-arrow" />
+          {this.state.currentLocation ? (
+            <Text style={selectStyles.selected}>{this.state.currentLocation}</Text>
+          ) : (
+            <Spinner size="small" />
+          )}
+        </View>
+      );
+    }
+    return <Text style={selectStyles.selected}>{selectedLocation.location}</Text>;
+  };
+
+  renderLocationItem = location => {
+    if (location === PHOTO_LOCATION) {
+      return (
+        <View style={styles.currentLocationItem}>
+          <View style={styles.currentLocationIconWrapper}>
+            <Icon style={styles.currentLocationIcon} type="FontAwesome" name="location-arrow" />
+          </View>
+          <Text ellipsizeMode="tail" style={selectStyles.item}>
+            Current location
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <Text ellipsizeMode="tail" style={selectStyles.item}>
+        {location.location}
+      </Text>
+    );
   };
 
   render() {
-    const { navigation, teams, teamActivities, users, activityImages } = this.props;
-    const { caption, date, location, team, activity, fetchingLocation, taggedPeople } = this.state;
+    const { navigation, teams, teamActivities, users, activityImages, locations } = this.props;
+    const { caption, date, location, team, activity, fetchingLocation, taggedPeople, isModalOpen } = this.state;
     const { image } = navigation.state.params;
     const teamScopedActivites = teamActivities.isBusy ? undefined : [];
     if (!teamActivities.isBusy) {
@@ -171,6 +239,8 @@ class AddPhotoScreen extends React.Component {
       });
     }
     const userItems = team ? teams.getTeamMembers(team.IDMinistry) : [];
+    const isSaveEnabled = caption && caption.length && date && location && team && activity && taggedPeople.length;
+    const allLocations = [PHOTO_LOCATION].concat(locations.list);
     return (
       <Container>
         <Header>
@@ -181,7 +251,7 @@ class AddPhotoScreen extends React.Component {
             <Title>Add a photo</Title>
           </Body>
           <Right>
-            <Button transparent onPress={this.upload}>
+            <Button disabled={!isSaveEnabled} transparent onPress={this.openConfirmation}>
               <Text>Save</Text>
             </Button>
           </Right>
@@ -227,12 +297,16 @@ class AddPhotoScreen extends React.Component {
               {fetchingLocation ? (
                 <Spinner style={styles.spinner} size="small" />
               ) : (
-                <Input
-                  style={[styles.input, styles.textInput]}
-                  value={location}
-                  placeholder="Current location"
-                  placeholderTextColor="#999"
-                  onChangeText={this.setLocation}
+                <Select
+                  uniqueKey="location"
+                  displayKey="location"
+                  modalHeader="Photo location"
+                  placeholder="Photo location..."
+                  selectedItem={location}
+                  onSelectedItemChange={this.setLocation}
+                  items={allLocations}
+                  renderSelectedItem={this.renderSelectedLocation}
+                  renderItem={this.renderLocationItem}
                 />
               )}
             </Item>
@@ -281,10 +355,19 @@ class AddPhotoScreen extends React.Component {
                   placeholder="Tag team members..."
                   modalHeader="Select team members"
                   onSelectedItemsChange={this.setTaggedPeople}
+                  renderItem={this.renderTeamMember}
                 />
               )}
             </Item>
           </View>
+          <ConfirmationModal
+            visible={isModalOpen}
+            caption={caption}
+            taggedPeople={taggedPeople.map(m => m.display_name).join(', ')}
+            onCancel={this.closeConfirmation}
+            onConfirm={this.upload}
+            isUploading={false}
+          />
         </Content>
       </Container>
     );
@@ -302,6 +385,7 @@ AddPhotoScreen.wrappedComponent.propTypes = {
   teams: PropTypes.instanceOf(TeamsStore).isRequired,
   users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
+  locations: PropTypes.instanceOf(LocationsStore).isRequired,
 };
 
 export default AddPhotoScreen;

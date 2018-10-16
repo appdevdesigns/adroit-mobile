@@ -21,12 +21,12 @@ export default StyleSheet.create({
   },
   selected: {
     fontSize: 17,
-    lineHeight: 18,
+    lineHeight: 20,
     color: '#000',
   },
   placeholder: {
     fontSize: 17,
-    lineHeight: 18,
+    lineHeight: 20,
     color: Color.darkTextMuted,
   },
   itemIcon: {

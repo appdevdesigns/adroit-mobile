@@ -5,6 +5,7 @@ import TeamActivitiesStore from './TeamActivitiesStore';
 import ActivityImagesStore from './ActivityImagesStore';
 import UsersStore from './UsersStore';
 import PermissionsStore from './PermissionsStore';
+import LocationsStore from './LocationsStore';
 
 configure({ enforceActions: 'always' });
 
@@ -20,4 +21,6 @@ export default class Store {
   teamActivities = new TeamActivitiesStore(this);
 
   activityImages = new ActivityImagesStore(this);
+
+  locations = new LocationsStore(this);
 }
