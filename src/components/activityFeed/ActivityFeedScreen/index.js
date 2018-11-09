@@ -2,51 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import {
-  Container,
-  Header,
-  Title,
-  Button,
-  Left,
-  Right,
-  Body,
-  Icon,
-  Drawer,
-  ActionSheet,
-  Item,
-  Label,
-  Input,
-} from 'native-base';
+import { Container, Header, Title, Button, Left, Body, Icon, Drawer, Fab } from 'native-base';
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import { Select, MultiSelect } from 'src/components/common/Select';
 import AppScreen from 'src/components/app/AppScreen';
 import Sidebar from './Sidebar';
-import AddPhotoCta from './AddPhotoCta';
+import ReportingPeriodOverview from './ReportingPeriodOverview';
 import ActivityFeedList from './ActivityFeedList';
 import ActivityFeedPlaceholder from './ActivityFeedList/Placeholder';
-
-const ACTION_BUTTONS = [
-  { text: 'Camera Roll', icon: 'photos' },
-  { text: 'Take Photo', icon: 'camera' },
-  { text: 'Cancel', icon: 'close' },
-];
-
-const CANCEL_INDEX = 2;
-
-const SELECT_ITEMS = [
-  { id: 1, label: 'Graham McCulloch' },
-  { id: 2, label: 'James Duncan' },
-  { id: 3, label: 'Johnny Hausman' },
-  { id: 4, label: 'Ric Poolman' },
-  { id: 5, label: 'Joshua Chan' },
-  { id: 6, label: 'Wongpratan' },
-  { id: 7, label: 'Isaac Schubert' },
-];
+import styles from './style';
 
 @inject('auth', 'users', 'activityImages', 'teams', 'teamActivities')
 @observer
@@ -54,8 +22,10 @@ class ActivityFeedScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tempItem: undefined,
-      tempItems: [],
+      isFabActive: false,
+      // tempItem: undefined,
+      // tempItems: [],
+      // selectItems: SELECT_ITEMS,
     };
 
     // Set up a 'global' handler to return to the login screen if we're logged out
@@ -80,25 +50,23 @@ class ActivityFeedScreen extends React.Component {
     this.drawer._root.open();
   };
 
-  openActionSheet = () => {
-    ActionSheet.show(
-      {
-        options: ACTION_BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-        title: 'Add a photo',
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          this.props.navigation.navigate(AppScreen.Photos);
-        } else if (buttonIndex === 1) {
-          this.props.navigation.navigate(AppScreen.Camera);
-        }
-      }
-    );
+  toggleFab = () => {
+    this.setState(prevState => ({ isFabActive: !prevState.isFabActive }));
+  };
+
+  goToPhotos = () => {
+    this.props.navigation.navigate(AppScreen.Photos);
+    this.setState({ isFabActive: false });
+  };
+
+  goToCamera = () => {
+    this.props.navigation.navigate(AppScreen.Camera);
+    this.setState({ isFabActive: false });
   };
 
   render() {
     const { users, teams, teamActivities, activityImages } = this.props;
+    const { isFabActive } = this.state;
     const loading = users.isBusy || teams.isBusy || teamActivities.isBusy || activityImages.isBusy;
     return (
       <Drawer
@@ -116,12 +84,31 @@ class ActivityFeedScreen extends React.Component {
               </Button>
             </Left>
             <Body>
-              <Title>My Photos</Title>
+              <Title>My Activity Photos</Title>
             </Body>
-            <Right />
           </Header>
-          <AddPhotoCta onPress={this.openActionSheet} />
+          <ReportingPeriodOverview
+            reportingPeriod={activityImages.currentReportingPeriod}
+            totalApproved={activityImages.totalReadyOrApproved}
+            totalNew={activityImages.totalNew}
+          />
           {loading ? <ActivityFeedPlaceholder /> : <ActivityFeedList />}
+          <Fab
+            active={isFabActive}
+            direction="up"
+            containerStyle={{}}
+            style={styles.fab}
+            position="bottomRight"
+            onPress={this.toggleFab}
+          >
+            <Icon type="FontAwesome" name="plus" />
+            <Button style={styles.fabImage} onPress={this.goToPhotos}>
+              <Icon type="FontAwesome" name="image" />
+            </Button>
+            <Button style={styles.fabCamera} onPress={this.goToCamera}>
+              <Icon type="FontAwesome" name="camera" />
+            </Button>
+          </Fab>
         </Container>
       </Drawer>
     );
@@ -141,32 +128,3 @@ ActivityFeedScreen.wrappedComponent.propTypes = {
 };
 
 export default ActivityFeedScreen;
-
-// <Item stackedLabel>
-//   <Label>Tagged person</Label>
-//   <Select
-//     modalHeader="Set tagged person"
-//     displayKey="label"
-//     items={SELECT_ITEMS}
-//     selectedItem={this.state.tempItem}
-//     onSelectedItemChange={item => {
-//       this.setState({ tempItem: item });
-//     }}
-//   />
-// </Item>
-// <Item stackedLabel>
-//   <Label>Tagged people</Label>
-//   <MultiSelect
-//     modalHeader="Tag people"
-//     displayKey="label"
-//     items={SELECT_ITEMS}
-//     selectedItems={this.state.tempItems}
-//     onSelectedItemsChange={items => {
-//       this.setState({ tempItems: items });
-//     }}
-//   />
-// </Item>
-// <Item stackedLabel>
-//   <Label>Test</Label>
-//   <Input placeholder="Testing" />
-// </Item>

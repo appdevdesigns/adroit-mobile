@@ -3,13 +3,22 @@ import { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
   date: {
-    color: Color.lightTextMuted,
+    color: '#fff',
     fontSize: 12,
     marginBottom: 3.5,
   },
   thumbnail: {
     width: 80,
     height: 60,
+    // borderRadius: 3,
+  },
+  approvedImage: {
+    backgroundColor: Color.approvedImage,
+    borderColor: Color.approvedImage,
+  },
+  newImage: {
+    backgroundColor: Color.newImage,
+    borderColor: Color.newImage,
   },
   activity: {
     fontWeight: 'bold',

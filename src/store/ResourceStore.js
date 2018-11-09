@@ -32,6 +32,11 @@ export default class ResourceStore {
   }
 
   @action.bound
+  clear() {
+    this.map.clear();
+  }
+
+  @action.bound
   fetchList(url, options = defaultOptions, meta = {}) {
     this.fetchCount += 1;
     this.errors = [];

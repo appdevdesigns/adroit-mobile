@@ -45,4 +45,22 @@ export default StyleSheet.create({
     flex: 0,
     minWidth: 50,
   },
+  noMatches: {
+    padding: GridSize,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  filterInput: {
+    height: 20,
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  filterCopy: {
+    color: Color.darkTextSecondary,
+    marginTop: GridSize,
+  },
+  noMatchesButton: {
+    marginTop: GridSize,
+    alignSelf: 'center',
+  },
 });

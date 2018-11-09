@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Color, GridSize } from 'src/assets/theme';
+import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
   listItem: {
@@ -23,7 +23,16 @@ export default StyleSheet.create({
   },
   imageWrapper: {
     backgroundColor: Color.darkBackground2,
-    borderRadius: 3,
+    // borderRadius: 3,
     borderWidth: 3,
+  },
+  fab: {
+    backgroundColor: Theme.toolbarDefaultBg,
+  },
+  fabImage: {
+    backgroundColor: 'green',
+  },
+  fabCamera: {
+    backgroundColor: 'darkblue',
   },
 });

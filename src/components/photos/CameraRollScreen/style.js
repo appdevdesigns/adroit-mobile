@@ -6,7 +6,7 @@ export const numColumns = 3;
 const { width } = Dimensions.get('window');
 const photoPadding = GridSize;
 const widthWithoutPadding = width - photoPadding * (numColumns + 1);
-const equalWidth = widthWithoutPadding / numColumns;
+export const equalWidth = widthWithoutPadding / numColumns;
 
 export default StyleSheet.create({
   spinner: {
@@ -14,6 +14,9 @@ export default StyleSheet.create({
   },
   list: {
     padding: photoPadding / 2,
+  },
+  placeholderContainer: {
+    margin: photoPadding / 2,
   },
   image: {
     margin: photoPadding / 2,
@@ -23,8 +26,15 @@ export default StyleSheet.create({
   empty: {
     alignSelf: 'center',
     paddingTop: 20,
-    fontSize: 20,
+    alignItems: 'center',
+  },
+  emptyText: {
     color: Color.darkTextMuted,
+    fontSize: 20,
+    paddingBottom: 20,
+  },
+  emptyButton: {
+    alignSelf: 'center',
   },
   lightboxImage: {
     position: 'absolute',
@@ -42,5 +52,15 @@ export default StyleSheet.create({
   closeButton: {
     color: 'white',
     fontSize: 28,
+  },
+  footerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    flexDirection: 'row',
+  },
+  footerText: {
+    opacity: 0.7,
+    marginLeft: 8,
   },
 });

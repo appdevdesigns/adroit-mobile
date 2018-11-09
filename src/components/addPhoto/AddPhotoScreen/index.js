@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import unionBy from 'lodash-es/unionBy';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { inject, observer } from 'mobx-react';
-import { Image, View } from 'react-native';
+import { Image, View, AsyncStorage } from 'react-native';
 import Exif from 'react-native-exif';
 import Geocode from 'react-geocode';
 import parse from 'date-fns/parse';
@@ -18,7 +19,6 @@ import {
   Spinner,
   Textarea,
   DatePicker,
-  Input,
   Text,
   Item,
   Label,
@@ -26,29 +26,30 @@ import {
 } from 'native-base';
 import { MultiSelect, Select } from 'src/components/common/Select';
 import selectStyles from 'src/components/common/Select/style';
+import baseStyles from 'src/assets/style';
 import BackButton from 'src/components/common/BackButton';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
-import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
-import LocationsStore from 'src/store/LocationsStore';
+import LocationsStore, { LocationType, LocationIcon } from 'src/store/LocationsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import { format } from 'src/util/date';
 import Api from 'src/util/api';
 import ConfirmationModal from './ConfirmationModal';
+import PhotoUploadPreview from './PhotoUploadPreview';
 import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-const PHOTO_LOCATION = { location: 'Photo location' };
+const PHOTO_LOCATION = { location: 'Photo location', type: LocationType.GPS };
 
-@inject('teams', 'teamActivities', 'users', 'activityImages', 'locations')
+@inject('teams', 'activityImages', 'users', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      caption: '',
+      caption: 'TEMP',
       date: undefined,
       location: PHOTO_LOCATION,
       currentLocation: undefined,
@@ -73,6 +74,9 @@ class AddPhotoScreen extends React.Component {
             console.log('Failed to parse exif date', err);
             this.setState({ date: new Date() });
           }
+        } else {
+          console.log('No exif data available');
+          this.setState({ date: new Date() });
         }
       })
       .catch(msg => {
@@ -108,24 +112,37 @@ class AddPhotoScreen extends React.Component {
     this.initTeamActivities(nextProps);
   }
 
-  initTeamActivities = props => {
+  initTeamActivities = async props => {
     const { team, activity, taggedPeople } = this.state;
-    const { teams, teamActivities, users } = props;
+    const { teams, users } = props;
     let initTeam = team;
     if (!team && teams.list && teams.list.length) {
-      initTeam = teams.list[0];
+      const lastTeamId = await AsyncStorage.getItem('last_team_id');
+      if (lastTeamId) {
+        initTeam = teams.list.find(t => String(t.IDMinistry) === lastTeamId);
+      }
+      if (!initTeam) {
+        [initTeam] = teams.list;
+      }
       this.setState({ team: initTeam });
     }
-    if (!activity && initTeam && teamActivities && teamActivities.map && teamActivities.map.size) {
-      teamActivities.map.forEach(a => {
-        if (a.team === initTeam.IDMinistry) {
-          this.setState({ activity: a });
-        }
-      });
+    if (!activity && initTeam) {
+      let initActivity = activity;
+      const lastActivityId = await AsyncStorage.getItem('last_activity_id');
+      if (lastActivityId) {
+        initActivity = initTeam.activities.find(a => String(a.id) === lastActivityId);
+      }
+      if (!initActivity) {
+        [initActivity] = initTeam.activities;
+      }
+      this.setState({ activity: initActivity });
     }
-    if (!taggedPeople.length && users.list && users.list.length && users.me.id) {
+    if (!taggedPeople.length && initTeam && users && users.me) {
       // Tag yourself by default
-      this.setState({ taggedPeople: [users.getUserById(users.me.id)] });
+      const me = initTeam.members.find(m => m.IDPerson === users.me.id);
+      if (me) {
+        this.setState({ taggedPeople: [me] });
+      }
     }
   };
 
@@ -135,6 +152,11 @@ class AddPhotoScreen extends React.Component {
 
   closeConfirmation = () => {
     this.setState({ isModalOpen: false });
+  };
+
+  addLocation = async location => {
+    const newLocation = await this.props.locations.addUserLocation({ location });
+    this.setLocation(newLocation);
   };
 
   setCaption = caption => {
@@ -156,8 +178,7 @@ class AddPhotoScreen extends React.Component {
     };
     if (prevTeam.IDMinistry !== team.IDMinistry) {
       newState.activity = undefined;
-      const newTeamMembers = this.props.teams.getTeamMembers(team.IDMinistry);
-      newState.taggedPeople = unionBy(this.state.taggedPeople || [], newTeamMembers, 'IDPerson');
+      newState.taggedPeople = unionBy(this.state.taggedPeople || [], team.members, 'IDPerson');
     }
     this.setState(newState);
   };
@@ -170,9 +191,31 @@ class AddPhotoScreen extends React.Component {
     this.setState({ taggedPeople });
   };
 
-  upload = () => {
+  upload = async () => {
     console.log('Uploading!');
+    const { team, activity, caption, location, date, taggedPeople, currentLocation } = this.state;
+    const {
+      activityImages,
+      navigation: {
+        state: {
+          params: { image },
+        },
+      },
+    } = this.props;
     this.closeConfirmation();
+    // Persist the team and activity IDs for initialization next time
+    await AsyncStorage.setItem('last_team_id', String(team.IDMinistry));
+    await AsyncStorage.setItem('last_activity_id', String(activity.id));
+
+    const activityImage = {
+      image,
+      activityId: activity.id,
+      caption,
+      date,
+      location: location === PHOTO_LOCATION ? currentLocation : location.location,
+      taggedPeopleIds: taggedPeople.map(p => p.IDPerson),
+    };
+    activityImages.upload(activityImage);
   };
 
   renderTeamMember = person => (
@@ -191,56 +234,53 @@ class AddPhotoScreen extends React.Component {
   );
 
   renderSelectedLocation = selectedLocation => {
+    const locationText = selectedLocation === PHOTO_LOCATION ? this.state.currentLocation : selectedLocation.location;
+    const iconStyles = [baseStyles.listItemIcon, baseStyles.marginRight];
     if (selectedLocation === PHOTO_LOCATION) {
-      return (
-        <View style={styles.row}>
-          <Icon style={styles.currentLocationIcon} type="FontAwesome" name="location-arrow" />
-          {this.state.currentLocation ? (
-            <Text style={selectStyles.selected}>{this.state.currentLocation}</Text>
-          ) : (
-            <Spinner size="small" />
-          )}
-        </View>
-      );
+      iconStyles.push(styles.locationIcon);
     }
-    return <Text style={selectStyles.selected}>{selectedLocation.location}</Text>;
+    return (
+      <View style={styles.row}>
+        <FontAwesome5 light style={iconStyles} name={LocationIcon[selectedLocation.type]} />
+        {this.state.currentLocation ? (
+          <Text style={selectStyles.selected}>{locationText}</Text>
+        ) : (
+          <Spinner size="small" />
+        )}
+      </View>
+    );
   };
 
   renderLocationItem = location => {
+    const iconStyles = [baseStyles.listItemIcon, baseStyles.marginRight];
     if (location === PHOTO_LOCATION) {
-      return (
-        <View style={styles.currentLocationItem}>
-          <View style={styles.currentLocationIconWrapper}>
-            <Icon style={styles.currentLocationIcon} type="FontAwesome" name="location-arrow" />
-          </View>
-          <Text ellipsizeMode="tail" style={selectStyles.item}>
-            Current location
-          </Text>
-        </View>
-      );
+      iconStyles.push(styles.locationIcon);
     }
     return (
-      <Text ellipsizeMode="tail" style={selectStyles.item}>
-        {location.location}
-      </Text>
+      <View style={styles.centeredRow}>
+        <FontAwesome5 light style={iconStyles} name={LocationIcon[location.type]} />
+        <Text ellipsizeMode="tail" style={baseStyles.listItemText}>
+          {location.location}
+        </Text>
+      </View>
     );
   };
 
   render() {
-    const { navigation, teams, teamActivities, users, activityImages, locations } = this.props;
+    const { navigation, teams, activityImages, locations } = this.props;
     const { caption, date, location, team, activity, fetchingLocation, taggedPeople, isModalOpen } = this.state;
     const { image } = navigation.state.params;
-    const teamScopedActivites = teamActivities.isBusy ? undefined : [];
-    if (!teamActivities.isBusy) {
-      teamActivities.map.forEach(a => {
-        if (!team || a.team === team.IDMinistry) {
-          teamScopedActivites.push(a);
-        }
-      });
-    }
-    const userItems = team ? teams.getTeamMembers(team.IDMinistry) : [];
-    const isSaveEnabled = caption && caption.length && date && location && team && activity && taggedPeople.length;
-    const allLocations = [PHOTO_LOCATION].concat(locations.list);
+    const isSaveEnabled =
+      true ||
+      (activityImages.uploadedImageName &&
+        caption &&
+        caption.length &&
+        date &&
+        location &&
+        team &&
+        activity &&
+        taggedPeople.length);
+    const allLocations = [PHOTO_LOCATION].concat(locations.orderedLocations);
     return (
       <Container>
         <Header>
@@ -257,7 +297,7 @@ class AddPhotoScreen extends React.Component {
           </Right>
         </Header>
         <Content>
-          <Image source={{ uri: image.uri }} style={styles.image} />
+          <PhotoUploadPreview image={image} />
           <View style={styles.main}>
             <Item stackedLabel style={styles.item}>
               <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
@@ -298,12 +338,14 @@ class AddPhotoScreen extends React.Component {
                 <Spinner style={styles.spinner} size="small" />
               ) : (
                 <Select
+                  filterable
                   uniqueKey="location"
                   displayKey="location"
                   modalHeader="Photo location"
                   placeholder="Photo location..."
                   selectedItem={location}
                   onSelectedItemChange={this.setLocation}
+                  onAddOption={this.addLocation}
                   items={allLocations}
                   renderSelectedItem={this.renderSelectedLocation}
                   renderItem={this.renderLocationItem}
@@ -328,7 +370,7 @@ class AddPhotoScreen extends React.Component {
             </Item>
             <Item stackedLabel style={styles.item}>
               <Label>Activity</Label>
-              {!teamScopedActivites ? (
+              {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <Select
@@ -338,17 +380,17 @@ class AddPhotoScreen extends React.Component {
                   placeholder="Select Activity..."
                   selectedItem={activity}
                   onSelectedItemChange={this.setActivity}
-                  items={teamScopedActivites}
+                  items={team ? team.activities.slice() : []}
                 />
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
               <Label>Tagged People</Label>
-              {users.loading || !userItems ? (
+              {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <MultiSelect
-                  items={userItems}
+                  items={team ? team.members.slice() : []}
                   selectedItems={taggedPeople}
                   uniqueKey="IDPerson"
                   displayKey="display_name"
@@ -381,7 +423,6 @@ AddPhotoScreen.propTypes = {
 AddPhotoScreen.defaultProps = {};
 
 AddPhotoScreen.wrappedComponent.propTypes = {
-  teamActivities: PropTypes.instanceOf(TeamActivitiesStore).isRequired,
   teams: PropTypes.instanceOf(TeamsStore).isRequired,
   users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,

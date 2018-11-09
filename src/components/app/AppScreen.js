@@ -6,6 +6,7 @@ const AppScreen = {
   Photos: 'Photos',
   AddPhoto: 'AddPhoto',
   Help: 'Help',
+  EditLocations: 'EditLocations',
 };
 
 export default AppScreen;

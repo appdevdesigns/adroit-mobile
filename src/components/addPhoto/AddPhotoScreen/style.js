@@ -15,11 +15,6 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'stretch',
   },
-  image: {
-    backgroundColor: '#000',
-    height: 150,
-    resizeMode: 'contain',
-  },
   main: {
     margin: GridSize,
   },
@@ -55,17 +50,15 @@ export default StyleSheet.create({
     backgroundColor: Color.lightBackground1,
     ...centerContent,
   },
+  centeredRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   avatarIcon: {
     fontSize: 17,
   },
-  currentLocationItem: {
-    flexDirection: 'row',
-  },
-  currentLocationIconWrapper: {
-    ...centerContent,
-  },
-  currentLocationIcon: {
-    fontSize: 17,
-    marginTop: 2,
+  locationIcon: {
+    marginTop: 2, // Tweak to align better with text
   },
 });

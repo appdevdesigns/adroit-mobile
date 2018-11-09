@@ -35,6 +35,19 @@ const Sidebar = inject(stores => ({ auth: stores.auth, users: stores.users }))(
             <Text>Help</Text>
           </Body>
         </ListItem>
+        <ListItem
+          icon
+          onPress={() => {
+            navigation.navigate(AppScreen.EditLocations);
+          }}
+        >
+          <Left>
+            <Icon type="FontAwesome" name="map-marker" />
+          </Left>
+          <Body>
+            <Text>Edit saved locations</Text>
+          </Body>
+        </ListItem>
         <ListItem icon onPress={auth.logout}>
           <Left>
             <Icon type="FontAwesome" name="sign-out" />

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableHighlight, CameraRoll, View } from 'react-native';
+import { TouchableOpacity, CameraRoll, View } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
@@ -65,9 +65,9 @@ class CameraScreen extends React.Component {
           <View style={[styles.overlayItem, styles.footer]}>
             <Left />
             <Body>
-              <TouchableHighlight onPress={this.takePicture}>
+              <TouchableOpacity onPress={this.takePicture}>
                 <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </Body>
             <Right />
           </View>

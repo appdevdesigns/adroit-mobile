@@ -7,16 +7,16 @@ export default class TeamActivitiesStore extends ResourceStore {
     super(rootStore, 'id');
   }
 
-  @action.bound
-  getTeamActivities(team) {
-    console.log('getTeamActivities', team.IDMinistry);
-    this.fetchList(Api.urls.teamActivities(team.IDMinistry), undefined, { team });
-  }
+  // @action.bound
+  // getTeamActivities(team) {
+  //   console.log('getTeamActivities', team.IDMinistry);
+  //   this.fetchList(Api.urls.teamActivities(team.IDMinistry), undefined, { team });
+  // }
 
-  @action.bound
-  onFetchListSuccess(list) {
-    list.forEach(activity => {
-      this.rootStore.activityImages.getActivityImages(activity);
-    });
-  }
+  // @action.bound
+  // onFetchListSuccess(list) {
+  //   list.forEach(activity => {
+  //     this.rootStore.activityImages.getActivityImages(activity);
+  //   });
+  // }
 }

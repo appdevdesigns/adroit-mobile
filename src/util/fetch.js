@@ -55,6 +55,10 @@ const fetchJson = async (url, options = {}) => {
       }
       return { status, headers, body, json };
     });
+  // .catch(error => {
+  //   console.log('Fetch Error:', error);
+  //   return Promise.reject(new HttpError(error.message, 0, {}));
+  // });
 };
 
 export default fetchJson;

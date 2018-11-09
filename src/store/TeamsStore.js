@@ -10,41 +10,51 @@ export default class TeamsStore extends ResourceStore {
       () => this.rootStore.auth.isLoggedIn,
       isLoggedIn => {
         if (isLoggedIn) {
-          this.listUserTeams();
+          this.listMyTeams();
+        } else {
+          this.clear();
         }
       }
     );
   }
 
-  getTeamMembers(teamId) {
-    if (teamId) {
-      const team = this.map.get(String(teamId));
-      if (team.memberIds) {
-        return sortBy(team.memberIds.map(id => this.rootStore.users.map.get(String(id))), ['display_name']);
-      }
-    }
-    return undefined;
-  }
+  // getTeamMembers(teamId) {
+  //   if (teamId) {
+  //     const team = this.map.get(String(teamId));
+  //     return team.members;
+  //     // if (team.memberIds) {
+  //     //   return sortBy(team.memberIds.map(id => this.rootStore.users.map.get(String(id))), ['display_name']);
+  //     // }
+  //   }
+  //   return undefined;
+  // }
+
+  // @action.bound
+  // updateTeamMembers(teamId, userIds) {
+  //   console.log('updateTeamMembers', teamId, userIds);
+  //   const team = this.map.get(String(teamId));
+  //   team.memberIds = userIds;
+  //   this.map.set(String(teamId), team);
+  // }
+
+  // @action.bound
+  // listUserTeams() {
+  //   console.log('listUserTeams');
+  //   this.fetchList(Api.urls.listUserTeams);
+  // }
 
   @action.bound
-  updateTeamMembers(teamId, userIds) {
-    console.log('updateTeamMembers', teamId, userIds);
-    const team = this.map.get(String(teamId));
-    team.memberIds = userIds;
-    this.map.set(String(teamId), team);
+  listMyTeams() {
+    console.log('listMyTeams');
+    const fullUrl = `${Api.urls.myTeams}?DateMinistryEnded=null`;
+    this.fetchList(fullUrl);
   }
 
-  @action.bound
-  listUserTeams() {
-    console.log('listUserTeams');
-    this.fetchList(Api.urls.listUserTeams);
-  }
-
-  @action.bound
-  onFetchListSuccess(list) {
-    list.forEach(team => {
-      this.rootStore.users.getTeamMembers(team.IDMinistry);
-      this.rootStore.teamActivities.getTeamActivities(team);
-    });
-  }
+  // @action.bound
+  // onFetchListSuccess(list) {
+  //   list.forEach(team => {
+  //     this.rootStore.users.getTeamMembers(team.IDMinistry);
+  //     this.rootStore.teamActivities.getTeamActivities(team);
+  //   });
+  // }
 }

@@ -12,6 +12,8 @@ export default class UsersStore extends ResourceStore {
       isLoggedIn => {
         if (isLoggedIn) {
           this.getAuthenticatedUser();
+        } else {
+          this.clearMe();
         }
       }
     );
@@ -22,6 +24,14 @@ export default class UsersStore extends ResourceStore {
     id: null,
     displayName: null,
   };
+
+  @action.bound
+  clearMe() {
+    this.me = {
+      id: null,
+      displayName: null,
+    };
+  }
 
   getUserById(userId) {
     return this.map.get(String(userId));
@@ -54,14 +64,14 @@ export default class UsersStore extends ResourceStore {
       });
   }
 
-  @action.bound
-  getTeamMembers(teamId) {
-    console.log('getTeamMembers', teamId);
-    this.fetchList(Api.urls.teamMembers(teamId), undefined, { teamId });
-  }
+  // @action.bound
+  // getTeamMembers(teamId) {
+  //   console.log('getTeamMembers', teamId);
+  //   this.fetchList(Api.urls.teamMembers(teamId), undefined, { teamId });
+  // }
 
-  @action.bound
-  onFetchListSuccess(list, meta) {
-    this.rootStore.teams.updateTeamMembers(meta.teamId, list.map(u => u.IDPerson));
-  }
+  // @action.bound
+  // onFetchListSuccess(list, meta) {
+  //   this.rootStore.teams.updateTeamMembers(meta.teamId, list.map(u => u.IDPerson));
+  // }
 }
