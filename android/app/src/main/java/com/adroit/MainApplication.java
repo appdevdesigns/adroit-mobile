@@ -4,6 +4,10 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import io.fixd.rctlocale.RCTLocalePackage;
+// import okhttp3.OkHttpClient;
+
+// import com.facebook.stetho.Stetho;
+// import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.devialab.exif.RCTExifPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -55,5 +59,9 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    // Stetho.initializeWithDefaults(this);
+    // new OkHttpClient.Builder()
+    //   .addNetworkInterceptor(new StethoInterceptor())
+    //   .build();
   }
 }
