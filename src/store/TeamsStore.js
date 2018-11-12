@@ -5,14 +5,12 @@ import ResourceStore from './ResourceStore';
 
 export default class TeamsStore extends ResourceStore {
   constructor(rootStore) {
-    super(rootStore, 'IDMinistry');
+    super(rootStore, 'IDMinistry', true);
     reaction(
       () => this.rootStore.auth.isLoggedIn,
       isLoggedIn => {
         if (isLoggedIn) {
           this.listMyTeams();
-        } else {
-          this.clear();
         }
       }
     );

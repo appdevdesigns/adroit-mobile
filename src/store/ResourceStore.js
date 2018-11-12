@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed } from 'mobx';
+import { observable, action, reaction, runInAction, computed } from 'mobx';
 import { persist } from 'mobx-persist';
 import { Toast } from 'native-base';
 import keyBy from 'lodash-es/keyBy';
@@ -7,10 +7,28 @@ import fetchJson from 'src/util/fetch';
 
 const defaultOptions = { method: 'GET' };
 
+export const PostStatus = {
+  pending: 'pending',
+  sending: 'sending',
+  succeeded: 'succeeded',
+  failed: 'failed',
+};
+
 export default class ResourceStore {
-  constructor(rootStore, idAttribute) {
+  constructor(rootStore, idAttribute, resetOnLogout = false) {
     this.rootStore = rootStore;
     this.idAttribute = idAttribute;
+    this.resetOnLogout = resetOnLogout;
+    if (resetOnLogout) {
+      reaction(
+        () => this.rootStore.auth.isLoggedOut,
+        isLoggedOut => {
+          if (isLoggedOut) {
+            this.clear();
+          }
+        }
+      );
+    }
   }
 
   @observable

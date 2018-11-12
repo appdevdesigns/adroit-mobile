@@ -51,8 +51,8 @@ class LoginScreen extends React.Component {
 
   checkLogin = async () => {
     console.log('checkLogin');
-    const csrfToken = await AsyncStorage.getItem('adroit_csrf');
-    if (csrfToken) {
+    const sessionIsOpen = await this.props.auth.checkSession();
+    if (sessionIsOpen) {
       this.props.auth.onLoggedIn();
       this.onAuthenticated();
       return;

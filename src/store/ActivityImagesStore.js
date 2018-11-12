@@ -7,7 +7,7 @@ import xhr from 'src/util/xhr';
 import Api from 'src/util/api';
 import { format } from 'src/util/date';
 import ReportingPeriod from 'src/util/ReportingPeriod';
-import ResourceStore from './ResourceStore';
+import ResourceStore, { PostStatus } from './ResourceStore';
 
 const statusOrder = {
   ready: 0,
@@ -48,15 +48,13 @@ const sortByDate = (activityA, activityB) => {
 
 export default class ActivityImagesStore extends ResourceStore {
   constructor(rootStore) {
-    super(rootStore, 'id');
+    super(rootStore, 'id', true);
     this.currentReportingPeriod = new ReportingPeriod();
     reaction(
       () => this.rootStore.auth.isLoggedIn,
       isLoggedIn => {
         if (isLoggedIn) {
           this.getMyActivityImages();
-        } else {
-          this.clear();
         }
       }
     );
@@ -67,6 +65,9 @@ export default class ActivityImagesStore extends ResourceStore {
 
   @observable
   uploadedImageName = undefined;
+
+  @observable
+  uploadStatus = PostStatus.pending;
 
   @computed
   get totalReadyOrApproved() {
@@ -105,6 +106,13 @@ export default class ActivityImagesStore extends ResourceStore {
   }
 
   @action.bound
+  initializeUpload() {
+    this.uploadStatus = PostStatus.pending;
+    this.uploadedImageName = undefined;
+    this.uploadProgressPercent = 0;
+  }
+
+  @action.bound
   getMyActivityImages() {
     console.log('getMyActivityImages');
     const fullUrl = `${Api.urls.myActivityImages}?date[>]=${format(this.currentReportingPeriod.start, 'YYYY/MM/DD')}`;
@@ -114,8 +122,7 @@ export default class ActivityImagesStore extends ResourceStore {
   @action.bound
   uploadImage(image) {
     console.log('uploadImage', image);
-    this.uploadProgressPercent = 0;
-    this.uploadedImageName = undefined;
+    this.initializeUpload();
     const body = new FormData();
     body.append('imageFile', {
       uri: image.uri,
@@ -181,7 +188,7 @@ export default class ActivityImagesStore extends ResourceStore {
     };
     console.log('upload', body, options);
 
-    this.fetchCount += 1;
+    this.uploadStatus = PostStatus.sending;
     fetchJson(url, options)
       .then(response => {
         console.log(`${url} response`, response);
@@ -189,18 +196,22 @@ export default class ActivityImagesStore extends ResourceStore {
         newActivityImage.activity = this.rootStore.teams.getActivity(newActivityImage.activity);
         runInAction(() => {
           this.map.set(newActivityImage.id, newActivityImage);
-          this.uploadedImageName = undefined;
-          this.uploadProgressPercent = 0;
-          this.fetchCount = Math.max(this.fetchCount - 1, 0);
+          this.uploadStatus = PostStatus.succeeded;
+        });
+        Toast.show({
+          text: 'Activity photo successfully uploaded!',
+          type: 'success',
+          duration: 4000,
+          buttonText: 'OKAY',
         });
       })
       .catch(async error => {
         runInAction(() => {
           this.errors.push(error);
-          this.fetchCount = Math.max(this.fetchCount - 1, 0);
+          this.uploadStatus = PostStatus.failed;
         });
         console.log('FAILED', error);
-        Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
+        Toast.show({ text: 'Oops - something went wrong!', type: 'danger', buttonText: 'OKAY' });
         if (error.status === 401) {
           await this.onUnauthorised();
         }

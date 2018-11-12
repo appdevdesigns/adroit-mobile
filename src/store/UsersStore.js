@@ -7,14 +7,12 @@ import ResourceStore from './ResourceStore';
 
 export default class UsersStore extends ResourceStore {
   constructor(rootStore) {
-    super(rootStore, 'IDPerson');
+    super(rootStore, 'IDPerson', true);
     reaction(
       () => this.rootStore.auth.isLoggedIn,
       isLoggedIn => {
         if (isLoggedIn) {
           this.getAuthenticatedUser();
-        } else {
-          this.clearMe();
         }
       }
     );
@@ -26,6 +24,15 @@ export default class UsersStore extends ResourceStore {
     id: null,
     displayName: null,
   };
+
+  @action.bound
+  clear() {
+    this.me = {
+      id: null,
+      displayName: null,
+    };
+    super.clear();
+  }
 
   @action.bound
   clearMe() {

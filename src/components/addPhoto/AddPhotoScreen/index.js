@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import unionBy from 'lodash-es/unionBy';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { Image, View, AsyncStorage } from 'react-native';
 import Exif from 'react-native-exif';
@@ -32,6 +33,7 @@ import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import LocationsStore, { LocationType, LocationIcon } from 'src/store/LocationsStore';
+import { PostStatus } from 'src/store/ResourceStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import { format } from 'src/util/date';
 import Api from 'src/util/api';
@@ -59,11 +61,20 @@ class AddPhotoScreen extends React.Component {
       activity: undefined,
       isModalOpen: false,
     };
+    when(
+      () => this.props.activityImages.uploadStatus === PostStatus.succeeded,
+      () => {
+        this.closeConfirmation();
+        this.props.navigation.popToTop();
+        this.props.activityImages.initializeUpload();
+      }
+    );
   }
 
   async componentDidMount() {
     this.initTeamActivities(this.props);
-    Exif.getExif(this.props.navigation.state.params.image.uri)
+    const imageUri = this.image().uri;
+    Exif.getExif(imageUri)
       .then(data => {
         if (data.exif && data.exif.DateTime) {
           try {
@@ -83,7 +94,7 @@ class AddPhotoScreen extends React.Component {
         console.log('getExif ERROR', msg);
         this.setState({ date: new Date() });
       });
-    Exif.getLatLong(this.props.navigation.state.params.image.uri)
+    Exif.getLatLong(imageUri)
       .then(({ latitude, longitude }) => {
         if (latitude && longitude) {
           // Temp:
@@ -198,21 +209,13 @@ class AddPhotoScreen extends React.Component {
   upload = async () => {
     console.log('Uploading!');
     const { team, activity, caption, location, date, taggedPeople, photoLocation } = this.state;
-    const {
-      activityImages,
-      navigation: {
-        state: {
-          params: { image },
-        },
-      },
-    } = this.props;
-    this.closeConfirmation();
+    const { activityImages } = this.props;
     // Persist the team and activity IDs for initialization next time
     await AsyncStorage.setItem('last_team_id', String(team.IDMinistry));
     await AsyncStorage.setItem('last_activity_id', String(activity.id));
 
     const activityImage = {
-      image,
+      image: this.image(),
       activityId: activity.id,
       caption,
       date,
@@ -221,6 +224,10 @@ class AddPhotoScreen extends React.Component {
     };
     activityImages.upload(activityImage);
   };
+
+  image() {
+    return this.props.navigation.state.params.image;
+  }
 
   renderTeamMember = person => (
     <View style={styles.teamMember}>
@@ -271,7 +278,7 @@ class AddPhotoScreen extends React.Component {
   };
 
   render() {
-    const { navigation, teams, activityImages, locations } = this.props;
+    const { teams, activityImages, locations } = this.props;
     const {
       caption,
       date,
@@ -283,7 +290,6 @@ class AddPhotoScreen extends React.Component {
       taggedPeople,
       isModalOpen,
     } = this.state;
-    const { image } = navigation.state.params;
     const isSaveEnabled =
       activityImages.uploadedImageName &&
       caption &&
@@ -312,7 +318,7 @@ class AddPhotoScreen extends React.Component {
           </Right>
         </Header>
         <Content>
-          <PhotoUploadPreview image={image} />
+          <PhotoUploadPreview image={this.image()} />
           <View style={styles.main}>
             <Item stackedLabel style={styles.item}>
               <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
@@ -320,6 +326,7 @@ class AddPhotoScreen extends React.Component {
               <Textarea
                 value={caption}
                 onChangeText={this.setCaption}
+                returnKeyType="done"
                 rowSpan={3}
                 style={[styles.input, styles.textArea]}
                 maxLength={MAX_CAPTION_CHARS}
@@ -357,7 +364,7 @@ class AddPhotoScreen extends React.Component {
                   uniqueKey="location"
                   displayKey="location"
                   modalHeader="Photo location"
-                  placeholder="Photo location..."
+                  placeholder="Where was this photo taken...?"
                   selectedItem={location}
                   onSelectedItemChange={this.setLocation}
                   onAddOption={this.addLocation}

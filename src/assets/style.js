@@ -50,4 +50,8 @@ export default StyleSheet.create({
     color: Color.darkTextMuted,
     textAlign: 'center',
   },
+  buttonSpinner: {
+    marginLeft: GridSize * 2 + 1.25,
+    marginRight: GridSize * 2 + 1.25,
+  },
 });

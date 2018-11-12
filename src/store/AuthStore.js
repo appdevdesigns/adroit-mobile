@@ -1,10 +1,16 @@
 import { AsyncStorage } from 'react-native';
 import { observable, computed, action } from 'mobx';
 import { Toast } from 'native-base';
+import parse from 'date-fns/parse';
+import isAfter from 'date-fns/is_after';
+import addHours from 'date-fns/add_hours';
 import fetchJson from 'src/util/fetch';
 import Api from 'src/util/api';
 
+const SESSION_LENGTH_HRS = 2;
+
 export const AuthStatus = {
+  Pending: 'Pending',
   LoggingIn: 'LoggingIn',
   Authenticated: 'Authenticated',
   AuthenticationFailed: 'AuthenticationFailed',
@@ -17,7 +23,7 @@ export default class AuthStore {
   }
 
   @observable
-  status = AuthStatus.LoggedOut;
+  status = AuthStatus.Pending;
 
   @computed
   get isLoggedIn() {
@@ -32,6 +38,38 @@ export default class AuthStore {
   @computed
   get loginFailed() {
     return this.status === AuthStatus.AuthenticationFailed;
+  }
+
+  static async getLastLogin() {
+    const lastLoginTimestampStr = await AsyncStorage.getItem('adroit_last_login');
+    return lastLoginTimestampStr ? parse(parseInt(lastLoginTimestampStr, 10)) : null;
+  }
+
+  static async setLastLogin(date = new Date()) {
+    await AsyncStorage.setItem('adroit_last_login', String(date.getTime()));
+  }
+
+  async checkSession() {
+    const csrfToken = await AsyncStorage.getItem('adroit_csrf');
+    if (!csrfToken) {
+      console.log('Session not open: No CSRF token');
+      this.logout();
+      return false;
+    }
+    const lastLogin = await AuthStore.getLastLogin();
+    if (!lastLogin) {
+      console.log('Session not open: Last Login time not found');
+      this.logout();
+      return false;
+    }
+    const nowTimestamp = new Date().getTime();
+    const expectedSessionExpiration = addHours(lastLogin, SESSION_LENGTH_HRS);
+    if (isAfter(nowTimestamp, expectedSessionExpiration)) {
+      console.log('Session not open: assumed expired');
+      this.logout();
+      return false;
+    }
+    return true;
   }
 
   @action.bound
@@ -50,6 +88,7 @@ export default class AuthStore {
           .then(async () => {
             await AsyncStorage.setItem('adroit_username', username);
             await AsyncStorage.setItem('adroit_password', password);
+            await AuthStore.setLastLogin();
             this.onLoggedIn();
           })
           .catch(this.onLoginFailed);
