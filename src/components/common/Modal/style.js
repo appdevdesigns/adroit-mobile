@@ -11,6 +11,7 @@ export default StyleSheet.create({
     padding: GridSize * 3,
     alignItems: 'center',
     justifyContent: 'center',
+    maxHeight: '90%',
   },
   wrapper: {
     flex: 0,

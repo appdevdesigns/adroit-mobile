@@ -26,7 +26,6 @@ export default StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    flex: 0,
     paddingTop: GridSize * 2,
   },
   cancelButton: {
@@ -39,5 +38,8 @@ export default StyleSheet.create({
   },
   buttonText: {
     paddingLeft: 0,
+  },
+  scrollContainer: {
+    flexGrow: 0,
   },
 });

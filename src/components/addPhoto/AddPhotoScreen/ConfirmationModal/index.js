@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Text, Button, CheckBox, Spinner, Label, ListItem, Body, Icon } from 'native-base';
 import Modal from 'src/components/common/Modal';
 import styles from './style';
@@ -57,14 +57,22 @@ class ConfirmationModal extends React.Component {
             <CheckBox style={styles.checkbox} checked={captionChecked} onPress={this.toggleCaptionChecked} />
             <Body style={styles.itemBody}>
               <Label style={styles.label}>My caption describes how I am helping local Thais</Label>
-              <Text style={styles.context}>"{caption || ''}"</Text>
+              <ScrollView style={styles.scrollContainer}>
+                <Text style={styles.context}>
+                  &quot;
+                  {caption || ''}
+                  &quot;
+                </Text>
+              </ScrollView>
             </Body>
           </ListItem>
           <ListItem style={styles.item} onPress={this.toggleTaggedChecked}>
             <CheckBox style={styles.checkbox} checked={taggedChecked} onPress={this.toggleTaggedChecked} />
             <Body style={styles.itemBody}>
               <Label style={styles.label}>I have tagged everyone on my team who is in this photo</Label>
-              <Text style={styles.context}>{taggedPeople || ''}</Text>
+              <ScrollView style={styles.scrollContainer}>
+                <Text style={styles.context}>{taggedPeople || ''}</Text>
+              </ScrollView>
             </Body>
           </ListItem>
         </View>

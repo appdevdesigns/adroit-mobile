@@ -10,7 +10,7 @@ import styles from './style';
 @observer
 class PhotoUploadPreview extends React.Component {
   componentWillMount() {
-    // this.props.activityImages.uploadImage(this.props.image);
+    this.props.activityImages.uploadImage(this.props.image);
   }
 
   render() {

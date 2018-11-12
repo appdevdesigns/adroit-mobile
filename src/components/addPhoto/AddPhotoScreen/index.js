@@ -85,22 +85,26 @@ class AddPhotoScreen extends React.Component {
       });
     Exif.getLatLong(this.props.navigation.state.params.image.uri)
       .then(({ latitude, longitude }) => {
-        console.log(`Photo lat/long ignored: ${latitude}, ${longitude}`);
-        // Temp:
-        latitude = 18.732084;
-        longitude = 98.9349063;
-        Geocode.fromLatLng(String(latitude), String(longitude)).then(
-          response => {
-            const addrToUse = Math.max(0, Math.min(1, response.results.length - 1));
-            const address = response.results[addrToUse].formatted_address;
-            console.log('Address', address, response.results);
-            this.setState({ currentLocation: address, fetchingLocation: false });
-          },
-          error => {
-            console.log('fromLatLng ERROR', error);
-            this.setState({ fetchingLocation: false });
-          }
-        );
+        if (latitude && longitude) {
+          // Temp:
+          // latitude = 18.732084;
+          // longitude = 98.9349063;
+          Geocode.fromLatLng(String(latitude), String(longitude)).then(
+            response => {
+              const addrToUse = Math.max(0, Math.min(1, response.results.length - 1));
+              const address = response.results[addrToUse].formatted_address;
+              console.log('Address', address, response.results);
+              this.setState({ currentLocation: address, fetchingLocation: false });
+            },
+            error => {
+              console.log('fromLatLng ERROR', error);
+              this.setState({ fetchingLocation: false });
+            }
+          );
+        } else {
+          console.log(`Photo lat/long ignored: ${latitude}, ${longitude}`);
+          this.setState({ fetchingLocation: false });
+        }
       })
       .catch(msg => {
         console.log('getLatLong ERROR', msg);
@@ -271,15 +275,14 @@ class AddPhotoScreen extends React.Component {
     const { caption, date, location, team, activity, fetchingLocation, taggedPeople, isModalOpen } = this.state;
     const { image } = navigation.state.params;
     const isSaveEnabled =
-      true ||
-      (activityImages.uploadedImageName &&
-        caption &&
-        caption.length &&
-        date &&
-        location &&
-        team &&
-        activity &&
-        taggedPeople.length);
+      activityImages.uploadedImageName &&
+      caption &&
+      caption.length &&
+      date &&
+      location &&
+      team &&
+      activity &&
+      taggedPeople.length;
     const allLocations = [PHOTO_LOCATION].concat(locations.orderedLocations);
     return (
       <Container>

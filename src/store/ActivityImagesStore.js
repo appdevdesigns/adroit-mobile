@@ -186,6 +186,7 @@ export default class ActivityImagesStore extends ResourceStore {
       .then(response => {
         console.log(`${url} response`, response);
         const newActivityImage = response.json.data;
+        newActivityImage.activity = this.rootStore.teams.getActivity(newActivityImage.activity);
         runInAction(() => {
           this.map.set(newActivityImage.id, newActivityImage);
           this.uploadedImageName = undefined;
