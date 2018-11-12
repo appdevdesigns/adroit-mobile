@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { GridSize } from 'src/assets/theme';
 
+const toolbarImageHeight = 24;
+
 export default StyleSheet.create({
   preview: {
     flex: 1,
@@ -24,6 +26,7 @@ export default StyleSheet.create({
   },
   header: {},
   footer: {
+    paddingBottom: GridSize * 2,
     backgroundColor: 'rgba(0,0,0,0)',
   },
   captureIcon: {
@@ -35,5 +38,16 @@ export default StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 4,
     fontSize: 32,
+  },
+  toolbarImage: {
+    height: toolbarImageHeight,
+    marginLeft: GridSize * 2,
+    marginRight: GridSize * 2,
+  },
+  typeImage: {
+    width: (toolbarImageHeight * 4) / 3,
+  },
+  flashImage: {
+    width: toolbarImageHeight,
   },
 });
