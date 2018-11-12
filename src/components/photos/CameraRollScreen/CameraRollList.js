@@ -125,7 +125,7 @@ class CameraRollList extends Component {
         data={photos}
         numColumns={numColumns}
         keyExtractor={this.keyExtractor}
-        renderItem={this.renderRowItemQuick}
+        renderItem={this.renderRowItem}
         ListFooterComponent={<View style={styles.footerContainer}>{hasNextPage && <Spinner size="small" />}</View>}
         style={styles.list}
         onEndReachedThreshold={0.5}
