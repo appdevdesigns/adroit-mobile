@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import capitalize from 'lodash-es/capitalize';
 import format from 'date-fns/format';
 import { FlatList, View, Image } from 'react-native';
-import { ListItem, Text, Left, Body, Content, Separator } from 'native-base';
+import { ListItem, Text, Left, Body, Content } from 'native-base';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import Api from 'src/util/api';
+import baseStyles from 'src/assets/style';
 import styles from './style';
 import activityFeedStyles from '../style';
 
@@ -54,8 +54,10 @@ class ActivityFeedList extends React.Component {
         />
       </Content>
     ) : (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>You haven't yet been tagged in any photos for this reporting period.</Text>
+      <View style={baseStyles.emptyContainer}>
+        <Text style={baseStyles.emptyText}>
+          You haven&apos;t yet been tagged in any photos for this reporting period.
+        </Text>
       </View>
     );
   }

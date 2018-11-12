@@ -40,4 +40,14 @@ export default StyleSheet.create({
   paragraph: {
     marginBottom: GridSize,
   },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: GridSize * 4,
+  },
+  emptyText: {
+    color: Color.darkTextMuted,
+    textAlign: 'center',
+  },
 });

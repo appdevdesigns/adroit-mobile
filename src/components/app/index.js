@@ -1,5 +1,4 @@
 import React from 'react';
-// import { autorun } from 'mobx';
 import { Provider } from 'mobx-react';
 import Config from 'react-native-config';
 import { StyleProvider, Root } from 'native-base';
@@ -30,10 +29,5 @@ const App = () => {
     </Root>
   );
 };
-
-// autorun(r => {
-//   r.trace();
-//   console.log(store.auth);
-// });
 
 export default App;

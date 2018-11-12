@@ -51,8 +51,8 @@ class AddPhotoScreen extends React.Component {
     this.state = {
       caption: 'TEMP',
       date: undefined,
-      location: PHOTO_LOCATION,
-      currentLocation: undefined,
+      location: undefined,
+      photoLocation: undefined,
       fetchingLocation: true,
       taggedPeople: [],
       team: undefined,
@@ -94,7 +94,7 @@ class AddPhotoScreen extends React.Component {
               const addrToUse = Math.max(0, Math.min(1, response.results.length - 1));
               const address = response.results[addrToUse].formatted_address;
               console.log('Address', address, response.results);
-              this.setState({ currentLocation: address, fetchingLocation: false });
+              this.setState({ photoLocation: address, location: PHOTO_LOCATION, fetchingLocation: false });
             },
             error => {
               console.log('fromLatLng ERROR', error);
@@ -197,7 +197,7 @@ class AddPhotoScreen extends React.Component {
 
   upload = async () => {
     console.log('Uploading!');
-    const { team, activity, caption, location, date, taggedPeople, currentLocation } = this.state;
+    const { team, activity, caption, location, date, taggedPeople, photoLocation } = this.state;
     const {
       activityImages,
       navigation: {
@@ -216,7 +216,7 @@ class AddPhotoScreen extends React.Component {
       activityId: activity.id,
       caption,
       date,
-      location: location === PHOTO_LOCATION ? currentLocation : location.location,
+      location: location === PHOTO_LOCATION ? photoLocation : location.location,
       taggedPeopleIds: taggedPeople.map(p => p.IDPerson),
     };
     activityImages.upload(activityImage);
@@ -238,7 +238,7 @@ class AddPhotoScreen extends React.Component {
   );
 
   renderSelectedLocation = selectedLocation => {
-    const locationText = selectedLocation === PHOTO_LOCATION ? this.state.currentLocation : selectedLocation.location;
+    const locationText = selectedLocation === PHOTO_LOCATION ? this.state.photoLocation : selectedLocation.location;
     const iconStyles = [baseStyles.listItemIcon, baseStyles.marginRight];
     if (selectedLocation === PHOTO_LOCATION) {
       iconStyles.push(styles.locationIcon);
@@ -246,10 +246,10 @@ class AddPhotoScreen extends React.Component {
     return (
       <View style={styles.row}>
         <FontAwesome5 light style={iconStyles} name={LocationIcon[selectedLocation.type]} />
-        {this.state.currentLocation ? (
+        {locationText ? (
           <Text style={selectStyles.selected}>{locationText}</Text>
         ) : (
-          <Spinner size="small" />
+          <Spinner style={styles.spinner} size="small" />
         )}
       </View>
     );
@@ -272,7 +272,17 @@ class AddPhotoScreen extends React.Component {
 
   render() {
     const { navigation, teams, activityImages, locations } = this.props;
-    const { caption, date, location, team, activity, fetchingLocation, taggedPeople, isModalOpen } = this.state;
+    const {
+      caption,
+      date,
+      location,
+      team,
+      activity,
+      photoLocation,
+      fetchingLocation,
+      taggedPeople,
+      isModalOpen,
+    } = this.state;
     const { image } = navigation.state.params;
     const isSaveEnabled =
       activityImages.uploadedImageName &&
@@ -283,7 +293,9 @@ class AddPhotoScreen extends React.Component {
       team &&
       activity &&
       taggedPeople.length;
-    const allLocations = [PHOTO_LOCATION].concat(locations.orderedLocations);
+    const allLocations = photoLocation
+      ? [PHOTO_LOCATION].concat(locations.orderedLocations)
+      : locations.orderedLocations;
     return (
       <Container>
         <Header>

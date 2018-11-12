@@ -62,7 +62,18 @@ class EditLocationsScreen extends React.Component {
           </Right>
         </Header>
         <Content>
-          <FlatList data={locations.userLocations} keyExtractor={this.keyExtractor} renderItem={this.renderItem} />
+          {locations.authenticatedUsersLocations.length ? (
+            <FlatList
+              data={locations.authenticatedUsersLocations}
+              keyExtractor={this.keyExtractor}
+              renderItem={this.renderItem}
+            />
+          ) : (
+            <View style={baseStyles.emptyContainer}>
+              <Text style={baseStyles.emptyText}>You haven&apos;t saved any locations yet..</Text>
+            </View>
+          )}
+
           <Modal
             visible={isHelpVisible}
             animationType="fade"
