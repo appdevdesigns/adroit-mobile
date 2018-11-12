@@ -63,15 +63,4 @@ export default class UsersStore extends ResourceStore {
         }
       });
   }
-
-  // @action.bound
-  // getTeamMembers(teamId) {
-  //   console.log('getTeamMembers', teamId);
-  //   this.fetchList(Api.urls.teamMembers(teamId), undefined, { teamId });
-  // }
-
-  // @action.bound
-  // onFetchListSuccess(list, meta) {
-  //   this.rootStore.teams.updateTeamMembers(meta.teamId, list.map(u => u.IDPerson));
-  // }
 }

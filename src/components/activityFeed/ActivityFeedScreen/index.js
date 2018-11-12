@@ -6,7 +6,6 @@ import { Container, Header, Title, Button, Left, Body, Icon, Drawer, Fab } from 
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
-import TeamActivitiesStore from 'src/store/TeamActivitiesStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
@@ -16,7 +15,7 @@ import ActivityFeedList from './ActivityFeedList';
 import ActivityFeedPlaceholder from './ActivityFeedList/Placeholder';
 import styles from './style';
 
-@inject('auth', 'users', 'activityImages', 'teams', 'teamActivities')
+@inject('auth', 'users', 'activityImages', 'teams')
 @observer
 class ActivityFeedScreen extends React.Component {
   constructor(props) {
@@ -65,9 +64,9 @@ class ActivityFeedScreen extends React.Component {
   };
 
   render() {
-    const { users, teams, teamActivities, activityImages } = this.props;
+    const { users, teams, activityImages } = this.props;
     const { isFabActive } = this.state;
-    const loading = users.isBusy || teams.isBusy || teamActivities.isBusy || activityImages.isBusy;
+    const loading = users.isBusy || teams.isBusy || activityImages.isBusy;
     return (
       <Drawer
         ref={ref => {
@@ -123,7 +122,6 @@ ActivityFeedScreen.wrappedComponent.propTypes = {
   auth: PropTypes.instanceOf(AuthStore).isRequired,
   users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
-  teamActivities: PropTypes.instanceOf(TeamActivitiesStore).isRequired,
   teams: PropTypes.instanceOf(TeamsStore).isRequired,
 };
 

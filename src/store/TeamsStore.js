@@ -1,5 +1,5 @@
 import { action, reaction } from 'mobx';
-import sortBy from 'lodash-es/sortBy';
+import forEach from 'lodash-es/forEach';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
@@ -18,30 +18,23 @@ export default class TeamsStore extends ResourceStore {
     );
   }
 
-  // getTeamMembers(teamId) {
-  //   if (teamId) {
-  //     const team = this.map.get(String(teamId));
-  //     return team.members;
-  //     // if (team.memberIds) {
-  //     //   return sortBy(team.memberIds.map(id => this.rootStore.users.map.get(String(id))), ['display_name']);
-  //     // }
-  //   }
-  //   return undefined;
-  // }
-
-  // @action.bound
-  // updateTeamMembers(teamId, userIds) {
-  //   console.log('updateTeamMembers', teamId, userIds);
-  //   const team = this.map.get(String(teamId));
-  //   team.memberIds = userIds;
-  //   this.map.set(String(teamId), team);
-  // }
-
-  // @action.bound
-  // listUserTeams() {
-  //   console.log('listUserTeams');
-  //   this.fetchList(Api.urls.listUserTeams);
-  // }
+  getActivity(activityId) {
+    let activity;
+    forEach(this.list, team => {
+      const a = team.activities.find(act => act.id === activityId);
+      if (a) {
+        activity = {
+          activity_name: a.activity_name,
+          id: a.id,
+          team: {
+            IDMinistry: team.IDMinistry,
+            MinistryDisplayName: team.MinistryDisplayName,
+          },
+        };
+      }
+    });
+    return activity;
+  }
 
   @action.bound
   listMyTeams() {
@@ -49,12 +42,4 @@ export default class TeamsStore extends ResourceStore {
     const fullUrl = `${Api.urls.myTeams}?DateMinistryEnded=null`;
     this.fetchList(fullUrl);
   }
-
-  // @action.bound
-  // onFetchListSuccess(list) {
-  //   list.forEach(team => {
-  //     this.rootStore.users.getTeamMembers(team.IDMinistry);
-  //     this.rootStore.teamActivities.getTeamActivities(team);
-  //   });
-  // }
 }

@@ -1,7 +1,6 @@
 import { configure } from 'mobx';
 import AuthStore from './AuthStore';
 import TeamsStore from './TeamsStore';
-import TeamActivitiesStore from './TeamActivitiesStore';
 import ActivityImagesStore from './ActivityImagesStore';
 import UsersStore from './UsersStore';
 import PermissionsStore from './PermissionsStore';
@@ -17,8 +16,6 @@ export default class Store {
   users = new UsersStore(this);
 
   teams = new TeamsStore(this);
-
-  teamActivities = new TeamActivitiesStore(this);
 
   activityImages = new ActivityImagesStore(this);
 
