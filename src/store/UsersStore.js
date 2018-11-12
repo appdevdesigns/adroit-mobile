@@ -1,4 +1,5 @@
 import { observable, action, runInAction, reaction } from 'mobx';
+import { persist } from 'mobx-persist';
 import { Toast } from 'native-base';
 import fetchJson from 'src/util/fetch';
 import Api from 'src/util/api';
@@ -19,6 +20,7 @@ export default class UsersStore extends ResourceStore {
     );
   }
 
+  @persist('object')
   @observable
   me = {
     id: null,
@@ -31,10 +33,6 @@ export default class UsersStore extends ResourceStore {
       id: null,
       displayName: null,
     };
-  }
-
-  getUserById(userId) {
-    return this.map.get(String(userId));
   }
 
   @action.bound

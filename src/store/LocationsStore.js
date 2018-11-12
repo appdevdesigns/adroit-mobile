@@ -1,4 +1,4 @@
-import { action, reaction, runInAction, computed } from 'mobx';
+import { observable, action, reaction, computed, runInAction } from 'mobx';
 import { AsyncStorage } from 'react-native';
 import keyBy from 'lodash-es/keyBy';
 import filter from 'lodash-es/filter';
@@ -8,12 +8,6 @@ export const LocationType = {
   FCF: 'FCF',
   User: 'User',
   GPS: 'GPS',
-};
-
-const LocationOrder = {
-  GPS: 0,
-  User: 1,
-  FCF: 2,
 };
 
 export const LocationIcon = {
@@ -33,16 +27,6 @@ const PLACEHOLDER_LOCATIONS = [
   },
 ];
 
-const compareInts = (a, b) => {
-  if (a === b) {
-    return 0;
-  }
-  if (a < b) {
-    return -1;
-  }
-  return 1;
-};
-
 const sortLocations = (locationA, locationB) => {
   if (!locationA && !locationB) {
     return 0;
@@ -53,11 +37,7 @@ const sortLocations = (locationA, locationB) => {
   if (!locationB) {
     return -1;
   }
-  const typeOrder = compareInts(LocationOrder[locationA.type], LocationOrder[locationB.type]);
-  if (typeOrder === 0) {
-    return locationA.location.localeCompare(locationB.location);
-  }
-  return typeOrder;
+  return locationA.location.localeCompare(locationB.location);
 };
 
 export default class LocationsStore extends ResourceStore {
@@ -67,7 +47,7 @@ export default class LocationsStore extends ResourceStore {
       () => this.rootStore.auth.isLoggedIn,
       async isLoggedIn => {
         if (isLoggedIn) {
-          await this.mergeFcfLocations();
+          await this.fetchFcfLocations();
           await this.mergeUserLocations();
         }
       }
@@ -86,44 +66,40 @@ export default class LocationsStore extends ResourceStore {
     await AsyncStorage.setItem('adroit_locations', JSON.stringify(userLocations));
   }
 
+  @observable
+  userLocations = [];
+
   @computed
-  get userLocations() {
-    return this.list.filter(l => l.type === LocationType.User);
+  get authenticatedUsersLocations() {
+    return this.userLocations.filter(l => l.userId && l.userId === this.rootStore.auth.me.id);
   }
 
   @computed
   get orderedLocations() {
-    return this.list.sort(sortLocations);
+    return this.authenticatedUsersLocations.concat(this.list.sort(sortLocations));
   }
 
   @action.bound
   async addUserLocation({ location }) {
-    const userLocations = await LocationsStore.getUserLocations();
-    const newLocation = { location, type: LocationType.User };
-    if (!userLocations.find(l => l.location === location)) {
-      userLocations.unshift(newLocation);
+    const newLocation = { location, type: LocationType.User, userId: this.rootStore.auth.me.id };
+    if (!this.userLocations.find(l => l.location === location)) {
+      this.userLocations.unshift(newLocation);
     }
-    await LocationsStore.setUserLocations(userLocations);
-    runInAction(() => {
-      this.map.set(location, newLocation);
-    });
+    await LocationsStore.setUserLocations(this.userLocations);
     return newLocation;
   }
 
   @action.bound
   async removeUserLocation({ location }) {
-    let userLocations = await LocationsStore.getUserLocations();
-    userLocations = filter(userLocations, l => l.location !== location);
-    await LocationsStore.setUserLocations(userLocations);
-    runInAction(() => {
-      this.map.delete(location);
-    });
+    this.userLocations = filter(this.userLocations, l => l.location !== location);
+    await LocationsStore.setUserLocations(this.userLocations);
   }
 
   @action.bound
-  mergeFcfLocations() {
-    console.log('mergeFcfLocations');
-    this.map.merge(keyBy(PLACEHOLDER_LOCATIONS, 'location'));
+  fetchFcfLocations() {
+    console.log('fetchFcfLocations');
+    this.map.replace(keyBy(PLACEHOLDER_LOCATIONS, 'location'));
+    console.log('fetchFcfLocations result', this.list);
   }
 
   @action.bound
@@ -131,9 +107,7 @@ export default class LocationsStore extends ResourceStore {
     console.log('mergeUserLocations');
     const userLocations = await LocationsStore.getUserLocations();
     runInAction(() => {
-      if (userLocations.length) {
-        this.map.merge(keyBy(userLocations, 'location'));
-      }
+      this.userLocations = userLocations;
     });
   }
 }

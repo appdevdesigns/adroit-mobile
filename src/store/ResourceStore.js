@@ -1,4 +1,5 @@
 import { observable, action, runInAction, computed } from 'mobx';
+import { persist } from 'mobx-persist';
 import { Toast } from 'native-base';
 import keyBy from 'lodash-es/keyBy';
 import sortBy from 'lodash-es/sortBy';
@@ -13,11 +14,15 @@ export default class ResourceStore {
   }
 
   @observable
+  isInitialized = false;
+
+  @observable
   fetchCount = 0;
 
   @observable
   errors = [];
 
+  @persist('map')
   @observable
   map = new Map();
 
@@ -32,8 +37,19 @@ export default class ResourceStore {
   }
 
   @action.bound
+  initialize() {
+    this.rootStore.hydrate(this.constructor.name, this).then(() => {
+      console.log(`${this.constructor.name} initialized`, this.list);
+      runInAction(() => {
+        this.isInitialized = true;
+      });
+    });
+  }
+
+  @action.bound
   clear() {
     this.map.clear();
+    this.isInitialized = false;
   }
 
   @action.bound
@@ -45,7 +61,8 @@ export default class ResourceStore {
         console.log(`${url} response`, response);
         const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
         runInAction(() => {
-          this.map.merge(map);
+          this.map.replace(map);
+          this.isInitialized = true;
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });
         this.onFetchListSuccess(response.json.data, meta);

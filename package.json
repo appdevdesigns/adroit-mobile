@@ -18,6 +18,7 @@
     "date-fns": "^1.29.0",
     "lodash-es": "^4.17.11",
     "mobx": "^4.5.0",
+    "mobx-persist": "^0.4.1",
     "mobx-react": "^5.2.8",
     "native-base": "^2.8.0",
     "prop-types": "^15.6.2",

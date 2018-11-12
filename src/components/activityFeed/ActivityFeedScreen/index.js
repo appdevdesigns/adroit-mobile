@@ -91,7 +91,7 @@ class ActivityFeedScreen extends React.Component {
             totalApproved={activityImages.totalReadyOrApproved}
             totalNew={activityImages.totalNew}
           />
-          {loading ? <ActivityFeedPlaceholder /> : <ActivityFeedList />}
+          {!activityImages.isInitialized ? <ActivityFeedPlaceholder /> : <ActivityFeedList />}
           <Fab
             active={isFabActive}
             direction="up"
