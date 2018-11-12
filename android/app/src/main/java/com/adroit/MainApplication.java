@@ -3,6 +3,7 @@ package com.adroit;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
 import io.fixd.rctlocale.RCTLocalePackage;
 // import okhttp3.OkHttpClient;
 
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new LinearGradientPackage(),
             new RCTLocalePackage(),
             new ReactNativeConfigPackage(),
             new RCTExifPackage(),

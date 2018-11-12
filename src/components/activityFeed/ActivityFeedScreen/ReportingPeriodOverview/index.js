@@ -1,5 +1,6 @@
 import React from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import { View, ImageBackground } from 'react-native';
 import { Text, Icon } from 'native-base';
@@ -16,11 +17,11 @@ const ReportingPeriodOverview = ({ reportingPeriod, totalApproved, totalNew }) =
     <View style={styles.wrapper}>
       <View style={styles.top}>
         <View style={[styles.topItem, styles.topItemBordered]}>
-          <View style={[styles.topIndicator, styles.approved]} />
+          <LinearGradient colors={['#23ad9d', '#1cd7cf']} style={styles.topIndicator} />
           <Text style={styles.topText}>{totalApproved} approved</Text>
         </View>
         <View style={[styles.topItem, styles.topItemBordered]}>
-          <View style={[styles.topIndicator, styles.new]} />
+          <LinearGradient colors={['#393939', '#535353']} style={styles.topIndicator} />
           <Text style={styles.topText}>{totalNew} new</Text>
         </View>
         <View style={[styles.topItem, styles.topItemBordered, styles.timeRemaining]}>

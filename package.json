@@ -29,6 +29,7 @@
     "react-native-config": "^0.11.5",
     "react-native-exif": "^0.3.0",
     "react-native-lightbox": "^0.8.0",
+    "react-native-linear-gradient": "^2.4.3",
     "react-native-locale": "0.0.19",
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.17.0",
