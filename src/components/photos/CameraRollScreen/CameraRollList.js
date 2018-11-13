@@ -3,6 +3,7 @@ import Placeholder from 'rn-placeholder';
 import { FlatList, TouchableOpacity, Image, CameraRoll, View } from 'react-native';
 import Lightbox from 'react-native-lightbox';
 import { Spinner, Text, Icon, Button } from 'native-base';
+import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns, equalWidth } from './style';
@@ -82,7 +83,7 @@ class CameraRollList extends Component {
               this.props.navigation.navigate(AppScreen.AddPhoto, { image: item });
             }}
           >
-            <Text>Use this photo</Text>
+            <Text>{Copy.useThisPhotoButtonText}</Text>
           </Button>
         </View>
       )}
@@ -133,9 +134,9 @@ class CameraRollList extends Component {
       />
     ) : (
       <View style={styles.empty}>
-        <Text style={styles.emptyText}>Camera Roll is empty</Text>
+        <Text style={styles.emptyText}>{Copy.camRollEmpty}</Text>
         <Button style={styles.emptyButton} primary onPress={this.goToCamera}>
-          <Text>Take a photo</Text>
+          <Text>{Copy.takeAPhotoCta}</Text>
         </Button>
       </View>
     );

@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from 'mobx';
+import { action, runInAction } from 'mobx';
 import permission from 'src/util/permission';
 import keys from 'lodash-es/keys';
 
@@ -11,9 +11,6 @@ export const Permission = {
 export default class PermissionsStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
-    keys(Permission).forEach(key => {
-      // this[`can${key}`] = observable(false);
-    });
   }
 
   @action.bound

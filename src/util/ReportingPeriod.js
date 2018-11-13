@@ -3,17 +3,18 @@ import getYear from 'date-fns/get_year';
 import addMonths from 'date-fns/add_months';
 import subDays from 'date-fns/sub_days';
 import differenceInDays from 'date-fns/difference_in_days';
+import Copy from 'src/assets/Copy';
 
 const TARGET_IMAGE_COUNT = 16;
 
 export const ReportingPeriodStatus = {
-  AHEAD: { threshold: 2, color: '#009933', label: 'ahead', icon: 'grin-beam' },
-  ONTRACK: { threshold: -1, color: '#07bb8f', label: 'on track', icon: 'smile' },
-  BEHIND: { threshold: -3, color: '#ff6633', label: 'behind', icon: 'frown' },
+  AHEAD: { threshold: 2, color: '#009933', label: Copy.reportingPeriodStatusAhead, icon: 'grin-beam' },
+  ONTRACK: { threshold: -1, color: '#07bb8f', label: Copy.reportingPeriodStatusOnTrack, icon: 'smile' },
+  BEHIND: { threshold: -3, color: '#ff6633', label: Copy.reportingPeriodStatusBehind, icon: 'frown' },
   WARNING: {
     threshold: -(TARGET_IMAGE_COUNT + 1),
     color: '#cc3333',
-    label: 'warning',
+    label: Copy.reportingPeriodStatusWarning,
     icon: 'surprise',
   },
 };

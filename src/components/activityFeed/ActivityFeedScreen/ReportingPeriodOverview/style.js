@@ -1,22 +1,30 @@
 import { StyleSheet } from 'react-native';
-import Color from 'color';
-import Theme, { GridSize, Color as ThemeColor } from 'src/assets/theme';
+import { GridSize, Color } from 'src/assets/theme';
 
 const topFontSize = 14;
 const imageProgressHeight = 20;
 const timeRemainingColor = '#227495';
 const timeElapsedColor = '#064367';
+const currentDateBarColor = '#011529';
+const topItemDividerColor = '#1f6b8d';
+const topItemBackgroundColor = '#4c89a4';
+const topItemColor = '#fff';
+
+export const Gradients = {
+  approved: ['#23ad9d', '#1cd7cf'],
+  new: ['#393939', '#535353'],
+};
 
 export default StyleSheet.create({
   wrapper: {
     flexDirection: 'column',
   },
   top: {
-    borderColor: '#fff',
+    borderColor: topItemColor,
     borderBottomWidth: 1,
     borderTopWidth: 1,
     flexDirection: 'row',
-    backgroundColor: '#4c89a4',
+    backgroundColor: topItemBackgroundColor,
   },
   topItem: {
     paddingTop: GridSize / 2,
@@ -28,11 +36,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   topItemBordered: {
-    borderRightColor: '#1f6b8d',
+    borderRightColor: topItemDividerColor,
     borderRightWidth: 1,
   },
   topText: {
-    color: '#fff',
+    color: topItemColor,
     fontSize: topFontSize,
     lineHeight: topFontSize + 2,
     alignSelf: 'center',
@@ -40,7 +48,7 @@ export default StyleSheet.create({
   },
   topIcon: {
     fontSize: topFontSize,
-    color: '#fff',
+    color: topItemColor,
     marginRight: GridSize / 2,
     alignSelf: 'center',
   },
@@ -50,7 +58,7 @@ export default StyleSheet.create({
     borderRadius: topFontSize / 2,
     borderWidth: 1,
     marginRight: GridSize / 2,
-    borderColor: '#fff',
+    borderColor: topItemColor,
     alignSelf: 'center',
   },
   timeRemaining: {
@@ -60,7 +68,6 @@ export default StyleSheet.create({
     flex: 1,
   },
   progressWrapper: {
-    // backgroundColor: timeRemainingColor,
     height: GridSize * 2 + imageProgressHeight,
   },
   progress: {
@@ -72,16 +79,16 @@ export default StyleSheet.create({
     bottom: 0,
     backgroundColor: timeElapsedColor,
     borderRightWidth: 3,
-    borderRightColor: '#011529',
+    borderRightColor: currentDateBarColor,
   },
   imagesProgress: {
     top: GridSize,
     height: imageProgressHeight,
   },
   approvedImages: {
-    backgroundColor: ThemeColor.approvedImage,
+    backgroundColor: Color.approvedImage,
   },
   newImages: {
-    backgroundColor: ThemeColor.newImage,
+    backgroundColor: Color.newImage,
   },
 });

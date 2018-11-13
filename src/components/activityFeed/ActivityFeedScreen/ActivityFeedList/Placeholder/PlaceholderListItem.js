@@ -3,24 +3,21 @@ import Placeholder from 'rn-placeholder';
 import { View } from 'react-native';
 import { Left, Body } from 'native-base';
 import styles from './style';
-import activityFeedStyles from '../../style';
+import activityListStyles, { imageWrapperSize, teamFontSize, activityFontSize } from '../style';
 
 const animate = 'fade';
 
 const PlaceholderListItem = () => (
-  <View style={activityFeedStyles.listItem}>
-    <Left style={activityFeedStyles.left}>
-      <Placeholder.Media size={86} style={activityFeedStyles.imageWrapper} animate={animate} />
+  <View style={activityListStyles.listItem}>
+    <Left style={activityListStyles.left}>
+      <Placeholder.Media size={imageWrapperSize} style={activityListStyles.imageWrapper} animate={animate} />
     </Left>
-    <Body style={[activityFeedStyles.body, styles.body]}>
+    <Body style={[activityListStyles.body, styles.body]}>
       <View style={styles.activity}>
-        <Placeholder.Line textSize={12} animate={animate} />
+        <Placeholder.Line textSize={activityFontSize} animate={animate} />
       </View>
       <View style={styles.team}>
-        <Placeholder.Line textSize={12} animate={animate} />
-      </View>
-      <View style={styles.caption}>
-        <Placeholder.Paragraph textSize={12} lineNumber={3} lineSpacing={3} animate={animate} />
+        <Placeholder.Line textSize={teamFontSize} animate={animate} />
       </View>
     </Body>
   </View>

@@ -1,23 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, Modal, FlatList } from 'react-native';
-import {
-  Button,
-  Item,
-  Icon,
-  Text,
-  ListItem,
-  Container,
-  Header,
-  Title,
-  Content,
-  Left,
-  Right,
-  Body,
-  Form,
-  Input,
-} from 'native-base';
+import { Button, Icon, Text, ListItem, Container, Header, Title, Content, Left, Right, Body, Input } from 'native-base';
 import baseStyles from 'src/assets/style';
+import Copy from 'src/assets/Copy';
 import styles from './style';
 
 class Select extends React.Component {
@@ -184,7 +170,7 @@ Select.propTypes = {
 Select.defaultProps = {
   style: undefined,
   selectedItem: undefined,
-  placeholder: 'Select...',
+  placeholder: Copy.defaultSelectPlaceholder,
   uniqueKey: 'id',
   displayKey: 'name',
   renderItem: undefined,

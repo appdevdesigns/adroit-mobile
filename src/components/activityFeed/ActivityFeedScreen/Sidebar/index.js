@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { withNavigation } from 'react-navigation';
 import { View, Image } from 'react-native';
 import { List, ListItem, Text, Left, Body, Icon } from 'native-base';
+import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
@@ -13,58 +14,50 @@ import styles from './style';
 
 const logoImage = require('src/assets/img/AdroitLogo.png');
 
-const Sidebar = inject(stores => ({ auth: stores.auth, users: stores.users }))(
-  observer(({ navigation, auth, users }) => (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={logoImage} style={styles.logo} />
-        {users.me.displayName ? <Text style={styles.username}>{users.me.displayName}</Text> : null}
-        <Text style={styles.version}>{`v${version}`}</Text>
+@inject('auth', 'users')
+@observer
+class Sidebar extends React.Component {
+  render() {
+    const { navigation, auth, users } = this.props;
+    const navTo = screen => () => {
+      navigation.navigate(screen);
+    };
+    const menuItems = [
+      { label: Copy.drawerMenuHelp, icon: 'question-circle', onPress: navTo(AppScreen.Help) },
+      { label: Copy.drawerMenuEditLocations, icon: 'map-marker', onPress: navTo(AppScreen.EditLocations) },
+      { label: Copy.drawerMenuLogout, icon: 'sign-out', onPress: auth.logout },
+    ];
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image source={logoImage} style={styles.logo} />
+          {users.me.displayName ? <Text style={styles.username}>{users.me.displayName}</Text> : null}
+          <Text style={styles.version}>{`v${version}`}</Text>
+        </View>
+        <List>
+          {menuItems.map(({ label, icon, onPress }) => (
+            <ListItem key={label} icon onPress={onPress}>
+              <Left>
+                <Icon type="FontAwesome" name={icon} />
+              </Left>
+              <Body>
+                <Text>{label}</Text>
+              </Body>
+            </ListItem>
+          ))}
+        </List>
       </View>
-      <List>
-        <ListItem
-          icon
-          onPress={() => {
-            navigation.navigate(AppScreen.Help);
-          }}
-        >
-          <Left>
-            <Icon type="FontAwesome" name="question-circle" />
-          </Left>
-          <Body>
-            <Text>Help</Text>
-          </Body>
-        </ListItem>
-        <ListItem
-          icon
-          onPress={() => {
-            navigation.navigate(AppScreen.EditLocations);
-          }}
-        >
-          <Left>
-            <Icon type="FontAwesome" name="map-marker" />
-          </Left>
-          <Body>
-            <Text>Edit saved locations</Text>
-          </Body>
-        </ListItem>
-        <ListItem icon onPress={auth.logout}>
-          <Left>
-            <Icon type="FontAwesome" name="sign-out" />
-          </Left>
-          <Body>
-            <Text>Log out</Text>
-          </Body>
-        </ListItem>
-      </List>
-    </View>
-  ))
-);
+    );
+  }
+}
+
+Sidebar.propTypes = {
+  navigation: NavigationPropTypes.isRequired,
+};
 
 Sidebar.wrappedComponent.propTypes = {
   auth: PropTypes.instanceOf(AuthStore).isRequired,
   users: PropTypes.instanceOf(UsersStore).isRequired,
-  navigation: NavigationPropTypes.isRequired,
 };
 
 export default withNavigation(Sidebar);

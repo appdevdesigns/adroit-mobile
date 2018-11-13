@@ -7,37 +7,37 @@ import { ListItem, Text, Left, Body, Content } from 'native-base';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import Api from 'src/util/api';
 import baseStyles from 'src/assets/style';
+import Copy from 'src/assets/Copy';
 import styles from './style';
-import activityFeedStyles from '../style';
+import ActivityFeedPlaceholder from './Placeholder';
 
 @inject('activityImages')
 @observer
 class ActivityFeedList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
-    const { activityImages } = this.props;
-    const myImages = activityImages.myActivityImages;
-    return myImages.length ? (
+    const {
+      activityImages: { isInitialized, myActivityImages },
+    } = this.props;
+    if (!isInitialized) {
+      return <ActivityFeedPlaceholder />;
+    }
+    return myActivityImages.length ? (
       <Content>
         <FlatList
           keyExtractor={item => String(item.id)}
-          data={myImages}
+          data={myActivityImages}
           renderItem={({ item }) => {
             const statusStyle =
               item.status === 'approved' || item.status === 'ready' ? styles.approvedImage : styles.newImage;
             return (
-              <ListItem key={item.id} style={activityFeedStyles.listItem}>
-                <Left style={activityFeedStyles.left}>
-                  <View style={[activityFeedStyles.imageWrapper, statusStyle]}>
+              <ListItem key={item.id} style={styles.listItem}>
+                <Left style={styles.left}>
+                  <View style={[styles.imageWrapper, statusStyle]}>
                     <Text style={styles.date}>{format(item.date, 'MMM Do')}</Text>
                     <Image style={styles.thumbnail} source={{ uri: `${Api.urls.base}${item.image}` }} />
                   </View>
                 </Left>
-                <Body style={activityFeedStyles.body}>
+                <Body style={styles.body}>
                   <Text ellipsizeMode="tail" style={styles.activity}>
                     {item.activity.activity_name}
                   </Text>
@@ -55,9 +55,7 @@ class ActivityFeedList extends React.Component {
       </Content>
     ) : (
       <View style={baseStyles.emptyContainer}>
-        <Text style={baseStyles.emptyText}>
-          You haven&apos;t yet been tagged in any photos for this reporting period.
-        </Text>
+        <Text style={baseStyles.emptyText}>{Copy.emptyActivityList}</Text>
       </View>
     );
   }

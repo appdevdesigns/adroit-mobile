@@ -1,5 +1,4 @@
 import { observable, action, computed, runInAction, reaction } from 'mobx';
-import reduce from 'lodash-es/reduce';
 import compareDesc from 'date-fns/compare_desc';
 import { Toast } from 'native-base';
 import fetchJson from 'src/util/fetch';
@@ -8,26 +7,6 @@ import Api from 'src/util/api';
 import { format } from 'src/util/date';
 import ReportingPeriod from 'src/util/ReportingPeriod';
 import ResourceStore, { PostStatus } from './ResourceStore';
-
-const statusOrder = {
-  ready: 0,
-  approved: 1,
-  rejected: 2,
-  new: 3,
-};
-
-const sortByStatus = (activityA, activityB) => {
-  if (!activityA && !activityB) {
-    return 0;
-  }
-  if (!activityA) {
-    return 1;
-  }
-  if (!activityB) {
-    return -1;
-  }
-  return statusOrder[activityA.title] < statusOrder[activityB.title] ? -1 : 1;
-};
 
 const sortByDate = (activityA, activityB) => {
   if (!activityA && !activityB) {
@@ -85,24 +64,6 @@ export default class ActivityImagesStore extends ResourceStore {
       return [];
     }
     return this.list.sort(sortByDate);
-  }
-
-  @computed
-  get myActivityImagesByStatus() {
-    const activitiesByStatus = reduce(
-      this.myActivityImages,
-      (acc, val) => {
-        let section = acc.find(s => s.title === val.status);
-        if (!section) {
-          section = { title: val.status, data: [] };
-          acc.push(section);
-        }
-        section.data.push(val);
-        return acc;
-      },
-      []
-    );
-    return activitiesByStatus.sort(sortByStatus);
   }
 
   @action.bound

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import reject from 'lodash-es/reject';
 import { View, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { Button, Icon, Text, ListItem, Container, Header, Title, Content, Left, Right, Body } from 'native-base';
+import Copy from 'src/assets/Copy';
 import styles from './style';
 
 class MultiSelect extends React.Component {
@@ -131,7 +132,7 @@ MultiSelect.propTypes = {
 MultiSelect.defaultProps = {
   style: undefined,
   selectedItems: [],
-  placeholder: 'Select...',
+  placeholder: Copy.defaultSelectPlaceholder,
   uniqueKey: 'id',
   displayKey: 'name',
   renderItem: undefined,

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Theme, { Color } from 'src/assets/theme';
+import Theme, { GridSize, Color } from 'src/assets/theme';
 
 export default StyleSheet.create({
   container: {
@@ -8,8 +8,7 @@ export default StyleSheet.create({
   },
   header: {
     backgroundColor: Theme.toolbarDefaultBg,
-    paddingTop: 20,
-    paddingBottom: 10,
+    padding: GridSize,
   },
   username: {
     fontSize: 14,
@@ -20,12 +19,12 @@ export default StyleSheet.create({
     alignSelf: 'center',
     width: 150,
     height: 110,
-    marginBottom: 10,
+    marginBottom: GridSize,
+    marginTop: GridSize,
   },
   version: {
     alignSelf: 'flex-end',
     fontSize: 10,
-    marginRight: 10,
     color: Color.lightTextMuted,
   },
 });

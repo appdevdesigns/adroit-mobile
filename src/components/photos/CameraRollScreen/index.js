@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Header, Title, Content, Left, Body, Right } from 'native-base';
+import { Container, Header, Title, Content, Left, Body } from 'native-base';
 import { inject, observer } from 'mobx-react';
+import Copy from 'src/assets/Copy';
 import BackButton from 'src/components/common/BackButton';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -11,14 +12,10 @@ import CameraRollList from './CameraRollList';
 @inject('permissions')
 @observer
 class CameraRollScreen extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   async componentDidMount() {
     await this.props.permissions.requestPermission(Permission.ReadExternalStorage, {
-      title: 'Permission to read storage',
-      message: 'Adroit needs access to your storage so you can select a photo',
+      title: Copy.perms.cameraRoll.title,
+      message: Copy.perms.cameraRoll.message,
     });
   }
 
@@ -31,9 +28,8 @@ class CameraRollScreen extends React.Component {
             <BackButton />
           </Left>
           <Body>
-            <Title>Select a photo</Title>
+            <Title>{Copy.camRollTitle}</Title>
           </Body>
-          <Right />
         </Header>
         {permissions.canReadExternalStorage ? (
           <Content>
@@ -41,8 +37,8 @@ class CameraRollScreen extends React.Component {
           </Content>
         ) : (
           <ErrorState
-            title="Uh-oh!"
-            message="You don't have permission to access the camera roll"
+            title={Copy.errors.cameraRollNoPermission.title}
+            message={Copy.errors.cameraRollNoPermission.message}
             iconName="lock"
             iconType="FontAwesome"
           />

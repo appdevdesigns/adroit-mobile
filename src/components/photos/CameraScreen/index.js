@@ -4,7 +4,9 @@ import { TouchableOpacity, CameraRoll, View, Image } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
+import Copy from 'src/assets/Copy';
 import BackButton from 'src/components/common/BackButton';
+import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import styles from './style';
@@ -39,8 +41,8 @@ class CameraScreen extends React.Component {
 
   async componentDidMount() {
     const hasPermission = await this.props.permissions.requestPermission(Permission.WriteToExternalStorage, {
-      title: 'Permission to save photos',
-      message: 'Adroit needs access to your external storage so you can save photos to your camera roll',
+      title: Copy.perms.cameraRollWrite.title,
+      message: Copy.perms.cameraRollWrite.message,
     });
     console.log('has WriteToExternalStorage permission', hasPermission);
   }
@@ -54,7 +56,7 @@ class CameraScreen extends React.Component {
         const uri = await CameraRoll.saveToCameraRoll(data.uri, 'photo');
         console.log(uri);
       }
-      this.props.navigation.navigate('AddPhoto', { image: data });
+      this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
     }
   };
 
@@ -80,8 +82,8 @@ class CameraScreen extends React.Component {
           style={styles.preview}
           type={type}
           flashMode={flashModes[flashModeIndex].mode}
-          permissionDialogTitle="Permission to use camera"
-          permissionDialogMessage="We need your permission to use your camera phone"
+          permissionDialogTitle={Copy.perms.camera.title}
+          permissionDialogMessage={Copy.perms.camera.message}
         />
         <View style={styles.overlay}>
           <View style={[styles.overlayItem, styles.header]}>
@@ -121,7 +123,5 @@ CameraScreen.propTypes = {
 CameraScreen.wrappedComponent.propTypes = {
   permissions: PropTypes.instanceOf(PermissionsStore).isRequired,
 };
-
-CameraScreen.defaultProps = {};
 
 export default CameraScreen;

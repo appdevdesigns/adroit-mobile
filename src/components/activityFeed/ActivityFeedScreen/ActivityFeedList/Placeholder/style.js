@@ -11,5 +11,4 @@ export default StyleSheet.create({
   team: {
     marginBottom: 8,
   },
-  caption: {},
 });

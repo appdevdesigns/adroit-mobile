@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { FlatList, View } from 'react-native';
 import { Container, Button, Icon, Header, Title, Content, Left, Body, Right, ListItem, Text } from 'native-base';
+import Copy from 'src/assets/Copy';
 import BackButton from 'src/components/common/BackButton';
 import LocationsStore from 'src/store/LocationsStore';
 import Modal from 'src/components/common/Modal';
@@ -53,7 +54,7 @@ class EditLocationsScreen extends React.Component {
             <BackButton />
           </Left>
           <Body>
-            <Title>Edit Locations</Title>
+            <Title>{Copy.editLocationsTitle}</Title>
           </Body>
           <Right>
             <Button transparent onPress={this.showHelp}>
@@ -70,7 +71,7 @@ class EditLocationsScreen extends React.Component {
             />
           ) : (
             <View style={baseStyles.emptyContainer}>
-              <Text style={baseStyles.emptyText}>You haven&apos;t saved any locations yet..</Text>
+              <Text style={baseStyles.emptyText}>{Copy.editLocationsEmpty}</Text>
             </View>
           )}
 
@@ -79,20 +80,12 @@ class EditLocationsScreen extends React.Component {
             animationType="fade"
             transparent
             onRequestClose={this.hideHelp}
-            header="Your saved locations"
+            header={Copy.editLocationsHelp.title}
           >
             <View>
-              <Text style={textStyle}>
-                As an alternative to selecting one of the default FCF locations, you can add a new location when
-                uploading an activity photo.
-              </Text>
-              <Text style={textStyle}>
-                Any &apos;custom&apos; locations you add are stored on your device and available to select again.
-              </Text>
-              <Text style={textStyle}>
-                You can remove any of these &apos;custom&apos; locations on this page. (This will not affect any
-                previously uploaded photos tagged with that location).
-              </Text>
+              <Text style={textStyle}>{Copy.editLocationsHelp.p1}</Text>
+              <Text style={textStyle}>{Copy.editLocationsHelp.p2}</Text>
+              <Text style={textStyle}>{Copy.editLocationsHelp.p3}</Text>
             </View>
           </Modal>
         </Content>
@@ -100,10 +93,6 @@ class EditLocationsScreen extends React.Component {
     );
   }
 }
-
-EditLocationsScreen.propTypes = {};
-
-EditLocationsScreen.defaultProps = {};
 
 EditLocationsScreen.wrappedComponent.propTypes = {
   locations: PropTypes.instanceOf(LocationsStore).isRequired,

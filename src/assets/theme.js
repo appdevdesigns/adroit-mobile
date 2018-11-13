@@ -1,5 +1,4 @@
 import material from 'native-base/src/theme/variables/material';
-// import commonColor from 'native-base/src/theme/variables/commonColor';
 
 export const Color = {
   darkBackground: '#1f6b8d',

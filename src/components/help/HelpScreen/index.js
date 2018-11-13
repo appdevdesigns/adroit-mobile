@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, Header, Title, Content, Left, Right, Body } from 'native-base';
+import { Container, Header, Title, Content, Left, Body } from 'native-base';
 import BackButton from 'src/components/common/BackButton';
+import Copy from 'src/assets/Copy';
 
 export default class HelpScreen extends React.PureComponent {
   constructor(props) {
@@ -16,9 +17,8 @@ export default class HelpScreen extends React.PureComponent {
             <BackButton />
           </Left>
           <Body>
-            <Title>How to use Adroit</Title>
+            <Title>{Copy.helpTitle}</Title>
           </Body>
-          <Right />
         </Header>
         <Content />
       </Container>

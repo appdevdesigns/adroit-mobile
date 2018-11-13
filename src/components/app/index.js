@@ -1,9 +1,8 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
 import Config from 'react-native-config';
-import { StyleProvider, Root } from 'native-base';
+import { StyleProvider, Root, getTheme } from 'native-base';
 import Geocode from 'react-geocode';
-import getTheme from 'native-base-theme/components';
 import theme from 'src/assets/theme';
 import Store from 'src/store';
 import Navigation from './Navigation';

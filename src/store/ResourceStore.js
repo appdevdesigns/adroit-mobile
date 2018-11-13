@@ -79,7 +79,12 @@ export default class ResourceStore {
         console.log(`${url} response`, response);
         const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
         runInAction(() => {
-          this.map.replace(map);
+          if (this.map.size) {
+            console.log('Calling replace', this.map.size, this.constructor.name);
+            this.map.replace(map);
+          } else {
+            this.map.merge(map);
+          }
           this.isInitialized = true;
           this.fetchCount = Math.max(this.fetchCount - 1, 0);
         });

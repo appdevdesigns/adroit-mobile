@@ -3,6 +3,9 @@ import Theme, { GridSize, Color } from 'src/assets/theme';
 
 const listItemFontSize = 17;
 
+/**
+ * App-wide reusable styles
+ */
 export default StyleSheet.create({
   listItem: {
     flexDirection: 'row',

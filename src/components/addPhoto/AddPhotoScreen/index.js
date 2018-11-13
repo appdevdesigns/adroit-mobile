@@ -32,6 +32,7 @@ import BackButton from 'src/components/common/BackButton';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
+import Copy from 'src/assets/Copy';
 import LocationsStore, { LocationType, LocationIcon } from 'src/store/LocationsStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -43,7 +44,7 @@ import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-const PHOTO_LOCATION = { location: 'Photo location', type: LocationType.GPS };
+const PHOTO_LOCATION = { location: Copy.photoLocation, type: LocationType.GPS };
 
 @inject('teams', 'activityImages', 'users', 'locations')
 @observer
@@ -51,7 +52,7 @@ class AddPhotoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      caption: 'TEMP',
+      caption: '',
       date: undefined,
       location: undefined,
       photoLocation: undefined,
@@ -74,6 +75,7 @@ class AddPhotoScreen extends React.Component {
   async componentDidMount() {
     this.initTeamActivities(this.props);
     const imageUri = this.image().uri;
+    const today = new Date();
     Exif.getExif(imageUri)
       .then(data => {
         if (data.exif && data.exif.DateTime) {
@@ -83,16 +85,16 @@ class AddPhotoScreen extends React.Component {
             this.setState({ date });
           } catch (err) {
             console.log('Failed to parse exif date', err);
-            this.setState({ date: new Date() });
+            this.setState({ date: today });
           }
         } else {
           console.log('No exif data available');
-          this.setState({ date: new Date() });
+          this.setState({ date: today });
         }
       })
       .catch(msg => {
         console.log('getExif ERROR', msg);
-        this.setState({ date: new Date() });
+        this.setState({ date: today });
       });
     Exif.getLatLong(imageUri)
       .then(({ latitude, longitude }) => {
@@ -309,11 +311,11 @@ class AddPhotoScreen extends React.Component {
             <BackButton />
           </Left>
           <Body>
-            <Title>Add a photo</Title>
+            <Title>{Copy.addPhotoTitle}</Title>
           </Body>
           <Right>
             <Button disabled={!isSaveEnabled} transparent onPress={this.openConfirmation}>
-              <Text>Save</Text>
+              <Text>{Copy.addPhotoSaveButtonText}</Text>
             </Button>
           </Right>
         </Header>
@@ -322,7 +324,7 @@ class AddPhotoScreen extends React.Component {
           <View style={styles.main}>
             <Item stackedLabel style={styles.item}>
               <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
-              <Label>Caption</Label>
+              <Label>{Copy.captionLabel}</Label>
               <Textarea
                 value={caption}
                 onChangeText={this.setCaption}
@@ -330,12 +332,12 @@ class AddPhotoScreen extends React.Component {
                 rowSpan={3}
                 style={[styles.input, styles.textArea]}
                 maxLength={MAX_CAPTION_CHARS}
-                placeholder="Describe what you did and why it helps local Thais..."
+                placeholder={Copy.captionPlaceholder}
                 placeholderTextColor="#999"
               />
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>Date</Label>
+              <Label>{Copy.dateLabel}</Label>
               {!date ? (
                 <Spinner style={styles.spinner} size="small" />
               ) : (
@@ -355,7 +357,7 @@ class AddPhotoScreen extends React.Component {
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>Location</Label>
+              <Label>{Copy.locationLabel}</Label>
               {fetchingLocation ? (
                 <Spinner style={styles.spinner} size="small" />
               ) : (
@@ -363,8 +365,8 @@ class AddPhotoScreen extends React.Component {
                   filterable
                   uniqueKey="location"
                   displayKey="location"
-                  modalHeader="Photo location"
-                  placeholder="Where was this photo taken...?"
+                  modalHeader={Copy.locationModalHeader}
+                  placeholder={Copy.locationPlaceholder}
                   selectedItem={location}
                   onSelectedItemChange={this.setLocation}
                   onAddOption={this.addLocation}
@@ -375,15 +377,15 @@ class AddPhotoScreen extends React.Component {
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>Team</Label>
+              <Label>{Copy.teamLabel}</Label>
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <Select
                   uniqueKey="IDMinistry"
                   displayKey="MinistryDisplayName"
-                  modalHeader="Select Team"
-                  placeholder="Select Team..."
+                  modalHeader={Copy.teamModalHeader}
+                  placeholder={Copy.teamPlaceholder}
                   selectedItem={team}
                   onSelectedItemChange={this.setTeam}
                   items={teams.list}
@@ -391,15 +393,15 @@ class AddPhotoScreen extends React.Component {
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>Activity</Label>
+              <Label>{Copy.activityLabel}</Label>
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <Select
                   uniqueKey="id"
                   displayKey="activity_name"
-                  modalHeader="Select Activity"
-                  placeholder="Select Activity..."
+                  modalHeader={Copy.activityModalHeader}
+                  placeholder={Copy.activityPlaceholder}
                   selectedItem={activity}
                   onSelectedItemChange={this.setActivity}
                   items={team ? team.activities.slice() : []}
@@ -407,7 +409,7 @@ class AddPhotoScreen extends React.Component {
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>Tagged People</Label>
+              <Label>{Copy.taggedPeopleLabel}</Label>
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
@@ -416,8 +418,8 @@ class AddPhotoScreen extends React.Component {
                   selectedItems={taggedPeople}
                   uniqueKey="IDPerson"
                   displayKey="display_name"
-                  placeholder="Tag team members..."
-                  modalHeader="Select team members"
+                  placeholder={Copy.taggedPeoplePlaceholder}
+                  modalHeader={Copy.taggedPeopleModalHeader}
                   onSelectedItemsChange={this.setTaggedPeople}
                   renderItem={this.renderTeamMember}
                 />

@@ -4,6 +4,7 @@ import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground, Keyboard } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
+import Copy from 'src/assets/Copy';
 import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
 import PermissionsStore from 'src/store/PermissionsStore';
@@ -44,8 +45,6 @@ class LoginScreen extends React.Component {
   }
 
   onAuthenticated = () => {
-    // this.props.checkPermission('ReadPhotos');
-    // this.props.getTeamsForUser();
     this.props.navigation.navigate(AppScreen.ActivityFeed);
   };
 
@@ -73,12 +72,8 @@ class LoginScreen extends React.Component {
     this.inputs[id].wrappedInstance.focus();
   };
 
-  updateUsername = username => {
-    this.setState({ username });
-  };
-
-  updatePassword = password => {
-    this.setState({ password });
+  update = label => value => {
+    this.setState({ [label]: value });
   };
 
   login = () => {
@@ -96,7 +91,7 @@ class LoginScreen extends React.Component {
           <KeyboardAvoidingView enabled behavior="position" keyboardVerticalOffset={-60}>
             <Image source={logoImage} style={styles.logo} />
             {preCheck ? (
-              <Spinner style={styles.spinner} />
+              <Spinner style={styles.spinner} color="#fff" />
             ) : (
               <Form>
                 <Item style={styles.item}>
@@ -110,9 +105,9 @@ class LoginScreen extends React.Component {
                       this.inputs.username = input;
                     }}
                     value={username}
-                    onChangeText={this.updateUsername}
+                    onChangeText={this.update('username')}
                     style={styles.input}
-                    placeholder="Username"
+                    placeholder={Copy.usernameLabel}
                     placeholderTextColor="#aaa"
                   />
                 </Item>
@@ -124,16 +119,20 @@ class LoginScreen extends React.Component {
                       this.inputs.password = input;
                     }}
                     value={password}
-                    onChangeText={this.updatePassword}
+                    onChangeText={this.update('password')}
                     secureTextEntry
                     style={styles.input}
-                    placeholder="Password"
+                    placeholder={Copy.passwordLabel}
                     onSubmitEditing={this.login}
                     placeholderTextColor="#aaa"
                   />
                 </Item>
                 <Button style={[styles.item, styles.loginButton]} bordered block light onPress={this.login}>
-                  {auth.status === AuthStatus.LoggingIn ? <Spinner size="small" /> : <Text>Login</Text>}
+                  {auth.status === AuthStatus.LoggingIn ? (
+                    <Spinner size="small" color="#fff" />
+                  ) : (
+                    <Text>{Copy.login}</Text>
+                  )}
                 </Button>
               </Form>
             )}
@@ -152,25 +151,5 @@ LoginScreen.wrappedComponent.propTypes = {
   auth: PropTypes.instanceOf(AuthStore).isRequired,
   permissions: PropTypes.instanceOf(PermissionsStore).isRequired,
 };
-
-// const mapStateToProps = state => ({
-//   isLoading: state.auth.loading,
-//   error: state.auth.error,
-//   isLoggedIn: state.auth.isLoggedIn,
-// });
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onLogin: (username, password) => {
-//       dispatch(login({ username, password }));
-//     },
-//     checkPermission: permissionName => {
-//       dispatch(checkPermissionAction(permissionName));
-//     },
-//     getTeamsForUser: () => {
-//       dispatch(getUserTeams());
-//     },
-//   };
-// };
 
 export default LoginScreen;
