@@ -2,7 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import reject from 'lodash-es/reject';
 import { View, TouchableOpacity, Modal, FlatList } from 'react-native';
-import { Button, Icon, Text, ListItem, Container, Header, Title, Content, Left, Right, Body } from 'native-base';
+import {
+  Button,
+  Icon,
+  Text,
+  ListItem,
+  Container,
+  Header,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Right,
+  Body,
+} from 'native-base';
 import Copy from 'src/assets/Copy';
 import styles from './style';
 
@@ -91,15 +104,9 @@ class MultiSelect extends React.Component {
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
             <Header>
-              <Left style={styles.headerSide} />
               <Body style={styles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
-              <Right style={styles.headerSide}>
-                <Button transparent onPress={this.closeModal}>
-                  <Icon type="FontAwesome" name="times" />
-                </Button>
-              </Right>
             </Header>
             <Content>
               <FlatList
@@ -109,6 +116,13 @@ class MultiSelect extends React.Component {
                 renderItem={this.renderItem}
               />
             </Content>
+            <Footer>
+              <FooterTab>
+                <Button active full dark onPress={this.closeModal}>
+                  <Text>{Copy.done}</Text>
+                </Button>
+              </FooterTab>
+            </Footer>
           </Container>
         </Modal>
       </TouchableOpacity>
@@ -117,7 +131,7 @@ class MultiSelect extends React.Component {
 }
 
 MultiSelect.propTypes = {
-  style: PropTypes.shape(),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   uniqueKey: PropTypes.string,
   placeholder: PropTypes.string,
   displayKey: PropTypes.string,

@@ -5,6 +5,7 @@ import Lightbox from 'react-native-lightbox';
 import { Spinner, Text, Icon, Button } from 'native-base';
 import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
+import NonIdealState from 'src/components/common/NonIdealState';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns, equalWidth } from './style';
 
@@ -133,12 +134,14 @@ class CameraRollList extends Component {
         onEndReached={this.loadMoreImages}
       />
     ) : (
-      <View style={styles.empty}>
-        <Text style={styles.emptyText}>{Copy.camRollEmpty}</Text>
+      <NonIdealState
+        title={Copy.nonIdealState.cameraRollEmpty.title}
+        message={Copy.nonIdealState.cameraRollEmpty.message}
+      >
         <Button style={styles.emptyButton} primary onPress={this.goToCamera}>
           <Text>{Copy.takeAPhotoCta}</Text>
         </Button>
-      </View>
+      </NonIdealState>
     );
   }
 }

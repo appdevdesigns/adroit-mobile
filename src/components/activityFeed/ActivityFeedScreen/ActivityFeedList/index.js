@@ -6,8 +6,8 @@ import { FlatList, View, Image } from 'react-native';
 import { ListItem, Text, Left, Body, Content } from 'native-base';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import Api from 'src/util/api';
-import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
+import NonIdealState from 'src/components/common/NonIdealState';
 import styles from './style';
 import ActivityFeedPlaceholder from './Placeholder';
 
@@ -21,10 +21,16 @@ class ActivityFeedList extends React.Component {
     if (!isInitialized) {
       return <ActivityFeedPlaceholder />;
     }
-    return myActivityImages.length ? (
+    return (
       <Content>
         <FlatList
           keyExtractor={item => String(item.id)}
+          ListEmptyComponent={
+            <NonIdealState
+              title={Copy.nonIdealState.emptyActivityList.title}
+              message={Copy.nonIdealState.emptyActivityList.message}
+            />
+          }
           data={myActivityImages}
           renderItem={({ item }) => {
             const statusStyle =
@@ -53,10 +59,6 @@ class ActivityFeedList extends React.Component {
           }}
         />
       </Content>
-    ) : (
-      <View style={baseStyles.emptyContainer}>
-        <Text style={baseStyles.emptyText}>{Copy.emptyActivityList}</Text>
-      </View>
     );
   }
 }

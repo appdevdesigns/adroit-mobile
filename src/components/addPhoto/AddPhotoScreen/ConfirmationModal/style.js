@@ -13,8 +13,8 @@ export default StyleSheet.create({
     paddingLeft: GridSize * 2,
   },
   label: {
-    color: '#000',
-    fontSize: 16,
+    color: Theme.textColor,
+    fontSize: Theme.DefaultFontSize,
   },
   context: {
     color: Color.darkTextMuted,

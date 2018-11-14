@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { View, Image, KeyboardAvoidingView, AsyncStorage, ImageBackground, Keyboard } from 'react-native';
-import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
+import { Animated, View, AsyncStorage, ImageBackground, Keyboard } from 'react-native';
+import { Button, Text, Form, Item, Input, Spinner, Toast } from 'native-base';
 import Copy from 'src/assets/Copy';
+import Theme, { Color } from 'src/assets/theme';
 import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
 import PermissionsStore from 'src/store/PermissionsStore';
@@ -13,6 +14,9 @@ import styles from './style';
 
 const logoImage = require('src/assets/img/AdroitLogo.png');
 const bgImage = require('src/assets/img/collage.jpg');
+
+const defaultLogoHeight = 146;
+const defaultLogoWidth = 200;
 
 @inject('auth', 'permissions')
 @observer
@@ -23,9 +27,12 @@ class LoginScreen extends React.Component {
       preCheck: true,
       username: '',
       password: '',
+      logoHeight: new Animated.Value(defaultLogoHeight),
+      logoWidth: new Animated.Value(defaultLogoWidth),
     };
     this.inputs = {};
-    this.focusNextField = this.focusNextField.bind(this);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
   async componentDidMount() {
@@ -34,15 +41,41 @@ class LoginScreen extends React.Component {
     await this.props.permissions.init();
   }
 
-  componentDidUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.state.preCheck && (nextProps.auth.isLoggedIn || nextProps.auth.loginFailed)) {
       this.setState({ preCheck: false });
     }
   }
 
   componentWillUnmount() {
-    this.cancelLoginListener();
+    if (this.cancelLoginListener) {
+      this.cancelLoginListener();
+    }
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
+
+  scaleLogo = scale => {
+    const duration = 200;
+    Animated.parallel([
+      Animated.timing(this.state.logoHeight, {
+        toValue: defaultLogoHeight * scale,
+        duration,
+      }),
+      Animated.timing(this.state.logoWidth, {
+        toValue: defaultLogoWidth * scale,
+        duration,
+      }),
+    ]).start();
+  };
+
+  keyboardDidShow = () => {
+    this.scaleLogo(0.5);
+  };
+
+  keyboardDidHide = () => {
+    this.scaleLogo(1);
+  };
 
   onAuthenticated = () => {
     this.props.navigation.navigate(AppScreen.ActivityFeed);
@@ -78,65 +111,70 @@ class LoginScreen extends React.Component {
 
   login = () => {
     const { username, password } = this.state;
-    Keyboard.dismiss();
-    this.props.auth.login(username, password);
+    if (!username) {
+      Toast.show({ text: Copy.toast.usernameRequired, type: 'warning', buttonText: Copy.toast.okButtonText });
+    } else if (!password) {
+      Toast.show({ text: Copy.toast.passwordRequired, type: 'warning', buttonText: Copy.toast.okButtonText });
+    } else {
+      Keyboard.dismiss();
+      this.props.auth.login(username, password);
+    }
   };
 
   render() {
     const { auth } = this.props;
-    const { username, password, preCheck } = this.state;
+    const { username, password, preCheck, logoHeight, logoWidth } = this.state;
+    const logoTransform = { height: logoHeight, width: logoWidth };
     return (
       <ImageBackground style={styles.bgImage} source={bgImage}>
         <View style={styles.container}>
-          <KeyboardAvoidingView enabled behavior="position" keyboardVerticalOffset={-60}>
-            <Image source={logoImage} style={styles.logo} />
-            {preCheck ? (
-              <Spinner style={styles.spinner} color="#fff" />
-            ) : (
-              <Form>
-                <Item style={styles.item}>
-                  <Input
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => {
-                      this.focusNextField('password');
-                    }}
-                    returnKeyType="next"
-                    ref={input => {
-                      this.inputs.username = input;
-                    }}
-                    value={username}
-                    onChangeText={this.update('username')}
-                    style={styles.input}
-                    placeholder={Copy.usernameLabel}
-                    placeholderTextColor="#aaa"
-                  />
-                </Item>
-                <Item style={styles.item}>
-                  <Input
-                    blurOnSubmit
-                    returnKeyType="done"
-                    ref={input => {
-                      this.inputs.password = input;
-                    }}
-                    value={password}
-                    onChangeText={this.update('password')}
-                    secureTextEntry
-                    style={styles.input}
-                    placeholder={Copy.passwordLabel}
-                    onSubmitEditing={this.login}
-                    placeholderTextColor="#aaa"
-                  />
-                </Item>
-                <Button style={[styles.item, styles.loginButton]} bordered block light onPress={this.login}>
-                  {auth.status === AuthStatus.LoggingIn ? (
-                    <Spinner size="small" color="#fff" />
-                  ) : (
-                    <Text>{Copy.login}</Text>
-                  )}
-                </Button>
-              </Form>
-            )}
-          </KeyboardAvoidingView>
+          <Animated.Image source={logoImage} style={[styles.logo, logoTransform]} />
+          {preCheck ? (
+            <Spinner style={styles.spinner} color={Theme.inverseTextColor} />
+          ) : (
+            <Form>
+              <Item style={styles.item}>
+                <Input
+                  ref={input => {
+                    this.inputs.username = input;
+                  }}
+                  blurOnSubmit={false}
+                  returnKeyType="next"
+                  value={username}
+                  onChangeText={this.update('username')}
+                  style={styles.input}
+                  placeholder={Copy.usernameLabel}
+                  placeholderTextColor={Color.lightTextMuted}
+                  onSubmitEditing={() => {
+                    this.focusNextField('password');
+                  }}
+                />
+              </Item>
+              <Item style={styles.item}>
+                <Input
+                  ref={input => {
+                    this.inputs.password = input;
+                  }}
+                  blurOnSubmit
+                  returnKeyType="done"
+                  value={password}
+                  onChangeText={this.update('password')}
+                  secureTextEntry
+                  style={styles.input}
+                  placeholder={Copy.passwordLabel}
+                  placeholderTextColor={Color.lightTextMuted}
+                  onSubmitEditing={this.login}
+                />
+              </Item>
+              <Button style={[styles.item, styles.loginButton]} bordered block light onPress={this.login}>
+                {auth.status === AuthStatus.LoggingIn ? (
+                  <Spinner size="small" color={Theme.inverseTextColor} />
+                ) : (
+                  <Text>{Copy.login}</Text>
+                )}
+              </Button>
+            </Form>
+          )}
         </View>
       </ImageBackground>
     );

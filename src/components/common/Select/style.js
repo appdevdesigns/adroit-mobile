@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Color, GridSize } from 'src/assets/theme';
+import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
   wrapper: {
@@ -47,6 +47,7 @@ export default StyleSheet.create({
   },
   noMatches: {
     padding: GridSize,
+    paddingTop: GridSize * 2,
     flexDirection: 'column',
     alignItems: 'center',
   },
@@ -62,5 +63,11 @@ export default StyleSheet.create({
   noMatchesButton: {
     marginTop: GridSize,
     alignSelf: 'center',
+  },
+  separator: {
+    height: 0.5,
+    width: '100%',
+    marginLeft: GridSize * 2,
+    backgroundColor: Theme.listBorderColor,
   },
 });

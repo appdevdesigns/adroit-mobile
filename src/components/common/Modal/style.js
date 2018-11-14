@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Color from 'color';
-import Theme, { GridSize, Color as ThemeColor } from 'src/assets/theme';
+import Theme, { GridSize } from 'src/assets/theme';
 
 const borderRadius = 4;
 
@@ -15,7 +14,7 @@ export default StyleSheet.create({
   },
   wrapper: {
     flex: 0,
-    backgroundColor: '#fff',
+    backgroundColor: Theme.containerBgColor,
     borderRadius,
   },
   closeButton: {
@@ -40,7 +39,7 @@ export default StyleSheet.create({
     borderTopRightRadius: borderRadius,
   },
   headerText: {
-    color: '#fff',
+    color: Theme.inverseTextColor,
     fontWeight: 'bold',
   },
   content: {

@@ -9,6 +9,7 @@ import LocationsStore from 'src/store/LocationsStore';
 import Modal from 'src/components/common/Modal';
 import baseStyles from 'src/assets/style';
 import styles from './style';
+import NonIdealState from '../../common/NonIdealState';
 
 @inject('locations')
 @observer
@@ -63,18 +64,17 @@ class EditLocationsScreen extends React.Component {
           </Right>
         </Header>
         <Content>
-          {locations.authenticatedUsersLocations.length ? (
-            <FlatList
-              data={locations.authenticatedUsersLocations}
-              keyExtractor={this.keyExtractor}
-              renderItem={this.renderItem}
-            />
-          ) : (
-            <View style={baseStyles.emptyContainer}>
-              <Text style={baseStyles.emptyText}>{Copy.editLocationsEmpty}</Text>
-            </View>
-          )}
-
+          <FlatList
+            ListEmptyComponent={
+              <NonIdealState
+                title={Copy.nonIdealState.noUserLocations.title}
+                message={Copy.nonIdealState.noUserLocations.message}
+              />
+            }
+            data={locations.authenticatedUsersLocations}
+            keyExtractor={this.keyExtractor}
+            renderItem={this.renderItem}
+          />
           <Modal
             visible={isHelpVisible}
             animationType="fade"

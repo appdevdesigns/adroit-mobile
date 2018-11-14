@@ -71,17 +71,22 @@ export default class LocationsStore extends ResourceStore {
 
   @computed
   get authenticatedUsersLocations() {
-    return this.userLocations.filter(l => l.userId && l.userId === this.rootStore.auth.me.id);
+    return this.userLocations.filter(l => l.userId && l.userId === this.rootStore.users.me.id);
+  }
+
+  @computed
+  get fcfLocations() {
+    return this.list.sort(sortLocations);
   }
 
   @computed
   get orderedLocations() {
-    return this.authenticatedUsersLocations.concat(this.list.sort(sortLocations));
+    return this.authenticatedUsersLocations.concat(this.fcfLocations);
   }
 
   @action.bound
   async addUserLocation({ location }) {
-    const newLocation = { location, type: LocationType.User, userId: this.rootStore.auth.me.id };
+    const newLocation = { location, type: LocationType.User, userId: this.rootStore.users.me.id };
     if (!this.userLocations.find(l => l.location === location)) {
       this.userLocations.unshift(newLocation);
     }

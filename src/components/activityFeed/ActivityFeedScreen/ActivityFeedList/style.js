@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Color, GridSize } from 'src/assets/theme';
+import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export const thumbnailWidth = 80;
 export const thumbnailBorderWidth = 3;
@@ -11,7 +11,7 @@ const thumbnailBorderRadius = 4;
 
 export default StyleSheet.create({
   date: {
-    color: '#fff',
+    color: Theme.inverseTextColor,
     fontSize: 12,
     marginBottom: 3.5,
   },

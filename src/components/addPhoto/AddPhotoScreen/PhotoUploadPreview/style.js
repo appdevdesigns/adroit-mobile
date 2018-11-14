@@ -1,40 +1,31 @@
 import { StyleSheet } from 'react-native';
 import Theme, { Color } from 'src/assets/theme';
 
+const uploadIconSize = 34;
+
 export default StyleSheet.create({
   wrapper: {
-    backgroundColor: '#000',
+    backgroundColor: Theme.brandDark,
     height: 150,
   },
   image: {
-    resizeMode: 'contain',
     height: '100%',
   },
-  spinnerContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  spinner: {},
   iconBackground: {
-    backgroundColor: '#45D56E',
-    height: 34,
-    width: 34,
-    borderRadius: 17,
+    backgroundColor: Theme.defaultProgressColor,
+    height: uploadIconSize,
+    width: uploadIconSize,
+    borderRadius: uploadIconSize / 2,
   },
   uploadIcon: {
-    color: '#ccc',
+    color: Color.lightTextMuted,
     fontSize: 14,
   },
   success: {
-    color: '#fff',
+    color: Theme.inverseTextColor,
   },
   failed: {
-    color: 'red',
+    color: Theme.brandDanger,
   },
   progressContainer: {
     position: 'absolute',
@@ -44,7 +35,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   progressBar: {
-    backgroundColor: '#45D56E',
+    backgroundColor: Theme.defaultProgressColor,
     height: '100%',
   },
 });

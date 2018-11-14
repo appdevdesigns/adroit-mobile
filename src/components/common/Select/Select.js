@@ -1,7 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity, Modal, FlatList } from 'react-native';
-import { Button, Icon, Text, ListItem, Container, Header, Title, Content, Left, Right, Body, Input } from 'native-base';
+import reduce from 'lodash-es/reduce';
+import { View, TouchableOpacity, Modal, FlatList, SectionList } from 'react-native';
+import {
+  Button,
+  Icon,
+  Text,
+  ListItem,
+  Container,
+  Header,
+  Title,
+  Content,
+  Body,
+  Separator,
+  Footer,
+  FooterTab,
+  Input,
+} from 'native-base';
 import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
 import styles from './style';
@@ -41,11 +56,18 @@ class Select extends React.Component {
 
   renderPlaceholder = () => <Text style={styles.placeholder}>{this.props.placeholder}</Text>;
 
+  renderSectionHeader = ({ section: { title } }) =>
+    title ? (
+      <Separator bordered>
+        <Text>{title.toUpperCase()}</Text>
+      </Separator>
+    ) : null;
+
   renderItem = ({ item }) => {
     const { onSelectedItemChange, selectedItem, uniqueKey, renderItem, displayKey } = this.props;
     return (
       <ListItem
-        style={baseStyles.listItem}
+        style={[baseStyles.listItem, baseStyles.unbordered]}
         onPress={() => {
           onSelectedItemChange(item);
           this.closeModal();
@@ -79,14 +101,61 @@ class Select extends React.Component {
       filterable,
       displayKey,
       noMatchesCta,
+      filterPlaceholder,
+      isSectioned,
+      renderSectionHeader,
     } = this.props;
     const { isModalOpen, filter } = this.state;
     const renderSelected = renderSelectedItem || this.renderSelectedItem;
-    let filteredItems = items;
-    if (filter) {
-      const filterRegExp = RegExp(filter, 'i');
-      filteredItems = items.filter(item => filterRegExp.test(item[displayKey]));
+
+    const filterItems = allItems => {
+      if (filter) {
+        const filterRegExp = RegExp(filter, 'i');
+        return allItems.filter(item => filterRegExp.test(item[displayKey]));
+      }
+      return allItems;
+    };
+
+    const ListComponent = isSectioned ? SectionList : FlatList;
+    const listProps = {
+      extraData: selectedItem,
+      keyExtractor: this.keyExtractor,
+      renderItem: this.renderItem,
+      ItemSeparatorComponent: () => <View style={styles.separator} />,
+      ListEmptyComponent: filterable ? (
+        <View style={styles.noMatches}>
+          <Text>{Copy.couldNotFind}</Text>
+          <Text style={styles.filterCopy}>
+            &quot;
+            {filter}
+            &quot;
+          </Text>
+          <Button iconLeft style={styles.noMatchesButton} primary onPress={this.addOption}>
+            <Icon type="FontAwesome" name="plus" />
+            <Text>{noMatchesCta}</Text>
+          </Button>
+        </View>
+      ) : (
+        undefined
+      ),
+    };
+    if (isSectioned) {
+      listProps.sections = reduce(
+        items,
+        (acc, item) => {
+          const filteredItems = filterItems(item.data);
+          if (filteredItems.length) {
+            acc.push({ ...item, data: filteredItems });
+          }
+          return acc;
+        },
+        []
+      );
+      listProps.renderSectionHeader = renderSectionHeader || this.renderSectionHeader;
+    } else {
+      listProps.data = filterItems(items);
     }
+
     return (
       <TouchableOpacity onPress={this.openModal} style={[styles.wrapper, style]}>
         <View style={styles.selectedWrapper}>
@@ -96,22 +165,16 @@ class Select extends React.Component {
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
             <Header>
-              <Left style={styles.headerSide} />
               <Body style={styles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
-              <Right style={styles.headerSide}>
-                <Button transparent onPress={this.closeModal}>
-                  <Icon type="FontAwesome" name="times" />
-                </Button>
-              </Right>
             </Header>
             <Content>
-              {filterable ? (
-                <View style={baseStyles.listItem}>
+              {filterable && (
+                <View style={[baseStyles.listItem, baseStyles.unbordered]}>
                   <Input
                     style={styles.filterInput}
-                    placeholder="Search..."
+                    placeholder={filterPlaceholder}
                     onChangeText={this.setFilter}
                     value={filter}
                   />
@@ -121,29 +184,16 @@ class Select extends React.Component {
                     name="search"
                   />
                 </View>
-              ) : null}
-              {filterable && !filteredItems.length ? (
-                <View style={styles.noMatches}>
-                  <Text>Could not find:</Text>
-                  <Text style={styles.filterCopy}>
-                    &quot;
-                    {filter}
-                    &quot;
-                  </Text>
-                  <Button iconLeft style={styles.noMatchesButton} primary onPress={this.addOption}>
-                    <Icon type="FontAwesome" name="plus" />
-                    <Text>{noMatchesCta}</Text>
-                  </Button>
-                </View>
-              ) : (
-                <FlatList
-                  extraData={selectedItem}
-                  data={filteredItems}
-                  keyExtractor={this.keyExtractor}
-                  renderItem={this.renderItem}
-                />
               )}
+              <ListComponent {...listProps} />
             </Content>
+            <Footer>
+              <FooterTab>
+                <Button active full dark onPress={this.closeModal}>
+                  <Text>{Copy.done}</Text>
+                </Button>
+              </FooterTab>
+            </Footer>
           </Container>
         </Modal>
       </TouchableOpacity>
@@ -152,7 +202,7 @@ class Select extends React.Component {
 }
 
 Select.propTypes = {
-  style: PropTypes.shape(),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   uniqueKey: PropTypes.string,
   placeholder: PropTypes.string,
   displayKey: PropTypes.string,
@@ -164,7 +214,10 @@ Select.propTypes = {
   renderItem: PropTypes.func,
   filterable: PropTypes.bool,
   noMatchesCta: PropTypes.string,
+  filterPlaceholder: PropTypes.string,
   onAddOption: PropTypes.func,
+  isSectioned: PropTypes.bool,
+  renderSectionHeader: PropTypes.func,
 };
 
 Select.defaultProps = {
@@ -176,8 +229,11 @@ Select.defaultProps = {
   renderItem: undefined,
   renderSelectedItem: undefined,
   filterable: false,
-  noMatchesCta: 'Add',
+  noMatchesCta: Copy.add,
+  filterPlaceholder: Copy.defaultSearchPlaceholder,
   onAddOption: undefined,
+  isSectioned: false,
+  renderSectionHeader: undefined,
 };
 
 export default Select;

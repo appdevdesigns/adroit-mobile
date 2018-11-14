@@ -10,23 +10,22 @@ import Navigation from './Navigation';
 // Disable the 'isMounted() and MobX Provider deprecation warnings from showing up in the yellow box
 console.ignoredYellowBox = ['Warning: isMounted', 'MobX Provider:']; // eslint-disable-line
 
-console.log('Config', Config);
+console.log('Running with config', Config);
 if (!Config.ADROIT_GMAPS_API_KEY) {
   throw new Error('ADROIT_GMAPS_API_KEY must be set in the .env file');
 }
 Geocode.setApiKey(Config.ADROIT_GMAPS_API_KEY);
 
-const App = () => {
-  const store = new Store();
-  return (
-    <Root>
-      <StyleProvider style={getTheme(theme)}>
-        <Provider {...store}>
-          <Navigation />
-        </Provider>
-      </StyleProvider>
-    </Root>
-  );
-};
+const store = new Store();
+
+const App = () => (
+  <Root>
+    <StyleProvider style={getTheme(theme)}>
+      <Provider {...store}>
+        <Navigation />
+      </Provider>
+    </StyleProvider>
+  </Root>
+);
 
 export default App;

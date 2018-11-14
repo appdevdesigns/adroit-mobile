@@ -23,16 +23,6 @@ export default StyleSheet.create({
     height: equalWidth,
     width: equalWidth,
   },
-  empty: {
-    alignSelf: 'center',
-    paddingTop: 20,
-    alignItems: 'center',
-  },
-  emptyText: {
-    color: Color.darkTextMuted,
-    fontSize: 20,
-    paddingBottom: 20,
-  },
   emptyButton: {
     alignSelf: 'center',
   },

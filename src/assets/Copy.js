@@ -1,6 +1,10 @@
 const Copy = {
   // Common
   defaultSelectPlaceholder: 'Select...',
+  defaultSearchPlaceholder: 'Search...',
+  done: 'Done',
+  add: 'Add',
+  couldNotFind: 'Could not find:',
 
   // Login
   login: 'Login',
@@ -16,7 +20,6 @@ const Copy = {
   approvedSummary: count => `${count} approved`,
   newSummary: count => `${count} new`,
   daysLeft: days => `${days} days left`,
-  emptyActivityList: "You haven't yet been tagged in any photos for this reporting period.",
 
   // Drawer menu
   drawerMenuLogout: 'Log out',
@@ -47,13 +50,14 @@ const Copy = {
   taggedPeopleLabel: 'Tagged People',
   taggedPeoplePlaceholder: 'Tag team members...',
   taggedPeopleModalHeader: 'Select team members',
+  myLocationsSection: 'My locations',
+  fcfLocationsSection: 'FCF locations',
 
   // Help
   helpTitle: 'How to use Adroit',
 
   // Edit Locations
   editLocationsTitle: 'Edit Locations',
-  editLocationsEmpty: "You haven't saved any locations yet..",
   editLocationsHelp: {
     title: 'Your saved locations',
     p1:
@@ -65,7 +69,6 @@ const Copy = {
 
   // Camera Roll
   camRollTitle: 'Select a photo',
-  camRollEmpty: 'Camera Roll is empty',
   takeAPhotoCta: 'Take a photo',
   useThisPhotoButtonText: 'Use this photo',
 
@@ -85,11 +88,30 @@ const Copy = {
     },
   },
 
-  // Error states
-  errors: {
+  // Toasts
+  toast: {
+    usernameRequired: 'Please enter a username',
+    passwordRequired: 'Please enter a password',
+    okButtonText: 'OKAY',
+  },
+
+  // Non Ideal State
+  nonIdealState: {
+    emptyActivityList: {
+      title: 'No photos',
+      message: "You haven't yet been tagged in any photos for this reporting period.",
+    },
     cameraRollNoPermission: {
       title: 'Uh-oh!',
       message: "You don't have permission to access the camera roll",
+    },
+    cameraRollEmpty: {
+      title: 'No photos',
+      message: 'Camera Roll is empty',
+    },
+    noUserLocations: {
+      title: 'No locations',
+      message: "You haven't saved any locations yet..",
     },
   },
 };

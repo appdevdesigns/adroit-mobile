@@ -9,15 +9,15 @@ export default StyleSheet.create({
     padding: '10%',
   },
   icon: {
-    fontSize: 64,
+    fontSize: 32,
     marginBottom: GridSize * 2,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     marginBottom: GridSize,
   },
   message: {
-    fontSize: 20,
+    fontSize: 16,
     marginBottom: GridSize,
     color: Color.darkTextSecondary,
     textAlign: 'center',

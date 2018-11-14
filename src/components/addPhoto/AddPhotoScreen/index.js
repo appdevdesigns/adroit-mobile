@@ -4,7 +4,7 @@ import unionBy from 'lodash-es/unionBy';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Image, View, AsyncStorage } from 'react-native';
+import { Image, View, AsyncStorage, Keyboard } from 'react-native';
 import Exif from 'react-native-exif';
 import Geocode from 'react-geocode';
 import parse from 'date-fns/parse';
@@ -16,6 +16,8 @@ import {
   Left,
   Body,
   Right,
+  Footer,
+  FooterTab,
   Button,
   Spinner,
   Textarea,
@@ -27,7 +29,7 @@ import {
 } from 'native-base';
 import { MultiSelect, Select } from 'src/components/common/Select';
 import selectStyles from 'src/components/common/Select/style';
-import baseStyles from 'src/assets/style';
+import baseStyles, { round } from 'src/assets/style';
 import BackButton from 'src/components/common/BackButton';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
@@ -61,6 +63,7 @@ class AddPhotoScreen extends React.Component {
       team: undefined,
       activity: undefined,
       isModalOpen: false,
+      isFooterVisible: true,
     };
     when(
       () => this.props.activityImages.uploadStatus === PostStatus.succeeded,
@@ -70,6 +73,8 @@ class AddPhotoScreen extends React.Component {
         this.props.activityImages.initializeUpload();
       }
     );
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
   async componentDidMount() {
@@ -129,6 +134,14 @@ class AddPhotoScreen extends React.Component {
     this.initTeamActivities(nextProps);
   }
 
+  keyboardDidShow = () => {
+    this.setState({ isFooterVisible: false });
+  };
+
+  keyboardDidHide = () => {
+    this.setState({ isFooterVisible: true });
+  };
+
   initTeamActivities = async props => {
     const { team, activity, taggedPeople } = this.state;
     const { teams, users } = props;
@@ -173,19 +186,11 @@ class AddPhotoScreen extends React.Component {
 
   addLocation = async location => {
     const newLocation = await this.props.locations.addUserLocation({ location });
-    this.setLocation(newLocation);
+    this.setState({ location: newLocation });
   };
 
-  setCaption = caption => {
-    this.setState({ caption });
-  };
-
-  setDate = date => {
-    this.setState({ date });
-  };
-
-  setLocation = location => {
-    this.setState({ location });
+  setStateItem = item => value => {
+    this.setState({ [item]: value });
   };
 
   setTeam = team => {
@@ -198,14 +203,6 @@ class AddPhotoScreen extends React.Component {
       newState.taggedPeople = unionBy(this.state.taggedPeople || [], team.members, 'IDPerson');
     }
     this.setState(newState);
-  };
-
-  setActivity = activity => {
-    this.setState({ activity });
-  };
-
-  setTaggedPeople = taggedPeople => {
-    this.setState({ taggedPeople });
   };
 
   upload = async () => {
@@ -238,7 +235,7 @@ class AddPhotoScreen extends React.Component {
           <Icon style={styles.avatarIcon} type="FontAwesome" name="user" />
         </View>
       ) : (
-        <Image style={styles.avatar} source={{ uri: Api.absoluteUrl(person.avatar) }} />
+        <Image style={round(24)} source={{ uri: Api.absoluteUrl(person.avatar) }} />
       )}
       <Text ellipsizeMode="tail" style={selectStyles.item}>
         {person.display_name}
@@ -246,15 +243,35 @@ class AddPhotoScreen extends React.Component {
     </View>
   );
 
+  renderSelectedTeamMembers = items =>
+    items.map(person => (
+      <View key={person.IDPerson} style={baseStyles.tag}>
+        <View style={baseStyles.tagImageWrapper}>
+          {!person.avatar || person.avatar.startsWith('images') ? (
+            <Icon style={baseStyles.tagAvatarIcon} type="FontAwesome" name="user" />
+          ) : (
+            <Image style={baseStyles.tagImage} source={{ uri: Api.absoluteUrl(person.avatar) }} />
+          )}
+        </View>
+        <Text ellipsizeMode="tail" style={baseStyles.tagText}>
+          {person.display_name}
+        </Text>
+      </View>
+    ));
+
+  renderLocationIcon = () => (
+    <FontAwesome5
+      light
+      style={[baseStyles.listItemIcon, baseStyles.marginRight, styles.locationIcon]}
+      name="location-arrow"
+    />
+  );
+
   renderSelectedLocation = selectedLocation => {
     const locationText = selectedLocation === PHOTO_LOCATION ? this.state.photoLocation : selectedLocation.location;
-    const iconStyles = [baseStyles.listItemIcon, baseStyles.marginRight];
-    if (selectedLocation === PHOTO_LOCATION) {
-      iconStyles.push(styles.locationIcon);
-    }
     return (
       <View style={styles.row}>
-        <FontAwesome5 light style={iconStyles} name={LocationIcon[selectedLocation.type]} />
+        {selectedLocation === PHOTO_LOCATION && this.renderLocationIcon()}
         {locationText ? (
           <Text style={selectStyles.selected}>{locationText}</Text>
         ) : (
@@ -264,20 +281,14 @@ class AddPhotoScreen extends React.Component {
     );
   };
 
-  renderLocationItem = location => {
-    const iconStyles = [baseStyles.listItemIcon, baseStyles.marginRight];
-    if (location === PHOTO_LOCATION) {
-      iconStyles.push(styles.locationIcon);
-    }
-    return (
-      <View style={styles.centeredRow}>
-        <FontAwesome5 light style={iconStyles} name={LocationIcon[location.type]} />
-        <Text ellipsizeMode="tail" style={baseStyles.listItemText}>
-          {location.location}
-        </Text>
-      </View>
-    );
-  };
+  renderLocationItem = location => (
+    <View style={styles.centeredRow}>
+      {location === PHOTO_LOCATION && this.renderLocationIcon()}
+      <Text ellipsizeMode="tail" style={baseStyles.listItemText}>
+        {location.location}
+      </Text>
+    </View>
+  );
 
   render() {
     const { teams, activityImages, locations } = this.props;
@@ -291,8 +302,9 @@ class AddPhotoScreen extends React.Component {
       fetchingLocation,
       taggedPeople,
       isModalOpen,
+      isFooterVisible,
     } = this.state;
-    const isSaveEnabled =
+    const isSaveEnabled = !!(
       activityImages.uploadedImageName &&
       caption &&
       caption.length &&
@@ -300,10 +312,14 @@ class AddPhotoScreen extends React.Component {
       location &&
       team &&
       activity &&
-      taggedPeople.length;
-    const allLocations = photoLocation
-      ? [PHOTO_LOCATION].concat(locations.orderedLocations)
-      : locations.orderedLocations;
+      taggedPeople.length
+    );
+    const allLocations = [];
+    if (photoLocation) {
+      allLocations.push({ title: '', data: [PHOTO_LOCATION] });
+    }
+    allLocations.push({ title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations });
+    allLocations.push({ title: Copy.fcfLocationsSection, data: locations.fcfLocations });
     return (
       <Container>
         <Header>
@@ -313,31 +329,27 @@ class AddPhotoScreen extends React.Component {
           <Body>
             <Title>{Copy.addPhotoTitle}</Title>
           </Body>
-          <Right>
-            <Button disabled={!isSaveEnabled} transparent onPress={this.openConfirmation}>
-              <Text>{Copy.addPhotoSaveButtonText}</Text>
-            </Button>
-          </Right>
+          <Right />
         </Header>
         <Content>
           <PhotoUploadPreview image={this.image()} />
           <View style={styles.main}>
             <Item stackedLabel style={styles.item}>
               <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
-              <Label>{Copy.captionLabel}</Label>
+              <Label style={styles.label}>{Copy.captionLabel}</Label>
               <Textarea
                 value={caption}
-                onChangeText={this.setCaption}
+                onChangeText={this.setStateItem('caption')}
                 returnKeyType="done"
                 rowSpan={3}
-                style={[styles.input, styles.textArea]}
+                style={styles.input}
                 maxLength={MAX_CAPTION_CHARS}
                 placeholder={Copy.captionPlaceholder}
                 placeholderTextColor="#999"
               />
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>{Copy.dateLabel}</Label>
+              <Label style={styles.label}>{Copy.dateLabel}</Label>
               {!date ? (
                 <Spinner style={styles.spinner} size="small" />
               ) : (
@@ -350,38 +362,42 @@ class AddPhotoScreen extends React.Component {
                   formatChosenDate={d => format(d, 'Do MMM')}
                   timeZoneOffsetInMinutes={undefined}
                   modalTransparent={false}
+                  textStyle={styles.date}
                   animationType="fade"
                   androidMode="default"
-                  onDateChange={this.setDate}
+                  onDateChange={this.setStateItem('date')}
                 />
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>{Copy.locationLabel}</Label>
+              <Label style={styles.label}>{Copy.locationLabel}</Label>
               {fetchingLocation ? (
                 <Spinner style={styles.spinner} size="small" />
               ) : (
                 <Select
+                  style={styles.input}
                   filterable
                   uniqueKey="location"
                   displayKey="location"
                   modalHeader={Copy.locationModalHeader}
                   placeholder={Copy.locationPlaceholder}
                   selectedItem={location}
-                  onSelectedItemChange={this.setLocation}
+                  onSelectedItemChange={this.setStateItem('location')}
                   onAddOption={this.addLocation}
                   items={allLocations}
                   renderSelectedItem={this.renderSelectedLocation}
                   renderItem={this.renderLocationItem}
+                  isSectioned
                 />
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>{Copy.teamLabel}</Label>
+              <Label style={styles.label}>{Copy.teamLabel}</Label>
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <Select
+                  style={styles.input}
                   uniqueKey="IDMinistry"
                   displayKey="MinistryDisplayName"
                   modalHeader={Copy.teamModalHeader}
@@ -393,35 +409,38 @@ class AddPhotoScreen extends React.Component {
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>{Copy.activityLabel}</Label>
+              <Label style={styles.label}>{Copy.activityLabel}</Label>
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <Select
+                  style={styles.input}
                   uniqueKey="id"
                   displayKey="activity_name"
                   modalHeader={Copy.activityModalHeader}
                   placeholder={Copy.activityPlaceholder}
                   selectedItem={activity}
-                  onSelectedItemChange={this.setActivity}
+                  onSelectedItemChange={this.setStateItem('activity')}
                   items={team ? team.activities.slice() : []}
                 />
               )}
             </Item>
             <Item stackedLabel style={styles.item}>
-              <Label>{Copy.taggedPeopleLabel}</Label>
+              <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
               {teams.loading || !teams.list ? (
                 <Spinner style={[styles.input, styles.spinner]} size="small" />
               ) : (
                 <MultiSelect
+                  style={styles.input}
                   items={team ? team.members.slice() : []}
                   selectedItems={taggedPeople}
                   uniqueKey="IDPerson"
                   displayKey="display_name"
                   placeholder={Copy.taggedPeoplePlaceholder}
                   modalHeader={Copy.taggedPeopleModalHeader}
-                  onSelectedItemsChange={this.setTaggedPeople}
+                  onSelectedItemsChange={this.setStateItem('taggedPeople')}
                   renderItem={this.renderTeamMember}
+                  renderSelectedItems={this.renderSelectedTeamMembers}
                 />
               )}
             </Item>
@@ -435,6 +454,15 @@ class AddPhotoScreen extends React.Component {
             isUploading={false}
           />
         </Content>
+        {isFooterVisible && (
+          <Footer>
+            <FooterTab>
+              <Button active full disabled={!isSaveEnabled} onPress={this.openConfirmation}>
+                <Text>{Copy.addPhotoSaveButtonText}</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        )}
       </Container>
     );
   }

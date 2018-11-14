@@ -6,7 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color(Theme.toolbarDefaultBg).fade(0.25),
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   bgImage: {
     flex: 1,
@@ -18,6 +18,7 @@ export default StyleSheet.create({
     width: 200,
     height: 146,
     marginBottom: 10,
+    marginTop: 40,
   },
   title: {
     fontSize: 40,
@@ -31,7 +32,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    color: '#fff',
+    color: Theme.inverseTextColor,
   },
   loginButton: {
     marginTop: 10,

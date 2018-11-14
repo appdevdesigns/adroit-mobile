@@ -16,6 +16,21 @@ export const GridSize = 8;
 
 export default {
   ...material,
+  brandPrimary: Color.darkBackground,
   toolbarDefaultBg: Color.darkBackground,
+  toolbarDefaultBorder: Color.darkBackground,
+  tabActiveBgColor: Color.darkBackground,
+  footerDefaultBg: Color.darkBackground,
   statusBarColor: Color.darkBackground,
+  listItemSelected: Color.darkBackground,
+  radioSelectedColorAndroid: Color.darkBackground,
+  segmentBackgroundColor: Color.darkBackground,
+  segmentActiveTextColor: Color.darkBackground,
+  segmentBorderColorMain: Color.darkBackground,
+  checkboxBgColor: Color.darkBackground,
+  tabDefaultBg: Color.darkBackground,
+  defaultProgressColor: material.brandSuccess,
+  get btnPrimaryBg() {
+    return Color.darkBackground;
+  },
 };

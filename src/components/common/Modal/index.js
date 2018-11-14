@@ -20,6 +20,14 @@ const DSModal = ({ children, header, ...props }) => (
   </Modal>
 );
 
-DSModal.propTypes = {};
+DSModal.propTypes = {
+  header: PropTypes.string.isRequired,
+  onRequestClose: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};
+
+DSModal.defaultProps = {
+  children: undefined,
+};
 
 export default DSModal;

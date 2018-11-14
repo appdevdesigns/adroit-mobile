@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { Image, View } from 'react-native';
 import { Spinner, Icon } from 'native-base';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
+import baseStyles from 'src/assets/style';
 import styles from './style';
 
 @inject('activityImages')
@@ -14,27 +15,25 @@ class PhotoUploadPreview extends React.Component {
   }
 
   render() {
-    const { image, activityImages } = this.props;
-    const progressPercent = activityImages.uploadProgressPercent;
-    const iconStyles = [styles.spinner, styles.uploadIcon];
-    if (activityImages.uploadedImageName) {
+    const {
+      image,
+      activityImages: { uploadProgressPercent, uploadedImageName },
+    } = this.props;
+    const iconStyles = [styles.uploadIcon];
+    if (uploadedImageName) {
       iconStyles.push(styles.success);
     }
     return (
       <View style={styles.wrapper}>
-        <Image source={{ uri: image.uri }} style={styles.image} />
-        <View style={styles.spinnerContainer}>
-          {!activityImages.uploadedImageName ? (
-            <Spinner style={styles.spinner} />
-          ) : (
-            <View style={styles.iconBackground} />
-          )}
+        <Image resizeMode="contain" source={{ uri: image.uri }} style={styles.image} />
+        <View style={baseStyles.centeredOverlay}>
+          {!uploadedImageName ? <Spinner style={styles.spinner} /> : <View style={styles.iconBackground} />}
         </View>
-        <View style={styles.spinnerContainer}>
-          <Icon style={iconStyles} type="FontAwesome" name={activityImages.uploadedImageName ? 'check' : 'upload'} />
+        <View style={baseStyles.centeredOverlay}>
+          <Icon style={iconStyles} type="FontAwesome" name={uploadedImageName ? 'check' : 'upload'} />
         </View>
         <View style={styles.progressContainer}>
-          <View style={[styles.progressBar, { width: `${progressPercent}%` }]} />
+          <View style={[styles.progressBar, { width: `${uploadProgressPercent}%` }]} />
         </View>
       </View>
     );

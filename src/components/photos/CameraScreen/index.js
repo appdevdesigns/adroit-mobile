@@ -47,16 +47,22 @@ class CameraScreen extends React.Component {
     console.log('has WriteToExternalStorage permission', hasPermission);
   }
 
-  takePicture = async () => {
+  takePicture = () => {
     console.log('Taking picture', this.camera);
     if (this.camera) {
-      const data = await this.camera.takePictureAsync(PHOTO_OPTIONS);
-
-      if (this.props.permissions.canWriteToExternalStorage) {
-        const uri = await CameraRoll.saveToCameraRoll(data.uri, 'photo');
-        console.log(uri);
-      }
-      this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
+      this.camera
+        .takePictureAsync(PHOTO_OPTIONS)
+        .then(data => {
+          if (this.props.permissions.canWriteToExternalStorage) {
+            CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
+              console.log('Saved to camera roll', uri);
+            });
+          }
+          this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
+        })
+        .catch(err => {
+          console.log('Failed to take photo', err);
+        });
     }
   };
 

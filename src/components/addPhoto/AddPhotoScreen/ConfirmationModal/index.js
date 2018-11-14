@@ -7,6 +7,7 @@ import Copy from 'src/assets/Copy';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import Modal from 'src/components/common/Modal';
+import Theme from 'src/assets/theme';
 import baseStyles from 'src/assets/style';
 import styles from './style';
 
@@ -19,6 +20,12 @@ class ConfirmationModal extends React.Component {
       captionChecked: false,
       taggedChecked: false,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.visible !== this.props.visible) {
+      this.reset();
+    }
   }
 
   toggleChecked = item => e => {
@@ -71,7 +78,7 @@ class ConfirmationModal extends React.Component {
               <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.context}>
                   &quot;
-                  {caption || ''}
+                  {caption}
                   &quot;
                 </Text>
               </ScrollView>
@@ -87,7 +94,7 @@ class ConfirmationModal extends React.Component {
             <Body style={styles.itemBody}>
               <Label style={styles.label}>{Copy.confirmTaggedLabel}</Label>
               <ScrollView style={styles.scrollContainer}>
-                <Text style={styles.context}>{taggedPeople || ''}</Text>
+                <Text style={styles.context}>{taggedPeople}</Text>
               </ScrollView>
             </Body>
           </ListItem>
@@ -105,7 +112,7 @@ class ConfirmationModal extends React.Component {
             disabled={!captionChecked || !taggedChecked}
           >
             {isUploading ? (
-              <Spinner size="small" style={baseStyles.buttonSpinner} color="#fff" />
+              <Spinner size="small" style={baseStyles.buttonSpinner} color={Theme.btnPrimaryColor} />
             ) : (
               <Icon type="FontAwesome" name="upload" />
             )}

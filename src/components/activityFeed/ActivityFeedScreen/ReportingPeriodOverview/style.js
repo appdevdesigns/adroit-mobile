@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { GridSize, Color } from 'src/assets/theme';
+import Theme, { GridSize, Color } from 'src/assets/theme';
 
 const topFontSize = 14;
 const imageProgressHeight = 20;
@@ -8,7 +8,7 @@ const timeElapsedColor = '#064367';
 const currentDateBarColor = '#011529';
 const topItemDividerColor = '#1f6b8d';
 const topItemBackgroundColor = '#4c89a4';
-const topItemColor = '#fff';
+const topItemColor = Theme.inverseTextColor;
 
 export const Gradients = {
   approved: ['#23ad9d', '#1cd7cf'],
@@ -60,9 +60,6 @@ export default StyleSheet.create({
     marginRight: GridSize / 2,
     borderColor: topItemColor,
     alignSelf: 'center',
-  },
-  timeRemaining: {
-    backgroundColor: timeRemainingColor,
   },
   status: {
     flex: 1,

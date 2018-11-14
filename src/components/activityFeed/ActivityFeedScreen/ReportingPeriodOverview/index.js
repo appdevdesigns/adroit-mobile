@@ -33,10 +33,10 @@ class ReportingPeriodOverview extends React.Component {
             <LinearGradient colors={Gradients.new} style={styles.topIndicator} />
             <Text style={styles.topText}>{Copy.newSummary(totalNew)}</Text>
           </View>
-          <View style={[styles.topItem, styles.topItemBordered, styles.timeRemaining]}>
+          <ImageBackground source={imgDaysBackground} style={[styles.topItem, styles.topItemBordered]}>
             <Icon style={styles.topIcon} type="FontAwesome" name="clock-o" />
             <Text style={styles.topText}>{Copy.daysLeft(currentReportingPeriod.daysLeft)}</Text>
-          </View>
+          </ImageBackground>
           <View style={[styles.topItem, styles.status, { backgroundColor: status.color }]}>
             <FontAwesome5 style={styles.topIcon} name={status.icon} light />
             <Text style={styles.topText}>{status.label}</Text>

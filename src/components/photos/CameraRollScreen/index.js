@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Header, Title, Content, Left, Body } from 'native-base';
+import { Container, Header, Title, Content, Left, Body, Right } from 'native-base';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
 import BackButton from 'src/components/common/BackButton';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import ErrorState from 'src/components/common/ErrorState';
+import NonIdealState from 'src/components/common/NonIdealState';
 import CameraRollList from './CameraRollList';
 
 @inject('permissions')
@@ -30,17 +30,17 @@ class CameraRollScreen extends React.Component {
           <Body>
             <Title>{Copy.camRollTitle}</Title>
           </Body>
+          <Right />
         </Header>
         {permissions.canReadExternalStorage ? (
           <Content>
             <CameraRollList navigation={navigation} />
           </Content>
         ) : (
-          <ErrorState
-            title={Copy.errors.cameraRollNoPermission.title}
-            message={Copy.errors.cameraRollNoPermission.message}
-            iconName="lock"
-            iconType="FontAwesome"
+          <NonIdealState
+            title={Copy.nonIdealState.cameraRollNoPermission.title}
+            message={Copy.nonIdealState.cameraRollNoPermission.message}
+            icon="lock"
           />
         )}
       </Container>
