@@ -3,6 +3,7 @@ package com.adroit;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.keychain.KeychainPackage;
 import io.sentry.RNSentryPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import io.fixd.rctlocale.RCTLocalePackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new KeychainPackage(),
             new RNSentryPackage(),
             new LinearGradientPackage(),
             new RCTLocalePackage(),

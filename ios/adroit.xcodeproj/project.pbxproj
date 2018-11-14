@@ -48,6 +48,7 @@
 		69AD0A5A264549A7898F3948 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2DE9725F1C245F689F3B80A /* libBVLinearGradient.a */; };
 		33D86502F9E54184A9A828D6 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0B44C1F0784F298EB1086B /* libRNSentry.a */; };
 		72DFEBBA757B4C9FA4F90575 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3902215651174A96AFB9264A /* libz.tbd */; };
+		7555427480EA4AF991972C12 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E484E750D5749A9A1DE2198 /* libRNKeychain.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -373,6 +374,8 @@
 		F607EADC99AF47EC9B15F2C1 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; name = "RNSentry.xcodeproj"; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		EA0B44C1F0784F298EB1086B /* libRNSentry.a */ = {isa = PBXFileReference; name = "libRNSentry.a"; path = "libRNSentry.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		3902215651174A96AFB9264A /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		307EE534B6864ABB8190D3E5 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; name = "RNKeychain.xcodeproj"; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2E484E750D5749A9A1DE2198 /* libRNKeychain.a */ = {isa = PBXFileReference; name = "libRNKeychain.a"; path = "libRNKeychain.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +414,7 @@
 				69AD0A5A264549A7898F3948 /* libBVLinearGradient.a in Frameworks */,
 				33D86502F9E54184A9A828D6 /* libRNSentry.a in Frameworks */,
 				72DFEBBA757B4C9FA4F90575 /* libz.tbd in Frameworks */,
+				7555427480EA4AF991972C12 /* libRNKeychain.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +611,7 @@
 				3D58ED993A1145CD840FDDDD /* RCTLocale.xcodeproj */,
 				EFA3CF266EB84E94934C22A2 /* BVLinearGradient.xcodeproj */,
 				F607EADC99AF47EC9B15F2C1 /* RNSentry.xcodeproj */,
+				307EE534B6864ABB8190D3E5 /* RNKeychain.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1267,6 +1272,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1279,6 +1285,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Debug;
@@ -1308,6 +1315,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1320,6 +1328,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Release;
@@ -1350,6 +1359,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Debug;
@@ -1379,6 +1389,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Release;
@@ -1417,6 +1428,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1429,6 +1441,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Debug;
@@ -1467,6 +1480,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1479,6 +1493,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Release;
@@ -1516,6 +1531,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1528,6 +1544,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Debug;
@@ -1565,6 +1582,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1577,6 +1595,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-locale\ios\RCTLocale",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 					"$(SRCROOT)\..\node_modules\react-native-sentry\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-keychain\RNKeychainManager",
 				);
 			};
 			name = Release;

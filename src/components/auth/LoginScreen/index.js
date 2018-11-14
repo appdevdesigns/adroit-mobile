@@ -89,8 +89,7 @@ class LoginScreen extends React.Component {
       this.onAuthenticated();
       return;
     }
-    const username = await AsyncStorage.getItem('adroit_username');
-    const password = await AsyncStorage.getItem('adroit_password');
+    const { username, password } = await AuthStore.getCachedCredentials();
     if (username && password) {
       this.props.auth.login(username, password);
     } else {

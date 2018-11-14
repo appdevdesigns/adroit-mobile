@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { observable, computed, action } from 'mobx';
+import * as Keychain from 'react-native-keychain';
 import { Toast } from 'native-base';
 import parse from 'date-fns/parse';
 import isAfter from 'date-fns/is_after';
@@ -52,6 +53,23 @@ export default class AuthStore {
     await AsyncStorage.setItem('adroit_last_login', String(date.getTime()));
   }
 
+  static async cacheCredentials(username, password) {
+    return Keychain.setGenericPassword(username, password);
+  }
+
+  static async getCachedCredentials() {
+    try {
+      return Keychain.getGenericPassword();
+    } catch (error) {
+      console.log('Failed to access keychain');
+    }
+    return { username: undefined, password: undefined };
+  }
+
+  static async resetCachedCredentials() {
+    return Keychain.resetGenericPassword();
+  }
+
   async checkSession() {
     const csrfToken = await AsyncStorage.getItem('adroit_csrf');
     if (!csrfToken) {
@@ -89,8 +107,7 @@ export default class AuthStore {
           }),
         })
           .then(async () => {
-            await AsyncStorage.setItem('adroit_username', username);
-            await AsyncStorage.setItem('adroit_password', password);
+            await AuthStore.cacheCredentials(username, password);
             await AuthStore.setLastLogin();
             this.onLoggedIn(username);
           })
@@ -101,8 +118,9 @@ export default class AuthStore {
 
   @action.bound
   async logout() {
+    this.username = undefined;
+    await AuthStore.resetCachedCredentials();
     await AsyncStorage.removeItem('adroit_csrf');
-    await AsyncStorage.removeItem('adroit_password');
     this.onLoggedOut();
   }
 
