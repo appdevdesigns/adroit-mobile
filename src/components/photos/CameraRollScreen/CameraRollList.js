@@ -5,6 +5,7 @@ import Lightbox from 'react-native-lightbox';
 import { Spinner, Text, Icon, Button } from 'native-base';
 import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
+import Monitoring from 'src/util/Monitoring';
 import NonIdealState from 'src/components/common/NonIdealState';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns, equalWidth } from './style';
@@ -63,6 +64,7 @@ class CameraRollList extends Component {
       })
       .catch(err => {
         console.error('Could not load photos', err);
+        Monitoring.captureException(err, { problem: 'Could not load photos', after: endCursor });
       });
   };
 

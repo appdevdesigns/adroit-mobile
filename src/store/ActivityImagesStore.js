@@ -6,6 +6,7 @@ import xhr from 'src/util/xhr';
 import Api from 'src/util/api';
 import { format } from 'src/util/date';
 import ReportingPeriod from 'src/util/ReportingPeriod';
+import Monitoring from 'src/util/Monitoring';
 import ResourceStore, { PostStatus } from './ResourceStore';
 
 const sortByDate = (activityA, activityB) => {
@@ -120,6 +121,7 @@ export default class ActivityImagesStore extends ResourceStore {
           });
         } catch (err) {
           console.log(err);
+          Monitoring.captureException(err, { problem: 'Failed to parse response from image upload', response });
         }
       },
     };
@@ -172,9 +174,11 @@ export default class ActivityImagesStore extends ResourceStore {
           this.uploadStatus = PostStatus.failed;
         });
         console.log('FAILED', error);
-        Toast.show({ text: 'Oops - something went wrong!', type: 'danger', buttonText: 'OKAY' });
+        Monitoring.captureException(error, { problem: 'Failed to upload activity image', body: options.body });
         if (error.status === 401) {
           await this.onUnauthorised();
+        } else {
+          Toast.show({ text: 'Oops - something went wrong!', type: 'danger', buttonText: 'OKAY' });
         }
       });
   }

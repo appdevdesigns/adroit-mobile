@@ -9,6 +9,7 @@ import BackButton from 'src/components/common/BackButton';
 import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
+import Monitoring from 'src/util/Monitoring';
 import styles from './style';
 
 const imgFlashOn = require('src/assets/img/flashOn.png');
@@ -62,6 +63,7 @@ class CameraScreen extends React.Component {
         })
         .catch(err => {
           console.log('Failed to take photo', err);
+          Monitoring.captureException(err, { problem: 'Failed to take photo' });
         });
     }
   };

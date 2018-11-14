@@ -104,7 +104,6 @@ export default class LocationsStore extends ResourceStore {
   fetchFcfLocations() {
     console.log('fetchFcfLocations');
     this.map.replace(keyBy(PLACEHOLDER_LOCATIONS, 'location'));
-    console.log('fetchFcfLocations result', this.list);
   }
 
   @action.bound

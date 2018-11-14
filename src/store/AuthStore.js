@@ -25,6 +25,9 @@ export default class AuthStore {
   @observable
   status = AuthStatus.Pending;
 
+  @observable
+  username = undefined;
+
   @computed
   get isLoggedIn() {
     return this.status === AuthStatus.Authenticated;
@@ -89,7 +92,7 @@ export default class AuthStore {
             await AsyncStorage.setItem('adroit_username', username);
             await AsyncStorage.setItem('adroit_password', password);
             await AuthStore.setLastLogin();
-            this.onLoggedIn();
+            this.onLoggedIn(username);
           })
           .catch(this.onLoginFailed);
       })
@@ -104,7 +107,8 @@ export default class AuthStore {
   }
 
   @action.bound
-  onLoggedIn() {
+  onLoggedIn(username) {
+    this.username = username;
     this.status = AuthStatus.Authenticated;
   }
 

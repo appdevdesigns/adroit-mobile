@@ -4,6 +4,7 @@ import { Toast } from 'native-base';
 import keyBy from 'lodash-es/keyBy';
 import sortBy from 'lodash-es/sortBy';
 import fetchJson from 'src/util/fetch';
+import Monitoring from 'src/util/Monitoring';
 
 const defaultOptions = { method: 'GET' };
 
@@ -80,7 +81,6 @@ export default class ResourceStore {
         const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
         runInAction(() => {
           if (this.map.size) {
-            console.log('Calling replace', this.map.size, this.constructor.name);
             this.map.replace(map);
           } else {
             this.map.merge(map);
@@ -98,6 +98,8 @@ export default class ResourceStore {
         this.onFetchListFail(error, meta);
         if (error.status === 401) {
           await this.onUnauthorised();
+        } else {
+          Monitoring.captureException(error, { problem: 'API request failed', url, options });
         }
       });
   }
@@ -107,7 +109,9 @@ export default class ResourceStore {
   }
 
   onFetchListFail(error) {
-    Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
+    if (error.status !== 401) {
+      Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
+    }
   }
 
   async onUnauthorised() {

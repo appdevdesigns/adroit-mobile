@@ -1,6 +1,5 @@
 import forIn from 'lodash-es/forIn';
 import { AsyncStorage } from 'react-native';
-import HttpError from './HttpError';
 import Api from './api';
 
 const xhr = async (url, options) => {
