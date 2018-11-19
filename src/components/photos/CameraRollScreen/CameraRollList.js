@@ -64,7 +64,7 @@ class CameraRollList extends Component {
       })
       .catch(err => {
         console.error('Could not load photos', err);
-        Monitoring.captureException(err, { problem: 'Could not load photos', after: endCursor });
+        Monitoring.exception(err, { problem: 'Could not load photos', after: endCursor });
       });
   };
 

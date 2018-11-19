@@ -99,7 +99,7 @@ export default class ResourceStore {
         if (error.status === 401) {
           await this.onUnauthorised();
         } else {
-          Monitoring.captureException(error, { problem: 'API request failed', url, options });
+          Monitoring.exception(error, { problem: 'API request failed', url, options });
         }
       });
   }

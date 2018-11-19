@@ -75,7 +75,7 @@ export default class UsersStore extends ResourceStore {
           await this.onUnauthorised();
         } else {
           Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
-          Monitoring.captureException(error, { problem: 'API request failed', url, options });
+          Monitoring.exception(error, { problem: 'API request failed', url, options });
         }
       });
   }

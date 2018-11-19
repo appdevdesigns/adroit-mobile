@@ -121,8 +121,11 @@ export default class ActivityImagesStore extends ResourceStore {
           });
         } catch (err) {
           console.log(err);
-          Monitoring.captureException(err, { problem: 'Failed to parse response from image upload', response });
+          Monitoring.exception(err, { problem: 'Failed to parse response from image upload', response });
         }
+      },
+      onError: () => {
+        Toast.show({ text: 'Photo upload failed. Try again later.', type: 'danger', buttonText: 'OKAY' });
       },
     };
 
@@ -174,7 +177,7 @@ export default class ActivityImagesStore extends ResourceStore {
           this.uploadStatus = PostStatus.failed;
         });
         console.log('FAILED', error);
-        Monitoring.captureException(error, { problem: 'Failed to upload activity image', body: options.body });
+        Monitoring.exception(error, { problem: 'Failed to upload activity image', body: options.body });
         if (error.status === 401) {
           await this.onUnauthorised();
         } else {

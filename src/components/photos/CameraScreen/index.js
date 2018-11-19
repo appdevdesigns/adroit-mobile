@@ -63,7 +63,7 @@ class CameraScreen extends React.Component {
         })
         .catch(err => {
           console.log('Failed to take photo', err);
-          Monitoring.captureException(err, { problem: 'Failed to take photo' });
+          Monitoring.exception(err, { problem: 'Failed to take photo' });
         });
     }
   };

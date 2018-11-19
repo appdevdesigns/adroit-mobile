@@ -90,7 +90,7 @@ class AddPhotoScreen extends React.Component {
             const date = parse(formattedDate);
             this.setState({ date });
           } catch (err) {
-            Monitoring.captureException(err, { data, problem: 'Failed to parse exif data' });
+            Monitoring.exception(err, { data, problem: 'Failed to parse exif data' });
             console.log('Failed to parse exif date', err);
             this.setState({ date: today });
           }
@@ -101,7 +101,7 @@ class AddPhotoScreen extends React.Component {
       })
       .catch(msg => {
         console.log('getExif ERROR', msg);
-        Monitoring.captureException(msg, { problem: 'Exif.getExif ERROR' });
+        Monitoring.exception(msg, { problem: 'Exif.getExif ERROR' });
         this.setState({ date: today });
       });
     Exif.getLatLong(imageUri)
@@ -119,7 +119,7 @@ class AddPhotoScreen extends React.Component {
             },
             error => {
               console.log('fromLatLng ERROR', error);
-              Monitoring.captureException(error, { latitude, longitude, problem: 'Geocode.fromLatLng error' });
+              Monitoring.exception(error, { latitude, longitude, problem: 'Geocode.fromLatLng error' });
               this.setState({ fetchingLocation: false });
             }
           );
@@ -130,7 +130,7 @@ class AddPhotoScreen extends React.Component {
       })
       .catch(msg => {
         console.log('getLatLong ERROR', msg);
-        Monitoring.captureException(msg, { problem: 'Exif.getLatLong error' });
+        Monitoring.exception(msg, { problem: 'Exif.getLatLong error' });
         this.setState({ fetchingLocation: false });
       });
   }

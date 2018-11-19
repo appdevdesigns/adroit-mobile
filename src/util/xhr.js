@@ -31,6 +31,9 @@ const xhr = async (url, options) => {
   if (options.onLoad) {
     req.onload = options.onLoad;
   }
+  if (options.onError) {
+    req.onerror = options.onError;
+  }
   req.send(options.body);
 };
 
