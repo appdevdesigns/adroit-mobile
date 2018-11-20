@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import xhr from 'src/util/xhr';
 import Monitoring from 'src/util/Monitoring';
 
@@ -19,6 +19,11 @@ export default class FileUploadStore {
 
   @observable
   status = UploadStatus.pending;
+
+  @computed
+  get isUploaded() {
+    return this.status === UploadStatus.succeeded;
+  }
 
   @action.bound
   reset() {

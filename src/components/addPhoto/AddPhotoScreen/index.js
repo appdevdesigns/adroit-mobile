@@ -35,7 +35,7 @@ import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import Copy from 'src/assets/Copy';
-import LocationsStore, { LocationType } from 'src/store/LocationsStore';
+import LocationsStore from 'src/store/LocationsStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring from 'src/util/Monitoring';
@@ -47,7 +47,7 @@ import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-const PHOTO_LOCATION = { location: Copy.photoLocation, type: LocationType.GPS };
+const PHOTO_LOCATION = { name: Copy.photoLocation };
 
 @inject('teams', 'activityImages', 'users', 'locations')
 @observer
@@ -201,7 +201,7 @@ class AddPhotoScreen extends React.Component {
   };
 
   addLocation = async location => {
-    const newLocation = await this.props.locations.addUserLocation({ location });
+    const newLocation = await this.props.locations.addUserLocation({ name: location });
     this.setState({ location: newLocation });
   };
 
@@ -234,7 +234,7 @@ class AddPhotoScreen extends React.Component {
       activityId: activity.id,
       caption,
       date,
-      location: location === PHOTO_LOCATION ? photoLocation : location.location,
+      location: location === PHOTO_LOCATION ? photoLocation : location.name,
       taggedPeopleIds: taggedPeople.map(p => p.IDPerson),
     };
     activityImages.upload(activityImage);
@@ -284,7 +284,7 @@ class AddPhotoScreen extends React.Component {
   );
 
   renderSelectedLocation = selectedLocation => {
-    const locationText = selectedLocation === PHOTO_LOCATION ? this.state.photoLocation : selectedLocation.location;
+    const locationText = selectedLocation === PHOTO_LOCATION ? this.state.photoLocation : selectedLocation.name;
     return (
       <View style={styles.row}>
         {selectedLocation === PHOTO_LOCATION && this.renderLocationIcon()}
@@ -301,7 +301,7 @@ class AddPhotoScreen extends React.Component {
     <View style={styles.centeredRow}>
       {location === PHOTO_LOCATION && this.renderLocationIcon()}
       <Text ellipsizeMode="tail" style={baseStyles.listItemText}>
-        {location.location}
+        {location.name}
       </Text>
     </View>
   );
@@ -321,7 +321,7 @@ class AddPhotoScreen extends React.Component {
       isFooterVisible,
     } = this.state;
     const isSaveEnabled = !!(
-      activityImages.uploadedImageName &&
+      activityImages.photo.isUploaded &&
       caption &&
       caption.length &&
       date &&
@@ -393,8 +393,8 @@ class AddPhotoScreen extends React.Component {
                 <Select
                   style={styles.input}
                   filterable
-                  uniqueKey="location"
-                  displayKey="location"
+                  uniqueKey="name"
+                  displayKey="name"
                   modalHeader={Copy.locationModalHeader}
                   placeholder={Copy.locationPlaceholder}
                   selectedItem={location}

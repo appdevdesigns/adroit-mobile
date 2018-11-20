@@ -21,7 +21,7 @@ class EditLocationsScreen extends React.Component {
     };
   }
 
-  keyExtractor = item => item.location;
+  keyExtractor = item => item.name;
 
   remove = item => {
     this.props.locations.removeUserLocation(item);
@@ -37,7 +37,7 @@ class EditLocationsScreen extends React.Component {
 
   renderItem = ({ item }) => (
     <ListItem style={[baseStyles.listItem, styles.listItem]}>
-      <Text style={baseStyles.listItemText}>{item.location}</Text>
+      <Text style={baseStyles.listItemText}>{item.name}</Text>
       <Button small danger transparent onPress={() => this.remove(item)}>
         <Icon active type="FontAwesome" name="trash" />
       </Button>

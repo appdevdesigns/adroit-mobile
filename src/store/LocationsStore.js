@@ -1,31 +1,14 @@
 import { observable, action, reaction, computed, runInAction } from 'mobx';
 import { AsyncStorage } from 'react-native';
-import keyBy from 'lodash-es/keyBy';
 import filter from 'lodash-es/filter';
+import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
-
-export const LocationType = {
-  FCF: 'FCF',
-  User: 'User',
-  GPS: 'GPS',
-};
 
 export const LocationIcon = {
   GPS: 'location-arrow',
   User: 'user',
   FCF: 'users',
 };
-
-const PLACEHOLDER_LOCATIONS = [
-  {
-    location: 'FCF Office',
-    type: LocationType.FCF,
-  },
-  {
-    location: 'DigiServe Office',
-    type: LocationType.FCF,
-  },
-];
 
 const sortLocations = (locationA, locationB) => {
   if (!locationA && !locationB) {
@@ -37,12 +20,19 @@ const sortLocations = (locationA, locationB) => {
   if (!locationB) {
     return -1;
   }
-  return locationA.location.localeCompare(locationB.location);
+  // Lower priority number = list first!
+  if (locationA.priority < locationB.priority) {
+    return -1;
+  }
+  if (locationB.priority < locationA.priority) {
+    return 1;
+  }
+  return locationA.name.localeCompare(locationB.name);
 };
 
 export default class LocationsStore extends ResourceStore {
   constructor(rootStore) {
-    super(rootStore, 'location');
+    super(rootStore, 'id');
     reaction(
       () => this.rootStore.auth.isLoggedIn,
       async isLoggedIn => {
@@ -76,7 +66,7 @@ export default class LocationsStore extends ResourceStore {
 
   @computed
   get fcfLocations() {
-    return this.list.sort(sortLocations);
+    return this.list.filter(l => l.active).sort(sortLocations);
   }
 
   @computed
@@ -85,9 +75,9 @@ export default class LocationsStore extends ResourceStore {
   }
 
   @action.bound
-  async addUserLocation({ location }) {
-    const newLocation = { location, type: LocationType.User, userId: this.rootStore.users.me.id };
-    if (!this.userLocations.find(l => l.location === location)) {
+  async addUserLocation({ name }) {
+    const newLocation = { name, userId: this.rootStore.users.me.id };
+    if (!this.userLocations.find(l => l.name === name)) {
       this.userLocations.unshift(newLocation);
     }
     await LocationsStore.setUserLocations(this.userLocations);
@@ -95,15 +85,15 @@ export default class LocationsStore extends ResourceStore {
   }
 
   @action.bound
-  async removeUserLocation({ location }) {
-    this.userLocations = filter(this.userLocations, l => l.location !== location);
+  async removeUserLocation({ name }) {
+    this.userLocations = filter(this.userLocations, l => l.name !== name);
     await LocationsStore.setUserLocations(this.userLocations);
   }
 
   @action.bound
   fetchFcfLocations() {
     console.log('fetchFcfLocations');
-    this.map.replace(keyBy(PLACEHOLDER_LOCATIONS, 'location'));
+    this.fetchList(Api.urls.locations);
   }
 
   @action.bound

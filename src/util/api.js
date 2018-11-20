@@ -14,6 +14,7 @@ const Api = {
     teamMembers: teamId => `/fcf_activities/teammembers?teamID=${teamId}`,
     activityImageUpload: '/fcf_activities/activityimageupload',
     createActivityImage: '/fcf_activities/activityimage/create',
+    locations: '/fcf_core/fcflocation',
   },
 
   absoluteUrl: relativeUrl => `${BASE_URL}${relativeUrl}`,

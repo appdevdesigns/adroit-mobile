@@ -26,5 +26,6 @@ export default class Store {
     this.users.initialize();
     this.teams.initialize();
     this.activityImages.initialize();
+    this.locations.initialize();
   }
 }
