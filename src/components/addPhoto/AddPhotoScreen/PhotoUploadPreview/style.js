@@ -17,15 +17,15 @@ export default StyleSheet.create({
     width: uploadIconSize,
     borderRadius: uploadIconSize / 2,
   },
+  iconBackgroundSuccess: {
+    backgroundColor: Theme.brandSuccess,
+  },
+  iconBackgroundFailed: {
+    backgroundColor: Theme.brandDanger,
+  },
   uploadIcon: {
-    color: Color.lightTextMuted,
-    fontSize: 14,
-  },
-  success: {
     color: Theme.inverseTextColor,
-  },
-  failed: {
-    color: Theme.brandDanger,
+    fontSize: 14,
   },
   progressContainer: {
     position: 'absolute',

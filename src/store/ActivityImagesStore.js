@@ -1,13 +1,14 @@
 import { observable, action, computed, runInAction, reaction } from 'mobx';
 import compareDesc from 'date-fns/compare_desc';
-import { Toast } from 'native-base';
+import Copy from 'src/assets/Copy';
 import fetchJson from 'src/util/fetch';
-import xhr from 'src/util/xhr';
 import Api from 'src/util/api';
+import Toast from 'src/util/Toast';
 import { format } from 'src/util/date';
 import ReportingPeriod from 'src/util/ReportingPeriod';
 import Monitoring from 'src/util/Monitoring';
 import ResourceStore, { PostStatus } from './ResourceStore';
+import FileUploadStore from './FileUploadStore';
 
 const sortByDate = (activityA, activityB) => {
   if (!activityA && !activityB) {
@@ -30,6 +31,7 @@ export default class ActivityImagesStore extends ResourceStore {
   constructor(rootStore) {
     super(rootStore, 'id', true);
     this.currentReportingPeriod = new ReportingPeriod();
+    this.photo = new FileUploadStore(rootStore);
     reaction(
       () => this.rootStore.auth.isLoggedIn,
       isLoggedIn => {
@@ -41,9 +43,6 @@ export default class ActivityImagesStore extends ResourceStore {
   }
 
   @observable
-  uploadProgressPercent = 0;
-
-  @observable
   uploadedImageName = undefined;
 
   @observable
@@ -51,18 +50,26 @@ export default class ActivityImagesStore extends ResourceStore {
 
   @computed
   get totalReadyOrApproved() {
+    const myActivityImages = this.myActivityImages;
+    if (!myActivityImages) {
+      return 0;
+    }
     return this.myActivityImages.filter(a => a.status === 'approved' || a.status === 'ready').length;
   }
 
   @computed
   get totalNew() {
-    return this.myActivityImages.filter(a => a.status === 'new').length;
+    const myActivityImages = this.myActivityImages;
+    if (!myActivityImages) {
+      return 0;
+    }
+    return myActivityImages.filter(a => a.status === 'new').length;
   }
 
   @computed
   get myActivityImages() {
     if (!this.rootStore.users.me.id) {
-      return [];
+      return null;
     }
     return this.list.sort(sortByDate);
   }
@@ -71,7 +78,7 @@ export default class ActivityImagesStore extends ResourceStore {
   initializeUpload() {
     this.uploadStatus = PostStatus.pending;
     this.uploadedImageName = undefined;
-    this.uploadProgressPercent = 0;
+    this.photo.reset();
   }
 
   @action.bound
@@ -83,7 +90,6 @@ export default class ActivityImagesStore extends ResourceStore {
 
   @action.bound
   uploadImage(image) {
-    console.log('uploadImage', image);
     this.initializeUpload();
     const body = new FormData();
     body.append('imageFile', {
@@ -92,44 +98,27 @@ export default class ActivityImagesStore extends ResourceStore {
       name: 'activityPhoto.jpeg',
     });
 
-    const options = {
-      method: 'POST',
+    this.photo.upload(Api.urls.activityImageUpload, {
       body,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
+      onUploadSuccess: response => {
+        const { data } = JSON.parse(response);
+        runInAction(() => {
+          this.uploadedImageName = data.name;
+        });
       },
-      onProgress: e => {
-        console.log('Upload progress', e);
-        if (e.lengthComputable) {
-          runInAction(() => {
-            this.uploadProgressPercent = parseInt((e.loaded / e.total) * 100, 10);
-          });
-        }
+      onUploadFailed: () => {
+        Toast.danger(Copy.toast.photoUploadFailed, {
+          buttonText: Copy.toast.tryAgain,
+          duration: 0,
+          onClose: reason => {
+            if (reason === 'user') {
+              // Try again!
+              this.uploadImage(image);
+            }
+          },
+        });
       },
-      onReadyStateChange: () => {
-        if (xhr.readyState === 4) {
-          console.log('Upload status', xhr.status === 200 ? 'success' : 'failure');
-        }
-      },
-      onLoad: response => {
-        try {
-          const { data } = JSON.parse(response.currentTarget.response);
-          console.log('Image upload response', data);
-          runInAction(() => {
-            this.uploadedImageName = data.name;
-          });
-        } catch (err) {
-          console.log(err);
-          Monitoring.exception(err, { problem: 'Failed to parse response from image upload', response });
-        }
-      },
-      onError: () => {
-        Toast.show({ text: 'Photo upload failed. Try again later.', type: 'danger', buttonText: 'OKAY' });
-      },
-    };
-
-    xhr(Api.urls.activityImageUpload, options);
+    });
   }
 
   @action.bound
@@ -164,24 +153,19 @@ export default class ActivityImagesStore extends ResourceStore {
           this.map.set(newActivityImage.id, newActivityImage);
           this.uploadStatus = PostStatus.succeeded;
         });
-        Toast.show({
-          text: 'Activity photo successfully uploaded!',
-          type: 'success',
-          duration: 4000,
-          buttonText: 'OKAY',
-        });
+        Toast.success(Copy.toast.activityPhotoUploadSuccess);
       })
       .catch(async error => {
         runInAction(() => {
           this.errors.push(error);
           this.uploadStatus = PostStatus.failed;
         });
-        console.log('FAILED', error);
+        console.log('Activity photo upload FAILED', error);
         Monitoring.exception(error, { problem: 'Failed to upload activity image', body: options.body });
         if (error.status === 401) {
           await this.onUnauthorised();
         } else {
-          Toast.show({ text: 'Oops - something went wrong!', type: 'danger', buttonText: 'OKAY' });
+          Toast.danger(Copy.toast.genericError);
         }
       });
   }

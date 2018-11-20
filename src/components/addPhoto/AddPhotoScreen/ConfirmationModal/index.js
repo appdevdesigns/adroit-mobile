@@ -29,6 +29,9 @@ class ConfirmationModal extends React.Component {
   }
 
   toggleChecked = item => e => {
+    if (this.props.activityImages.uploadStatus === PostStatus.sending) {
+      return;
+    }
     this.setState(prevState => ({ [`${item}Checked`]: !prevState[`${item}Checked`] }));
     e.preventDefault();
   };

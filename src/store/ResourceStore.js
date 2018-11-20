@@ -1,8 +1,9 @@
 import { observable, action, reaction, runInAction, computed } from 'mobx';
 import { persist } from 'mobx-persist';
-import { Toast } from 'native-base';
 import keyBy from 'lodash-es/keyBy';
 import sortBy from 'lodash-es/sortBy';
+import Copy from 'src/assets/Copy';
+import Toast from 'src/util/Toast';
 import fetchJson from 'src/util/fetch';
 import Monitoring from 'src/util/Monitoring';
 
@@ -110,12 +111,12 @@ export default class ResourceStore {
 
   onFetchListFail(error) {
     if (error.status !== 401) {
-      Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
+      Toast.danger(Copy.toast.genericError);
     }
   }
 
   async onUnauthorised() {
-    Toast.show({ text: 'Please login again', type: 'danger', buttonText: 'OKAY' });
+    Toast.danger(Copy.toast.unauthorized);
     await this.rootStore.auth.logout();
   }
 }

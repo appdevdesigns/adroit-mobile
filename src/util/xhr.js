@@ -1,5 +1,6 @@
 import forIn from 'lodash-es/forIn';
 import { AsyncStorage } from 'react-native';
+import Constants from 'src/util/Constants';
 import Api from './api';
 
 const xhr = async (url, options) => {
@@ -12,6 +13,7 @@ const xhr = async (url, options) => {
 
   const req = new XMLHttpRequest();
   req.open(options.method || 'POST', Api.absoluteUrl(url));
+  req.timeout = Constants.networkRequestTimeoutMs;
   forIn(options.headers || {}, (value, key) => {
     req.setRequestHeader(key, value);
   });
@@ -33,6 +35,7 @@ const xhr = async (url, options) => {
   }
   if (options.onError) {
     req.onerror = options.onError;
+    req.ontimeout = options.onError;
   }
   req.send(options.body);
 };

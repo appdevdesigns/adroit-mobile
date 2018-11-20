@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { Image, View } from 'react-native';
 import { Spinner, Icon } from 'native-base';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
+import { UploadStatus } from 'src/store/FileUploadStore';
 import baseStyles from 'src/assets/style';
 import styles from './style';
 
@@ -17,20 +18,31 @@ class PhotoUploadPreview extends React.Component {
   render() {
     const {
       image,
-      activityImages: { uploadProgressPercent, uploadedImageName },
+      activityImages: {
+        photo: { uploadProgressPercent, status },
+      },
     } = this.props;
-    const iconStyles = [styles.uploadIcon];
-    if (uploadedImageName) {
-      iconStyles.push(styles.success);
+    const iconBackgroundStyles = [styles.iconBackground];
+    let iconName = 'upload';
+    if (status === UploadStatus.succeeded) {
+      iconBackgroundStyles.push(styles.iconBackgroundSuccess);
+      iconName = 'check';
+    } else if (status === UploadStatus.failed) {
+      iconBackgroundStyles.push(styles.iconBackgroundFailed);
+      iconName = 'exclamation-triangle';
     }
     return (
       <View style={styles.wrapper}>
         <Image resizeMode="contain" source={{ uri: image.uri }} style={styles.image} />
         <View style={baseStyles.centeredOverlay}>
-          {!uploadedImageName ? <Spinner style={styles.spinner} /> : <View style={styles.iconBackground} />}
+          {status === UploadStatus.uploading ? (
+            <Spinner style={styles.spinner} />
+          ) : (
+            <View style={iconBackgroundStyles} />
+          )}
         </View>
         <View style={baseStyles.centeredOverlay}>
-          <Icon style={iconStyles} type="FontAwesome" name={uploadedImageName ? 'check' : 'upload'} />
+          <Icon style={styles.uploadIcon} type="FontAwesome" name={iconName} />
         </View>
         <View style={styles.progressContainer}>
           <View style={[styles.progressBar, { width: `${uploadProgressPercent}%` }]} />

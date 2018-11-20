@@ -1,12 +1,13 @@
 import { AsyncStorage } from 'react-native';
 import { observable, computed, action } from 'mobx';
 import * as Keychain from 'react-native-keychain';
-import { Toast } from 'native-base';
 import parse from 'date-fns/parse';
 import isAfter from 'date-fns/is_after';
 import addHours from 'date-fns/add_hours';
+import Toast from 'src/util/Toast';
 import fetchJson from 'src/util/fetch';
 import Api from 'src/util/api';
+import Monitoring from 'src/util/Monitoring';
 
 const SESSION_LENGTH_HRS = 2;
 
@@ -54,14 +55,17 @@ export default class AuthStore {
   }
 
   static async cacheCredentials(username, password) {
-    return Keychain.setGenericPassword(username, password);
+    await AsyncStorage.setItem('adroit_username', username);
+    await Keychain.setGenericPassword(username, password);
   }
 
   static async getCachedCredentials() {
     try {
-      return Keychain.getGenericPassword();
+      const credentials = await Keychain.getGenericPassword();
+      const username = await AsyncStorage.getItem('adroit_username');
+      return { username, password: credentials.password };
     } catch (error) {
-      console.log('Failed to access keychain');
+      Monitoring.error('Failed to access keychain or AsyncStorage when retrieving cached credentials');
     }
     return { username: undefined, password: undefined };
   }
@@ -132,7 +136,7 @@ export default class AuthStore {
 
   @action.bound
   onLoginFailed(error) {
-    Toast.show({ text: error.message, type: 'danger', buttonText: 'OKAY' });
+    Toast.danger(error.message);
     this.status = AuthStatus.AuthenticationFailed;
   }
 

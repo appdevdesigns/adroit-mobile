@@ -53,6 +53,10 @@ export default StyleSheet.create({
     backgroundColor: Color.newImage,
     borderColor: Color.newImage,
   },
+  rejectedImage: {
+    backgroundColor: Theme.brandDanger,
+    borderColor: Theme.brandDanger,
+  },
   activity: {
     fontWeight: 'bold',
     fontSize: activityFontSize,

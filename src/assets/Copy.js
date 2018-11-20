@@ -92,6 +92,11 @@ const Copy = {
   toast: {
     usernameRequired: 'Please enter a username',
     passwordRequired: 'Please enter a password',
+    photoUploadFailed: 'Photo upload failed',
+    activityPhotoUploadSuccess: 'Activity photo successfully uploaded!',
+    genericError: 'Oops - something went wrong!',
+    tryAgain: 'Try again',
+    unauthorized: 'Please login again',
     okButtonText: 'OKAY',
   },
 

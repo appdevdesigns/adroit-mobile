@@ -74,6 +74,12 @@ class AddPhotoScreen extends React.Component {
         this.props.activityImages.initializeUpload();
       }
     );
+    when(
+      () => this.props.activityImages.uploadStatus === PostStatus.failed,
+      () => {
+        this.closeConfirmation();
+      }
+    );
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
@@ -137,6 +143,11 @@ class AddPhotoScreen extends React.Component {
 
   componentDidUpdate(nextProps) {
     this.initTeamActivities(nextProps);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   keyboardDidShow = () => {

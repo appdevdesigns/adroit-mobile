@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Animated, View, AsyncStorage, ImageBackground, Keyboard } from 'react-native';
-import { Button, Text, Form, Item, Input, Spinner, Toast } from 'native-base';
+import { Animated, View, ImageBackground, Keyboard } from 'react-native';
+import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import Copy from 'src/assets/Copy';
 import Theme, { Color } from 'src/assets/theme';
 import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
 import PermissionsStore from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
+import Toast from 'src/util/Toast';
 import styles from './style';
 
 const logoImage = require('src/assets/img/AdroitLogo.png');
@@ -111,9 +112,9 @@ class LoginScreen extends React.Component {
   login = () => {
     const { username, password } = this.state;
     if (!username) {
-      Toast.show({ text: Copy.toast.usernameRequired, type: 'warning', buttonText: Copy.toast.okButtonText });
+      Toast.warning(Copy.toast.usernameRequired);
     } else if (!password) {
-      Toast.show({ text: Copy.toast.passwordRequired, type: 'warning', buttonText: Copy.toast.okButtonText });
+      Toast.warning(Copy.toast.passwordRequired);
     } else {
       Keyboard.dismiss();
       this.props.auth.login(username, password);

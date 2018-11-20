@@ -11,6 +11,13 @@ import NonIdealState from 'src/components/common/NonIdealState';
 import styles from './style';
 import ActivityFeedPlaceholder from './Placeholder';
 
+const statusStyles = {
+  approved: styles.approvedImage,
+  ready: styles.approvedImage,
+  new: styles.newImage,
+  rejected: styles.rejectedImage,
+};
+
 @inject('activityImages')
 @observer
 class ActivityFeedList extends React.Component {
@@ -18,7 +25,7 @@ class ActivityFeedList extends React.Component {
     const {
       activityImages: { isInitialized, myActivityImages },
     } = this.props;
-    if (!isInitialized) {
+    if (!isInitialized || !myActivityImages) {
       return <ActivityFeedPlaceholder />;
     }
     return (
@@ -33,8 +40,7 @@ class ActivityFeedList extends React.Component {
           }
           data={myActivityImages}
           renderItem={({ item }) => {
-            const statusStyle =
-              item.status === 'approved' || item.status === 'ready' ? styles.approvedImage : styles.newImage;
+            const statusStyle = statusStyles[item.status] || styles.newImage;
             return (
               <ListItem key={item.id} style={styles.listItem}>
                 <Left style={styles.left}>
