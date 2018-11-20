@@ -119,6 +119,18 @@ const Copy = {
       message: "You haven't saved any locations yet..",
     },
   },
+
+  // Onboarding
+  copilot: {
+    approvedSummary: 'This is how many of your photos have been approved for this reporting period.',
+    newSummary: 'This is how many new photos you have uploaded that have not yet been approved.',
+    daysLeft: 'Keep an eye on how many days are left in the current reporting period.',
+    overallState: "Quickly check whether you're on track with your photo uploads for this reporting period.",
+    progressBars:
+      "This area compares how far through the current reporting period we are (black vertical bar) with how many approved (green progress bar) and new (black progress bar) photos you've uploaded.",
+    photoList: 'Your uploaded activity photos for the current reporting period are listed here.',
+    addPhoto: 'Tap here to add a new activity photo.',
+  },
 };
 
 export default Copy;

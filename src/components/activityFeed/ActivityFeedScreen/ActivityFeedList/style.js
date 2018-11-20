@@ -53,7 +53,7 @@ export default StyleSheet.create({
     backgroundColor: Color.newImage,
     borderColor: Color.newImage,
   },
-  rejectedImage: {
+  deniedImage: {
     backgroundColor: Theme.brandDanger,
     borderColor: Theme.brandDanger,
   },

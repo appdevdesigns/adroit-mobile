@@ -7,6 +7,14 @@ import { View, ImageBackground } from 'react-native';
 import { Text, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
+import {
+  CopilotView,
+  CopilotStepApprovedSummary,
+  CopilotStepNewSummary,
+  CopilotStepDaysLeft,
+  CopilotStepOverallState,
+  CopilotStepProgressBars,
+} from 'src/util/copilot';
 import styles, { Gradients } from './style';
 
 const imgDaysElapsed = require('src/assets/img/bg_bar_days_elapsed.png');
@@ -25,50 +33,68 @@ class ReportingPeriodOverview extends React.Component {
     return (
       <View style={styles.wrapper}>
         <View style={styles.top}>
-          <View style={[styles.topItem, styles.topItemBordered]}>
-            <LinearGradient colors={Gradients.approved} style={styles.topIndicator} />
-            <Text style={styles.topText}>{Copy.approvedSummary(totalReadyOrApproved)}</Text>
-          </View>
-          <View style={[styles.topItem, styles.topItemBordered]}>
-            <LinearGradient colors={Gradients.new} style={styles.topIndicator} />
-            <Text style={styles.topText}>{Copy.newSummary(totalNew)}</Text>
-          </View>
-          <ImageBackground source={imgDaysBackground} style={[styles.topItem, styles.topItemBordered]}>
-            <Icon style={styles.topIcon} type="FontAwesome" name="clock-o" />
-            <Text style={styles.topText}>{Copy.daysLeft(currentReportingPeriod.daysLeft)}</Text>
-          </ImageBackground>
-          <View style={[styles.topItem, styles.status, { backgroundColor: status.color }]}>
-            <FontAwesome5 style={styles.topIcon} name={status.icon} light />
-            <Text style={styles.topText}>{status.label}</Text>
-          </View>
+          <CopilotStepApprovedSummary>
+            <CopilotView style={[styles.topItem, styles.topItemBordered]}>
+              <LinearGradient colors={Gradients.approved} style={styles.topIndicator} />
+              <Text style={styles.topText}>{Copy.approvedSummary(totalReadyOrApproved)}</Text>
+            </CopilotView>
+          </CopilotStepApprovedSummary>
+          <CopilotStepNewSummary>
+            <CopilotView style={[styles.topItem, styles.topItemBordered]}>
+              <LinearGradient colors={Gradients.new} style={styles.topIndicator} />
+              <Text style={styles.topText}>{Copy.newSummary(totalNew)}</Text>
+            </CopilotView>
+          </CopilotStepNewSummary>
+          <CopilotStepDaysLeft>
+            <CopilotView>
+              <ImageBackground source={imgDaysBackground} style={[styles.topItem, styles.topItemBordered]}>
+                <Icon style={styles.topIcon} type="FontAwesome" name="clock-o" />
+                <Text style={styles.topText}>{Copy.daysLeft(currentReportingPeriod.daysLeft)}</Text>
+              </ImageBackground>
+            </CopilotView>
+          </CopilotStepDaysLeft>
+          <CopilotStepOverallState>
+            <CopilotView style={[styles.topItem, styles.status, { backgroundColor: status.color }]}>
+              <FontAwesome5 style={styles.topIcon} name={status.icon} light />
+              <Text style={styles.topText}>{status.label}</Text>
+            </CopilotView>
+          </CopilotStepOverallState>
         </View>
-        <ImageBackground source={imgDaysBackground} resizeMode="cover" style={styles.progressWrapper}>
-          <ImageBackground
-            source={imgDaysElapsed}
-            resizeMode="cover"
-            style={[styles.progress, styles.progressDate, { width: `${currentReportingPeriod.percentageComplete}%` }]}
-          />
-          <ImageBackground
-            source={imgNew}
-            resizeMode="cover"
-            style={[
-              styles.progress,
-              styles.imagesProgress,
-              styles.newImages,
-              { width: `${((totalReadyOrApproved + totalNew) * 100) / currentReportingPeriod.targetImageCount}%` },
-            ]}
-          />
-          <ImageBackground
-            source={imgApproved}
-            resizeMode="cover"
-            style={[
-              styles.progress,
-              styles.imagesProgress,
-              styles.approvedImages,
-              { width: `${(totalReadyOrApproved * 100) / currentReportingPeriod.targetImageCount}%` },
-            ]}
-          />
-        </ImageBackground>
+        <CopilotStepProgressBars>
+          <CopilotView style={styles.progressWrapper}>
+            <ImageBackground source={imgDaysBackground} resizeMode="cover" style={styles.progressWrapper}>
+              <ImageBackground
+                source={imgDaysElapsed}
+                resizeMode="cover"
+                style={[
+                  styles.progress,
+                  styles.progressDate,
+                  { width: `${currentReportingPeriod.percentageComplete}%` },
+                ]}
+              />
+              <ImageBackground
+                source={imgNew}
+                resizeMode="cover"
+                style={[
+                  styles.progress,
+                  styles.imagesProgress,
+                  styles.newImages,
+                  { width: `${((totalReadyOrApproved + totalNew) * 100) / currentReportingPeriod.targetImageCount}%` },
+                ]}
+              />
+              <ImageBackground
+                source={imgApproved}
+                resizeMode="cover"
+                style={[
+                  styles.progress,
+                  styles.imagesProgress,
+                  styles.approvedImages,
+                  { width: `${(totalReadyOrApproved * 100) / currentReportingPeriod.targetImageCount}%` },
+                ]}
+              />
+            </ImageBackground>
+          </CopilotView>
+        </CopilotStepProgressBars>
       </View>
     );
   }

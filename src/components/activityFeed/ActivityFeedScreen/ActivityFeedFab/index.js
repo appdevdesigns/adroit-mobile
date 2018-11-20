@@ -1,6 +1,7 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { Button, Icon, Fab } from 'native-base';
+import { CopilotView, CopilotStepAddPhoto } from 'src/util/copilot';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import styles from './style';
@@ -31,7 +32,11 @@ class ActivityFeedFab extends React.Component {
     const { isFabActive } = this.state;
     return (
       <Fab active={isFabActive} direction="up" style={styles.fab} position="bottomRight" onPress={this.toggleFab}>
-        <Icon type="FontAwesome" name="plus" />
+        <CopilotStepAddPhoto>
+          <CopilotView style={styles.fabCopilot}>
+            <Icon type="FontAwesome" name="plus" style={styles.fabIcon} />
+          </CopilotView>
+        </CopilotStepAddPhoto>
         <Button style={styles.fabImage} onPress={this.goToPhotos}>
           <Icon type="FontAwesome" name="image" />
         </Button>

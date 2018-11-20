@@ -11,4 +11,13 @@ export default StyleSheet.create({
   fabCamera: {
     backgroundColor: 'darkblue',
   },
+  fabCopilot: {
+    width: 56,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fabIcon: {
+    color: '#fff',
+  },
 });
