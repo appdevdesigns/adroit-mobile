@@ -3,6 +3,9 @@ package com.adroit;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import com.ocetnik.timer.BackgroundTimerPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.keychain.KeychainPackage;
 import io.sentry.RNSentryPackage;
@@ -38,6 +41,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeRestartPackage(),
+            new BackgroundTimerPackage(),
+            new RNDeviceInfo(),
             new SvgPackage(),
             new KeychainPackage(),
             new RNSentryPackage(),

@@ -6,7 +6,7 @@ import Api from 'src/util/api';
 import Toast from 'src/util/Toast';
 import { format } from 'src/util/date';
 import ReportingPeriod from 'src/util/ReportingPeriod';
-import Monitoring from 'src/util/Monitoring';
+import Monitoring, { Event } from 'src/util/Monitoring';
 import ResourceStore, { PostStatus } from './ResourceStore';
 import FileUploadStore from './FileUploadStore';
 
@@ -107,16 +107,7 @@ export default class ActivityImagesStore extends ResourceStore {
         });
       },
       onUploadFailed: () => {
-        Toast.danger(Copy.toast.photoUploadFailed, {
-          buttonText: Copy.toast.tryAgain,
-          duration: 0,
-          onClose: reason => {
-            if (reason === 'user') {
-              // Try again!
-              this.uploadImage(image);
-            }
-          },
-        });
+        Toast.danger(Copy.toast.photoUploadFailed);
       },
     });
   }
@@ -153,6 +144,7 @@ export default class ActivityImagesStore extends ResourceStore {
           this.map.set(newActivityImage.id, newActivityImage);
           this.uploadStatus = PostStatus.succeeded;
         });
+        Monitoring.event(Event.ActivityPhotoUploadSuccess);
         Toast.success(Copy.toast.activityPhotoUploadSuccess);
       })
       .catch(async error => {
@@ -161,6 +153,7 @@ export default class ActivityImagesStore extends ResourceStore {
           this.uploadStatus = PostStatus.failed;
         });
         console.log('Activity photo upload FAILED', error);
+        Monitoring.event(Event.ActivityPhotoUploadFail);
         Monitoring.exception(error, { problem: 'Failed to upload activity image', body: options.body });
         if (error.status === 401) {
           await this.onUnauthorised();

@@ -13,7 +13,8 @@ Monitoring.init();
 // Disable the 'isMounted() and MobX Provider deprecation warnings from showing up in the yellow box
 console.ignoredYellowBox = ['Warning: isMounted', 'MobX Provider:']; // eslint-disable-line
 
-console.log('Running with config', Config);
+Monitoring.debug('Running with config', Config);
+
 if (!Config.ADROIT_GMAPS_API_KEY) {
   throw new Error('ADROIT_GMAPS_API_KEY must be set in the .env file');
 }
@@ -21,11 +22,32 @@ Geocode.setApiKey(Config.ADROIT_GMAPS_API_KEY);
 
 const store = new Store();
 
+// gets the current screen from navigation state
+const getActiveRouteName = navigationState => {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
+};
+
 const App = () => (
   <Root>
     <StyleProvider style={getTheme(theme)}>
       <Provider {...store}>
-        <Navigation />
+        <Navigation
+          onNavigationStateChange={(prevState, currentState) => {
+            const currentScreen = getActiveRouteName(currentState);
+            const prevScreen = getActiveRouteName(prevState);
+            if (prevScreen !== currentScreen) {
+              Monitoring.screenView(currentScreen);
+            }
+          }}
+        />
       </Provider>
     </StyleProvider>
   </Root>

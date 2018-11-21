@@ -16,6 +16,8 @@ export default StyleSheet.create({
     height: uploadIconSize,
     width: uploadIconSize,
     borderRadius: uploadIconSize / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   iconBackgroundSuccess: {
     backgroundColor: Theme.brandSuccess,
