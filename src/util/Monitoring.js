@@ -8,13 +8,19 @@ export const Event = {
   ActivityPhotoUploadFail: 'activity-photo-upload-fail',
 };
 
+/* eslint-disable no-console */
 const consoleLog = (...args) => {
   if (__DEV__) {
-    /* eslint-disable no-console */
     console.log(...args);
-    /* eslint-enable no-console */
   }
 };
+
+const verifyConfigIsSet = configKey => {
+  if (!Config[configKey]) {
+    console.error(`${configKey} environment variable not set`);
+  }
+};
+/* eslint-enable no-console */
 
 const DebugMonitoring = {
   init: () => {
@@ -44,7 +50,10 @@ const DebugMonitoring = {
 
 const Monitoring = {
   init: () => {
-    Sentry.config('https://a0015892e6a04614b45b14e4af767922@sentry.io/1321081', {
+    verifyConfigIsSet('SENTRY_ENDPOINT');
+    verifyConfigIsSet('COUNTLY_HOST');
+    verifyConfigIsSet('COUNTLY_APP_KEY');
+    Sentry.config(Config.SENTRY_ENDPOINT, {
       release: packageJson.version,
     }).install();
     Countly.begin(Config.COUNTLY_HOST, Config.COUNTLY_APP_KEY)
