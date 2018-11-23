@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import unionBy from 'lodash-es/unionBy';
+import intersectionBy from 'lodash-es/intersectionBy';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -159,35 +159,16 @@ class AddPhotoScreen extends React.Component {
   };
 
   initTeamActivities = async props => {
-    const { team, activity, taggedPeople } = this.state;
-    const { teams, users } = props;
+    const { team } = this.state;
+    const { teams } = props;
     let initTeam = team;
     if (!team && teams.list && teams.list.length) {
       const lastTeamId = await AsyncStorage.getItem('last_team_id');
       if (lastTeamId) {
         initTeam = teams.list.find(t => String(t.IDMinistry) === lastTeamId);
       }
-      if (!initTeam) {
-        [initTeam] = teams.list;
-      }
-      this.setState({ team: initTeam });
-    }
-    if (!activity && initTeam) {
-      let initActivity = activity;
-      const lastActivityId = await AsyncStorage.getItem('last_activity_id');
-      if (lastActivityId) {
-        initActivity = initTeam.activities.find(a => String(a.id) === lastActivityId);
-      }
-      if (!initActivity) {
-        [initActivity] = initTeam.activities;
-      }
-      this.setState({ activity: initActivity });
-    }
-    if (!taggedPeople.length && initTeam && users && users.me) {
-      // Tag yourself by default
-      const me = initTeam.members.find(m => m.IDPerson === users.me.id);
-      if (me) {
-        this.setState({ taggedPeople: [me] });
+      if (initTeam) {
+        this.setTeam(initTeam);
       }
     }
   };
@@ -210,13 +191,19 @@ class AddPhotoScreen extends React.Component {
   };
 
   setTeam = team => {
+    const { users } = this.props;
     const prevTeam = this.state.team;
     const newState = {
       team,
     };
-    if (prevTeam.IDMinistry !== team.IDMinistry) {
+    if (!prevTeam && users && users.me) {
+      const me = team.members.slice().find(m => m.IDPerson === users.me.id);
+      if (me) {
+        newState.taggedPeople = [me];
+      }
+    } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
       newState.activity = undefined;
-      newState.taggedPeople = unionBy(this.state.taggedPeople || [], team.members, 'IDPerson');
+      newState.taggedPeople = intersectionBy(this.state.taggedPeople || [], team.members.slice() || [], 'IDPerson');
     }
     this.setState(newState);
   };
@@ -225,9 +212,8 @@ class AddPhotoScreen extends React.Component {
     console.log('Uploading!');
     const { team, activity, caption, location, date, taggedPeople, photoLocation } = this.state;
     const { activityImages } = this.props;
-    // Persist the team and activity IDs for initialization next time
+    // Persist the team for initialization next time
     await AsyncStorage.setItem('last_team_id', String(team.IDMinistry));
-    await AsyncStorage.setItem('last_activity_id', String(activity.id));
 
     const activityImage = {
       image: this.image(),
@@ -404,6 +390,7 @@ class AddPhotoScreen extends React.Component {
                   renderSelectedItem={this.renderSelectedLocation}
                   renderItem={this.renderLocationItem}
                   isSectioned
+                  filterPlaceholder={Copy.selectLocationFilterPlaceholder}
                 />
               )}
             </Item>

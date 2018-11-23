@@ -17,6 +17,7 @@ import {
   Body,
 } from 'native-base';
 import Copy from 'src/assets/Copy';
+import NonIdealState from 'src/components/common/NonIdealState';
 import styles from './style';
 
 class MultiSelect extends React.Component {
@@ -35,6 +36,8 @@ class MultiSelect extends React.Component {
     this.setState({ isModalOpen: false });
   };
 
+  isSelected = item => !!this.props.selectedItems.find(i => i[this.props.uniqueKey] === item[this.props.uniqueKey]);
+
   removeItem = item => {
     const { uniqueKey, onSelectedItemsChange } = this.props;
     onSelectedItemsChange(reject(this.props.selectedItems, i => item[uniqueKey] === i[uniqueKey]));
@@ -46,7 +49,7 @@ class MultiSelect extends React.Component {
   };
 
   toggleItem = item => {
-    if (this.props.selectedItems.includes(item)) {
+    if (this.isSelected(item)) {
       this.removeItem(item);
     } else {
       this.addItem(item);
@@ -66,8 +69,8 @@ class MultiSelect extends React.Component {
   );
 
   renderItem = ({ item }) => {
-    const { selectedItems, uniqueKey, renderItem, displayKey } = this.props;
-    const itemIcon = selectedItems.includes(item) ? 'check-square' : 'square-o';
+    const { uniqueKey, renderItem, displayKey } = this.props;
+    const itemIcon = this.isSelected(item) ? 'check-square' : 'square-o';
     return (
       <ListItem
         key={item[uniqueKey]}
@@ -92,7 +95,15 @@ class MultiSelect extends React.Component {
   };
 
   render() {
-    const { style, renderSelectedItems, selectedItems, items, modalHeader } = this.props;
+    const {
+      style,
+      renderSelectedItems,
+      selectedItems,
+      items,
+      modalHeader,
+      emptyListTitle,
+      emptyListMessage,
+    } = this.props;
     const { isModalOpen } = this.state;
     const renderSelected = renderSelectedItems || this.renderSelectedItems;
     return (
@@ -114,6 +125,7 @@ class MultiSelect extends React.Component {
                 data={items}
                 keyExtractor={this.keyExtractor}
                 renderItem={this.renderItem}
+                ListEmptyComponent={<NonIdealState title={emptyListTitle} message={emptyListMessage} />}
               />
             </Content>
             <Footer>
@@ -141,6 +153,8 @@ MultiSelect.propTypes = {
   onSelectedItemsChange: PropTypes.func.isRequired,
   renderSelectedItems: PropTypes.func,
   renderItem: PropTypes.func,
+  emptyListTitle: PropTypes.string,
+  emptyListMessage: PropTypes.string,
 };
 
 MultiSelect.defaultProps = {
@@ -151,6 +165,8 @@ MultiSelect.defaultProps = {
   displayKey: 'name',
   renderItem: undefined,
   renderSelectedItems: undefined,
+  emptyListTitle: Copy.nonIdealState.defaultEmptySelect.title,
+  emptyListMessage: Copy.nonIdealState.defaultEmptySelect.message,
 };
 
 export default MultiSelect;

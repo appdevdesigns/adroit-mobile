@@ -19,6 +19,7 @@ import {
 } from 'native-base';
 import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
+import NonIdealState from 'src/components/common/NonIdealState';
 import styles from './style';
 
 class Select extends React.Component {
@@ -52,9 +53,15 @@ class Select extends React.Component {
 
   keyExtractor = item => String(item[this.props.uniqueKey]);
 
-  renderSelectedItem = item => <Text style={styles.selected}>{item[this.props.displayKey]}</Text>;
+  renderSelectedItem = item => {
+    console.log('Rendering selected item', item[this.props.displayKey]);
+    return <Text style={styles.selected}>{item[this.props.displayKey]}</Text>;
+  };
 
-  renderPlaceholder = () => <Text style={styles.placeholder}>{this.props.placeholder}</Text>;
+  renderPlaceholder = () => {
+    console.log('Rendering placeholder', this.props.placeholder);
+    return <Text style={styles.placeholder}>{this.props.placeholder}</Text>;
+  };
 
   renderSectionHeader = ({ section: { title } }) =>
     title ? (
@@ -104,6 +111,8 @@ class Select extends React.Component {
       filterPlaceholder,
       isSectioned,
       renderSectionHeader,
+      emptyListTitle,
+      emptyListMessage,
     } = this.props;
     const { isModalOpen, filter } = this.state;
     const renderSelected = renderSelectedItem || this.renderSelectedItem;
@@ -136,7 +145,7 @@ class Select extends React.Component {
           </Button>
         </View>
       ) : (
-        undefined
+        <NonIdealState title={emptyListTitle} message={emptyListMessage} />
       ),
     };
     if (isSectioned) {
@@ -218,6 +227,8 @@ Select.propTypes = {
   onAddOption: PropTypes.func,
   isSectioned: PropTypes.bool,
   renderSectionHeader: PropTypes.func,
+  emptyListTitle: PropTypes.string,
+  emptyListMessage: PropTypes.string,
 };
 
 Select.defaultProps = {
@@ -234,6 +245,8 @@ Select.defaultProps = {
   onAddOption: undefined,
   isSectioned: false,
   renderSectionHeader: undefined,
+  emptyListTitle: Copy.nonIdealState.defaultEmptySelect.title,
+  emptyListMessage: Copy.nonIdealState.defaultEmptySelect.message,
 };
 
 export default Select;

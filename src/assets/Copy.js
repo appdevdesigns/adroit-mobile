@@ -52,12 +52,13 @@ const Copy = {
   taggedPeopleModalHeader: 'Select team members',
   myLocationsSection: 'My locations',
   fcfLocationsSection: 'FCF locations',
+  selectLocationFilterPlaceholder: 'Search or add location...',
 
   // Help
   helpTitle: 'How to use Adroit',
 
   // Edit Locations
-  editLocationsTitle: 'Edit Locations',
+  editLocationsTitle: 'Add/Remove Locations',
   editLocationsHelp: {
     title: 'Your saved locations',
     p1:
@@ -117,6 +118,10 @@ const Copy = {
     noUserLocations: {
       title: 'No locations',
       message: "You haven't saved any locations yet..",
+    },
+    defaultEmptySelect: {
+      title: 'No options',
+      message: 'Nothing to select here!',
     },
   },
 
