@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { FlatList, View } from 'react-native';
-import { Container, Button, Icon, Header, Title, Content, Left, Body, Right, ListItem, Text } from 'native-base';
+import { Container, Button, Icon, Header, Title, Content, Left, Body, Right, ListItem, Text, Input } from 'native-base';
 import Copy from 'src/assets/Copy';
 import BackButton from 'src/components/common/BackButton';
 import LocationsStore from 'src/store/LocationsStore';
 import Modal from 'src/components/common/Modal';
 import baseStyles from 'src/assets/style';
+import Toast from 'src/util/Toast';
 import styles from './style';
 import NonIdealState from '../../common/NonIdealState';
 
@@ -18,6 +19,7 @@ class EditLocationsScreen extends React.Component {
     super(props);
     this.state = {
       isHelpVisible: false,
+      newLocation: '',
     };
   }
 
@@ -26,6 +28,17 @@ class EditLocationsScreen extends React.Component {
   remove = item => {
     this.props.locations.removeUserLocation(item);
   };
+
+  addLocation = () => {
+    if (this.props.locations.authenticatedUsersLocations.find(l => l.name === this.state.newLocation)) {
+      Toast.danger(Copy.toast.locationAlreadyExists);
+      return;
+    }
+    this.props.locations.addUserLocation({ name: this.state.newLocation });
+    this.setState({ newLocation: '' });
+  };
+
+  updateNewLocation = newLocation => this.setState({ newLocation });
 
   showHelp = () => {
     this.setState({ isHelpVisible: true });
@@ -46,7 +59,7 @@ class EditLocationsScreen extends React.Component {
 
   render() {
     const { locations } = this.props;
-    const { isHelpVisible } = this.state;
+    const { isHelpVisible, newLocation } = this.state;
     const textStyle = [baseStyles.paragraph, styles.modalText];
     return (
       <Container>
@@ -64,6 +77,24 @@ class EditLocationsScreen extends React.Component {
           </Right>
         </Header>
         <Content>
+          <View style={[baseStyles.listItem]}>
+            <Input
+              style={styles.input}
+              placeholder="Add a location..."
+              placeholderTextColor="#999"
+              onChangeText={this.updateNewLocation}
+              value={newLocation}
+            />
+            <Button
+              transparent
+              disabled={!newLocation}
+              style={[styles.addButton, baseStyles.marginLeft]}
+              icon
+              onPress={this.addLocation}
+            >
+              <Icon type="FontAwesome" name="plus" />
+            </Button>
+          </View>
           <FlatList
             ListEmptyComponent={
               <NonIdealState

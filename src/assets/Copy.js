@@ -24,7 +24,7 @@ const Copy = {
   // Drawer menu
   drawerMenuLogout: 'Log out',
   drawerMenuHelp: 'Help',
-  drawerMenuEditLocations: 'Edit saved locations',
+  drawerMenuEditLocations: 'My locations...',
 
   // Add Photo
   addPhotoTitle: 'Add a photo',
@@ -94,6 +94,7 @@ const Copy = {
     usernameRequired: 'Please enter a username',
     passwordRequired: 'Please enter a password',
     photoUploadFailed: 'Photo upload failed',
+    locationAlreadyExists: 'This location already exists',
     activityPhotoUploadSuccess: 'Activity photo successfully uploaded!',
     genericError: 'Oops - something went wrong!',
     tryAgain: 'Try again',

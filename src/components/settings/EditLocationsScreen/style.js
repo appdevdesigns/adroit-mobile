@@ -9,4 +9,14 @@ export default StyleSheet.create({
   modalText: {
     fontSize: 14,
   },
+  input: {
+    height: 20,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  addButton: {
+    flex: 0,
+  },
 });
