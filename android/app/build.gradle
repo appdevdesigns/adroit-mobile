@@ -76,9 +76,9 @@ project.ext.react = [
     entryFile: "index.js"
 ]
 
-// project.ext.sentryCli = [
-//     flavorAware: false
-// ]
+project.ext.sentryCli = [
+    flavorAware: false
+]
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"

@@ -17,6 +17,7 @@ function preset() {
           extensions: ['.js', '.ios.js', '.android.js'],
         },
       ],
+      'git-version',
     ],
   };
 }

@@ -6,7 +6,9 @@
   ],
   "plugins": ["react", "react-native", "import"],
   "globals": {
-    "Headers": true
+    "Headers": true,
+    "GIT_COMMIT": false,
+    "GIT_TAG": false
   },
   "env": {
     "react-native/react-native": true
