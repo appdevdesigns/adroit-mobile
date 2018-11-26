@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Title, Content, Left, Body } from 'native-base';
+import { Container, Header, Title, Content, Left, Body, Text } from 'native-base';
 import BackButton from 'src/components/common/BackButton';
 import Copy from 'src/assets/Copy';
 
@@ -20,7 +20,9 @@ export default class HelpScreen extends React.PureComponent {
             <Title>{Copy.helpTitle}</Title>
           </Body>
         </Header>
-        <Content />
+        <Content padder>
+          <Text>Welcom to the help!</Text>
+        </Content>
       </Container>
     );
   }
