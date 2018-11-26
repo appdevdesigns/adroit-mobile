@@ -21,7 +21,7 @@ export default class HelpScreen extends React.PureComponent {
           </Body>
         </Header>
         <Content padder>
-          <Text>Welcom to the help!</Text>
+          <Text>Welcome to the help!</Text>
         </Content>
       </Container>
     );
