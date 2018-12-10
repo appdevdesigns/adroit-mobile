@@ -4,10 +4,10 @@ import { inject, observer } from 'mobx-react';
 import { FlatList, View } from 'react-native';
 import { Container, Button, Icon, Header, Title, Content, Left, Body, Right, ListItem, Text, Input } from 'native-base';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import BackButton from 'src/components/common/BackButton';
 import LocationsStore from 'src/store/LocationsStore';
 import Modal from 'src/components/common/Modal';
-import baseStyles from 'src/assets/style';
 import Toast from 'src/util/Toast';
 import styles from './style';
 import NonIdealState from '../../common/NonIdealState';
@@ -64,13 +64,13 @@ class EditLocationsScreen extends React.Component {
     return (
       <Container>
         <Header>
-          <Left>
+          <Left style={baseStyles.headerLeft}>
             <BackButton />
           </Left>
-          <Body>
+          <Body style={baseStyles.headerBody}>
             <Title>{Copy.editLocationsTitle}</Title>
           </Body>
-          <Right>
+          <Right style={baseStyles.headerRight}>
             <Button transparent onPress={this.showHelp}>
               <Icon type="FontAwesome" name="question-circle-o" />
             </Button>

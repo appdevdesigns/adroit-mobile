@@ -174,7 +174,7 @@ class Select extends React.Component {
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
             <Header>
-              <Body style={styles.headerBody}>
+              <Body style={baseStyles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
             </Header>

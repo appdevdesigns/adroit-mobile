@@ -20,6 +20,17 @@ export const round = size => ({
  * App-wide reusable styles
  */
 export default StyleSheet.create({
+  headerLeft: {
+    flex: 0.3,
+    marginRight: GridSize,
+  },
+  headerRight: {
+    flex: 0.3,
+    marginLeft: GridSize,
+  },
+  headerBody: {
+    alignItems: 'center',
+  },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',

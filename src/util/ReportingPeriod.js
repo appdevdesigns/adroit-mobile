@@ -50,10 +50,4 @@ export default class ReportingPeriod {
     }
     return ReportingPeriodStatus.WARNING;
   }
-
-  test() {
-    for (let i = 0; i < this.targetImageCount + 1; i += 1) {
-      console.log(`${this.percentageComplete}% complete, ${i} photos. Status = ${this.getStatus(i)}`);
-    }
-  }
 }

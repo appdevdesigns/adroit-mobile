@@ -4,12 +4,6 @@ import filter from 'lodash-es/filter';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
-export const LocationIcon = {
-  GPS: 'location-arrow',
-  User: 'user',
-  FCF: 'users',
-};
-
 const sortLocations = (locationA, locationB) => {
   if (!locationA && !locationB) {
     return 0;

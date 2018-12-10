@@ -53,6 +53,10 @@ const Copy = {
   myLocationsSection: 'My locations',
   fcfLocationsSection: 'FCF locations',
   selectLocationFilterPlaceholder: 'Search or add location...',
+  selectActivityEmptyTitle: 'No activities to select',
+  selectActivityEmptyMessage: 'Please select a team first',
+  selectTaggedPeopleEmptyTitle: 'No team members to select',
+  selectTaggedPeopleEmptyMessage: 'Please select a team first',
 
   // Help
   helpTitle: 'How to use Adroit',

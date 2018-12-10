@@ -325,13 +325,13 @@ class AddPhotoScreen extends React.Component {
     return (
       <Container>
         <Header>
-          <Left>
+          <Left style={baseStyles.headerLeft}>
             <BackButton />
           </Left>
-          <Body>
+          <Body style={baseStyles.headerBody}>
             <Title>{Copy.addPhotoTitle}</Title>
           </Body>
-          <Right />
+          <Right style={baseStyles.headerRight} />
         </Header>
         <Content>
           <PhotoUploadPreview image={this.image()} />
@@ -422,6 +422,8 @@ class AddPhotoScreen extends React.Component {
                   displayKey="activity_name"
                   modalHeader={Copy.activityModalHeader}
                   placeholder={Copy.activityPlaceholder}
+                  emptyListTitle={Copy.selectActivityEmptyTitle}
+                  emptyListMessage={Copy.selectActivityEmptyMessage}
                   selectedItem={activity}
                   onSelectedItemChange={this.setStateItem('activity')}
                   items={team ? team.activities.slice() : []}
@@ -441,6 +443,8 @@ class AddPhotoScreen extends React.Component {
                   displayKey="display_name"
                   placeholder={Copy.taggedPeoplePlaceholder}
                   modalHeader={Copy.taggedPeopleModalHeader}
+                  emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}
+                  emptyListMessage={Copy.selectTaggedPeopleEmptyMessage}
                   onSelectedItemsChange={this.setStateItem('taggedPeople')}
                   renderItem={this.renderTeamMember}
                   renderSelectedItems={this.renderSelectedTeamMembers}

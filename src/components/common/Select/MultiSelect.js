@@ -16,6 +16,7 @@ import {
   Right,
   Body,
 } from 'native-base';
+import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
 import NonIdealState from 'src/components/common/NonIdealState';
 import styles from './style';
@@ -115,7 +116,7 @@ class MultiSelect extends React.Component {
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
             <Header>
-              <Body style={styles.headerBody}>
+              <Body style={baseStyles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
             </Header>

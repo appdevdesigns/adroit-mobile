@@ -37,14 +37,6 @@ export default StyleSheet.create({
     fontSize: 17,
     color: '#000',
   },
-  headerBody: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  headerSide: {
-    flex: 0,
-    minWidth: 50,
-  },
   noMatches: {
     padding: GridSize,
     paddingTop: GridSize * 2,

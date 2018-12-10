@@ -38,10 +38,11 @@ class CameraScreen extends React.Component {
       flashModeIndex: 0,
       type: RNCamera.Constants.Type.back,
     };
+    this.camera = React.createRef();
   }
 
   async componentDidMount() {
-    const hasPermission = await this.props.permissions.requestPermission(Permission.WriteToExternalStorage, {
+    await this.props.permissions.requestPermission(Permission.WriteToExternalStorage, {
       title: Copy.perms.cameraRollWrite.title,
       message: Copy.perms.cameraRollWrite.message,
     });
@@ -84,9 +85,7 @@ class CameraScreen extends React.Component {
     return (
       <Container>
         <RNCamera
-          ref={ref => {
-            this.camera = ref;
-          }}
+          ref={this.camera}
           style={styles.preview}
           type={type}
           flashMode={flashModes[flashModeIndex].mode}

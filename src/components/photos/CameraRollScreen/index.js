@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container, Header, Title, Content, Left, Body, Right } from 'native-base';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import BackButton from 'src/components/common/BackButton';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -24,13 +25,13 @@ class CameraRollScreen extends React.Component {
     return (
       <Container>
         <Header>
-          <Left>
+          <Left style={baseStyles.headerLeft}>
             <BackButton />
           </Left>
-          <Body>
+          <Body style={baseStyles.headerBody}>
             <Title>{Copy.camRollTitle}</Title>
           </Body>
-          <Right />
+          <Right style={baseStyles.headerRight} />
         </Header>
         {permissions.canReadExternalStorage ? (
           <Content>

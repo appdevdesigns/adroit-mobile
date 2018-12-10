@@ -4,8 +4,9 @@ import { AsyncStorage } from 'react-native';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Container, Header, Title, Button, Left, Body, Icon, Drawer } from 'native-base';
+import { Container, Header, Title, Button, Left, Body, Right, Icon, Drawer } from 'native-base';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import AuthStore from 'src/store/AuthStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -68,14 +69,15 @@ class ActivityFeedScreen extends React.Component {
       >
         <Container>
           <Header>
-            <Left>
+            <Left style={baseStyles.headerLeft}>
               <Button transparent onPress={this.openDrawer}>
                 <Icon type="FontAwesome" name="bars" />
               </Button>
             </Left>
-            <Body>
+            <Body style={baseStyles.headerBody}>
               <Title>{Copy.activityFeedTitle}</Title>
             </Body>
+            <Right style={baseStyles.headerRight} />
           </Header>
           <ReportingPeriodOverview />
           <ActivityFeedList />
