@@ -36,7 +36,6 @@ export default class TeamsStore extends ResourceStore {
 
   @action.bound
   listMyTeams() {
-    console.log('listMyTeams');
     const fullUrl = `${Api.urls.myTeams}?DateMinistryEnded=null`;
     this.fetchList(fullUrl);
   }

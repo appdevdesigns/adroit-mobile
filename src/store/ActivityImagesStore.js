@@ -83,7 +83,6 @@ export default class ActivityImagesStore extends ResourceStore {
 
   @action.bound
   getMyActivityImages() {
-    console.log('getMyActivityImages');
     const fullUrl = `${Api.urls.myActivityImages}?date[>]=${format(this.currentReportingPeriod.start, 'YYYY/MM/DD')}`;
     this.fetchList(fullUrl);
   }
@@ -132,12 +131,10 @@ export default class ActivityImagesStore extends ResourceStore {
         'Content-Type': 'multipart/form-data',
       }),
     };
-    console.log('upload', body, options);
 
     this.uploadStatus = PostStatus.sending;
     fetchJson(url, options)
       .then(response => {
-        console.log(`${url} response`, response);
         const newActivityImage = response.json.data;
         newActivityImage.activity = this.rootStore.teams.getActivity(newActivityImage.activity);
         runInAction(() => {
@@ -152,7 +149,6 @@ export default class ActivityImagesStore extends ResourceStore {
           this.errors.push(error);
           this.uploadStatus = PostStatus.failed;
         });
-        console.log('Activity photo upload FAILED', error);
         Monitoring.event(Event.ActivityPhotoUploadFail);
         Monitoring.exception(error, { problem: 'Failed to upload activity image', body: options.body });
         if (error.status === 401) {

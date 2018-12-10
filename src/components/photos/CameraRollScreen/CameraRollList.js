@@ -5,7 +5,7 @@ import Lightbox from 'react-native-lightbox';
 import { Spinner, Text, Icon, Button } from 'native-base';
 import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import Monitoring from 'src/util/Monitoring';
+import Monitoring, { Event } from 'src/util/Monitoring';
 import NonIdealState from 'src/components/common/NonIdealState';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns, equalWidth } from './style';
@@ -83,6 +83,7 @@ class CameraRollList extends Component {
             light
             onPress={() => {
               close();
+              Monitoring.event(Event.CameraRollImageSelected);
               this.props.navigation.navigate(AppScreen.AddPhoto, { image: item });
             }}
           >

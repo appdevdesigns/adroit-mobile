@@ -1,4 +1,5 @@
 import { PermissionsAndroid } from 'react-native';
+import Monitoring from 'src/util/Monitoring';
 
 const PermissionMap = {
   TakePhotos: PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -20,9 +21,9 @@ class Permission {
 
   requestPermission = async (perm, rationale) => {
     this._validatePerm(perm);
-    console.log('Requesting permission', perm);
+    Monitoring.debug('Requesting permission', perm);
     const response = await PermissionsAndroid.request(PermissionMap[perm], rationale);
-    console.log('Permission response', response);
+    Monitoring.debug('Permission response', response);
     return response;
   };
 }

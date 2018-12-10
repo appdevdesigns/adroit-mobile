@@ -11,6 +11,7 @@ import AuthStore from 'src/store/AuthStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
+import Monitoring, { Event } from 'src/util/Monitoring';
 import Sidebar from './Sidebar';
 import ReportingPeriodOverview from './ReportingPeriodOverview';
 import ActivityFeedList from './ActivityFeedList';
@@ -34,20 +35,28 @@ class ActivityFeedScreen extends React.Component {
       async () => {
         const hasViewedOnboarding = await AsyncStorage.getItem('adroit_has_viewed_onboarding');
         if (hasViewedOnboarding !== 'true') {
+          Monitoring.event(Event.OnboardingStarted);
           this.props.start();
         } else {
-          console.log('Skipping onboarding - already viewed');
+          Monitoring.debug('Skipping onboarding - already viewed');
         }
       }
     );
   }
 
   componentDidMount() {
-    this.props.copilotEvents.on('stop', async () => AsyncStorage.setItem('adroit_has_viewed_onboarding', 'true'));
+    this.props.copilotEvents.on('stop', async () => {
+      Monitoring.event(Event.OnboardingStopped);
+      AsyncStorage.setItem('adroit_has_viewed_onboarding', 'true');
+    });
+    this.props.copilotEvents.on('stepChange', ({ name, order }) => {
+      Monitoring.event(Event.OnboardingStepViewed, { name, order });
+    });
   }
 
   componentWillUnmount() {
     this.props.copilotEvents.off('stop');
+    this.props.copilotEvents.off('stepChange');
   }
 
   closeDrawer = () => {

@@ -83,7 +83,6 @@ class LoginScreen extends React.Component {
   };
 
   checkLogin = async () => {
-    console.log('checkLogin');
     const sessionIsOpen = await this.props.auth.checkSession();
     if (sessionIsOpen) {
       this.props.auth.onLoggedIn();

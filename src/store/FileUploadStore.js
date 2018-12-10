@@ -33,7 +33,6 @@ export default class FileUploadStore {
 
   @action.bound
   upload = (url, uploadOptions) => {
-    console.log('File upload', uploadOptions.body);
     this.status = UploadStatus.uploading;
     this.uploadProgressPercent = 0;
 
@@ -45,21 +44,14 @@ export default class FileUploadStore {
         'Content-Type': 'multipart/form-data',
       },
       onProgress: e => {
-        console.log('File upload progress', e);
         if (e.lengthComputable) {
           runInAction(() => {
             this.uploadProgressPercent = parseInt((e.loaded / e.total) * 100, 10);
           });
         }
       },
-      // onReadyStateChange: () => {
-      //   if (xhr.readyState === 4) {
-      //     console.log('Upload status', xhr.status === 200 ? 'success' : 'failure');
-      //   }
-      // },
       onLoad: response => {
         try {
-          console.log('File upload response', response.currentTarget.response);
           if (uploadOptions.onUploadSuccess) {
             uploadOptions.onUploadSuccess(response.currentTarget.response);
           }
@@ -67,7 +59,6 @@ export default class FileUploadStore {
             this.status = UploadStatus.succeeded;
           });
         } catch (error) {
-          console.log(error);
           Monitoring.exception(error, {
             problem: 'Failed to parse response from file upload',
             response: response.currentTarget.response,
@@ -83,7 +74,6 @@ export default class FileUploadStore {
         }
       },
       onError: () => {
-        console.log('Failed to upload file', url, uploadOptions.body);
         Monitoring.error('Failed to upload file', { url, body: uploadOptions.body });
         if (uploadOptions.onUploadFailed) {
           uploadOptions.onUploadFailed();

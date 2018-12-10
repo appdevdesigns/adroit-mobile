@@ -97,16 +97,14 @@ class AddPhotoScreen extends React.Component {
             this.setState({ date });
           } catch (err) {
             Monitoring.exception(err, { data, problem: 'Failed to parse exif data' });
-            console.log('Failed to parse exif date', err);
             this.setState({ date: today });
           }
         } else {
-          console.log('No exif data available');
+          Monitoring.debug('No exif data available');
           this.setState({ date: today });
         }
       })
       .catch(msg => {
-        console.log('getExif ERROR', msg);
         Monitoring.exception(msg, { problem: 'Exif.getExif ERROR' });
         this.setState({ date: today });
       });
@@ -120,22 +118,19 @@ class AddPhotoScreen extends React.Component {
             response => {
               const addrToUse = Math.max(0, Math.min(1, response.results.length - 1));
               const address = response.results[addrToUse].formatted_address;
-              console.log('Address', address, response.results);
               this.setState({ photoLocation: address, location: PHOTO_LOCATION, fetchingLocation: false });
             },
             error => {
-              console.log('fromLatLng ERROR', error);
               Monitoring.exception(error, { latitude, longitude, problem: 'Geocode.fromLatLng error' });
               this.setState({ fetchingLocation: false });
             }
           );
         } else {
-          console.log(`Photo lat/long ignored: ${latitude}, ${longitude}`);
+          Monitoring.debug(`Exif photo lat/long ignored: ${latitude}, ${longitude}`);
           this.setState({ fetchingLocation: false });
         }
       })
       .catch(msg => {
-        console.log('getLatLong ERROR', msg);
         Monitoring.exception(msg, { problem: 'Exif.getLatLong error' });
         this.setState({ fetchingLocation: false });
       });
@@ -209,7 +204,6 @@ class AddPhotoScreen extends React.Component {
   };
 
   upload = async () => {
-    console.log('Uploading!');
     const { team, activity, caption, location, date, taggedPeople, photoLocation } = this.state;
     const { activityImages } = this.props;
     // Persist the team for initialization next time

@@ -54,12 +54,10 @@ class Select extends React.Component {
   keyExtractor = item => String(item[this.props.uniqueKey]);
 
   renderSelectedItem = item => {
-    console.log('Rendering selected item', item[this.props.displayKey]);
     return <Text style={styles.selected}>{item[this.props.displayKey]}</Text>;
   };
 
   renderPlaceholder = () => {
-    console.log('Rendering placeholder', this.props.placeholder);
     return <Text style={styles.placeholder}>{this.props.placeholder}</Text>;
   };
 

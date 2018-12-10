@@ -59,7 +59,6 @@ export default class ResourceStore {
   @action.bound
   initialize() {
     this.rootStore.hydrate(this.constructor.name, this).then(() => {
-      console.log(`${this.constructor.name} initialized`, this.list);
       runInAction(() => {
         this.isInitialized = true;
       });
@@ -78,7 +77,6 @@ export default class ResourceStore {
     this.errors = [];
     fetchJson(url, options)
       .then(response => {
-        console.log(`${url} response`, response);
         const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
         runInAction(() => {
           if (this.map.size) {

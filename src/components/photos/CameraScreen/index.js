@@ -9,7 +9,7 @@ import BackButton from 'src/components/common/BackButton';
 import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import Monitoring from 'src/util/Monitoring';
+import Monitoring, { Event } from 'src/util/Monitoring';
 import styles from './style';
 
 const imgFlashOn = require('src/assets/img/flashOn.png');
@@ -46,27 +46,23 @@ class CameraScreen extends React.Component {
       title: Copy.perms.cameraRollWrite.title,
       message: Copy.perms.cameraRollWrite.message,
     });
-    console.log('has WriteToExternalStorage permission', hasPermission);
   }
 
   takePicture = () => {
-    console.log('Taking picture', this.camera);
-    if (this.camera) {
-      this.camera
-        .takePictureAsync(PHOTO_OPTIONS)
-        .then(data => {
-          if (this.props.permissions.canWriteToExternalStorage) {
-            CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
-              console.log('Saved to camera roll', uri);
-            });
-          }
-          this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
-        })
-        .catch(err => {
-          console.log('Failed to take photo', err);
-          Monitoring.exception(err, { problem: 'Failed to take photo' });
-        });
-    }
+    Monitoring.event(Event.PhotoTaken);
+    this.camera
+      .takePictureAsync(PHOTO_OPTIONS)
+      .then(data => {
+        if (this.props.permissions.canWriteToExternalStorage) {
+          CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
+            Monitoring.debug('Saved photo to camera roll', uri);
+          });
+        }
+        this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
+      })
+      .catch(err => {
+        Monitoring.exception(err, { problem: 'Failed to take photo' });
+      });
   };
 
   toggleCameraType = () => {

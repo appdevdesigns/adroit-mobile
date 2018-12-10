@@ -77,20 +77,20 @@ export default class AuthStore {
   async checkSession() {
     const csrfToken = await AsyncStorage.getItem('adroit_csrf');
     if (!csrfToken) {
-      console.log('Session not open: No CSRF token');
+      Monitoring.debug('Session not open: No CSRF token');
       this.logout();
       return false;
     }
     const lastLogin = await AuthStore.getLastLogin();
     if (!lastLogin) {
-      console.log('Session not open: Last Login time not found');
+      Monitoring.debug('Session not open: Last Login time not found');
       this.logout();
       return false;
     }
     const nowTimestamp = new Date().getTime();
     const expectedSessionExpiration = addHours(lastLogin, SESSION_LENGTH_HRS);
     if (isAfter(nowTimestamp, expectedSessionExpiration)) {
-      console.log('Session not open: assumed expired');
+      Monitoring.debug('Session not open: assumed expired');
       this.logout();
       return false;
     }

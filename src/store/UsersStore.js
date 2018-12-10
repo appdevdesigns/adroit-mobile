@@ -47,12 +47,10 @@ export default class UsersStore extends ResourceStore {
 
   @action.bound
   getAuthenticatedUser() {
-    console.log('getAuthenticatedUser');
     const url = Api.urls.whoami;
     const options = { method: 'GET' };
     fetchJson(url, options)
       .then(whoAmIResponse => {
-        console.log('getAuthenticatedUser response', whoAmIResponse);
         const me = whoAmIResponse.json.data;
         Sentry.setUserContext({
           username: this.rootStore.auth.username,

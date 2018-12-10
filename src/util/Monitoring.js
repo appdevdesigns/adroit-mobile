@@ -4,6 +4,11 @@ import Config from 'react-native-config';
 import packageJson from 'package.json';
 
 export const Event = {
+  PhotoTaken: 'photo-taken',
+  CameraRollImageSelected: 'camera-roll-image-selected',
+  OnboardingStarted: 'onboarding-started',
+  OnboardingStepViewed: 'onboarding-step-viewed',
+  OnboardingStopped: 'onboarding-stopped',
   ActivityPhotoUploadSuccess: 'activity-photo-upload-success',
   ActivityPhotoUploadFail: 'activity-photo-upload-fail',
 };

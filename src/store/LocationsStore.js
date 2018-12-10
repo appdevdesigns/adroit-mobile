@@ -86,13 +86,11 @@ export default class LocationsStore extends ResourceStore {
 
   @action.bound
   fetchFcfLocations() {
-    console.log('fetchFcfLocations');
     this.fetchList(Api.urls.locations);
   }
 
   @action.bound
   async mergeUserLocations() {
-    console.log('mergeUserLocations');
     const userLocations = await LocationsStore.getUserLocations();
     runInAction(() => {
       this.userLocations = userLocations;
