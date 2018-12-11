@@ -138,7 +138,13 @@ export default class ActivityImagesStore extends ResourceStore {
         const newActivityImage = response.json.data;
         newActivityImage.activity = this.rootStore.teams.getActivity(newActivityImage.activity);
         runInAction(() => {
-          this.map.set(newActivityImage.id, newActivityImage);
+          if (newActivityImage.taggedPeople.includes(this.rootStore.users.me.id)) {
+            this.map.set(newActivityImage.id, newActivityImage);
+          } else {
+            Monitoring.debug(
+              "Authenticated user not tagged in uploaded photo so it won't be displayed in the activity feed"
+            );
+          }
           this.uploadStatus = PostStatus.succeeded;
         });
         Monitoring.event(Event.ActivityPhotoUploadSuccess);
