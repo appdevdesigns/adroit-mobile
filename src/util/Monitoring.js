@@ -51,6 +51,10 @@ const DebugMonitoring = {
   exception: (error, ...args) => {
     consoleLog(error, ...args);
   },
+
+  setUserContext: data => {
+    consoleLog('Setting user data', data);
+  },
 };
 
 const Monitoring = {
@@ -92,6 +96,29 @@ const Monitoring = {
   exception: (error, ...args) => {
     consoleLog(error, ...args);
     Sentry.captureException(error, { extra: { ...args } });
+  },
+
+  /**
+   * Countly accepts the following properties in the user data:
+   * - name
+   * - username
+   * - email
+   * - organization
+   * - phone
+   * - picture
+   * - gender
+   * - byear
+   * - custom: { ... }
+   *
+   * Sentry accepts any arbitrary key/value pairs in the user context.
+   *
+   * We are also expecting a 'userId' field in the user context parameter.
+   */
+  setUserContext: data => {
+    consoleLog('Setting user context', data);
+    const { username, userId, name } = data;
+    Countly.setUserData({ username, name, custom: { userId } });
+    Sentry.setUserContext({ username, userId });
   },
 };
 

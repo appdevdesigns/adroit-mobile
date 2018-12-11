@@ -1,6 +1,5 @@
 import { observable, action, runInAction, reaction } from 'mobx';
 import { persist } from 'mobx-persist';
-import { Sentry } from 'react-native-sentry';
 import Copy from 'src/assets/Copy';
 import fetchJson from 'src/util/fetch';
 import Monitoring from 'src/util/Monitoring';
@@ -52,9 +51,10 @@ export default class UsersStore extends ResourceStore {
     fetchJson(url, options)
       .then(whoAmIResponse => {
         const me = whoAmIResponse.json.data;
-        Sentry.setUserContext({
+        Monitoring.setUserContext({
+          name: me.display_name,
+          userId: String(me.IDPerson),
           username: this.rootStore.auth.username,
-          userID: String(me.IDPerson),
         });
         runInAction(() => {
           this.me = {
