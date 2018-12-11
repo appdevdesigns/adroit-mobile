@@ -38,7 +38,6 @@ class CameraScreen extends React.Component {
       flashModeIndex: 0,
       type: RNCamera.Constants.Type.back,
     };
-    this.camera = React.createRef();
   }
 
   async componentDidMount() {
@@ -49,20 +48,24 @@ class CameraScreen extends React.Component {
   }
 
   takePicture = () => {
-    Monitoring.event(Event.PhotoTaken);
-    this.camera
-      .takePictureAsync(PHOTO_OPTIONS)
-      .then(data => {
-        if (this.props.permissions.canWriteToExternalStorage) {
-          CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
-            Monitoring.debug('Saved photo to camera roll', uri);
-          });
-        }
-        this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
-      })
-      .catch(err => {
-        Monitoring.exception(err, { problem: 'Failed to take photo' });
-      });
+    if (this.camera) {
+      this.camera
+        .takePictureAsync(PHOTO_OPTIONS)
+        .then(data => {
+          if (this.props.permissions.canWriteToExternalStorage) {
+            CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
+              Monitoring.debug('Saved photo to camera roll', uri);
+            });
+          }
+          Monitoring.event(Event.PhotoTaken);
+          this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
+        })
+        .catch(err => {
+          Monitoring.exception(err, { problem: 'Failed to take photo' });
+        });
+    } else {
+      Monitoring.error('No camera reference');
+    }
   };
 
   toggleCameraType = () => {
@@ -81,7 +84,9 @@ class CameraScreen extends React.Component {
     return (
       <Container>
         <RNCamera
-          ref={this.camera}
+          ref={ref => {
+            this.camera = ref;
+          }}
           style={styles.preview}
           type={type}
           flashMode={flashModes[flashModeIndex].mode}
