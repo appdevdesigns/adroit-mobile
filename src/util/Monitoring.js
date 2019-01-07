@@ -7,6 +7,7 @@ export const Event = {
   PhotoTaken: 'photo-taken',
   CameraRollImageSelected: 'camera-roll-image-selected',
   OnboardingStarted: 'onboarding-started',
+  OnboardingSkipped: 'onboarding-skipped',
   OnboardingStepViewed: 'onboarding-step-viewed',
   OnboardingStopped: 'onboarding-stopped',
   ActivityPhotoUploadSuccess: 'activity-photo-upload-success',

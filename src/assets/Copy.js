@@ -21,6 +21,17 @@ const Copy = {
   newSummary: count => `${count} new`,
   daysLeft: days => `${days} days left`,
 
+  // Activity Feed Intro Modal
+  introModalTitle1: 'Getting started with',
+  introModalTitle2: 'Adroit',
+  introModalMain: {
+    p1: "Congratulations - you've now got Adroit on your mobile device!",
+    p2: 'The best way to get started is to let us show you round the main view with a quick tutorial.',
+    p3: 'You can always start the tutorial again or view the Help pages from the main menu.',
+  },
+  introModalNo: 'No thanks',
+  introModalYes: 'Show me around!',
+
   // Drawer menu
   drawerMenuLogout: 'Log out',
   drawerMenuHelp: 'Help',

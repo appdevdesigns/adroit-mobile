@@ -16,12 +16,16 @@ import Sidebar from './Sidebar';
 import ReportingPeriodOverview from './ReportingPeriodOverview';
 import ActivityFeedList from './ActivityFeedList';
 import ActivityFeedFab from './ActivityFeedFab';
+import IntroModal from './IntroModal';
 
 @inject('auth', 'activityImages')
 @observer
 class ActivityFeedScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      introModalOpen: false,
+    };
     // Set up a 'global' handler to return to the login screen if we're logged out
     when(
       () => this.props.auth.isLoggedOut,
@@ -35,8 +39,7 @@ class ActivityFeedScreen extends React.Component {
       async () => {
         const hasViewedOnboarding = await AsyncStorage.getItem('adroit_has_viewed_onboarding');
         if (hasViewedOnboarding !== 'true') {
-          Monitoring.event(Event.OnboardingStarted);
-          this.props.start();
+          this.setState({ introModalOpen: true });
         } else {
           Monitoring.debug('Skipping onboarding - already viewed');
         }
@@ -67,7 +70,24 @@ class ActivityFeedScreen extends React.Component {
     this.drawer._root.open();
   };
 
+  startTutorial = (fromMenu = false) => {
+    if (fromMenu) {
+      this.closeDrawer();
+    }
+    this.setState({ introModalOpen: false }, () => {
+      Monitoring.event(Event.OnboardingStarted, { fromMenu });
+      this.props.start();
+    });
+  };
+
+  skipTutorial = () => {
+    this.setState({ introModalOpen: false });
+    Monitoring.event(Event.OnboardingSkipped);
+    AsyncStorage.setItem('adroit_has_viewed_onboarding', 'true');
+  };
+
   render() {
+    const { introModalOpen } = this.state;
     return (
       <Drawer
         ref={ref => {
@@ -91,6 +111,7 @@ class ActivityFeedScreen extends React.Component {
           <ReportingPeriodOverview />
           <ActivityFeedList />
           <ActivityFeedFab />
+          <IntroModal visible={introModalOpen} onCancel={this.skipTutorial} onConfirm={this.startTutorial} />
         </Container>
       </Drawer>
     );
