@@ -42,7 +42,7 @@ const Copy = {
   addPhotoTitle: 'Add a photo',
   addPhotoSaveButtonText: 'Save',
   confirmationModalTitle: 'Review your submission',
-  confirmCaptionLabel: 'My caption describes how I am helping local Thais',
+  confirmCaptionLabel: 'My caption describes how this activity is helping local Thais',
   confirmTaggedLabel: 'I have tagged everyone on my team who is in this photo',
   confirmationBackButtonText: 'Go back',
   confirmationUploadButtonText: 'Upload',

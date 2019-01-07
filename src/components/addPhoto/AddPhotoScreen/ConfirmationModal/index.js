@@ -73,7 +73,7 @@ class ConfirmationModal extends React.Component {
             <CheckBox
               style={styles.checkbox}
               checked={captionChecked}
-              onPress={this.toggleCaptionChecked}
+              onPress={this.toggleChecked('caption')}
               disabled={isUploading}
             />
             <Body style={styles.itemBody}>
@@ -91,7 +91,7 @@ class ConfirmationModal extends React.Component {
             <CheckBox
               style={styles.checkbox}
               checked={taggedChecked}
-              onPress={this.toggleTaggedChecked}
+              onPress={this.toggleChecked('tagged')}
               disabled={isUploading}
             />
             <Body style={styles.itemBody}>
