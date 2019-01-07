@@ -18,12 +18,13 @@ const logoImage = require('src/assets/img/AdroitLogo.png');
 @observer
 class Sidebar extends React.Component {
   render() {
-    const { navigation, auth, users } = this.props;
+    const { navigation, auth, users, onStartTutorial } = this.props;
     const navTo = screen => () => {
       navigation.navigate(screen);
     };
     const menuItems = [
       { label: Copy.drawerMenuHelp, icon: 'question-circle', onPress: navTo(AppScreen.Help) },
+      { label: Copy.drawerMenuTutorial, icon: 'play-circle', onPress: onStartTutorial },
       { label: Copy.drawerMenuEditLocations, icon: 'map-marker', onPress: navTo(AppScreen.EditLocations) },
       { label: Copy.drawerMenuLogout, icon: 'sign-out', onPress: auth.logout },
     ];
@@ -53,6 +54,7 @@ class Sidebar extends React.Component {
 
 Sidebar.propTypes = {
   navigation: NavigationPropTypes.isRequired,
+  onStartTutorial: PropTypes.func.isRequired,
 };
 
 Sidebar.wrappedComponent.propTypes = {

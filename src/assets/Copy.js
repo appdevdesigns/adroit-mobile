@@ -35,6 +35,7 @@ const Copy = {
   // Drawer menu
   drawerMenuLogout: 'Log out',
   drawerMenuHelp: 'Help',
+  drawerMenuTutorial: 'Show tutorial',
   drawerMenuEditLocations: 'My locations...',
 
   // Add Photo

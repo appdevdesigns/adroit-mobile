@@ -93,7 +93,13 @@ class ActivityFeedScreen extends React.Component {
         ref={ref => {
           this.drawer = ref;
         }}
-        content={<Sidebar />}
+        content={
+          <Sidebar
+            onStartTutorial={() => {
+              this.startTutorial(true);
+            }}
+          />
+        }
         onClose={this.closeDrawer}
       >
         <Container>
