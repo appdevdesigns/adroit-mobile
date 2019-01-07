@@ -153,6 +153,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-resizer')
     compile project(':react-native-locale')
     compile project(':react-native-exif')
     compile project(':react-native-config')

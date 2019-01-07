@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Placeholder from 'rn-placeholder';
 import { FlatList, TouchableOpacity, Image, CameraRoll, View } from 'react-native';
+import ImageResizer from 'react-native-image-resizer';
 import Lightbox from 'react-native-lightbox';
 import { Spinner, Text, Icon, Button } from 'native-base';
 import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
+import Constants from 'src/util/Constants';
 import NonIdealState from 'src/components/common/NonIdealState';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns, equalWidth } from './style';
@@ -63,7 +65,6 @@ class CameraRollList extends Component {
         }
       })
       .catch(err => {
-        console.error('Could not load photos', err);
         Monitoring.exception(err, { problem: 'Could not load photos', after: endCursor });
       });
   };
@@ -82,9 +83,24 @@ class CameraRollList extends Component {
             bordered
             light
             onPress={() => {
-              close();
-              Monitoring.event(Event.CameraRollImageSelected);
-              this.props.navigation.navigate(AppScreen.AddPhoto, { image: item });
+              ImageResizer.createResizedImage(
+                item.uri,
+                Constants.imageUploadMaxWidth,
+                Constants.imageUploadMaxHeight,
+                'JPEG',
+                100,
+                0
+              )
+                .then(resized => {
+                  console.log('Image resized!');
+                  close();
+                  Monitoring.event(Event.CameraRollImageSelected);
+                  this.props.navigation.navigate(AppScreen.AddPhoto, { image: resized });
+                })
+                .catch(err => {
+                  console.error('Could not resize photo', err);
+                  Monitoring.exception(err, { problem: 'Could not resize photo' });
+                });
             }}
           >
             <Text>{Copy.useThisPhotoButtonText}</Text>

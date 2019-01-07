@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, CameraRoll, View, Image } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
+import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
@@ -10,6 +11,7 @@ import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
+import Constants from 'src/util/Constants';
 import styles from './style';
 
 const imgFlashOn = require('src/assets/img/flashOn.png');
@@ -58,7 +60,20 @@ class CameraScreen extends React.Component {
             });
           }
           Monitoring.event(Event.PhotoTaken);
-          this.props.navigation.navigate(AppScreen.AddPhoto, { image: data });
+          ImageResizer.createResizedImage(
+            data.uri,
+            Constants.imageUploadMaxWidth,
+            Constants.imageUploadMaxHeight,
+            'JPEG',
+            100,
+            0
+          )
+            .then(resized => {
+              this.props.navigation.navigate(AppScreen.AddPhoto, { image: resized });
+            })
+            .catch(err => {
+              Monitoring.exception(err, { problem: 'Could not resize photo' });
+            });
         })
         .catch(err => {
           Monitoring.exception(err, { problem: 'Failed to take photo' });
