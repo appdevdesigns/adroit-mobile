@@ -24,7 +24,7 @@ class Permission {
     Monitoring.debug('Requesting permission', perm);
     const response = await PermissionsAndroid.request(PermissionMap[perm], rationale);
     Monitoring.debug('Permission response', response);
-    return response;
+    return response === PermissionsAndroid.RESULTS.GRANTED;
   };
 }
 

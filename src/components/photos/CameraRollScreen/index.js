@@ -13,15 +13,25 @@ import CameraRollList from './CameraRollList';
 @inject('permissions')
 @observer
 class CameraRollScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasPermission: this.props.permissions.canReadExternalStorage,
+    };
+  }
+
   async componentDidMount() {
-    await this.props.permissions.requestPermission(Permission.ReadExternalStorage, {
+    const hasPermission = await this.props.permissions.requestPermission(Permission.ReadExternalStorage, {
       title: Copy.perms.cameraRoll.title,
       message: Copy.perms.cameraRoll.message,
     });
+    this.setState({ hasPermission });
+    console.log('Permission.ReadExternalStorage', hasPermission);
   }
 
   render() {
-    const { navigation, permissions } = this.props;
+    const { navigation } = this.props;
+    const { hasPermission } = this.state;
     return (
       <Container>
         <Header>
@@ -33,7 +43,7 @@ class CameraRollScreen extends React.Component {
           </Body>
           <Right style={baseStyles.headerRight} />
         </Header>
-        {permissions.canReadExternalStorage ? (
+        {hasPermission ? (
           <Content>
             <CameraRollList navigation={navigation} />
           </Content>
