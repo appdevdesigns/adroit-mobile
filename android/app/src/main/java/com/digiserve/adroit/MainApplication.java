@@ -1,4 +1,4 @@
-package com.adroit;
+package com.digiserve.adroit;
 
 import android.app.Application;
 
