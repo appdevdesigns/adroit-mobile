@@ -104,6 +104,7 @@ class CameraScreen extends React.Component {
           }}
           style={styles.preview}
           type={type}
+          captureAudio={false}
           flashMode={flashModes[flashModeIndex].mode}
           permissionDialogTitle={Copy.perms.camera.title}
           permissionDialogMessage={Copy.perms.camera.message}
