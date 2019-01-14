@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 import material from 'native-base/src/theme/variables/material';
 
 const { width } = Dimensions.get('window');
-const BREAKPOINT = 400;
+const BREAKPOINT = 320;
 
 export const Color = {
   darkBackground: '#1f6b8d',
@@ -18,7 +18,7 @@ export const Color = {
 
 export const GridSize = 8;
 
-export const IsSmallScreen = width < BREAKPOINT;
+export const IsSmallScreen = width <= BREAKPOINT;
 
 export default {
   ...material,
