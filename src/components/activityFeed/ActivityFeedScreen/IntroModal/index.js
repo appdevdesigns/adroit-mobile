@@ -5,6 +5,7 @@ import { Text, Button } from 'native-base';
 import Copy from 'src/assets/Copy';
 import Modal from 'src/components/common/Modal';
 import baseStyles from 'src/assets/style';
+import { IsSmallScreen } from 'src/assets/theme';
 import styles from './style';
 
 const logoImage = require('src/assets/img/AdroitLogo.png');
@@ -26,10 +27,10 @@ const IntroModal = ({ visible, onConfirm, onCancel }) => (
       </View>
     </View>
     <View style={styles.footer}>
-      <Button style={styles.cancelButton} transparent onPress={onCancel}>
+      <Button style={styles.cancelButton} small={IsSmallScreen} transparent onPress={onCancel}>
         <Text style={styles.buttonText}>{Copy.introModalNo}</Text>
       </Button>
-      <Button style={styles.confirmButton} primary onPress={onConfirm}>
+      <Button style={styles.confirmButton} small={IsSmallScreen} primary onPress={onConfirm}>
         <Text style={styles.buttonText}>{Copy.introModalYes}</Text>
       </Button>
     </View>

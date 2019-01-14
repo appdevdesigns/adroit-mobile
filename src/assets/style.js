@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from 'color';
-import Theme, { GridSize, Color as ThemeColor } from 'src/assets/theme';
+import Theme, { IsSmallScreen, GridSize, Color as ThemeColor } from 'src/assets/theme';
 
 const listItemFontSize = 17;
 const tagHeight = 24;
@@ -69,6 +69,7 @@ export default StyleSheet.create({
   },
   paragraph: {
     marginBottom: GridSize,
+    fontSize: IsSmallScreen ? Theme.DefaultFontSize - 2 : Theme.DefaultFontSize,
   },
   emptyContainer: {
     flex: 1,
@@ -131,7 +132,9 @@ export default StyleSheet.create({
     ...round(tagHeight),
   },
   tagText: {
-    flex: 1,
+    flex: 0,
+    flexShrink: 1,
+    flexGrow: 0,
     fontSize: 14,
   },
 });

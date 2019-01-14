@@ -33,6 +33,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingTop: GridSize * 2,
+    marginBottom: GridSize * 2,
   },
   cancelButton: {
     flex: 0,

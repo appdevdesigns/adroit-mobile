@@ -17,7 +17,7 @@ const Copy = {
   reportingPeriodStatusOnTrack: 'on track',
   reportingPeriodStatusBehind: 'behind',
   reportingPeriodStatusWarning: 'warning',
-  approvedSummary: count => `${count} approved`,
+  approvedSummary: (count, abbr) => `${count} ${abbr ? 'appr' : 'approved'}`,
   newSummary: count => `${count} new`,
   daysLeft: days => `${days} days left`,
 

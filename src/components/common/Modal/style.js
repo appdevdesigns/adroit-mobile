@@ -45,6 +45,7 @@ export default StyleSheet.create({
     paddingRight: GridSize * 3,
   },
   content: {
+    flexShrink: 0,
     padding: GridSize * 2,
     flexDirection: 'column',
   },

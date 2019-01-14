@@ -7,7 +7,7 @@ import Copy from 'src/assets/Copy';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import Modal from 'src/components/common/Modal';
-import Theme from 'src/assets/theme';
+import Theme, { IsSmallScreen } from 'src/assets/theme';
 import baseStyles from 'src/assets/style';
 import styles from './style';
 
@@ -99,13 +99,21 @@ class ConfirmationModal extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
-          <Button style={styles.cancelButton} light block onPress={onCancel} disabled={isUploading}>
+          <Button
+            style={styles.cancelButton}
+            small={IsSmallScreen}
+            light
+            block
+            onPress={onCancel}
+            disabled={isUploading}
+          >
             <Icon type="FontAwesome" name="undo" />
             <Text style={styles.buttonText}>{Copy.confirmationBackButtonText}</Text>
           </Button>
           <Button
             style={styles.confirmButton}
             primary
+            small={IsSmallScreen}
             block
             onPress={this.confirm}
             disabled={!captionChecked || !taggedChecked}

@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { View, ImageBackground } from 'react-native';
 import { Text, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
+import { IsSmallScreen } from 'src/assets/theme';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import {
   CopilotView,
@@ -36,7 +37,7 @@ class ReportingPeriodOverview extends React.Component {
           <CopilotStepApprovedSummary>
             <CopilotView style={[styles.topItem, styles.topItemBordered]}>
               <LinearGradient colors={Gradients.approved} style={styles.topIndicator} />
-              <Text style={styles.topText}>{Copy.approvedSummary(totalReadyOrApproved)}</Text>
+              <Text style={styles.topText}>{Copy.approvedSummary(totalReadyOrApproved, IsSmallScreen)}</Text>
             </CopilotView>
           </CopilotStepApprovedSummary>
           <CopilotStepNewSummary>
@@ -56,7 +57,7 @@ class ReportingPeriodOverview extends React.Component {
           <CopilotStepOverallState>
             <CopilotView style={[styles.topItem, styles.status, { backgroundColor: status.color }]}>
               <FontAwesome5 style={styles.topIcon} name={status.icon} light />
-              <Text style={styles.topText}>{status.label}</Text>
+              {!IsSmallScreen && <Text style={styles.topText}>{status.label}</Text>}
             </CopilotView>
           </CopilotStepOverallState>
         </View>

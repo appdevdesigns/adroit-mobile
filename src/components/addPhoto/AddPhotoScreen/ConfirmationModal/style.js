@@ -35,6 +35,8 @@ export default StyleSheet.create({
   footer: {
     flex: 0,
     flexDirection: 'row',
+    flexShrink: 0,
+    marginBottom: GridSize * 2,
   },
   cancelButton: {
     flex: 1,
