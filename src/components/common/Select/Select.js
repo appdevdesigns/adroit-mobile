@@ -132,11 +132,7 @@ class Select extends React.Component {
       ListEmptyComponent: filterable ? (
         <View style={styles.noMatches}>
           <Text>{Copy.couldNotFind}</Text>
-          <Text style={styles.filterCopy}>
-            &quot;
-            {filter}
-            &quot;
-          </Text>
+          <Text style={styles.filterCopy}>{`"${filter}"`}</Text>
           <Button iconLeft style={styles.noMatchesButton} primary onPress={this.addOption}>
             <Icon type="FontAwesome" name="plus" />
             <Text>{noMatchesCta}</Text>
