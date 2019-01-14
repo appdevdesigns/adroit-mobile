@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { inject, observer } from 'mobx-react';
-import { Text, Button, CheckBox, Spinner, Label, ListItem, Body, Icon } from 'native-base';
+import { Text, Button, CheckBox, Spinner, Label, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { PostStatus } from 'src/store/ResourceStore';
@@ -68,39 +68,35 @@ class ConfirmationModal extends React.Component {
         onDismiss={this.reset}
         header={Copy.confirmationModalTitle}
       >
-        <View>
-          <ListItem style={styles.item} onPress={this.toggleChecked('caption')}>
+        <View style={styles.list}>
+          <TouchableOpacity style={styles.item} onPress={this.toggleChecked('caption')}>
             <CheckBox
               style={styles.checkbox}
               checked={captionChecked}
               onPress={this.toggleChecked('caption')}
               disabled={isUploading}
             />
-            <Body style={styles.itemBody}>
+            <View style={styles.itemBody}>
               <Label style={styles.label}>{Copy.confirmCaptionLabel}</Label>
               <ScrollView style={styles.scrollContainer}>
-                <Text style={styles.context}>
-                  &quot;
-                  {caption}
-                  &quot;
-                </Text>
+                <Text style={styles.context}>{`"${caption}"`}</Text>
               </ScrollView>
-            </Body>
-          </ListItem>
-          <ListItem style={styles.item} onPress={this.toggleChecked('tagged')}>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.item} onPress={this.toggleChecked('tagged')}>
             <CheckBox
               style={styles.checkbox}
               checked={taggedChecked}
               onPress={this.toggleChecked('tagged')}
               disabled={isUploading}
             />
-            <Body style={styles.itemBody}>
+            <View style={styles.itemBody}>
               <Label style={styles.label}>{Copy.confirmTaggedLabel}</Label>
               <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.context}>{taggedPeople}</Text>
               </ScrollView>
-            </Body>
-          </ListItem>
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.footer}>
           <Button style={styles.cancelButton} light block onPress={onCancel} disabled={isUploading}>

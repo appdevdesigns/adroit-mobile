@@ -2,15 +2,23 @@ import { StyleSheet } from 'react-native';
 import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
+  list: {
+    flex: 0,
+    flexDirection: 'column',
+  },
   item: {
+    flexDirection: 'row',
     alignItems: 'flex-start',
     marginLeft: 0,
+    marginBottom: GridSize * 2,
   },
   checkbox: {
     marginTop: 2,
+    left: 0,
   },
   itemBody: {
-    paddingLeft: GridSize * 2,
+    flex: 1,
+    marginLeft: GridSize * 2,
   },
   label: {
     color: Theme.textColor,
@@ -25,9 +33,8 @@ export default StyleSheet.create({
     marginRight: 0,
   },
   footer: {
+    flex: 0,
     flexDirection: 'row',
-    paddingTop: GridSize * 2,
-    paddingBottom: GridSize * 2,
   },
   cancelButton: {
     flex: 0,
@@ -41,6 +48,6 @@ export default StyleSheet.create({
     paddingLeft: 0,
   },
   scrollContainer: {
-    flexGrow: 0,
+    maxHeight: 100,
   },
 });

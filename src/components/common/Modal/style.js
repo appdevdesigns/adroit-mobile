@@ -13,9 +13,9 @@ export default StyleSheet.create({
     maxHeight: '100%',
   },
   wrapper: {
-    flex: 0,
     backgroundColor: Theme.containerBgColor,
     borderRadius,
+    maxHeight: '100%',
   },
   closeButton: {
     marginLeft: GridSize,
@@ -25,7 +25,6 @@ export default StyleSheet.create({
   },
   header: {
     backgroundColor: Theme.toolbarDefaultBg,
-    flex: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -44,5 +43,6 @@ export default StyleSheet.create({
   },
   content: {
     padding: GridSize * 2,
+    flexDirection: 'column',
   },
 });
