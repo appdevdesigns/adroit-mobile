@@ -53,10 +53,10 @@ class ActivityFeedList extends React.Component {
                       </View>
                     </Left>
                     <Body style={styles.body}>
-                      <Text ellipsizeMode="tail" style={styles.activity}>
+                      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.activity}>
                         {item.activity.activity_name}
                       </Text>
-                      <Text ellipsizeMode="tail" style={styles.team}>
+                      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.team}>
                         {item.activity.team.MinistryDisplayName}
                       </Text>
                       <Text ellipsizeMode="tail" numberOfLines={3} style={styles.caption}>

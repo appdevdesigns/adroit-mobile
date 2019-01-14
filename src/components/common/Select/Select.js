@@ -78,13 +78,7 @@ class Select extends React.Component {
           this.closeModal();
         }}
       >
-        {renderItem ? (
-          renderItem(item)
-        ) : (
-          <Text ellipsizeMode="tail" style={baseStyles.listItemText}>
-            {item[displayKey]}
-          </Text>
-        )}
+        {renderItem ? renderItem(item) : <Text style={baseStyles.listItemText}>{item[displayKey]}</Text>}
         {selectedItem && selectedItem[uniqueKey] === item[uniqueKey] ? (
           <Icon
             style={[baseStyles.listItemIcon, baseStyles.marginLeft, baseStyles.doubleMarginRight]}

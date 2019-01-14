@@ -233,9 +233,7 @@ class AddPhotoScreen extends React.Component {
       ) : (
         <Image style={round(24)} source={{ uri: Api.absoluteUrl(person.avatar) }} />
       )}
-      <Text ellipsizeMode="tail" style={selectStyles.item}>
-        {person.display_name}
-      </Text>
+      <Text style={selectStyles.item}>{person.display_name}</Text>
     </View>
   );
 
@@ -249,7 +247,7 @@ class AddPhotoScreen extends React.Component {
             <Image style={baseStyles.tagImage} source={{ uri: Api.absoluteUrl(person.avatar) }} />
           )}
         </View>
-        <Text ellipsizeMode="tail" style={baseStyles.tagText}>
+        <Text ellipsizeMode="tail" numberOfLines={1} style={baseStyles.tagText}>
           {person.display_name}
         </Text>
       </View>
@@ -280,9 +278,7 @@ class AddPhotoScreen extends React.Component {
   renderLocationItem = location => (
     <View style={styles.centeredRow}>
       {location === PHOTO_LOCATION && this.renderLocationIcon()}
-      <Text ellipsizeMode="tail" style={baseStyles.listItemText}>
-        {location.name}
-      </Text>
+      <Text style={baseStyles.listItemText}>{location.name}</Text>
     </View>
   );
 

@@ -18,16 +18,17 @@ export default StyleSheet.create({
     maxHeight: '100%',
   },
   closeButton: {
+    position: 'absolute',
     marginLeft: GridSize,
+    right: GridSize * 2,
   },
   closeButtonIcon: {
     marginRight: 0,
   },
   header: {
     backgroundColor: Theme.toolbarDefaultBg,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingLeft: GridSize * 2,
     paddingRight: GridSize * 2,
     paddingTop: GridSize,
@@ -40,6 +41,8 @@ export default StyleSheet.create({
   headerText: {
     color: Theme.inverseTextColor,
     fontWeight: 'bold',
+    paddingLeft: GridSize * 3,
+    paddingRight: GridSize * 3,
   },
   content: {
     padding: GridSize * 2,

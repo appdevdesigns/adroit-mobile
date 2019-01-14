@@ -14,6 +14,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   icon: {
+    flex: 0,
     fontSize: 17,
     marginLeft: GridSize,
     marginTop: 0,

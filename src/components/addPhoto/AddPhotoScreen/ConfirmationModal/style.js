@@ -37,11 +37,11 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   cancelButton: {
-    flex: 0,
+    flex: 1,
     marginRight: GridSize,
   },
   confirmButton: {
-    flex: 0,
+    flex: 1,
     marginLeft: GridSize,
   },
   buttonText: {

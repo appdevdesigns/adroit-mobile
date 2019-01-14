@@ -131,6 +131,7 @@ export default StyleSheet.create({
     ...round(tagHeight),
   },
   tagText: {
+    flex: 1,
     fontSize: 14,
   },
 });

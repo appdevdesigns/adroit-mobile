@@ -63,11 +63,7 @@ class MultiSelect extends React.Component {
     <Text style={styles.selected}>{items.map(item => item[this.props.displayKey]).join(', ')}</Text>
   );
 
-  renderPlaceholder = () => (
-    <Text ellipsizeMode="tail" style={styles.placeholder}>
-      {this.props.placeholder}
-    </Text>
-  );
+  renderPlaceholder = () => <Text style={styles.placeholder}>{this.props.placeholder}</Text>;
 
   renderItem = ({ item }) => {
     const { uniqueKey, renderItem, displayKey } = this.props;
@@ -79,15 +75,7 @@ class MultiSelect extends React.Component {
           this.toggleItem(item);
         }}
       >
-        <Body>
-          {renderItem ? (
-            renderItem(item)
-          ) : (
-            <Text ellipsizeMode="tail" style={styles.item}>
-              {item[displayKey]}
-            </Text>
-          )}
-        </Body>
+        <Body>{renderItem ? renderItem(item) : <Text style={styles.item}>{item[displayKey]}</Text>}</Body>
         <Right>
           <Icon style={styles.itemIcon} type="FontAwesome" name={itemIcon} />
         </Right>
