@@ -11,6 +11,8 @@ target 'adroit' do
   # Pods for adroit
 
   platform :ios, '9.0'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'adroitTests' do
     inherit! :search_paths
     # Pods for testing
