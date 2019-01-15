@@ -4,4 +4,4 @@ class Permission {
   requestPermission = async (perm, rationale) => Promise.resolve(true);
 }
 
-export default Permission;
+export default new Permission();
