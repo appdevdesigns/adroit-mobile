@@ -13,10 +13,12 @@ target 'adroit' do
   platform :ios, '9.0'
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'Core',
+    'CxxBridge',
     'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
     'RCTText',
     'RCTNetwork',
     'RCTWebSocket', # needed for debugging
+    'RCTAnimation',
     # Add any other subspecs you want to use in your project
   ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
