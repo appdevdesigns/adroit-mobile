@@ -11,9 +11,15 @@ target 'adroit' do
   # Pods for adroit
 
   platform :ios, '9.0'
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
-  pod 'react-native-locale', :path => '../node_modules/react-native-locale'
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'Core',
+    'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
+    'RCTText',
+    'RCTNetwork',
+    'RCTWebSocket', # needed for debugging
+    # Add any other subspecs you want to use in your project
+  ]
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
   target 'adroitTests' do
     inherit! :search_paths

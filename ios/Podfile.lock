@@ -6,46 +6,52 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (1.10.0):
     - AppCenter/Core (= 1.11.0)
-  - BVLinearGradient (2.4.3):
-    - React
-  - React (0.11.0):
-    - React/Core (= 0.11.0)
-  - react-native-locale (0.0.19):
-    - React
-  - React/Core (0.11.0)
-  - RNVectorIcons (6.0.2):
-    - React
+  - React/Core (0.55.4):
+    - yoga (= 0.55.4.React)
+  - React/DevSupport (0.55.4):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.55.4)
+  - React/RCTBlob (0.55.4):
+    - React/Core
+  - React/RCTNetwork (0.55.4):
+    - React/Core
+  - React/RCTText (0.55.4):
+    - React/Core
+  - React/RCTWebSocket (0.55.4):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - yoga (0.55.4.React)
 
 DEPENDENCIES:
   - AppCenter/Analytics (~> 1.11.0)
   - AppCenter/Crashes (~> 1.11.0)
   - AppCenterReactNativeShared (~> 1.10.0)
-  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - react-native-locale (from `../node_modules/react-native-locale`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
-    - React
 
 EXTERNAL SOURCES:
-  BVLinearGradient:
-    :path: "../node_modules/react-native-linear-gradient"
-  react-native-locale:
-    :path: "../node_modules/react-native-locale"
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
+  React:
+    :path: "../node_modules/react-native"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   AppCenter: 3bccf8d733e337d0db574dd4cb0e33ab9637b7f2
   AppCenterReactNativeShared: a77b000c2ac6dc2e44472621d7d0770f196e5822
-  BVLinearGradient: 6d8909e3fc6b089defa4b89d967441fa6827a2ee
-  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
-  react-native-locale: cc551c4a467d0e2e7c5e5913a89630870ba43293
-  RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
+  React: aa2040dbb6f317b95314968021bd2888816e03d5
+  yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 2017fc4fb816eccae01e525c34eba91394fda0e0
+PODFILE CHECKSUM: 47b0c3bcd1eb27663590fff612f59fcb89942205
 
 COCOAPODS: 1.5.3
