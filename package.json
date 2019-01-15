@@ -5,10 +5,11 @@
   "scripts": {
     "emu": "emulator -avd Custom_API_21 -gpu on -no-boot-anim",
     "start": "react-native start",
-    "postinstall": "npm run bundle",
+    "postinstall": "./postinstall.sh && npm run bundle",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "android": "adb reverse tcp:8081 tcp:8010 & react-native run-android",
-    "ios": "react-native run-ios"
+    "ios": "react-native run-ios",
+    "fix": "./postinstall.sh"
   },
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
