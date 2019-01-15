@@ -10,14 +10,6 @@ PODS:
     - React
   - React (0.11.0):
     - React/Core (= 0.11.0)
-  - react-native-camera (1.5.1):
-    - React
-    - react-native-camera/RCT (= 1.5.1)
-    - react-native-camera/RN (= 1.5.1)
-  - react-native-camera/RCT (1.5.1):
-    - React
-  - react-native-camera/RN (1.5.1):
-    - React
   - react-native-locale (0.0.19):
     - React
   - React/Core (0.11.0)
@@ -29,7 +21,6 @@ DEPENDENCIES:
   - AppCenter/Crashes (~> 1.11.0)
   - AppCenterReactNativeShared (~> 1.10.0)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-locale (from `../node_modules/react-native-locale`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
 
@@ -42,8 +33,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
-  react-native-camera:
-    :path: "../node_modules/react-native-camera"
   react-native-locale:
     :path: "../node_modules/react-native-locale"
   RNVectorIcons:
@@ -54,10 +43,9 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: a77b000c2ac6dc2e44472621d7d0770f196e5822
   BVLinearGradient: 6d8909e3fc6b089defa4b89d967441fa6827a2ee
   React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
-  react-native-camera: eac1e8cc7523273a2a11956d0e5dac08296cf4b0
   react-native-locale: cc551c4a467d0e2e7c5e5913a89630870ba43293
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
 
-PODFILE CHECKSUM: e0e6d875f27a053b31ac5603162d076b8bb00bfb
+PODFILE CHECKSUM: 2017fc4fb816eccae01e525c34eba91394fda0e0
 
 COCOAPODS: 1.5.3
