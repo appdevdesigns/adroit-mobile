@@ -6,21 +6,40 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (1.10.0):
     - AppCenter/Core (= 1.11.0)
+  - BVLinearGradient (2.4.3):
+    - React
+  - React (0.11.0):
+    - React/Core (= 0.11.0)
+  - React/Core (0.11.0)
+  - RNVectorIcons (6.0.2):
+    - React
 
 DEPENDENCIES:
   - AppCenter/Analytics (~> 1.11.0)
   - AppCenter/Crashes (~> 1.11.0)
   - AppCenterReactNativeShared (~> 1.10.0)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
+    - React
+
+EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
 
 SPEC CHECKSUMS:
   AppCenter: 3bccf8d733e337d0db574dd4cb0e33ab9637b7f2
   AppCenterReactNativeShared: a77b000c2ac6dc2e44472621d7d0770f196e5822
+  BVLinearGradient: 6d8909e3fc6b089defa4b89d967441fa6827a2ee
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
 
-PODFILE CHECKSUM: 6c8c5d925762bd3d4737ea839d9a742fb5336354
+PODFILE CHECKSUM: 2a00a2f8cb269da0594d187daa52e68c5155c66f
 
 COCOAPODS: 1.5.3
