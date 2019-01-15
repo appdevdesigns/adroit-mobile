@@ -7,11 +7,6 @@ target 'adroit' do
 
   # Pods for adroit
 
-  target 'adroit-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
   target 'adroitTests' do
     inherit! :search_paths
     # Pods for testing
