@@ -1199,6 +1199,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 723276MJFQ;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -2110,6 +2111,8 @@
 			baseConfigurationReference = A0ABE84E91B6F88572558E19 /* Pods-adroit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 723276MJFQ;
@@ -2143,6 +2146,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = adroit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2152,6 +2156,8 @@
 			baseConfigurationReference = 3CC564D9256E57E295F3B89D /* Pods-adroit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 723276MJFQ;
 				HEADER_SEARCH_PATHS = (
@@ -2184,6 +2190,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = adroit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
