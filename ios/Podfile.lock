@@ -10,6 +10,8 @@ PODS:
     - React
   - React (0.11.0):
     - React/Core (= 0.11.0)
+  - react-native-locale (0.0.19):
+    - React
   - React/Core (0.11.0)
   - RNVectorIcons (6.0.2):
     - React
@@ -19,6 +21,7 @@ DEPENDENCIES:
   - AppCenter/Crashes (~> 1.11.0)
   - AppCenterReactNativeShared (~> 1.10.0)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - react-native-locale (from `../node_modules/react-native-locale`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
 
 SPEC REPOS:
@@ -30,6 +33,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
+  react-native-locale:
+    :path: "../node_modules/react-native-locale"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
 
@@ -38,8 +43,9 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: a77b000c2ac6dc2e44472621d7d0770f196e5822
   BVLinearGradient: 6d8909e3fc6b089defa4b89d967441fa6827a2ee
   React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  react-native-locale: cc551c4a467d0e2e7c5e5913a89630870ba43293
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
 
-PODFILE CHECKSUM: 2a00a2f8cb269da0594d187daa52e68c5155c66f
+PODFILE CHECKSUM: 2017fc4fb816eccae01e525c34eba91394fda0e0
 
 COCOAPODS: 1.5.3

@@ -13,6 +13,7 @@ target 'adroit' do
   platform :ios, '9.0'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+  pod 'react-native-locale', :path => '../node_modules/react-native-locale'
 
   target 'adroitTests' do
     inherit! :search_paths
