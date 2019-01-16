@@ -19,13 +19,15 @@ class ActivityFeedFab extends React.Component {
   };
 
   goToPhotos = () => {
-    this.props.navigation.navigate(AppScreen.Photos);
-    this.setState({ isFabActive: false });
+    this.setState({ isFabActive: false }, () => {
+      this.props.navigation.navigate(AppScreen.Photos);
+    });
   };
 
   goToCamera = () => {
-    this.props.navigation.navigate(AppScreen.Camera);
-    this.setState({ isFabActive: false });
+    this.setState({ isFabActive: false }, () => {
+      this.props.navigation.navigate(AppScreen.Camera);
+    });
   };
 
   render() {
