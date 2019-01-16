@@ -1,5 +1,6 @@
 import React from 'react';
-import { withNavigation } from 'react-navigation';
+import PropTypes from 'prop-types';
+import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { Button, Icon, Fab } from 'native-base';
 import { CopilotView, CopilotStepAddPhoto } from 'src/util/copilot';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -32,6 +33,8 @@ class ActivityFeedFab extends React.Component {
 
   render() {
     const { isFabActive } = this.state;
+    const { isFocused } = this.props;
+    if (!isFocused) { return null; }
     return (
       <Fab active={isFabActive} direction="up" style={styles.fab} position="bottomRight" onPress={this.toggleFab}>
         <CopilotStepAddPhoto>
@@ -52,6 +55,7 @@ class ActivityFeedFab extends React.Component {
 
 ActivityFeedFab.propTypes = {
   navigation: NavigationPropTypes.isRequired,
+  isFocused: PropTypes.bool.isRequired,
 };
 
-export default withNavigation(ActivityFeedFab);
+export default withNavigation(withNavigationFocus(ActivityFeedFab));
