@@ -4,7 +4,7 @@ import intersectionBy from 'lodash-es/intersectionBy';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Image, View, AsyncStorage, Keyboard } from 'react-native';
+import { Image, View, AsyncStorage, Keyboard, SafeAreaView } from 'react-native';
 import Exif from 'react-native-exif';
 import Geocode from 'react-geocode';
 import parse from 'date-fns/parse';
@@ -313,154 +313,160 @@ class AddPhotoScreen extends React.Component {
     allLocations.push({ title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations });
     allLocations.push({ title: Copy.fcfLocationsSection, data: locations.fcfLocations });
     return (
-      <Container>
-        <Header>
-          <Left style={baseStyles.headerLeft}>
-            <BackButton />
-          </Left>
-          <Body style={baseStyles.headerBody}>
-            <Title>{Copy.addPhotoTitle}</Title>
-          </Body>
-          <Right style={baseStyles.headerRight} />
-        </Header>
-        <Content>
-          <PhotoUploadPreview image={this.image()} />
-          <View style={styles.main}>
-            <Item stackedLabel style={styles.item}>
-              <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
-              <Label style={styles.label}>{Copy.captionLabel}</Label>
-              <Textarea
-                value={caption}
-                onChangeText={this.setStateItem('caption')}
-                returnKeyType="done"
-                rowSpan={3}
-                style={styles.input}
-                maxLength={MAX_CAPTION_CHARS}
-                placeholder={Copy.captionPlaceholder}
-                placeholderTextColor="#999"
-              />
-            </Item>
-            <Item stackedLabel style={styles.item}>
-              <Label style={styles.label}>{Copy.dateLabel}</Label>
-              {!date ? (
-                <Spinner style={styles.spinner} size="small" />
-              ) : (
-                <DatePicker
+      <SafeAreaView style={baseStyles.safeView}>
+        <Container>
+          <Header>
+            <Left style={baseStyles.headerLeft}>
+              <BackButton />
+            </Left>
+            <Body style={baseStyles.headerBody}>
+              <Title>{Copy.addPhotoTitle}</Title>
+            </Body>
+            <Right style={baseStyles.headerRight} />
+          </Header>
+          <Content>
+            <PhotoUploadPreview image={this.image()} />
+            <View style={styles.main}>
+              <Item stackedLabel style={styles.item}>
+                <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
+                <Label style={styles.label}>{Copy.captionLabel}</Label>
+                <Textarea
+                  value={caption}
+                  onChangeText={this.setStateItem('caption')}
+                  returnKeyType="next"
+                  blurOnSubmit
+                  onSubmitEditing={() => {
+                    Keyboard.dismiss();
+                  }}
+                  rowSpan={3}
                   style={styles.input}
-                  defaultDate={date}
-                  minimumDate={activityImages.currentReportingPeriod.start}
-                  maximumDate={new Date()}
-                  locale="en"
-                  formatChosenDate={d => format(d, 'Do MMM')}
-                  timeZoneOffsetInMinutes={undefined}
-                  modalTransparent={false}
-                  textStyle={styles.date}
-                  animationType="fade"
-                  androidMode="default"
-                  onDateChange={this.setStateItem('date')}
+                  maxLength={MAX_CAPTION_CHARS}
+                  placeholder={Copy.captionPlaceholder}
+                  placeholderTextColor="#999"
                 />
-              )}
-            </Item>
-            <Item stackedLabel style={styles.item}>
-              <Label style={styles.label}>{Copy.locationLabel}</Label>
-              {fetchingLocation ? (
-                <Spinner style={styles.spinner} size="small" />
-              ) : (
-                <Select
-                  style={styles.input}
-                  filterable
-                  uniqueKey="name"
-                  displayKey="name"
-                  modalHeader={Copy.locationModalHeader}
-                  placeholder={Copy.locationPlaceholder}
-                  selectedItem={location}
-                  onSelectedItemChange={this.setStateItem('location')}
-                  onAddOption={this.addLocation}
-                  items={allLocations}
-                  renderSelectedItem={this.renderSelectedLocation}
-                  renderItem={this.renderLocationItem}
-                  isSectioned
-                  filterPlaceholder={Copy.selectLocationFilterPlaceholder}
-                />
-              )}
-            </Item>
-            <Item stackedLabel style={styles.item}>
-              <Label style={styles.label}>{Copy.teamLabel}</Label>
-              {teams.loading || !teams.list ? (
-                <Spinner style={[styles.input, styles.spinner]} size="small" />
-              ) : (
-                <Select
-                  style={styles.input}
-                  uniqueKey="IDMinistry"
-                  displayKey="MinistryDisplayName"
-                  modalHeader={Copy.teamModalHeader}
-                  placeholder={Copy.teamPlaceholder}
-                  selectedItem={team}
-                  onSelectedItemChange={this.setTeam}
-                  items={teams.list}
-                />
-              )}
-            </Item>
-            <Item stackedLabel style={styles.item}>
-              <Label style={styles.label}>{Copy.activityLabel}</Label>
-              {teams.loading || !teams.list ? (
-                <Spinner style={[styles.input, styles.spinner]} size="small" />
-              ) : (
-                <Select
-                  style={styles.input}
-                  uniqueKey="id"
-                  displayKey="activity_name"
-                  modalHeader={Copy.activityModalHeader}
-                  placeholder={Copy.activityPlaceholder}
-                  emptyListTitle={Copy.selectActivityEmptyTitle}
-                  emptyListMessage={Copy.selectActivityEmptyMessage}
-                  selectedItem={activity}
-                  onSelectedItemChange={this.setStateItem('activity')}
-                  items={team ? team.activities.slice() : []}
-                />
-              )}
-            </Item>
-            <Item stackedLabel style={styles.item}>
-              <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
-              {teams.loading || !teams.list ? (
-                <Spinner style={[styles.input, styles.spinner]} size="small" />
-              ) : (
-                <MultiSelect
-                  style={styles.input}
-                  items={team ? team.members.slice() : []}
-                  selectedItems={taggedPeople}
-                  uniqueKey="IDPerson"
-                  displayKey="display_name"
-                  placeholder={Copy.taggedPeoplePlaceholder}
-                  modalHeader={Copy.taggedPeopleModalHeader}
-                  emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}
-                  emptyListMessage={Copy.selectTaggedPeopleEmptyMessage}
-                  onSelectedItemsChange={this.setStateItem('taggedPeople')}
-                  renderItem={this.renderTeamMember}
-                  renderSelectedItems={this.renderSelectedTeamMembers}
-                />
-              )}
-            </Item>
-          </View>
-          <ConfirmationModal
-            visible={isModalOpen}
-            caption={caption}
-            taggedPeople={taggedPeople.map(m => m.display_name).join(', ')}
-            onCancel={this.closeConfirmation}
-            onConfirm={this.upload}
-            isUploading={false}
-          />
-        </Content>
-        {isFooterVisible && (
-          <Footer>
-            <FooterTab>
-              <Button active full disabled={!isSaveEnabled} onPress={this.openConfirmation}>
-                <Text>{Copy.addPhotoSaveButtonText}</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
-        )}
-      </Container>
+              </Item>
+              <Item stackedLabel style={styles.item}>
+                <Label style={styles.label}>{Copy.dateLabel}</Label>
+                {!date ? (
+                  <Spinner style={styles.spinner} size="small" />
+                ) : (
+                  <DatePicker
+                    style={styles.input}
+                    defaultDate={date}
+                    minimumDate={activityImages.currentReportingPeriod.start}
+                    maximumDate={new Date()}
+                    locale="en"
+                    formatChosenDate={d => format(d, 'Do MMM')}
+                    timeZoneOffsetInMinutes={undefined}
+                    modalTransparent={false}
+                    textStyle={styles.date}
+                    animationType="fade"
+                    androidMode="default"
+                    onDateChange={this.setStateItem('date')}
+                  />
+                )}
+              </Item>
+              <Item stackedLabel style={styles.item}>
+                <Label style={styles.label}>{Copy.locationLabel}</Label>
+                {fetchingLocation ? (
+                  <Spinner style={styles.spinner} size="small" />
+                ) : (
+                  <Select
+                    style={styles.input}
+                    filterable
+                    uniqueKey="name"
+                    displayKey="name"
+                    modalHeader={Copy.locationModalHeader}
+                    placeholder={Copy.locationPlaceholder}
+                    selectedItem={location}
+                    onSelectedItemChange={this.setStateItem('location')}
+                    onAddOption={this.addLocation}
+                    items={allLocations}
+                    renderSelectedItem={this.renderSelectedLocation}
+                    renderItem={this.renderLocationItem}
+                    isSectioned
+                    filterPlaceholder={Copy.selectLocationFilterPlaceholder}
+                  />
+                )}
+              </Item>
+              <Item stackedLabel style={styles.item}>
+                <Label style={styles.label}>{Copy.teamLabel}</Label>
+                {teams.loading || !teams.list ? (
+                  <Spinner style={[styles.input, styles.spinner]} size="small" />
+                ) : (
+                  <Select
+                    style={styles.input}
+                    uniqueKey="IDMinistry"
+                    displayKey="MinistryDisplayName"
+                    modalHeader={Copy.teamModalHeader}
+                    placeholder={Copy.teamPlaceholder}
+                    selectedItem={team}
+                    onSelectedItemChange={this.setTeam}
+                    items={teams.list}
+                  />
+                )}
+              </Item>
+              <Item stackedLabel style={styles.item}>
+                <Label style={styles.label}>{Copy.activityLabel}</Label>
+                {teams.loading || !teams.list ? (
+                  <Spinner style={[styles.input, styles.spinner]} size="small" />
+                ) : (
+                  <Select
+                    style={styles.input}
+                    uniqueKey="id"
+                    displayKey="activity_name"
+                    modalHeader={Copy.activityModalHeader}
+                    placeholder={Copy.activityPlaceholder}
+                    emptyListTitle={Copy.selectActivityEmptyTitle}
+                    emptyListMessage={Copy.selectActivityEmptyMessage}
+                    selectedItem={activity}
+                    onSelectedItemChange={this.setStateItem('activity')}
+                    items={team ? team.activities.slice() : []}
+                  />
+                )}
+              </Item>
+              <Item stackedLabel style={styles.item}>
+                <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
+                {teams.loading || !teams.list ? (
+                  <Spinner style={[styles.input, styles.spinner]} size="small" />
+                ) : (
+                  <MultiSelect
+                    style={styles.input}
+                    items={team ? team.members.slice() : []}
+                    selectedItems={taggedPeople}
+                    uniqueKey="IDPerson"
+                    displayKey="display_name"
+                    placeholder={Copy.taggedPeoplePlaceholder}
+                    modalHeader={Copy.taggedPeopleModalHeader}
+                    emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}
+                    emptyListMessage={Copy.selectTaggedPeopleEmptyMessage}
+                    onSelectedItemsChange={this.setStateItem('taggedPeople')}
+                    renderItem={this.renderTeamMember}
+                    renderSelectedItems={this.renderSelectedTeamMembers}
+                  />
+                )}
+              </Item>
+            </View>
+            <ConfirmationModal
+              visible={isModalOpen}
+              caption={caption}
+              taggedPeople={taggedPeople.map(m => m.display_name).join(', ')}
+              onCancel={this.closeConfirmation}
+              onConfirm={this.upload}
+              isUploading={false}
+            />
+          </Content>
+          {isFooterVisible && (
+            <Footer>
+              <FooterTab>
+                <Button active full disabled={!isSaveEnabled} onPress={this.openConfirmation}>
+                  <Text>{Copy.addPhotoSaveButtonText}</Text>
+                </Button>
+              </FooterTab>
+            </Footer>
+          )}
+        </Container>
+      </SafeAreaView>
     );
   }
 }

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import SplashScreen from 'react-native-splash-screen';
-import { Animated, View, ImageBackground, Keyboard } from 'react-native';
+import { Animated, View, ImageBackground, Keyboard, SafeAreaView } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import Theme, { Color } from 'src/assets/theme';
 import AppScreen from 'src/components/app/AppScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
@@ -127,59 +128,61 @@ class LoginScreen extends React.Component {
     const { username, password, preCheck, logoHeight, logoWidth } = this.state;
     const logoTransform = { height: logoHeight, width: logoWidth };
     return (
-      <ImageBackground style={styles.bgImage} source={bgImage}>
-        <View style={styles.container}>
-          <Animated.Image source={logoImage} style={[styles.logo, logoTransform]} />
-          {preCheck ? (
-            <Spinner style={styles.spinner} color={Theme.inverseTextColor} />
-          ) : (
-            <Form>
-              <Item style={styles.item}>
-                <Input
-                  ref={input => {
-                    this.inputs.username = input;
-                  }}
-                  blurOnSubmit={false}
-                  autoCapitalize="none"
-                  textContentType="username"
-                  returnKeyType="next"
-                  value={username}
-                  onChangeText={this.update('username')}
-                  style={styles.input}
-                  placeholder={Copy.usernameLabel}
-                  placeholderTextColor={Color.lightTextMuted}
-                  onSubmitEditing={() => {
-                    this.focusNextField('password');
-                  }}
-                />
-              </Item>
-              <Item style={styles.item}>
-                <Input
-                  ref={input => {
-                    this.inputs.password = input;
-                  }}
-                  blurOnSubmit
-                  returnKeyType="done"
-                  value={password}
-                  onChangeText={this.update('password')}
-                  secureTextEntry
-                  style={styles.input}
-                  placeholder={Copy.passwordLabel}
-                  placeholderTextColor={Color.lightTextMuted}
-                  onSubmitEditing={this.login}
-                />
-              </Item>
-              <Button style={[styles.item, styles.loginButton]} bordered block light onPress={this.login}>
-                {auth.status === AuthStatus.LoggingIn ? (
-                  <Spinner size="small" color={Theme.inverseTextColor} />
-                ) : (
-                  <Text>{Copy.login}</Text>
-                )}
-              </Button>
-            </Form>
-          )}
-        </View>
-      </ImageBackground>
+      <SafeAreaView style={baseStyles.safeView}>
+        <ImageBackground style={styles.bgImage} source={bgImage}>
+          <View style={styles.container}>
+            <Animated.Image source={logoImage} style={[styles.logo, logoTransform]} />
+            {preCheck ? (
+              <Spinner style={styles.spinner} color={Theme.inverseTextColor} />
+            ) : (
+              <Form>
+                <Item style={styles.item}>
+                  <Input
+                    ref={input => {
+                      this.inputs.username = input;
+                    }}
+                    blurOnSubmit={false}
+                    autoCapitalize="none"
+                    textContentType="username"
+                    returnKeyType="next"
+                    value={username}
+                    onChangeText={this.update('username')}
+                    style={styles.input}
+                    placeholder={Copy.usernameLabel}
+                    placeholderTextColor={Color.lightTextMuted}
+                    onSubmitEditing={() => {
+                      this.focusNextField('password');
+                    }}
+                  />
+                </Item>
+                <Item style={styles.item}>
+                  <Input
+                    ref={input => {
+                      this.inputs.password = input;
+                    }}
+                    blurOnSubmit
+                    returnKeyType="done"
+                    value={password}
+                    onChangeText={this.update('password')}
+                    secureTextEntry
+                    style={styles.input}
+                    placeholder={Copy.passwordLabel}
+                    placeholderTextColor={Color.lightTextMuted}
+                    onSubmitEditing={this.login}
+                  />
+                </Item>
+                <Button style={[styles.item, styles.loginButton]} bordered block light onPress={this.login}>
+                  {auth.status === AuthStatus.LoggingIn ? (
+                    <Spinner size="small" color={Theme.inverseTextColor} />
+                  ) : (
+                    <Text>{Copy.login}</Text>
+                  )}
+                </Button>
+              </Form>
+            )}
+          </View>
+        </ImageBackground>
+      </SafeAreaView>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { SafeAreaView } from 'react-native';
 import { Container, Header, Title, Content, Left, Body, Right } from 'native-base';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
@@ -33,28 +34,30 @@ class CameraRollScreen extends React.Component {
     const { navigation } = this.props;
     const { hasPermission } = this.state;
     return (
-      <Container>
-        <Header>
-          <Left style={baseStyles.headerLeft}>
-            <BackButton />
-          </Left>
-          <Body style={baseStyles.headerBody}>
-            <Title>{Copy.camRollTitle}</Title>
-          </Body>
-          <Right style={baseStyles.headerRight} />
-        </Header>
-        {hasPermission ? (
-          <Content>
-            <CameraRollList navigation={navigation} />
-          </Content>
-        ) : (
-          <NonIdealState
-            title={Copy.nonIdealState.cameraRollNoPermission.title}
-            message={Copy.nonIdealState.cameraRollNoPermission.message}
-            icon="lock"
-          />
-        )}
-      </Container>
+      <SafeAreaView style={baseStyles.safeView}>
+        <Container>
+          <Header>
+            <Left style={baseStyles.headerLeft}>
+              <BackButton />
+            </Left>
+            <Body style={baseStyles.headerBody}>
+              <Title>{Copy.camRollTitle}</Title>
+            </Body>
+            <Right style={baseStyles.headerRight} />
+          </Header>
+          {hasPermission ? (
+            <Content>
+              <CameraRollList navigation={navigation} />
+            </Content>
+          ) : (
+            <NonIdealState
+              title={Copy.nonIdealState.cameraRollNoPermission.title}
+              message={Copy.nonIdealState.cameraRollNoPermission.message}
+              icon="lock"
+            />
+          )}
+        </Container>
+      </SafeAreaView>
     );
   }
 }

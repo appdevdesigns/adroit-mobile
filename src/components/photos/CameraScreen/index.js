@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, CameraRoll, View, Image } from 'react-native';
+import { TouchableOpacity, CameraRoll, View, Image, SafeAreaView } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import BackButton from 'src/components/common/BackButton';
 import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
@@ -97,45 +98,49 @@ class CameraScreen extends React.Component {
   render() {
     const { flashModeIndex, type } = this.state;
     return (
-      <Container>
-        <RNCamera
-          ref={ref => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={type}
-          captureAudio={false}
-          flashMode={flashModes[flashModeIndex].mode}
-          permissionDialogTitle={Copy.perms.camera.title}
-          permissionDialogMessage={Copy.perms.camera.message}
-        />
-        <View style={styles.overlay}>
-          <View style={[styles.overlayItem, styles.header]}>
-            <Left>
-              <BackButton light />
-            </Left>
-            <Body>
-              <TouchableOpacity onPress={this.toggleCameraType}>
-                <Image source={imgFlipCamera} style={[styles.toolbarImage, styles.typeImage]} />
-              </TouchableOpacity>
-            </Body>
-            <Right>
-              <TouchableOpacity onPress={this.cycleFlashMode}>
-                <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
-              </TouchableOpacity>
-            </Right>
+      <SafeAreaView style={baseStyles.safeView}>
+        <Container>
+          <RNCamera
+            ref={ref => {
+              this.camera = ref;
+            }}
+            style={styles.preview}
+            type={type}
+            captureAudio={false}
+            flashMode={flashModes[flashModeIndex].mode}
+            permissionDialogTitle={Copy.perms.camera.title}
+            permissionDialogMessage={Copy.perms.camera.message}
+          />
+          <View style={styles.overlay}>
+            <View style={[styles.overlayItem, styles.header]}>
+              <Left>
+                <BackButton light />
+              </Left>
+              <Body>
+                <TouchableOpacity onPress={this.toggleCameraType}>
+                  <Image source={imgFlipCamera} style={[styles.toolbarImage, styles.typeImage]} />
+                </TouchableOpacity>
+              </Body>
+              <Right>
+                <TouchableOpacity onPress={this.cycleFlashMode}>
+                  <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
+                </TouchableOpacity>
+              </Right>
+            </View>
+            <View style={[styles.overlayItem, styles.footer]}>
+              <Left />
+              <Body>
+                <TouchableOpacity onPress={this.takePicture}>
+                  <View style={styles.captureIconWrapper}>
+                    <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
+                  </View>
+                </TouchableOpacity>
+              </Body>
+              <Right />
+            </View>
           </View>
-          <View style={[styles.overlayItem, styles.footer]}>
-            <Left />
-            <Body>
-              <TouchableOpacity onPress={this.takePicture}>
-                <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
-              </TouchableOpacity>
-            </Body>
-            <Right />
-          </View>
-        </View>
-      </Container>
+        </Container>
+      </SafeAreaView>
     );
   }
 }

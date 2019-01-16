@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, SafeAreaView } from 'react-native';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -89,37 +89,40 @@ class ActivityFeedScreen extends React.Component {
   render() {
     const { introModalOpen } = this.state;
     return (
-      <Drawer
-        ref={ref => {
-          this.drawer = ref;
-        }}
-        content={
-          <Sidebar
-            onStartTutorial={() => {
-              this.startTutorial(true);
-            }}
-          />
-        }
-        onClose={this.closeDrawer}
-      >
-        <Container>
-          <Header>
-            <Left style={baseStyles.headerLeft}>
-              <Button transparent onPress={this.openDrawer}>
-                <Icon type="FontAwesome" name="bars" />
-              </Button>
-            </Left>
-            <Body style={baseStyles.headerBody}>
-              <Title>{Copy.activityFeedTitle}</Title>
-            </Body>
-            <Right style={baseStyles.headerRight} />
-          </Header>
-          <ReportingPeriodOverview />
-          <ActivityFeedList />
-          <ActivityFeedFab />
-          <IntroModal visible={introModalOpen} onCancel={this.skipTutorial} onConfirm={this.startTutorial} />
-        </Container>
-      </Drawer>
+      <SafeAreaView style={baseStyles.safeView}>
+        <Drawer
+          ref={ref => {
+            this.drawer = ref;
+          }}
+          content={
+            <Sidebar
+              onStartTutorial={() => {
+                this.startTutorial(true);
+              }}
+              onClose={this.closeDrawer}
+            />
+          }
+          onClose={this.closeDrawer}
+        >
+          <Container>
+            <Header>
+              <Left style={baseStyles.headerLeft}>
+                <Button transparent onPress={this.openDrawer}>
+                  <Icon type="FontAwesome" name="bars" />
+                </Button>
+              </Left>
+              <Body style={baseStyles.headerBody}>
+                <Title>{Copy.activityFeedTitle}</Title>
+              </Body>
+              <Right style={baseStyles.headerRight} />
+            </Header>
+            <ReportingPeriodOverview />
+            <ActivityFeedList />
+            <ActivityFeedFab />
+            <IntroModal visible={introModalOpen} onCancel={this.skipTutorial} onConfirm={this.startTutorial} />
+          </Container>
+        </Drawer>
+      </SafeAreaView>
     );
   }
 }

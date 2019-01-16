@@ -20,6 +20,9 @@ export const round = size => ({
  * App-wide reusable styles
  */
 export default StyleSheet.create({
+  safeView: {
+    flex: 1,
+  },
   headerLeft: {
     flex: 0.3,
     marginRight: GridSize,

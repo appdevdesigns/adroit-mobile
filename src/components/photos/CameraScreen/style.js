@@ -29,10 +29,13 @@ export default StyleSheet.create({
     paddingBottom: GridSize * 2,
     backgroundColor: 'rgba(0,0,0,0)',
   },
-  captureIcon: {
+  captureIconWrapper: {
     backgroundColor: '#fff',
-    color: '#000',
     borderRadius: 18,
+  },
+  captureIcon: {
+    backgroundColor: 'transparent',
+    color: '#000',
     paddingTop: 2,
     paddingBottom: 2,
     paddingLeft: 4,
