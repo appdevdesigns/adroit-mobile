@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import SplashScreen from 'react-native-splash-screen';
 import { Animated, View, ImageBackground, Keyboard } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import Copy from 'src/assets/Copy';
@@ -37,6 +38,7 @@ class LoginScreen extends React.Component {
   }
 
   async componentDidMount() {
+    SplashScreen.hide();
     this.cancelLoginListener = when(() => this.props.auth.isLoggedIn, this.onAuthenticated);
     await this.checkLogin();
     await this.props.permissions.init();
@@ -138,6 +140,8 @@ class LoginScreen extends React.Component {
                     this.inputs.username = input;
                   }}
                   blurOnSubmit={false}
+                  autoCapitalize="none"
+                  textContentType="username"
                   returnKeyType="next"
                   value={username}
                   onChangeText={this.update('username')}

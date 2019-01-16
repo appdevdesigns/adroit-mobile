@@ -59,6 +59,7 @@
 		A05E837944264D0BB0578C7F /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63428D4879B94910B33B5555 /* Roboto_medium.ttf */; };
 		A3C72C5C04AF4D9A9E4A3601 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5BCE1DCF5CD4C26A98E1B62 /* libRNDeviceInfo-tvOS.a */; };
 		A924299721EDCD0300E0CBCB /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A924296721EDCCBC00E0CBCB /* libRCTCameraRoll.a */; };
+		A97F4FD221EED7A400692BF8 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A97F4FD121EED77B00692BF8 /* libSplashScreen.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AF9F7D3B01654C9582AB31B5 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C0BEF3E6EAD44849CB44104 /* Entypo.ttf */; };
 		B2875A022F524096842466D4 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D9F598C7AF44FB9AB832BCA /* Ionicons.ttf */; };
@@ -356,6 +357,13 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RCTCameraRoll;
 		};
+		A97F4FD021EED77B00692BF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A97F4F9221EED77B00692BF8 /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 		A9FDCF7B21EDA1BF008F5741 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F7FA6BC673B347E0B17EC863 /* AppCenterReactNativeCrashes.xcodeproj */;
@@ -576,6 +584,7 @@
 		A2DE9725F1C245F689F3B80A /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		A7A038ECFD6C48C09467BF1D /* AppCenter-Config.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "adroit/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		A924295821EDCCBC00E0CBCB /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
+		A97F4F9221EED77B00692BF8 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		AB591E2A469A4AD5A899A44A /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		AD77CBD18FFA4ED6A537589A /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -613,6 +622,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A97F4FD221EED7A400692BF8 /* libSplashScreen.a in Frameworks */,
 				A924299721EDCD0300E0CBCB /* libRCTCameraRoll.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -852,6 +862,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A97F4F9221EED77B00692BF8 /* SplashScreen.xcodeproj */,
 				A924295821EDCCBC00E0CBCB /* RCTCameraRoll.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -941,6 +952,14 @@
 			isa = PBXGroup;
 			children = (
 				A924296721EDCCBC00E0CBCB /* libRCTCameraRoll.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A97F4F9321EED77B00692BF8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A97F4FD121EED77B00692BF8 /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1336,6 +1355,10 @@
 					ProductGroup = A9FDCF9421EDA1C0008F5741 /* Products */;
 					ProjectRef = D363EE46392C4765B90AD0AA /* RNSVG.xcodeproj */;
 				},
+				{
+					ProductGroup = A97F4F9321EED77B00692BF8 /* Products */;
+					ProjectRef = A97F4F9221EED77B00692BF8 /* SplashScreen.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1605,6 +1628,13 @@
 			fileType = archive.ar;
 			path = libRCTCameraRoll.a;
 			remoteRef = A924296621EDCCBC00E0CBCB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A97F4FD121EED77B00692BF8 /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = A97F4FD021EED77B00692BF8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A9FDCF7C21EDA1BF008F5741 /* libAppCenterReactNativeCrashes.a */ = {
@@ -2118,21 +2148,49 @@
 				DEVELOPMENT_TEAM = 723276MJFQ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\appcenteriosAppCenterReactNative",
-					"$(SRCROOT)..\node_modules\appcenter-analyticsiosAppCenterReactNativeAnalytics",
-					"$(SRCROOT)..\node_modules\appcenter-crashesiosAppCenterReactNativeCrashes",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
-					"$(SRCROOT)..\node_modules\neact-native-exifiosReactNativeExif",
-					"$(SRCROOT)..\node_modules\neact-native-configiosReactNativeConfig",
-					"$(SRCROOT)..\node_modules\neact-native-localeiosRCTLocale",
-					"$(SRCROOT)..\node_modules\neact-native-linear-gradientBVLinearGradient",
-					"$(SRCROOT)..\node_modules\neact-native-sentryios/**",
-					"$(SRCROOT)..\node_modules\neact-native-keychainRNKeychainManager",
-					"$(SRCROOT)..\node_modules\neact-native-svgios/**",
-					"$(SRCROOT)..\node_modules\neact-native-device-infoRNDeviceInfo",
-					"$(SRCROOT)..\node_modules\neact-native-background-timerios",
-					"$(SRCROOT)..\node_modules\neact-native-restartiosRCTRestart/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-resizeriosRCTImageResizer",
+					"$(SRCROOT)..",
+					"ode_modules\appcenteriosAppCenterReactNative",
+					"$(SRCROOT)..",
+					"ode_modules\appcenter-analyticsiosAppCenterReactNativeAnalytics",
+					"$(SRCROOT)..",
+					"ode_modules\appcenter-crashesiosAppCenterReactNativeCrashes",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-cameraios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-exifiosReactNativeExif",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-configiosReactNativeConfig",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-localeiosRCTLocale",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-linear-gradientBVLinearGradient",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-sentryios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-keychainRNKeychainManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-svgios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-device-infoRNDeviceInfo",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-background-timerios",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-restartiosRCTRestart/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-image-resizeriosRCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = adroit/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -2164,21 +2222,49 @@
 				DEVELOPMENT_TEAM = 723276MJFQ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\appcenteriosAppCenterReactNative",
-					"$(SRCROOT)..\node_modules\appcenter-analyticsiosAppCenterReactNativeAnalytics",
-					"$(SRCROOT)..\node_modules\appcenter-crashesiosAppCenterReactNativeCrashes",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
-					"$(SRCROOT)..\node_modules\neact-native-exifiosReactNativeExif",
-					"$(SRCROOT)..\node_modules\neact-native-configiosReactNativeConfig",
-					"$(SRCROOT)..\node_modules\neact-native-localeiosRCTLocale",
-					"$(SRCROOT)..\node_modules\neact-native-linear-gradientBVLinearGradient",
-					"$(SRCROOT)..\node_modules\neact-native-sentryios/**",
-					"$(SRCROOT)..\node_modules\neact-native-keychainRNKeychainManager",
-					"$(SRCROOT)..\node_modules\neact-native-svgios/**",
-					"$(SRCROOT)..\node_modules\neact-native-device-infoRNDeviceInfo",
-					"$(SRCROOT)..\node_modules\neact-native-background-timerios",
-					"$(SRCROOT)..\node_modules\neact-native-restartiosRCTRestart/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-resizeriosRCTImageResizer",
+					"$(SRCROOT)..",
+					"ode_modules\appcenteriosAppCenterReactNative",
+					"$(SRCROOT)..",
+					"ode_modules\appcenter-analyticsiosAppCenterReactNativeAnalytics",
+					"$(SRCROOT)..",
+					"ode_modules\appcenter-crashesiosAppCenterReactNativeCrashes",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-cameraios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-exifiosReactNativeExif",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-configiosReactNativeConfig",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-localeiosRCTLocale",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-linear-gradientBVLinearGradient",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-sentryios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-keychainRNKeychainManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-svgios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-device-infoRNDeviceInfo",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-background-timerios",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-restartiosRCTRestart/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-image-resizeriosRCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = adroit/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
