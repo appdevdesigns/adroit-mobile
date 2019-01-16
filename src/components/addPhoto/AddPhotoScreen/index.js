@@ -55,7 +55,6 @@ class AddPhotoScreen extends React.Component {
       caption: '',
       date: undefined,
       location: undefined,
-      fetchingLocation: true,
       taggedPeople: [],
       team: undefined,
       activity: undefined,
@@ -223,18 +222,11 @@ class AddPhotoScreen extends React.Component {
       </View>
     ));
 
-  renderSelectedLocation = selectedLocation => {
-    const locationText = selectedLocation.name;
-    return (
-      <View style={styles.row}>
-        {locationText ? (
-          <Text style={selectStyles.selected}>{locationText}</Text>
-        ) : (
-          <Spinner style={styles.spinner} size="small" />
-        )}
-      </View>
-    );
-  };
+  renderSelectedLocation = selectedLocation => (
+    <View style={styles.row}>
+      <Text style={selectStyles.selected}>{selectedLocation.name}</Text>
+    </View>
+  );
 
   renderLocationItem = location => (
     <View style={styles.centeredRow}>
@@ -244,17 +236,7 @@ class AddPhotoScreen extends React.Component {
 
   render() {
     const { teams, activityImages, locations } = this.props;
-    const {
-      caption,
-      date,
-      location,
-      team,
-      activity,
-      fetchingLocation,
-      taggedPeople,
-      isModalOpen,
-      isFooterVisible,
-    } = this.state;
+    const { caption, date, location, team, activity, taggedPeople, isModalOpen, isFooterVisible } = this.state;
     const isSaveEnabled = !!(
       activityImages.photo.isUploaded &&
       caption &&
@@ -325,26 +307,22 @@ class AddPhotoScreen extends React.Component {
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.locationLabel}</Label>
-                {fetchingLocation ? (
-                  <Spinner style={styles.spinner} size="small" />
-                ) : (
-                  <Select
-                    style={styles.input}
-                    filterable
-                    uniqueKey="name"
-                    displayKey="name"
-                    modalHeader={Copy.locationModalHeader}
-                    placeholder={Copy.locationPlaceholder}
-                    selectedItem={location}
-                    onSelectedItemChange={this.setStateItem('location')}
-                    onAddOption={this.addLocation}
-                    items={allLocations}
-                    renderSelectedItem={this.renderSelectedLocation}
-                    renderItem={this.renderLocationItem}
-                    isSectioned
-                    filterPlaceholder={Copy.selectLocationFilterPlaceholder}
-                  />
-                )}
+                <Select
+                  style={styles.input}
+                  filterable
+                  uniqueKey="name"
+                  displayKey="name"
+                  modalHeader={Copy.locationModalHeader}
+                  placeholder={Copy.locationPlaceholder}
+                  selectedItem={location}
+                  onSelectedItemChange={this.setStateItem('location')}
+                  onAddOption={this.addLocation}
+                  items={allLocations}
+                  renderSelectedItem={this.renderSelectedLocation}
+                  renderItem={this.renderLocationItem}
+                  isSectioned
+                  filterPlaceholder={Copy.selectLocationFilterPlaceholder}
+                />
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.teamLabel}</Label>
