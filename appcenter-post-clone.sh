@@ -12,3 +12,4 @@ echo "FORCE_REMOTE_MONITORING=${FORCE_REMOTE_MONITORING}" >> .env
 
 echo "Adding the Sentry Auth token"
 echo "auth.token=${SENTRY_AUTH_TOKEN}" >> android/sentry.properties
+echo "auth.token=${SENTRY_AUTH_TOKEN}" >> ios/sentry.properties
