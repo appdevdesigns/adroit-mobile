@@ -6,7 +6,6 @@ import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { Image, View, AsyncStorage, Keyboard, SafeAreaView } from 'react-native';
 import Exif from 'react-native-exif';
-import Geocode from 'react-geocode';
 import parse from 'date-fns/parse';
 import {
   Container,
@@ -47,8 +46,6 @@ import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-const PHOTO_LOCATION = { name: Copy.photoLocation };
-
 @inject('teams', 'activityImages', 'users', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
@@ -58,7 +55,6 @@ class AddPhotoScreen extends React.Component {
       caption: '',
       date: undefined,
       location: undefined,
-      photoLocation: undefined,
       fetchingLocation: true,
       taggedPeople: [],
       team: undefined,
@@ -107,32 +103,6 @@ class AddPhotoScreen extends React.Component {
       .catch(msg => {
         Monitoring.exception(msg, { problem: 'Exif.getExif ERROR' });
         this.setState({ date: today });
-      });
-    Exif.getLatLong(imageUri)
-      .then(({ latitude, longitude }) => {
-        if (latitude && longitude) {
-          // Temp:
-          // latitude = 18.732084;
-          // longitude = 98.9349063;
-          Geocode.fromLatLng(String(latitude), String(longitude)).then(
-            response => {
-              const addrToUse = Math.max(0, Math.min(1, response.results.length - 1));
-              const address = response.results[addrToUse].formatted_address;
-              this.setState({ photoLocation: address, location: PHOTO_LOCATION, fetchingLocation: false });
-            },
-            error => {
-              Monitoring.exception(error, { latitude, longitude, problem: 'Geocode.fromLatLng error' });
-              this.setState({ fetchingLocation: false });
-            }
-          );
-        } else {
-          Monitoring.debug(`Exif photo lat/long ignored: ${latitude}, ${longitude}`);
-          this.setState({ fetchingLocation: false });
-        }
-      })
-      .catch(msg => {
-        Monitoring.exception(msg, { problem: 'Exif.getLatLong error' });
-        this.setState({ fetchingLocation: false });
       });
   }
 
@@ -204,7 +174,7 @@ class AddPhotoScreen extends React.Component {
   };
 
   upload = async () => {
-    const { team, activity, caption, location, date, taggedPeople, photoLocation } = this.state;
+    const { team, activity, caption, location, date, taggedPeople } = this.state;
     const { activityImages } = this.props;
     // Persist the team for initialization next time
     await AsyncStorage.setItem('last_team_id', String(team.IDMinistry));
@@ -214,7 +184,7 @@ class AddPhotoScreen extends React.Component {
       activityId: activity.id,
       caption,
       date,
-      location: location === PHOTO_LOCATION ? photoLocation : location.name,
+      location: location.name,
       taggedPeopleIds: taggedPeople.map(p => p.IDPerson),
     };
     activityImages.upload(activityImage);
@@ -253,19 +223,10 @@ class AddPhotoScreen extends React.Component {
       </View>
     ));
 
-  renderLocationIcon = () => (
-    <FontAwesome5
-      light
-      style={[baseStyles.listItemIcon, baseStyles.marginRight, styles.locationIcon]}
-      name="location-arrow"
-    />
-  );
-
   renderSelectedLocation = selectedLocation => {
-    const locationText = selectedLocation === PHOTO_LOCATION ? this.state.photoLocation : selectedLocation.name;
+    const locationText = selectedLocation.name;
     return (
       <View style={styles.row}>
-        {selectedLocation === PHOTO_LOCATION && this.renderLocationIcon()}
         {locationText ? (
           <Text style={selectStyles.selected}>{locationText}</Text>
         ) : (
@@ -277,7 +238,6 @@ class AddPhotoScreen extends React.Component {
 
   renderLocationItem = location => (
     <View style={styles.centeredRow}>
-      {location === PHOTO_LOCATION && this.renderLocationIcon()}
       <Text style={baseStyles.listItemText}>{location.name}</Text>
     </View>
   );
@@ -290,7 +250,6 @@ class AddPhotoScreen extends React.Component {
       location,
       team,
       activity,
-      photoLocation,
       fetchingLocation,
       taggedPeople,
       isModalOpen,
@@ -306,12 +265,10 @@ class AddPhotoScreen extends React.Component {
       activity &&
       taggedPeople.length
     );
-    const allLocations = [];
-    if (photoLocation) {
-      allLocations.push({ title: '', data: [PHOTO_LOCATION] });
-    }
-    allLocations.push({ title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations });
-    allLocations.push({ title: Copy.fcfLocationsSection, data: locations.fcfLocations });
+    const allLocations = [
+      { title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations },
+      { title: Copy.fcfLocationsSection, data: locations.fcfLocations },
+    ];
     return (
       <SafeAreaView style={baseStyles.safeView}>
         <Container>

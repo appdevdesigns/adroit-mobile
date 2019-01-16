@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'mobx-react';
 import Config from 'react-native-config';
 import { StyleProvider, Root, getTheme } from 'native-base';
-import Geocode from 'react-geocode';
 import theme from 'src/assets/theme';
 import Store from 'src/store';
 import Monitoring from 'src/util/Monitoring';
@@ -14,11 +13,6 @@ Monitoring.init();
 console.ignoredYellowBox = ['Warning: isMounted', 'MobX Provider:']; // eslint-disable-line
 
 Monitoring.debug('Running with config', Config);
-
-if (!Config.ADROIT_GMAPS_API_KEY) {
-  throw new Error('ADROIT_GMAPS_API_KEY must be set in the .env file');
-}
-Geocode.setApiKey(Config.ADROIT_GMAPS_API_KEY);
 
 const store = new Store();
 
