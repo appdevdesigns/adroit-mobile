@@ -46,7 +46,6 @@ const Copy = {
   confirmTaggedLabel: 'I have tagged everyone on my team who is in this photo',
   confirmationBackButtonText: 'Go back',
   confirmationUploadButtonText: 'Upload',
-  photoLocation: 'Photo location',
   captionLabel: 'Caption',
   captionPlaceholder: 'Describe what you did and why it helps local Thais...',
   dateLabel: 'Date',
