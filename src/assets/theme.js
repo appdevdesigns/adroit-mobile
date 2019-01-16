@@ -22,6 +22,7 @@ export const IsSmallScreen = width <= BREAKPOINT;
 
 export default {
   ...material,
+  tabBarTextSize: 14,
   brandPrimary: Color.darkBackground,
   toolbarDefaultBg: Color.darkBackground,
   toolbarDefaultBorder: Color.darkBackground,
