@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import intersectionBy from 'lodash-es/intersectionBy';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Image, View, AsyncStorage, Keyboard, SafeAreaView } from 'react-native';
+import { Image, View, AsyncStorage, Keyboard, SafeAreaView, StatusBar } from 'react-native';
 import Exif from 'react-native-exif';
 import parse from 'date-fns/parse';
 import {
@@ -29,6 +28,7 @@ import {
 import { MultiSelect, Select } from 'src/components/common/Select';
 import selectStyles from 'src/components/common/Select/style';
 import baseStyles, { round } from 'src/assets/style';
+import Theme from 'src/assets/theme';
 import BackButton from 'src/components/common/BackButton';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
@@ -253,6 +253,7 @@ class AddPhotoScreen extends React.Component {
     ];
     return (
       <SafeAreaView style={baseStyles.safeView}>
+        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
         <Container>
           <Header>
             <Left style={baseStyles.headerLeft}>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
 import { Container, Header, Title, Content, Left, Body, Right, Text } from 'native-base';
 import BackButton from 'src/components/common/BackButton';
 import Copy from 'src/assets/Copy';
+import Theme from 'src/assets/theme';
 import baseStyles from 'src/assets/style';
 
 export default class HelpScreen extends React.PureComponent {
@@ -14,6 +15,7 @@ export default class HelpScreen extends React.PureComponent {
   render() {
     return (
       <SafeAreaView style={baseStyles.safeView}>
+        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
         <Container>
           <Header>
             <Left style={baseStyles.headerLeft}>

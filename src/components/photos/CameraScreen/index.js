@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, CameraRoll, View, Image, SafeAreaView } from 'react-native';
+import { TouchableOpacity, CameraRoll, View, Image, SafeAreaView, StatusBar } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
@@ -99,6 +99,7 @@ class CameraScreen extends React.Component {
     const { flashModeIndex, type } = this.state;
     return (
       <SafeAreaView style={baseStyles.safeView}>
+        <StatusBar hidden />
         <Container>
           <RNCamera
             ref={ref => {

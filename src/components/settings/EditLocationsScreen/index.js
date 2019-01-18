@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { FlatList, View, SafeAreaView } from 'react-native';
+import { FlatList, View, SafeAreaView, StatusBar } from 'react-native';
 import { Container, Button, Icon, Header, Title, Content, Left, Body, Right, ListItem, Text, Input } from 'native-base';
 import Copy from 'src/assets/Copy';
 import baseStyles from 'src/assets/style';
+import Theme from 'src/assets/theme';
 import BackButton from 'src/components/common/BackButton';
 import LocationsStore from 'src/store/LocationsStore';
 import Modal from 'src/components/common/Modal';
@@ -63,6 +64,7 @@ class EditLocationsScreen extends React.Component {
     const textStyle = [baseStyles.paragraph, styles.modalText];
     return (
       <SafeAreaView style={baseStyles.safeView}>
+        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
         <Container>
           <Header>
             <Left style={baseStyles.headerLeft}>

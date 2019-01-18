@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
 import { Container, Header, Title, Content, Left, Body, Right } from 'native-base';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
 import baseStyles from 'src/assets/style';
+import Theme from 'src/assets/theme';
 import BackButton from 'src/components/common/BackButton';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -35,6 +36,7 @@ class CameraRollScreen extends React.Component {
     const { hasPermission } = this.state;
     return (
       <SafeAreaView style={baseStyles.safeView}>
+        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
         <Container>
           <Header>
             <Left style={baseStyles.headerLeft}>

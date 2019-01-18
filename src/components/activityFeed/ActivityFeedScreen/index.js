@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage, SafeAreaView } from 'react-native';
+import { AsyncStorage, SafeAreaView, StatusBar } from 'react-native';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { Container, Header, Title, Button, Left, Body, Right, Icon, Drawer } from 'native-base';
 import Copy from 'src/assets/Copy';
 import baseStyles from 'src/assets/style';
+import Theme from 'src/assets/theme';
 import AuthStore from 'src/store/AuthStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -90,6 +91,7 @@ class ActivityFeedScreen extends React.Component {
     const { introModalOpen } = this.state;
     return (
       <SafeAreaView style={baseStyles.safeView}>
+        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
         <Drawer
           ref={ref => {
             this.drawer = ref;
