@@ -34,6 +34,10 @@ export default StyleSheet.create({
   headerBody: {
     alignItems: 'center',
   },
+  separator: {
+    paddingTop: Theme.platform === 'ios' ? 10 : 14,
+    paddingBottom: Theme.platform === 'ios' ? 10 : 12,
+  },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',

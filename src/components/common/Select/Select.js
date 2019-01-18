@@ -63,7 +63,7 @@ class Select extends React.Component {
 
   renderSectionHeader = ({ section: { title } }) =>
     title ? (
-      <Separator bordered>
+      <Separator style={baseStyles.separator} bordered>
         <Text>{title.toUpperCase()}</Text>
       </Separator>
     ) : null;
