@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import SplashScreen from 'react-native-splash-screen';
-import { Animated, View, ImageBackground, Keyboard, SafeAreaView, StatusBar } from 'react-native';
+import { Animated, View, ImageBackground, Keyboard } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import Copy from 'src/assets/Copy';
-import baseStyles from 'src/assets/style';
 import Theme, { Color } from 'src/assets/theme';
 import AppScreen from 'src/components/app/AppScreen';
+import AdroitScreen from 'src/components/common/AdroitScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
 import PermissionsStore from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -128,8 +128,7 @@ class LoginScreen extends React.Component {
     const { username, password, preCheck, logoHeight, logoWidth } = this.state;
     const logoTransform = { height: logoHeight, width: logoWidth };
     return (
-      <SafeAreaView style={baseStyles.safeView}>
-        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
+      <AdroitScreen>
         <ImageBackground style={styles.bgImage} source={bgImage}>
           <View style={styles.container}>
             <Animated.Image source={logoImage} style={[styles.logo, logoTransform]} />
@@ -183,7 +182,7 @@ class LoginScreen extends React.Component {
             )}
           </View>
         </ImageBackground>
-      </SafeAreaView>
+      </AdroitScreen>
     );
   }
 }

@@ -9,6 +9,7 @@
 #import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
 #import <AppCenterReactNativeAnalytics/AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNative/AppCenterReactNative.h>
+#import "Orientation.h" 
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -53,6 +54,16 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
   [self.window makeKeyAndVisible];
   [RNSplashScreen show];
   return YES;
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window 
+{
+  while ([[UIDevice currentDevice] isGeneratingDeviceOrientationNotifications]) 
+  {
+      [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+  }
+
+  return [Orientation getOrientation];
 }
 
 @end

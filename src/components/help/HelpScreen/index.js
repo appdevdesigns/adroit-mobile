@@ -1,9 +1,8 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
 import { Container, Header, Title, Content, Left, Body, Right, Text } from 'native-base';
+import AdroitScreen from 'src/components/common/AdroitScreen';
 import BackButton from 'src/components/common/BackButton';
 import Copy from 'src/assets/Copy';
-import Theme from 'src/assets/theme';
 import baseStyles from 'src/assets/style';
 
 export default class HelpScreen extends React.PureComponent {
@@ -14,8 +13,7 @@ export default class HelpScreen extends React.PureComponent {
 
   render() {
     return (
-      <SafeAreaView style={baseStyles.safeView}>
-        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
+      <AdroitScreen>
         <Container>
           <Header>
             <Left style={baseStyles.headerLeft}>
@@ -30,9 +28,7 @@ export default class HelpScreen extends React.PureComponent {
             <Text>Coming soon!</Text>
           </Content>
         </Container>
-      </SafeAreaView>
+      </AdroitScreen>
     );
   }
 }
-
-HelpScreen.default = {};

@@ -23,6 +23,8 @@ target 'adroit' do
   ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
+  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
+
   target 'adroitTests' do
     inherit! :search_paths
     # Pods for testing

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, CameraRoll, View, Image, SafeAreaView, StatusBar } from 'react-native';
+import { TouchableOpacity, CameraRoll, View, Image } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
-import baseStyles from 'src/assets/style';
 import BackButton from 'src/components/common/BackButton';
+import AdroitScreen from 'src/components/common/AdroitScreen';
 import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
@@ -98,8 +98,7 @@ class CameraScreen extends React.Component {
   render() {
     const { flashModeIndex, type } = this.state;
     return (
-      <SafeAreaView style={baseStyles.safeView}>
-        <StatusBar hidden />
+      <AdroitScreen orientation={null} statusBarProps={{ hidden: true }}>
         <Container>
           <RNCamera
             ref={ref => {
@@ -141,7 +140,7 @@ class CameraScreen extends React.Component {
             </View>
           </View>
         </Container>
-      </SafeAreaView>
+      </AdroitScreen>
     );
   }
 }

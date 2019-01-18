@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import intersectionBy from 'lodash-es/intersectionBy';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Image, View, AsyncStorage, Keyboard, SafeAreaView, StatusBar } from 'react-native';
+import { Image, View, AsyncStorage, Keyboard } from 'react-native';
 import Exif from 'react-native-exif';
 import parse from 'date-fns/parse';
 import {
@@ -28,8 +28,8 @@ import {
 import { MultiSelect, Select } from 'src/components/common/Select';
 import selectStyles from 'src/components/common/Select/style';
 import baseStyles, { round } from 'src/assets/style';
-import Theme from 'src/assets/theme';
 import BackButton from 'src/components/common/BackButton';
+import AdroitScreen from 'src/components/common/AdroitScreen';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
@@ -252,8 +252,7 @@ class AddPhotoScreen extends React.Component {
       { title: Copy.fcfLocationsSection, data: locations.fcfLocations },
     ];
     return (
-      <SafeAreaView style={baseStyles.safeView}>
-        <StatusBar barStyle="dark-content" backgroundColor={Theme.toolbarDefaultBg} />
+      <AdroitScreen>
         <Container>
           <Header>
             <Left style={baseStyles.headerLeft}>
@@ -402,7 +401,7 @@ class AddPhotoScreen extends React.Component {
             </Footer>
           )}
         </Container>
-      </SafeAreaView>
+      </AdroitScreen>
     );
   }
 }
