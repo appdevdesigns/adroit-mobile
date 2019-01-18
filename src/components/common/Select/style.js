@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import Theme, { Color, GridSize } from 'src/assets/theme';
 
+// HACK
+const statusBarHeight = 8;
+
 export default StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
@@ -12,6 +15,9 @@ export default StyleSheet.create({
   },
   selectedWrapper: {
     flex: 1,
+  },
+  header: {
+    height: Theme.platform === 'ios' ? Theme.toolbarHeight + statusBarHeight: Theme.toolbarHeight,
   },
   icon: {
     flex: 0,

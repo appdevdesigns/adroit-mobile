@@ -161,7 +161,7 @@ class Select extends React.Component {
         <Icon type="FontAwesome" name="caret-down" style={styles.icon} />
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
-            <Header>
+            <Header style={styles.header}> 
               <Body style={baseStyles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
