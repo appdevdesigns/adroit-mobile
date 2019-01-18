@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, CameraRoll, View, Image } from 'react-native';
+import { TouchableOpacity, CameraRoll, View, Image, StatusBar } from 'react-native';
 import { Container, Left, Body, Icon, Right } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
@@ -98,8 +98,9 @@ class CameraScreen extends React.Component {
   render() {
     const { flashModeIndex, type } = this.state;
     return (
-      <AdroitScreen orientation={null} statusBarProps={{ hidden: true }}>
+      <AdroitScreen orientation={null}>
         <Container>
+          <StatusBar hidden/>
           <RNCamera
             ref={ref => {
               this.camera = ref;

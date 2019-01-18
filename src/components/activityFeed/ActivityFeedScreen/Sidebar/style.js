@@ -20,7 +20,7 @@ export default StyleSheet.create({
     width: 150,
     height: 110,
     marginBottom: GridSize,
-    marginTop: GridSize,
+    marginTop: GridSize * 2,
   },
   version: {
     alignSelf: 'flex-end',

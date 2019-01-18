@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import SplashScreen from 'react-native-splash-screen';
-import { Animated, View, ImageBackground, Keyboard } from 'react-native';
+import { Animated, View, ImageBackground, Keyboard, StatusBar } from 'react-native';
 import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
 import Copy from 'src/assets/Copy';
 import Theme, { Color } from 'src/assets/theme';
@@ -129,6 +129,7 @@ class LoginScreen extends React.Component {
     const logoTransform = { height: logoHeight, width: logoWidth };
     return (
       <AdroitScreen>
+        <StatusBar hidden/>
         <ImageBackground style={styles.bgImage} source={bgImage}>
           <View style={styles.container}>
             <Animated.Image source={logoImage} style={[styles.logo, logoTransform]} />
