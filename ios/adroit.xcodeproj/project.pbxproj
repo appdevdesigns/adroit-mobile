@@ -2190,6 +2190,7 @@
 					"$(SRCROOT)..",
 					ode_modules,
 					"eact-native-image-resizeriosRCTImageResizer",
+					"${SRCROOT}/../node_modules/react-native-orientation/iOS/RCTOrientation",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = adroit/Info.plist;
@@ -2264,6 +2265,7 @@
 					"$(SRCROOT)..",
 					ode_modules,
 					"eact-native-image-resizeriosRCTImageResizer",
+					"${SRCROOT}/../node_modules/react-native-orientation/iOS/RCTOrientation",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = adroit/Info.plist;
