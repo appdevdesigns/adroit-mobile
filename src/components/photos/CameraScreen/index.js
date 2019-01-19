@@ -98,9 +98,9 @@ class CameraScreen extends React.Component {
   render() {
     const { flashModeIndex, type } = this.state;
     return (
-      <AdroitScreen orientation={null}>
+      <AdroitScreen orientation="landscape">
         <Container>
-          <StatusBar hidden/>
+          <StatusBar hidden />
           <RNCamera
             ref={ref => {
               this.camera = ref;
