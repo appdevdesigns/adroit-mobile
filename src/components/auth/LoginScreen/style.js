@@ -19,6 +19,7 @@ export default StyleSheet.create({
     height: 146,
     marginBottom: 10,
     marginTop: 40,
+    marginTop: Theme.isIphoneX ? 40 + Theme.Inset.portrait.topInset : 40,
   },
   title: {
     fontSize: 40,

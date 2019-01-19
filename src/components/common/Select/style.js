@@ -4,6 +4,14 @@ import Theme, { Color, GridSize } from 'src/assets/theme';
 // HACK
 const statusBarHeight = 8;
 
+let headerHeight = Theme.toolbarHeight;
+if (Theme.platform === 'ios') {
+  headerHeight += statusBarHeight;
+}
+if (Theme.isIphoneX) {
+  headerHeight += Theme.Inset.portrait.topInset;
+}
+
 export default StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
@@ -17,7 +25,10 @@ export default StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: Theme.platform === 'ios' ? Theme.toolbarHeight + statusBarHeight: Theme.toolbarHeight,
+    height: headerHeight,
+    backgroundColor: Theme.toolbarDefaultBg, 
+    flexDirection: 'row',
+    paddingTop: Theme.isIphoneX ? 42 : 0,
   },
   icon: {
     flex: 0,

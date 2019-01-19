@@ -21,6 +21,7 @@ const AppStack = createStackNavigator(
     navigationOptions: {
       header: null,
     },
+    headerMode: 'screen',
   }
 );
 

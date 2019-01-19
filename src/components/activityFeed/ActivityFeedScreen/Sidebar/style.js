@@ -20,7 +20,7 @@ export default StyleSheet.create({
     width: 150,
     height: 110,
     marginBottom: GridSize,
-    marginTop: GridSize * 2,
+    marginTop: Theme.isIphoneX ? GridSize * 2 + Theme.Inset.portrait.topInset : GridSize * 2,
   },
   version: {
     alignSelf: 'flex-end',

@@ -161,11 +161,11 @@ class Select extends React.Component {
         <Icon type="FontAwesome" name="caret-down" style={styles.icon} />
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
-            <Header style={styles.header}> 
+            <View style={styles.header}> 
               <Body style={baseStyles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
-            </Header>
+            </View>
             <Content>
               {filterable && (
                 <View style={[baseStyles.listItem, baseStyles.unbordered]}>

@@ -3,7 +3,7 @@ import Placeholder from 'rn-placeholder';
 import { FlatList, TouchableOpacity, Image, CameraRoll, View } from 'react-native';
 import ImageResizer from 'react-native-image-resizer';
 import ImageView from 'react-native-image-view';
-import { Spinner, Text, Button } from 'native-base';
+import { Spinner, Text, Button, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
@@ -136,9 +136,13 @@ class CameraRollList extends Component {
           images={[{ source: previewImage }]}
           imageIndex={0}
           isVisible={!!previewImage}
+          controls={{close: null}}
           onClose={this.closePreview}
           renderFooter={item => (
             <View style={styles.previewFooter}>
+              <Button transparent onPress={this.closePreview}>
+                <Icon type="FontAwesome" name="times" style={styles.closePreview} />
+              </Button>
               <Button
                 bordered
                 light
