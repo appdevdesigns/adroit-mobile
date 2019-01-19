@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import Theme, { GridSize, Color } from 'src/assets/theme';
+import Theme, { IsSmallScreen, GridSize, Color } from 'src/assets/theme';
 
-const topFontSize = 14;
+const topFontSize = 12;
 const imageProgressHeight = 20;
 const timeRemainingColor = '#227495';
 const timeElapsedColor = '#064367';
@@ -15,6 +15,44 @@ export const Gradients = {
   new: ['#393939', '#535353'],
 };
 
+const flexValues = IsSmallScreen
+  ? {
+      approvedStep: {
+        flex: 0.742,
+        flexBasis: 75,
+      },
+      newStep: {
+        flex: 0.713,
+        flexBasis: 72,
+      },
+      daysLeftStep: {
+        flex: 1,
+        flexBasis: 101,
+      },
+      statusStep: {
+        flex: 0.307,
+        flexBasis: 31,
+      },
+    }
+  : {
+      approvedStep: {
+        flexBasis: 105.5,
+        flex: 0.933,
+      },
+      newStep: {
+        flexBasis: 72.5,
+        flex: 0.641,
+      },
+      daysLeftStep: {
+        flexBasis: 113,
+        flex: 1,
+      },
+      statusStep: {
+        flexBasis: 83,
+        flex: 0.734,
+      },
+    };
+
 export default StyleSheet.create({
   wrapper: {
     flexDirection: 'column',
@@ -25,6 +63,22 @@ export default StyleSheet.create({
     borderTopWidth: 1,
     flexDirection: 'row',
     backgroundColor: topItemBackgroundColor,
+  },
+  topItemStep: {
+    flexGrow: 1,
+    flexShrink: 1,
+  },
+  approvedStep: {
+    ...flexValues.approvedStep,
+  },
+  newStep: {
+    ...flexValues.newStep,
+  },
+  daysLeftStep: {
+    ...flexValues.daysLeftStep,
+  },
+  statusStep: {
+    ...flexValues.statusStep,
   },
   topItem: {
     paddingTop: GridSize / 2,
@@ -45,6 +99,7 @@ export default StyleSheet.create({
     lineHeight: topFontSize + 2,
     alignSelf: 'center',
     fontWeight: '600',
+    flexShrink: 1,
   },
   topIcon: {
     fontSize: topFontSize,

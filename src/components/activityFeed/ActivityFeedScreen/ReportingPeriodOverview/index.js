@@ -35,29 +35,41 @@ class ReportingPeriodOverview extends React.Component {
       <View style={styles.wrapper}>
         <View style={styles.top}>
           <CopilotStepApprovedSummary>
-            <CopilotView style={[styles.topItem, styles.topItemBordered]}>
+            <CopilotView style={[styles.topItem, styles.topItemBordered, styles.topItemStep, styles.approvedStep]}>
               <LinearGradient colors={Gradients.approved} style={styles.topIndicator} />
-              <Text style={styles.topText}>{Copy.approvedSummary(totalReadyOrApproved, IsSmallScreen)}</Text>
+              <Text ellipsizeMode="tail" numberOfLines={2} style={styles.topText}>
+                {Copy.approvedSummary(totalReadyOrApproved, IsSmallScreen)}
+              </Text>
             </CopilotView>
           </CopilotStepApprovedSummary>
           <CopilotStepNewSummary>
-            <CopilotView style={[styles.topItem, styles.topItemBordered]}>
+            <CopilotView style={[styles.topItem, styles.topItemBordered, styles.topItemStep, styles.newStep]}>
               <LinearGradient colors={Gradients.new} style={styles.topIndicator} />
-              <Text style={styles.topText}>{Copy.newSummary(totalNew)}</Text>
+              <Text ellipsizeMode="tail" numberOfLines={2} style={styles.topText}>
+                {Copy.newSummary(totalNew)}
+              </Text>
             </CopilotView>
           </CopilotStepNewSummary>
           <CopilotStepDaysLeft>
-            <CopilotView>
+            <CopilotView style={[styles.topItemStep, styles.daysLeftStep]}>
               <ImageBackground source={imgDaysBackground} style={[styles.topItem, styles.topItemBordered]}>
                 <Icon style={styles.topIcon} type="FontAwesome" name="clock-o" />
-                <Text style={styles.topText}>{Copy.daysLeft(currentReportingPeriod.daysLeft)}</Text>
+                <Text ellipsizeMode="tail" numberOfLines={2} style={styles.topText}>
+                  {Copy.daysLeft(currentReportingPeriod.daysLeft)}
+                </Text>
               </ImageBackground>
             </CopilotView>
           </CopilotStepDaysLeft>
           <CopilotStepOverallState>
-            <CopilotView style={[styles.topItem, styles.status, { backgroundColor: status.color }]}>
+            <CopilotView
+              style={[styles.topItem, styles.topItemStep, styles.statusStep, { backgroundColor: status.color }]}
+            >
               <FontAwesome5 style={styles.topIcon} name={status.icon} light />
-              {!IsSmallScreen && <Text style={styles.topText}>{status.label}</Text>}
+              {!IsSmallScreen && (
+                <Text ellipsizeMode="tail" numberOfLines={2} style={styles.topText}>
+                  {status.label}
+                </Text>
+              )}
             </CopilotView>
           </CopilotStepOverallState>
         </View>
