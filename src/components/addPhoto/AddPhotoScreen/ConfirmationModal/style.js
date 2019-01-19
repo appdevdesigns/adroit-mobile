@@ -6,10 +6,9 @@ export default StyleSheet.create({
     flex: 0,
     flexDirection: 'column',
   },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginLeft: 0,
+  item: { 
+    flex: 0, 
+    flexDirection: 'row', 
     marginBottom: GridSize * 2,
   },
   checkbox: {
@@ -17,8 +16,8 @@ export default StyleSheet.create({
     left: 0,
   },
   itemBody: {
-    flex: 1,
     marginLeft: GridSize * 2,
+    marginRight: GridSize * 2,
   },
   label: {
     color: Theme.textColor,
@@ -36,14 +35,15 @@ export default StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     flexShrink: 0,
+    justifyContent: 'center',
     // marginBottom: GridSize * 2,
   },
   cancelButton: {
-    flex: 0,
+    flex: 1,
     marginRight: GridSize,
   },
   confirmButton: {
-    flex: 0,
+    flex: 1,
     marginLeft: GridSize,
   },
   buttonText: {

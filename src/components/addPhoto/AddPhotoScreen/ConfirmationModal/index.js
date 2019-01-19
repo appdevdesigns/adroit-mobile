@@ -68,35 +68,37 @@ class ConfirmationModal extends React.Component {
         onDismiss={this.reset}
         header={Copy.confirmationModalTitle}
       >
-        <View style={styles.list}>
-          <TouchableOpacity style={styles.item} onPress={this.toggleChecked('caption')}>
-            <CheckBox
-              style={styles.checkbox}
-              checked={captionChecked}
-              onPress={this.toggleChecked('caption')}
-              disabled={isUploading}
-            />
-            <View style={styles.itemBody}>
-              <Label style={styles.label}>{Copy.confirmCaptionLabel}</Label>
-              <ScrollView style={styles.scrollContainer}>
-                <Text style={styles.context}>{`"${caption}"`}</Text>
-              </ScrollView>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.item} onPress={this.toggleChecked('tagged')}>
-            <CheckBox
-              style={styles.checkbox}
-              checked={taggedChecked}
-              onPress={this.toggleChecked('tagged')}
-              disabled={isUploading}
-            />
-            <View style={styles.itemBody}>
-              <Label style={styles.label}>{Copy.confirmTaggedLabel}</Label>
-              <ScrollView style={styles.scrollContainer}>
-                <Text style={styles.context}>{taggedPeople}</Text>
-              </ScrollView>
-            </View>
-          </TouchableOpacity>
+        <View style={styles.item} >
+          <CheckBox
+            style={styles.checkbox}
+            checked={captionChecked}
+            onPress={this.toggleChecked('caption')}
+            disabled={isUploading}
+          />
+          <View style={styles.itemBody}>
+            <TouchableOpacity onPress={this.toggleChecked('caption')}>
+              <Text style={styles.label}>{Copy.confirmCaptionLabel}</Text>
+            </TouchableOpacity>
+            <ScrollView style={styles.scrollContainer}>
+              <Text style={styles.context}>{`"${caption}"`}</Text>
+            </ScrollView>
+          </View>
+        </View>
+        <View style={styles.item}>
+          <CheckBox
+            style={styles.checkbox}
+            checked={taggedChecked}
+            onPress={this.toggleChecked('tagged')}
+            disabled={isUploading}
+          />
+          <View style={styles.itemBody}>
+            <TouchableOpacity onPress={this.toggleChecked('tagged')}>
+              <Text style={styles.label}>{Copy.confirmTaggedLabel}</Text>
+            </TouchableOpacity>
+            <ScrollView style={styles.scrollContainer}>
+              <Text style={styles.context}>{taggedPeople}</Text>
+            </ScrollView>
+          </View>
         </View>
         <View style={styles.footer}>
           <Button
