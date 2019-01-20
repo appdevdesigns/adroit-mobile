@@ -4,6 +4,19 @@ import material from 'native-base/src/theme/variables/material';
 const { width } = Dimensions.get('window');
 const BREAKPOINT = 320;
 
+// HACK
+const statusBarHeight = 8;
+
+let headerHeight = material.toolbarHeight;
+if (material.platform === 'ios') {
+  headerHeight += statusBarHeight;
+}
+if (material.isIphoneX) {
+  headerHeight += material.Inset.portrait.topInset;
+}
+
+export const AdroitHeaderHeight = headerHeight;
+
 export const Color = {
   darkBackground: '#1f6b8d',
   darkBackground2: '#2E2F3B',

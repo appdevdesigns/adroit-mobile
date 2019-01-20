@@ -1,16 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Theme, { Color, GridSize } from 'src/assets/theme';
-
-// HACK
-const statusBarHeight = 8;
-
-let headerHeight = Theme.toolbarHeight;
-if (Theme.platform === 'ios') {
-  headerHeight += statusBarHeight;
-}
-if (Theme.isIphoneX) {
-  headerHeight += Theme.Inset.portrait.topInset;
-}
+import Theme, { Color, GridSize, AdroitHeaderHeight } from 'src/assets/theme';
 
 export default StyleSheet.create({
   wrapper: {
@@ -25,8 +14,8 @@ export default StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: headerHeight,
-    backgroundColor: Theme.toolbarDefaultBg, 
+    height: AdroitHeaderHeight,
+    backgroundColor: Theme.toolbarDefaultBg,
     flexDirection: 'row',
     paddingTop: Theme.isIphoneX ? 42 : 0,
   },

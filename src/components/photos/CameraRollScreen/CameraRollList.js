@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Placeholder from 'rn-placeholder';
-import { FlatList, TouchableOpacity, Image, CameraRoll, View } from 'react-native';
+import { FlatList, TouchableOpacity, Image, CameraRoll, View, Modal } from 'react-native';
 import ImageResizer from 'react-native-image-resizer';
-import ImageView from 'react-native-image-view';
-import { Spinner, Text, Button, Icon } from 'native-base';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import { Spinner, Text, Button, Icon, Header, Left, Right } from 'native-base';
 import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
@@ -23,7 +23,7 @@ class CameraRollList extends Component {
       photos: undefined,
       hasNextPage: false,
       endCursor: undefined,
-      previewImage: null,
+      previewImageIndex: null,
     };
   }
 
@@ -71,29 +71,19 @@ class CameraRollList extends Component {
   };
 
   closePreview = () => {
-    this.setState({ previewImage: null });
+    this.setState({ previewImageIndex: null });
   };
 
-  openPreview = image => {
-    this.setState({ previewImage: image });
+  openPreview = index => {
+    this.setState({ previewImageIndex: index });
   };
 
   keyExtractor = image => image.uri;
 
-  renderRowItem = ({ item }) => (
+  renderRowItem = ({ item, index }) => (
     <TouchableOpacity
       onPress={() => {
-        this.openPreview(item);
-      }}
-    >
-      <Image style={styles.image} source={{ uri: item.uri }} resizeMode="cover" />
-    </TouchableOpacity>
-  );
-
-  renderRowItemQuick = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => {
-        this.props.navigation.navigate(AppScreen.AddPhoto, { image: item });
+        this.openPreview(index);
       }}
     >
       <Image style={styles.image} source={{ uri: item.uri }} resizeMode="cover" />
@@ -107,7 +97,7 @@ class CameraRollList extends Component {
   );
 
   render() {
-    const { photos, hasNextPage, previewImage } = this.state;
+    const { photos, hasNextPage, previewImageIndex } = this.state;
     if (!photos) {
       return (
         <FlatList
@@ -131,45 +121,52 @@ class CameraRollList extends Component {
           onEndReachedThreshold={0.5}
           onEndReached={this.loadMoreImages}
         />
-        <ImageView
-          animationType="fade"
-          images={[{ source: previewImage }]}
-          imageIndex={0}
-          isVisible={!!previewImage}
-          controls={{close: null}}
-          onClose={this.closePreview}
-          renderFooter={item => (
-            <View style={styles.previewFooter}>
-              <Button transparent onPress={this.closePreview}>
-                <Icon type="FontAwesome" name="times" style={styles.closePreview} />
-              </Button>
-              <Button
-                bordered
-                light
-                onPress={() => {
-                  ImageResizer.createResizedImage(
-                    item.source.uri,
-                    Constants.imageUploadMaxWidth,
-                    Constants.imageUploadMaxHeight,
-                    'JPEG',
-                    100,
-                    0
-                  )
-                    .then(resized => {
-                      this.closePreview();
-                      Monitoring.event(Event.CameraRollImageSelected);
-                      this.props.navigation.navigate(AppScreen.AddPhoto, { image: resized });
-                    })
-                    .catch(err => {
-                      Monitoring.exception(err, { problem: 'Could not resize photo' });
-                    });
-                }}
-              >
-                <Text>{Copy.useThisPhotoButtonText}</Text>
-              </Button>
-            </View>
-          )}
-        />
+        <Modal visible={previewImageIndex !== null} transparent onRequestClose={this.closePreview}>
+          <ImageViewer
+            imageUrls={[{ props: { source: photos[previewImageIndex] } }]}
+            index={0}
+            saveToLocalByLongPress={false}
+            onCancel={this.closePreview}
+            enableSwipeDown
+            onSwipeDown={this.closePreview}
+            renderIndicator={() => null}
+            renderHeader={() => (
+              <Header style={styles.previewHeader}>
+                <Left>
+                  <Button transparent onPress={this.closePreview}>
+                    <Icon type="FontAwesome" name="chevron-left" style={styles.closePreview} />
+                  </Button>
+                </Left>
+                <Right>
+                  <Button
+                    bordered
+                    light
+                    onPress={() => {
+                      ImageResizer.createResizedImage(
+                        photos[previewImageIndex].uri,
+                        Constants.imageUploadMaxWidth,
+                        Constants.imageUploadMaxHeight,
+                        'JPEG',
+                        100,
+                        0
+                      )
+                        .then(resized => {
+                          this.closePreview();
+                          Monitoring.event(Event.CameraRollImageSelected);
+                          this.props.navigation.navigate(AppScreen.AddPhoto, { image: resized });
+                        })
+                        .catch(err => {
+                          Monitoring.exception(err, { problem: 'Could not resize photo' });
+                        });
+                    }}
+                  >
+                    <Text>{Copy.useThisPhotoButtonText}</Text>
+                  </Button>
+                </Right>
+              </Header>
+            )}
+          />
+        </Modal>
       </React.Fragment>
     ) : (
       <NonIdealState

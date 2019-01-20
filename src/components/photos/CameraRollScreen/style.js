@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import Theme, { Color, GridSize } from 'src/assets/theme';
+import Theme, { GridSize, AdroitHeaderHeight } from 'src/assets/theme';
 
 export const numColumns = 3;
 
@@ -26,12 +26,10 @@ export default StyleSheet.create({
   emptyButton: {
     alignSelf: 'center',
   },
-  previewFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: GridSize,
-    alignItems: 'center',
-    paddingBottom: Theme.isIphoneX ? GridSize + Theme.Inset.portrait.bottomInset : GridSize,
+  previewHeader: {
+    height: AdroitHeaderHeight,
+    backgroundColor: 'transparent',
+    paddingTop: Theme.isIphoneX ? 42 : 0,
   },
   footerContainer: {
     justifyContent: 'center',
