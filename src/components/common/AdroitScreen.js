@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withNavigation } from 'react-navigation';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import Orientation from 'react-native-orientation';
-import Theme from 'src/assets/theme';
 import baseStyles from 'src/assets/style';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 
 class AdroitScreen extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
     this.willFocusSubscription = this.props.navigation.addListener('willFocus', () => {
       this.setOrientation();
     });
@@ -33,11 +31,7 @@ class AdroitScreen extends React.PureComponent {
 
   render() {
     const { children } = this.props;
-    return (
-      <View style={baseStyles.safeView}>
-        {children}
-      </View>
-    );
+    return <View style={baseStyles.safeView}>{children}</View>;
   }
 }
 

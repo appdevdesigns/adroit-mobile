@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, CameraRoll, View, Image, StatusBar } from 'react-native';
-import { Container, Left, Body, Icon, Right } from 'native-base';
+import { Container, Icon } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
+import { GridSize } from 'src/assets/theme';
 import BackButton from 'src/components/common/BackButton';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
+import DeviceInfoStore from 'src/store/DeviceInfoStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
 import Constants from 'src/util/Constants';
@@ -32,7 +34,7 @@ const PHOTO_OPTIONS = {
   base64: true,
 };
 
-@inject('permissions')
+@inject('permissions', 'deviceInfo')
 @observer
 class CameraScreen extends React.Component {
   constructor(props) {
@@ -97,8 +99,21 @@ class CameraScreen extends React.Component {
 
   render() {
     const { flashModeIndex, type } = this.state;
+    const {
+      deviceInfo: { orientation },
+    } = this.props;
+    const overlayStyle = {
+      flexDirection: orientation === 'PORTRAIT' ? 'column' : 'row',
+    };
+    const overlayItemStyle = {
+      flexDirection: orientation === 'PORTRAIT' ? 'row' : 'column-reverse',
+    };
+    const footerStyle = {
+      paddingBottom: orientation === 'PORTRAIT' ? GridSize * 2 : 0,
+      paddingRight: orientation === 'PORTRAIT' ? 0 : GridSize * 2,
+    };
     return (
-      <AdroitScreen orientation="landscape">
+      <AdroitScreen orientation={null}>
         <Container>
           <StatusBar hidden />
           <RNCamera
@@ -112,32 +127,22 @@ class CameraScreen extends React.Component {
             permissionDialogTitle={Copy.perms.camera.title}
             permissionDialogMessage={Copy.perms.camera.message}
           />
-          <View style={styles.overlay}>
-            <View style={[styles.overlayItem, styles.header]}>
-              <Left>
-                <BackButton light />
-              </Left>
-              <Body>
-                <TouchableOpacity onPress={this.toggleCameraType}>
-                  <Image source={imgFlipCamera} style={[styles.toolbarImage, styles.typeImage]} />
-                </TouchableOpacity>
-              </Body>
-              <Right>
-                <TouchableOpacity onPress={this.cycleFlashMode}>
-                  <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
-                </TouchableOpacity>
-              </Right>
+          <View style={[styles.overlay, overlayStyle]}>
+            <View style={[styles.overlayItem, styles.header, overlayItemStyle]}>
+              <BackButton light />
+              <TouchableOpacity onPress={this.toggleCameraType}>
+                <Image source={imgFlipCamera} style={[styles.toolbarImage, styles.typeImage]} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.cycleFlashMode}>
+                <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
+              </TouchableOpacity>
             </View>
-            <View style={[styles.overlayItem, styles.footer]}>
-              <Left />
-              <Body>
-                <TouchableOpacity onPress={this.takePicture}>
-                  <View style={styles.captureIconWrapper}>
-                    <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
-                  </View>
-                </TouchableOpacity>
-              </Body>
-              <Right />
+            <View style={[styles.overlayItem, styles.footer, overlayItemStyle, footerStyle]}>
+              <TouchableOpacity onPress={this.takePicture}>
+                <View style={styles.captureIconWrapper}>
+                  <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </Container>
@@ -148,10 +153,16 @@ class CameraScreen extends React.Component {
 
 CameraScreen.propTypes = {
   navigation: NavigationPropTypes.isRequired,
+  currentOrientation: PropTypes.string,
+};
+
+CameraScreen.defaultProps = {
+  currentOrientation: null,
 };
 
 CameraScreen.wrappedComponent.propTypes = {
   permissions: PropTypes.instanceOf(PermissionsStore).isRequired,
+  deviceInfo: PropTypes.instanceOf(DeviceInfoStore).isRequired,
 };
 
 export default CameraScreen;

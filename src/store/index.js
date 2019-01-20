@@ -7,6 +7,7 @@ import ActivityImagesStore from './ActivityImagesStore';
 import UsersStore from './UsersStore';
 import PermissionsStore from './PermissionsStore';
 import LocationsStore from './LocationsStore';
+import DeviceInfoStore from './DeviceInfoStore';
 
 configure({ enforceActions: 'always' });
 
@@ -22,6 +23,7 @@ export default class Store {
     this.teams = new TeamsStore(this);
     this.activityImages = new ActivityImagesStore(this);
     this.locations = new LocationsStore(this);
+    this.deviceInfo = new DeviceInfoStore(this);
 
     this.users.initialize();
     this.teams.initialize();

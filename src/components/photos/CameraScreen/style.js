@@ -23,10 +23,12 @@ export default StyleSheet.create({
     paddingBottom: GridSize,
     flexDirection: 'row',
     flex: 0,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   header: {},
   footer: {
-    paddingBottom: GridSize * 2,
+    justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   captureIconWrapper: {
