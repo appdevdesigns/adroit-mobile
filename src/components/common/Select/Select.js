@@ -186,7 +186,7 @@ class Select extends React.Component {
             </Content>
             <Footer>
               <FooterTab>
-                <Button active full dark onPress={this.closeModal}>
+                <Button active full dark onPress={this.closeModal} style={styles.doneButton}>
                   <Text>{Copy.done}</Text>
                 </Button>
               </FooterTab>

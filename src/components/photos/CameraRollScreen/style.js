@@ -39,6 +39,7 @@ export default StyleSheet.create({
     height: AdroitHeaderHeight,
     backgroundColor: 'transparent',
     paddingTop: Theme.isIphoneX ? 42 : 0,
+    borderBottomWidth: 0,
   },
   footerContainer: {
     justifyContent: 'center',
