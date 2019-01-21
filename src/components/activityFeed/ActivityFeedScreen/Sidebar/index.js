@@ -25,6 +25,7 @@ class Sidebar extends React.Component {
     };
     const menuItems = [
       { label: Copy.drawerMenuHelp, icon: 'question-circle', onPress: navTo(AppScreen.Help) },
+      { label: Copy.drawerMenuFeedback, icon: 'comment', onPress: navTo(AppScreen.Feedback) },
       { label: Copy.drawerMenuTutorial, icon: 'play-circle', onPress: onStartTutorial },
       { label: Copy.drawerMenuEditLocations, icon: 'map-marker', onPress: navTo(AppScreen.EditLocations) },
       { label: Copy.drawerMenuLogout, icon: 'sign-out', onPress: auth.logout },
@@ -40,7 +41,7 @@ class Sidebar extends React.Component {
           {menuItems.map(({ label, icon, onPress }) => (
             <ListItem key={label} icon onPress={onPress}>
               <Left>
-                <Icon type="FontAwesome" name={icon} />
+                <Icon type="FontAwesome" name={icon} style={styles.menuIcon} />
               </Left>
               <Body>
                 <Text>{label}</Text>

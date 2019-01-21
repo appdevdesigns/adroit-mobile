@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import Theme, { GridSize, AdroitHeaderHeight } from 'src/assets/theme';
+import Theme, { Color, GridSize, AdroitHeaderHeight } from 'src/assets/theme';
 
 export const numColumns = 3;
 
@@ -22,6 +22,15 @@ export default StyleSheet.create({
     margin: photoPadding / 2,
     height: equalWidth,
     width: equalWidth,
+  },
+  iconWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Color.lightBackground1,
+  },
+  cameraIcon: {
+    color: Color.darkTextMuted,
+    fontSize: 38,
   },
   emptyButton: {
     alignSelf: 'center',

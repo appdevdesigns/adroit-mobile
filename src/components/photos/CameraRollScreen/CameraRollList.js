@@ -8,11 +8,14 @@ import Copy from 'src/assets/Copy';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
 import Constants from 'src/util/Constants';
-import NonIdealState from 'src/components/common/NonIdealState';
 import AppScreen from 'src/components/app/AppScreen';
 import styles, { numColumns, equalWidth } from './style';
 
 const PAGE_SIZE = numColumns * 6;
+
+const CAMERA_ITEM = {
+  uri: 'CAMERA',
+};
 
 const placeholderData = [...Array(numColumns * 10).keys()].map(i => ({ uri: String(i) }));
 
@@ -40,7 +43,7 @@ class CameraRollList extends Component {
   }
 
   goToCamera = () => {
-    this.props.navigation.replace(AppScreen.Camera);
+    this.props.navigation.navigate(AppScreen.Camera);
   };
 
   loadMoreImages = () => {
@@ -83,10 +86,20 @@ class CameraRollList extends Component {
   renderRowItem = ({ item, index }) => (
     <TouchableOpacity
       onPress={() => {
-        this.openPreview(index);
+        if (item === CAMERA_ITEM) {
+          this.goToCamera();
+        } else {
+          this.openPreview(index);
+        }
       }}
     >
-      <Image style={styles.image} source={{ uri: item.uri }} resizeMode="cover" />
+      {item === CAMERA_ITEM ? (
+        <View style={[styles.image, styles.iconWrapper]}>
+          <Icon type="FontAwesome" name="camera" style={styles.cameraIcon} />
+        </View>
+      ) : (
+        <Image style={styles.image} source={{ uri: item.uri }} resizeMode="cover" />
+      )}
     </TouchableOpacity>
   );
 
@@ -98,6 +111,7 @@ class CameraRollList extends Component {
 
   render() {
     const { photos, hasNextPage, previewImageIndex } = this.state;
+    const photoItems = [CAMERA_ITEM].concat(photos || []);
     if (!photos) {
       return (
         <FlatList
@@ -109,10 +123,10 @@ class CameraRollList extends Component {
         />
       );
     }
-    return photos.length ? (
+    return (
       <React.Fragment>
         <FlatList
-          data={photos}
+          data={photoItems}
           numColumns={numColumns}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderRowItem}
@@ -168,15 +182,6 @@ class CameraRollList extends Component {
           />
         </Modal>
       </React.Fragment>
-    ) : (
-      <NonIdealState
-        title={Copy.nonIdealState.cameraRollEmpty.title}
-        message={Copy.nonIdealState.cameraRollEmpty.message}
-      >
-        <Button style={styles.emptyButton} primary onPress={this.goToCamera}>
-          <Text>{Copy.takeAPhotoCta}</Text>
-        </Button>
-      </NonIdealState>
     );
   }
 }

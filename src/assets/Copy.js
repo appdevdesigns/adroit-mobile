@@ -35,6 +35,7 @@ const Copy = {
   // Drawer menu
   drawerMenuLogout: 'Log out',
   drawerMenuHelp: 'Help',
+  drawerMenuFeedback: 'Feedback',
   drawerMenuTutorial: 'Show tutorial',
   drawerMenuEditLocations: 'My locations...',
 
@@ -72,6 +73,10 @@ const Copy = {
   // Help
   helpTitle: 'How to use Adroit',
 
+  // Feedback
+  feedbackTitle: 'Feedback',
+  feedbackEmailSubject: 'Adroit Mobile feedback',
+
   // Edit Locations
   editLocationsTitle: 'Add/Remove Locations',
   editLocationsHelp: {
@@ -85,7 +90,6 @@ const Copy = {
 
   // Camera Roll
   camRollTitle: 'Select a photo',
-  takeAPhotoCta: 'Take a photo',
   useThisPhotoButtonText: 'Use this photo',
 
   // Permissions
@@ -126,10 +130,6 @@ const Copy = {
     cameraRollNoPermission: {
       title: 'Uh-oh!',
       message: "You don't have permission to access the camera roll",
-    },
-    cameraRollEmpty: {
-      title: 'No photos',
-      message: 'Camera Roll is empty',
     },
     noUserLocations: {
       title: 'No locations',
