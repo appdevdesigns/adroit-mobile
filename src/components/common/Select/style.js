@@ -69,4 +69,7 @@ export default StyleSheet.create({
     marginLeft: GridSize * 2,
     backgroundColor: Theme.listBorderColor,
   },
+  doneButton: {
+    backgroundColor: Theme.toolbarDefaultBg,
+  },
 });
