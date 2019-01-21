@@ -5,6 +5,7 @@ import CameraRollScreen from 'src/components/photos/CameraRollScreen';
 import CameraScreen from 'src/components/photos/CameraScreen';
 import AddPhotoScreen from 'src/components/addPhoto/AddPhotoScreen';
 import HelpScreen from 'src/components/help/HelpScreen';
+import FeedbackScreen from 'src/components/help/FeedbackScreen';
 import EditLocationsScreen from 'src/components/settings/EditLocationsScreen';
 import AppScreen from './AppScreen';
 
@@ -14,6 +15,7 @@ const AppStack = createStackNavigator(
     [AppScreen.Photos]: CameraRollScreen,
     [AppScreen.Camera]: CameraScreen,
     [AppScreen.Help]: HelpScreen,
+    [AppScreen.Feedback]: FeedbackScreen,
     [AppScreen.AddPhoto]: AddPhotoScreen,
     [AppScreen.EditLocations]: EditLocationsScreen,
   },

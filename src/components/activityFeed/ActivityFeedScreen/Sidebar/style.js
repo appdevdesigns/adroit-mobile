@@ -15,6 +15,9 @@ export default StyleSheet.create({
     alignSelf: 'center',
     color: Color.lightTextMuted,
   },
+  menuIcon: {
+    fontSize: 23,
+  },
   logo: {
     alignSelf: 'center',
     width: 150,
