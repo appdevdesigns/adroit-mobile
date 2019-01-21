@@ -138,7 +138,7 @@ class CameraRollList extends Component {
         />
         <Modal visible={previewImageIndex !== null} transparent onRequestClose={this.closePreview}>
           <ImageViewer
-            imageUrls={[{ props: { source: photos[previewImageIndex] } }]}
+            imageUrls={[{ props: { source: photoItems[previewImageIndex] } }]}
             index={0}
             saveToLocalByLongPress={false}
             onCancel={this.closePreview}
@@ -158,7 +158,7 @@ class CameraRollList extends Component {
                     light
                     onPress={() => {
                       ImageResizer.createResizedImage(
-                        photos[previewImageIndex].uri,
+                        photoItems[previewImageIndex].uri,
                         Constants.imageUploadMaxWidth,
                         Constants.imageUploadMaxHeight,
                         'JPEG',
