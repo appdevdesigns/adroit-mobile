@@ -5,12 +5,6 @@ export default StyleSheet.create({
   fab: {
     backgroundColor: Theme.toolbarDefaultBg,
   },
-  fabImage: {
-    backgroundColor: 'green',
-  },
-  fabCamera: {
-    backgroundColor: 'darkblue',
-  },
   fabCopilot: {
     width: 56,
     height: 56,
