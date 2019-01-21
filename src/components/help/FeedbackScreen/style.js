@@ -9,9 +9,11 @@ export default StyleSheet.create({
     padding: GridSize * 2,
     justifyContent: 'center',
     backgroundColor: Color.lightBackground1,
+    alignSelf: 'stretch',
   },
   introText: {
     fontSize: Theme.fontSizeBase * 1.2,
+    textAlign: 'center',
   },
   emailButton: {
     alignSelf: 'center',

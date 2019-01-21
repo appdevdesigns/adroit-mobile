@@ -15,7 +15,7 @@ export default class FeedbackScreen extends React.PureComponent {
   }
 
   gotoMail = () => {
-    Linking.openURL(`mailto:${Constants.contactEmailAddress}?subject=${Copy.feedbackEmailSubject}`);
+    Linking.openURL(`mailto:${Constants.contactEmailAddress}`);
   };
 
   render() {
@@ -35,11 +35,10 @@ export default class FeedbackScreen extends React.PureComponent {
             <View style={styles.wrapper}>
               <View style={styles.introWrapper}>
                 <Text style={styles.introText}>
-                  Questions about the Adroit mobile app? Suggestions? Need to report a bug? Or just want to tell us how
-                  much you love the app?!
+                  {Copy.feedbackIntro}
                 </Text>
               </View>
-              <Text style={styles.emailText}>Send us an email at:</Text>
+              <Text style={styles.emailText}>{Copy.feedbackEmailIntro}</Text>
               <Button iconLeft onPress={this.gotoMail} style={styles.emailButton}>
                 <Icon type="FontAwesome" name="external-link" />
                 <Text uppercase={false}>{Constants.contactEmailAddress}</Text>

@@ -76,7 +76,9 @@ const Copy = {
   // Feedback
   feedbackTitle: 'Feedback',
   feedbackEmailSubject: 'Adroit Mobile feedback',
-
+  feedbackIntro: 'Questions about the Adroit mobile app? Suggestions? Need to report a bug? Or just want to tell us how much you love the app?!',
+  feedbackEmailIntro: 'Send us an email at:',
+  
   // Edit Locations
   editLocationsTitle: 'Add/Remove Locations',
   editLocationsHelp: {
