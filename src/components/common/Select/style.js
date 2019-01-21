@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Theme, { Color, GridSize, AdroitHeaderHeight } from 'src/assets/theme';
+import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
   wrapper: {
@@ -14,10 +14,8 @@ export default StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: AdroitHeaderHeight,
     backgroundColor: Theme.toolbarDefaultBg,
     flexDirection: 'row',
-    paddingTop: Theme.isIphoneX ? 42 : 0,
   },
   icon: {
     flex: 0,

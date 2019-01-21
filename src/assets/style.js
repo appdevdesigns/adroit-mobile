@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Color from 'color';
+import material from 'native-base/src/theme/variables/material';
 import Theme, { IsSmallScreen, GridSize, Color as ThemeColor } from 'src/assets/theme';
 
 const listItemFontSize = 17;
@@ -16,23 +17,47 @@ export const round = size => ({
   borderRadius: size / 2,
 });
 
+
+// HACK
+export const StatusBarHeight = 8;
+
+const manualHeader = {
+  height: material.toolbarHeight,
+  paddingTop: 0,
+  paddingLeft: 10,
+  paddingRight: 10,
+};
+
+if (material.platform === 'ios') {
+  manualHeader.height += StatusBarHeight;
+  manualHeader.paddingTop = 18;
+}
+if (material.isIphoneX) {
+  manualHeader.height += material.Inset.portrait.topInset;
+  manualHeader.paddingTop = 42;
+}
+
 /**
  * App-wide reusable styles
  */
 export default StyleSheet.create({
+  manualHeader,
   safeView: {
     flex: 1,
   },
   headerLeft: {
     flex: 0.3,
     marginRight: GridSize,
+    justifyContent: 'flex-start',
   },
   headerRight: {
     flex: 0.3,
     marginLeft: GridSize,
+    justifyContent: 'flex-end',
   },
   headerBody: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
   separator: {
     paddingTop: Theme.platform === 'ios' ? 10 : 14,

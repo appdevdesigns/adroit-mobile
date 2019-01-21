@@ -19,14 +19,13 @@ export default StyleSheet.create({
   },
   overlayItem: {
     backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingTop: GridSize,
-    paddingBottom: GridSize,
+    // paddingTop: GridSize,
+    // paddingBottom: GridSize,
     flexDirection: 'row',
     flex: 0,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  header: {},
   footer: {
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0)',

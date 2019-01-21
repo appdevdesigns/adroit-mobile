@@ -9,9 +9,10 @@ const BackButton = ({ navigation: { goBack }, ...props }) => (
     onPress={() => {
       goBack();
     }}
+    style={{ paddingLeft: 8, paddingRight: 6}}
     {...props}
   >
-    <Icon type="FontAwesome" name="chevron-left" />
+    <Icon type="FontAwesome" name="chevron-left" style={{color: '#fff', marginTop: 0, marginRight: 2, marginLeft: 1, paddingTop: 1}}/>
   </Button>
 );
 

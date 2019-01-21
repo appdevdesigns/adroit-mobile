@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, CameraRoll, View, Image, StatusBar } from 'react-native';
+import { TouchableOpacity, CameraRoll, View, Image, StatusBar, SafeAreaView } from 'react-native';
 import { Container, Icon } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import { GridSize } from 'src/assets/theme';
 import BackButton from 'src/components/common/BackButton';
 import AdroitScreen from 'src/components/common/AdroitScreen';
@@ -102,50 +103,76 @@ class CameraScreen extends React.Component {
     const {
       deviceInfo: { orientation },
     } = this.props;
-    const overlayStyle = {
-      flexDirection: orientation === 'PORTRAIT' ? 'column' : 'row',
+    
+    const overlayStyle = orientation === 'PORTRAIT' ? {
+      flexDirection: 'column',
+    } : {
+      flexDirection: 'row',
     };
-    const overlayItemStyle = {
-      flexDirection: orientation === 'PORTRAIT' ? 'row' : 'column-reverse',
+    
+    const overlayItemStyle = orientation === 'PORTRAIT' ? {
+      flexDirection: 'row',
+    } : {
+      flexDirection: 'column-reverse',
     };
-    const footerStyle = {
-      paddingBottom: orientation === 'PORTRAIT' ? GridSize * 2 : 0,
-      paddingRight: orientation === 'PORTRAIT' ? 0 : GridSize * 2,
+
+    const headerStyle = orientation === 'PORTRAIT' ? {
+      paddingLeft: 10,
+      paddingRight: 10,
+    } : {
+      paddingBottom: 10,
+      paddingTop: 10,
     };
+
+    const footerStyle = orientation === 'PORTRAIT' ? {
+      paddingBottom: GridSize * 2,
+      paddingRight: 0,
+    } : {
+      paddingBottom: 0,
+      paddingRight: GridSize * 2,
+    };
+
     return (
       <AdroitScreen orientation={null}>
-        <Container>
-          <StatusBar hidden />
-          <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style={styles.preview}
-            type={type}
-            captureAudio={false}
-            flashMode={flashModes[flashModeIndex].mode}
-            permissionDialogTitle={Copy.perms.camera.title}
-            permissionDialogMessage={Copy.perms.camera.message}
-          />
-          <View style={[styles.overlay, overlayStyle]}>
-            <View style={[styles.overlayItem, styles.header, overlayItemStyle]}>
-              <BackButton light />
-              <TouchableOpacity onPress={this.toggleCameraType}>
-                <Image source={imgFlipCamera} style={[styles.toolbarImage, styles.typeImage]} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.cycleFlashMode}>
-                <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.overlayItem, styles.footer, overlayItemStyle, footerStyle]}>
-              <TouchableOpacity onPress={this.takePicture}>
-                <View style={styles.captureIconWrapper}>
-                  <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
+        <SafeAreaView style={{flex: 1, backgroundColor: '#000'}}>
+          <Container>
+            <RNCamera
+              ref={ref => {
+                this.camera = ref;
+              }}
+              style={styles.preview}
+              type={type}
+              captureAudio={false}
+              flashMode={flashModes[flashModeIndex].mode}
+              permissionDialogTitle={Copy.perms.camera.title}
+              permissionDialogMessage={Copy.perms.camera.message}
+            />
+            <View style={[styles.overlay, overlayStyle]}>
+              <View style={[styles.overlayItem, overlayItemStyle, headerStyle]}>
+                <View style={[baseStyles.headerLeft, overlayItemStyle]}>
+                  <BackButton light />
                 </View>
-              </TouchableOpacity>
+                <View style={baseStyles.headerBody}>
+                  <TouchableOpacity onPress={this.toggleCameraType}>
+                    <Image source={imgFlipCamera} style={[styles.toolbarImage, styles.typeImage]} />
+                  </TouchableOpacity>
+                </View>
+                <View style={[baseStyles.headerRight, overlayItemStyle]}>
+                  <TouchableOpacity onPress={this.cycleFlashMode}>
+                    <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={[styles.overlayItem, styles.footer, overlayItemStyle, footerStyle]}>
+                <TouchableOpacity onPress={this.takePicture}>
+                  <View style={styles.captureIconWrapper}>
+                    <Icon type="FontAwesome" name="circle-thin" style={styles.captureIcon} />
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </Container>
+          </Container>
+        </SafeAreaView>
       </AdroitScreen>
     );
   }

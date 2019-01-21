@@ -5,6 +5,7 @@ import ImageResizer from 'react-native-image-resizer';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Spinner, Text, Button, Icon, Header, Left, Right } from 'native-base';
 import Copy from 'src/assets/Copy';
+import baseStyles from 'src/assets/style';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
 import Constants from 'src/util/Constants';
@@ -145,7 +146,7 @@ class CameraRollList extends Component {
             onSwipeDown={this.closePreview}
             renderIndicator={() => null}
             renderHeader={() => (
-              <Header style={styles.previewHeader}>
+              <View style={[baseStyles.manualHeader, styles.previewHeader]}>
                 <Left>
                   <Button transparent onPress={this.closePreview}>
                     <Icon type="FontAwesome" name="chevron-left" style={styles.closePreview} />
@@ -177,7 +178,7 @@ class CameraRollList extends Component {
                     <Text>{Copy.useThisPhotoButtonText}</Text>
                   </Button>
                 </Right>
-              </Header>
+              </View>
             )}
           />
         </Modal>
