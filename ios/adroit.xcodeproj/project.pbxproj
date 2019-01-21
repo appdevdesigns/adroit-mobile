@@ -583,6 +583,7 @@
 		A0ABE84E91B6F88572558E19 /* Pods-adroit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-adroit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-adroit/Pods-adroit.debug.xcconfig"; sourceTree = "<group>"; };
 		A2DE9725F1C245F689F3B80A /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		A7A038ECFD6C48C09467BF1D /* AppCenter-Config.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "adroit/AppCenter-Config.plist"; sourceTree = "<group>"; };
+		A919FFB321F584FD00FA8C5D /* adroit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = adroit.entitlements; path = adroit/adroit.entitlements; sourceTree = "<group>"; };
 		A924295821EDCCBC00E0CBCB /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A97F4F9221EED77B00692BF8 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		AB591E2A469A4AD5A899A44A /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
@@ -769,6 +770,7 @@
 		13B07FAE1A68108700A75B9A /* adroit */ = {
 			isa = PBXGroup;
 			children = (
+				A919FFB321F584FD00FA8C5D /* adroit.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1219,6 +1221,11 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 723276MJFQ;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -2141,6 +2148,7 @@
 			baseConfigurationReference = A0ABE84E91B6F88572558E19 /* Pods-adroit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = adroit/adroit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2217,6 +2225,7 @@
 			baseConfigurationReference = 3CC564D9256E57E295F3B89D /* Pods-adroit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = adroit/adroit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
