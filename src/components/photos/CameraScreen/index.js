@@ -104,19 +104,21 @@ class CameraScreen extends React.Component {
       deviceInfo: { orientation },
     } = this.props;
     
-    const overlayStyle = orientation === 'PORTRAIT' ? {
+    const isPortrait = orientation !== 'LANDSCAPE';
+
+    const overlayStyle = isPortrait ? {
       flexDirection: 'column',
     } : {
       flexDirection: 'row',
     };
     
-    const overlayItemStyle = orientation === 'PORTRAIT' ? {
+    const overlayItemStyle = isPortrait ? {
       flexDirection: 'row',
     } : {
       flexDirection: 'column-reverse',
     };
 
-    const headerStyle = orientation === 'PORTRAIT' ? {
+    const headerStyle = isPortrait ? {
       paddingLeft: 10,
       paddingRight: 10,
     } : {
@@ -124,7 +126,7 @@ class CameraScreen extends React.Component {
       paddingTop: 10,
     };
 
-    const footerStyle = orientation === 'PORTRAIT' ? {
+    const footerStyle = isPortrait ? {
       paddingBottom: GridSize * 2,
       paddingRight: 0,
     } : {
