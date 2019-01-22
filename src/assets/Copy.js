@@ -121,6 +121,7 @@ const Copy = {
     tryAgain: 'Try again',
     unauthorized: 'Please login again',
     okButtonText: 'OKAY',
+    appUpdated: 'App updated! Please login again.',
   },
 
   // Non Ideal State

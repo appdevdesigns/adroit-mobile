@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
+import codePush from 'react-native-code-push';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -41,6 +42,7 @@ class ActivityFeedScreen extends React.Component {
         const hasViewedOnboarding = await AsyncStorage.getItem('adroit_has_viewed_onboarding');
         if (hasViewedOnboarding !== 'true') {
           this.setState({ introModalOpen: true });
+          codePush.disallowRestart();
         } else {
           Monitoring.debug('Skipping onboarding - already viewed');
         }
@@ -51,6 +53,7 @@ class ActivityFeedScreen extends React.Component {
   componentDidMount() {
     this.props.copilotEvents.on('stop', async () => {
       Monitoring.event(Event.OnboardingStopped);
+      codePush.allowRestart();
       AsyncStorage.setItem('adroit_has_viewed_onboarding', 'true');
     });
     this.props.copilotEvents.on('stepChange', ({ name, order }) => {

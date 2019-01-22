@@ -12,6 +12,7 @@ export const Event = {
   OnboardingStopped: 'onboarding-stopped',
   ActivityPhotoUploadSuccess: 'activity-photo-upload-success',
   ActivityPhotoUploadFail: 'activity-photo-upload-fail',
+  CodePushUpdateInstalled: 'code-push-update-installed',
 };
 
 /* eslint-disable no-console */
