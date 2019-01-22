@@ -3,7 +3,7 @@ const Constants = {
   networkRequestTimeoutMs: 60000,
   imageUploadMaxWidth: 1024,
   imageUploadMaxHeight: 1024,
-  contactEmailAddress: 'adroit.mobile@fcfthailand.org',
+  contactEmailAddress: 'adroitmobile@fcfthailand.org',
 };
 
 export default Constants;
