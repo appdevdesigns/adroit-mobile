@@ -81,6 +81,7 @@ project.ext.react = [
 // ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
@@ -131,7 +132,20 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // Note: CodePush updates should not be tested in Debug mode as they are overriden by the RN packager. However, because CodePush checks for updates in all modes, we must supply a key.
+            buildConfigField "String", "CODEPUSH_KEY", '""'
+            applicationIdSuffix ".debug"
+        }
+        releaseStaging {
+            buildConfigField "String", "CODEPUSH_KEY", '"$System.env.CODE_PUSH_KEY_ANDROID_STAGING"'
+
+            // Note: It is a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
+            // Add the following line if not already there
+            matchingFallbacks = ['release']
+        }
         release {
+            buildConfigField "String", "CODEPUSH_KEY", '"$System.env.CODE_PUSH_KEY_ANDROID_PRODUCTION"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
@@ -153,6 +167,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-code-push')
     implementation project(':react-native-orientation')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-vector-icons')

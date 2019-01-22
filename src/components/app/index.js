@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
+import codePush from 'react-native-code-push';
 import Config from 'react-native-config';
 import { StyleProvider, Root, getTheme } from 'native-base';
 import theme from 'src/assets/theme';
@@ -47,4 +48,4 @@ const App = () => (
   </Root>
 );
 
-export default App;
+export default codePush(App);

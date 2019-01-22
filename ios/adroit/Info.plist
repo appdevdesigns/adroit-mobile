@@ -27,7 +27,14 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
-		<dict/>
+		<dict>
+			<key>codepush.azurewebsites.net</key>
+			<dict/>
+			<key>codepush.blob.core.windows.net</key>
+			<dict/>
+			<key>codepushupdates.azureedge.net</key>
+			<dict/>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Adroit needs your permission to use the Camera</string>
@@ -72,6 +79,10 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>CodePushDeploymentKey</key>
+	<string>aKOB7uLfEoNPM5oKsFQdqMT9-zHbrJtLnfEQE</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>
 </plist>
