@@ -138,14 +138,17 @@ android {
             applicationIdSuffix ".debug"
         }
         releaseStaging {
-            buildConfigField "String", "CODEPUSH_KEY", '"$System.env.CODE_PUSH_KEY_ANDROID_STAGING"'
+            buildConfigField "String", "CODEPUSH_KEY", "\"${CODE_PUSH_KEY_ANDROID_STAGING}\""
+            // minifyEnabled enableProguardInReleaseBuilds
+            // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
 
             // Note: It is a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
             // Add the following line if not already there
             matchingFallbacks = ['release']
         }
         release {
-            buildConfigField "String", "CODEPUSH_KEY", '"$System.env.CODE_PUSH_KEY_ANDROID_PRODUCTION"'
+            buildConfigField "String", "CODEPUSH_KEY", "\"${CODE_PUSH_KEY_ANDROID_PRODUCTION}\""
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
