@@ -9,8 +9,12 @@
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "android-debug": "adb reverse tcp:8081 tcp:8010 & react-native run-android --appIdSuffix debug",
     "android-release": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant release",
-    "ios": "react-native run-ios",
-    "fix": "./postinstall.sh"
+    "ios-debug": "react-native run-ios",
+    "fix": "./postinstall.sh",
+    "android-cp-release-staging": "appcenter codepush release-react -a DigiServe/adroit-android -d Staging",
+    "android-cp-release-production": "appcenter codepush release-react -a DigiServe/adroit-android -d Production",
+    "ios-cp-release-staging": "appcenter codepush release-react -a DigiServe/adroit-ios -d Staging",
+    "ios-cp-release-production": "appcenter codepush release-react -a DigiServe/adroit-ios -d Production"
   },
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
