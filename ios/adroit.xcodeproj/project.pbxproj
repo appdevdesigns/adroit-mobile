@@ -2213,6 +2213,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.digiserve.adroit;
+				CODEPUSH_KEY = "<CODE_PUSH_KEY_IOS_STAGING>";
 				PRODUCT_NAME = adroit;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2289,6 +2290,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.digiserve.adroit;
+				CODEPUSH_KEY = "<CODE_PUSH_KEY_IOS_PRODUCTION>";
 				PRODUCT_NAME = adroit;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

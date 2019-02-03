@@ -81,7 +81,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CodePushDeploymentKey</key>
-	<string>aKOB7uLfEoNPM5oKsFQdqMT9-zHbrJtLnfEQE</string>
+	<string>$(CODEPUSH_KEY</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>

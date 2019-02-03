@@ -20,3 +20,7 @@ sed -i "s/<SENTRY_AUTH_TOKEN>/${SENTRY_AUTH_TOKEN}/" ios/sentry.properties
 echo "Setting gradle.properties entries"
 sed -i "s/<CODE_PUSH_KEY_ANDROID_STAGING>/${CODE_PUSH_KEY_ANDROID_STAGING}/" android/app/gradle.properties
 sed -i "s/<CODE_PUSH_KEY_ANDROID_PRODUCTION>/${CODE_PUSH_KEY_ANDROID_PRODUCTION}/" android/app/gradle.properties
+
+echo "Setting iOS Project variables"
+sed -i "s/<CODE_PUSH_KEY_ANDROID_STAGING>/${CODE_PUSH_KEY_ANDROID_STAGING}/" ios/adroit.xcodeproj/project.pbxproj
+sed -i "s/<CODE_PUSH_KEY_ANDROID_PRODUCTION>/${CODE_PUSH_KEY_ANDROID_PRODUCTION}/" ios/adroit.xcodeproj/project.pbxproj
