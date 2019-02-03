@@ -11,6 +11,7 @@ import AppScreen from 'src/components/app/AppScreen';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
 import PermissionsStore from 'src/store/PermissionsStore';
+import DeviceInfoStore from 'src/store/DeviceInfoStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Toast from 'src/util/Toast';
 import styles from './style';
@@ -21,7 +22,7 @@ const bgImage = require('src/assets/img/collage.jpg');
 const defaultLogoHeight = 146;
 const defaultLogoWidth = 200;
 
-@inject('auth', 'permissions')
+@inject('auth', 'permissions', 'deviceInfo')
 @observer
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -86,6 +87,7 @@ class LoginScreen extends React.Component {
   };
 
   checkLogin = async () => {
+    await this.props.deviceInfo.checkCodePushVersion();
     const sessionIsOpen = await this.props.auth.checkSession();
     if (sessionIsOpen) {
       this.props.auth.onLoggedIn();
@@ -195,6 +197,7 @@ LoginScreen.propTypes = {
 LoginScreen.wrappedComponent.propTypes = {
   auth: PropTypes.instanceOf(AuthStore).isRequired,
   permissions: PropTypes.instanceOf(PermissionsStore).isRequired,
+  deviceInfo: PropTypes.instanceOf(DeviceInfoStore).isRequired,
 };
 
 export default LoginScreen;

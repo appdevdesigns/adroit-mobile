@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, runInAction } from 'mobx';
 import { AsyncStorage } from 'react-native';
 import Orientation from 'react-native-orientation';
 import codePush from 'react-native-code-push';
@@ -13,10 +13,6 @@ export default class DeviceInfoStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
     Orientation.addOrientationListener(this.orientationDidChange);
-    codePush.getUpdateMetadata().then(async metaData => {
-      Monitoring.debug('Code Push metadata', metaData);
-      await this.updateCodePushMetaData(metaData);
-    });
   }
 
   @observable
@@ -41,8 +37,12 @@ export default class DeviceInfoStore {
    * If the user is already logged out, there is no cached data to clear!
    */
   @action.bound
-  async updateCodePushMetaData(metaData) {
-    this.codePushMetaData = metaData;
+  async checkCodePushVersion() {
+    const metaData = await codePush.getUpdateMetadata();
+    runInAction(() => {
+      this.codePushMetaData = metaData;
+    });
+
     const newCodePushLabel = metaData && metaData.label || UNKNOWN_CODE_PUSH_LABEL;
     const prevCodePushLabel = await AsyncStorage.getItem(AS_KEY_CODE_PUSH_LABEL) || UNKNOWN_CODE_PUSH_LABEL;
     await AsyncStorage.setItem(AS_KEY_CODE_PUSH_LABEL, newCodePushLabel);

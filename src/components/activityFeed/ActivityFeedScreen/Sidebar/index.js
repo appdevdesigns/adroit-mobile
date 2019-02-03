@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
       navigation.navigate(screen);
       onClose();
     };
-    const codePushLabel = deviceInfo.codePushMetaData && deviceInfo.codePushMetaData.label || '???';
+    const codePushLabel = deviceInfo.codePushMetaData && deviceInfo.codePushMetaData.label || 'v0';
     const menuItems = [
       { label: Copy.drawerMenuHelp, icon: 'question-circle', onPress: navTo(AppScreen.Help) },
       { label: Copy.drawerMenuFeedback, icon: 'comment', onPress: navTo(AppScreen.Feedback) },
