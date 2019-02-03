@@ -28,7 +28,7 @@ const fetchJson = async (url, options = {}) => {
 
   const absoluteUrl = Api.urls.base + url;
 
-  Monitoring.debug('fetchJson', url, options);
+  Monitoring.debug('fetchJson', url, options, requestHeaders);
 
   return fetch(absoluteUrl, { ...options, headers: requestHeaders })
     .then(response =>
