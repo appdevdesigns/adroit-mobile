@@ -20,5 +20,6 @@
     "yarn.lock": true
   },
   "html.format.enable": false,
-  "jest.autoEnable": false
+  "jest.autoEnable": false,
+  "java.configuration.updateBuildConfiguration": "disabled"
 }
