@@ -1,6 +1,8 @@
 package com.digiserve.adroit;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen;
 import android.content.Intent; 
 import android.content.res.Configuration;
 
@@ -13,6 +15,13 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "adroit";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this);
+        super.setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
     }
 
     /**
