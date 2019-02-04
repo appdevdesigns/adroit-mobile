@@ -2,11 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/primary_brand</item>
         <!-- Customize your theme here. -->
-    </style>
-    <style name="AppTheme.Launcher">
-        <item name="android:windowBackground">@drawable/launch_screen_drawable</item>
-        <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
-        <item name="colorPrimaryDark">@color/splash_tint</item>
     </style>
 </resources>
