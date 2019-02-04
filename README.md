@@ -10,3 +10,6 @@ The Adroit app has been developed primarily for The Family Connection Foundation
 
 
 For questions on using Adroit, contact adroit@fcfthailand.org.
+
+
+View the [Release notes](CHANGELOG.md) for the latest updates.
