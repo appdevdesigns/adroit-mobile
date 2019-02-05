@@ -6,6 +6,10 @@
 * :thumbsup: Improvement
 * :boom: Bug fix
 
+## v1.1.1
+
+* :boom: Fixed crash on start-up on a few smaller-screen devices
+
 ## v1.1
 
 * :star: [Code Push](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/) support for in-app updates that don't require the whole app to be updated
