@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
-    "appcenter": "^1.10.0",
+    "appcenter": "1.11.0",
     "appcenter-analytics": "1.11.0",
     "appcenter-crashes": "1.11.0",
     "appcenter-link-scripts": "1.11.0",
