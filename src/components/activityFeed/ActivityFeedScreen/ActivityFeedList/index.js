@@ -24,7 +24,7 @@ const statusStyles = {
 class ActivityFeedList extends React.Component {
   render() {
     const {
-      activityImages: { isInitialized, myActivityImages },
+      activityImages: { isInitialized, myActivityImages, fetchCount },
     } = this.props;
     if (!isInitialized || !myActivityImages) {
       return <ActivityFeedPlaceholder />;
@@ -35,6 +35,8 @@ class ActivityFeedList extends React.Component {
           <CopilotView>
             <FlatList
               keyExtractor={item => String(item.id)}
+              refreshing={fetchCount > 0}
+              onRefresh={this.props.activityImages.getMyActivityImages}
               ListEmptyComponent={
                 <NonIdealState
                   title={Copy.nonIdealState.emptyActivityList.title}
