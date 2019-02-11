@@ -42,7 +42,6 @@ class ActivityFeedScreen extends React.Component {
         const hasViewedOnboarding = await AsyncStorage.getItem('adroit_has_viewed_onboarding');
         if (hasViewedOnboarding !== 'true') {
           this.setState({ introModalOpen: true });
-          codePush.disallowRestart();
         } else {
           Monitoring.debug('Skipping onboarding - already viewed');
         }
@@ -80,6 +79,7 @@ class ActivityFeedScreen extends React.Component {
     }
     this.setState({ introModalOpen: false }, () => {
       Monitoring.event(Event.OnboardingStarted, { fromMenu });
+      codePush.disallowRestart();
       this.props.start();
     });
   };
