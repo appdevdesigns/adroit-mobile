@@ -10,6 +10,10 @@ export const captionFontSize = 12;
 const thumbnailBorderRadius = 4;
 
 export default StyleSheet.create({
+  content: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
   date: {
     color: Theme.inverseTextColor,
     fontSize: 12,

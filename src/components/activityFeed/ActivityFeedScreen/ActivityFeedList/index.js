@@ -30,7 +30,7 @@ class ActivityFeedList extends React.Component {
       return <ActivityFeedPlaceholder />;
     }
     return (
-      <Content>
+      <View style={styles.content}>
         <CopilotStepPhotoList>
           <CopilotView>
             <FlatList
@@ -71,7 +71,7 @@ class ActivityFeedList extends React.Component {
             />
           </CopilotView>
         </CopilotStepPhotoList>
-      </Content>
+      </View>
     );
   }
 }
