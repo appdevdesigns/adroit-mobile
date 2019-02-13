@@ -366,6 +366,7 @@ class AddPhotoScreen extends React.Component {
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <MultiSelect
+                    filterable
                     style={styles.input}
                     items={team ? team.members.slice() : []}
                     selectedItems={taggedPeople}
