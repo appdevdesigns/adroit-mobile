@@ -8,6 +8,7 @@ const AppScreen = {
   Help: 'Help',
   Feedback: 'Feedback',
   EditLocations: 'EditLocations',
+  Test: 'Test',
 };
 
 export default AppScreen;
