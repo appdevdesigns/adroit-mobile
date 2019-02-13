@@ -8,7 +8,6 @@ import {
   Text,
   ListItem,
   Container,
-  Header,
   Title,
   Content,
   Body,
@@ -20,6 +19,7 @@ import {
 import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
 import NonIdealState from 'src/components/common/NonIdealState';
+import { filterItems } from './SelectUtil';
 import styles from './style';
 
 class Select extends React.Component {
@@ -109,16 +109,16 @@ class Select extends React.Component {
     const { isModalOpen, filter } = this.state;
     const renderSelected = renderSelectedItem || this.renderSelectedItem;
 
-    const filterItems = allItems => {
+    const filtered = allItems => {
       if (filter) {
-        const filterRegExp = RegExp(filter, 'i');
-        return allItems.filter(item => filterRegExp.test(item[displayKey]));
+        return filterItems(filter, allItems, displayKey);
       }
       return allItems;
     };
 
     const ListComponent = isSectioned ? SectionList : FlatList;
     const listProps = {
+      keyboardShouldPersistTaps: 'always',
       extraData: selectedItem,
       keyExtractor: this.keyExtractor,
       renderItem: this.renderItem,
@@ -140,7 +140,7 @@ class Select extends React.Component {
       listProps.sections = reduce(
         items,
         (acc, item) => {
-          const filteredItems = filterItems(item.data);
+          const filteredItems = filtered(item.data);
           if (filteredItems.length) {
             acc.push({ ...item, data: filteredItems });
           }
@@ -150,7 +150,7 @@ class Select extends React.Component {
       );
       listProps.renderSectionHeader = renderSectionHeader || this.renderSectionHeader;
     } else {
-      listProps.data = filterItems(items);
+      listProps.data = filtered(items);
     }
 
     return (
@@ -161,7 +161,7 @@ class Select extends React.Component {
         <Icon type="FontAwesome" name="caret-down" style={styles.icon} />
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
           <Container>
-            <View style={[baseStyles.manualHeader, styles.header]}> 
+            <View style={[baseStyles.manualHeader, styles.header]}>
               <Body style={baseStyles.headerBody}>
                 <Title>{modalHeader}</Title>
               </Body>
