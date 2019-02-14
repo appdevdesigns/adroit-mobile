@@ -15,7 +15,8 @@
     "android-cp-release-staging": "appcenter codepush release-react -a DigiServe/adroit-android -d Staging",
     "android-cp-release-production": "appcenter codepush release-react -a DigiServe/adroit-android -d Production",
     "ios-cp-release-staging": "appcenter codepush release-react -a DigiServe/adroit-ios -d Staging --plist-file ios/adroit/Info.plist",
-    "ios-cp-release-production": "appcenter codepush release-react -a DigiServe/adroit-ios -d Production --plist-file ios/adroit/Info.plist"
+    "ios-cp-release-production": "appcenter codepush release-react -a DigiServe/adroit-ios -d Production --plist-file ios/adroit/Info.plist",
+    "bump_version": "./bump_version.sh"
   },
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
