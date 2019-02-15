@@ -2,24 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import reject from 'lodash-es/reject';
 import { View, TouchableOpacity, Modal, FlatList, Keyboard } from 'react-native';
-import {
-  Button,
-  Icon,
-  Text,
-  Input,
-  ListItem,
-  Container,
-  Title,
-  Content,
-  Footer,
-  FooterTab,
-  Right,
-  Body,
-} from 'native-base';
+import { Button, Icon, Text, ListItem, Container, Title, Content, Footer, FooterTab, Right, Body } from 'native-base';
 import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
-import NonIdealState from 'src/components/common/NonIdealState';
 import { filterItems } from './SelectUtil';
+import SelectFilter from './SelectFilter';
+import SelectEmptyState from './SelectEmptyState';
 import styles from './style';
 
 class MultiSelect extends React.Component {
@@ -116,6 +104,13 @@ class MultiSelect extends React.Component {
       return allItems;
     };
 
+    const emptyStateProps = {
+      filterable,
+      filter,
+      emptyListTitle,
+      emptyListMessage,
+    };
+
     return (
       <TouchableOpacity onPress={this.openModal} style={[styles.wrapper, style]}>
         <View style={styles.selectedWrapper}>
@@ -130,37 +125,19 @@ class MultiSelect extends React.Component {
               </Body>
             </View>
             <Content>
-              {filterable && (
-                <View style={[baseStyles.listItem, baseStyles.unbordered]}>
-                  <Input
-                    style={styles.filterInput}
-                    placeholder={filterPlaceholder}
-                    onChangeText={this.setFilter}
-                    value={filter}
-                  />
-                  <Icon
-                    style={[baseStyles.listItemIcon, baseStyles.marginLeft, baseStyles.doubleMarginRight]}
-                    type="FontAwesome"
-                    name="search"
-                  />
-                </View>
-              )}
+              <SelectFilter
+                visible={filterable}
+                value={filter}
+                onChangeText={this.setFilter}
+                placeholder={filterPlaceholder}
+              />
               <FlatList
                 keyboardShouldPersistTaps="always"
                 extraData={selectedItems}
                 data={filtered(items)}
                 keyExtractor={this.keyExtractor}
                 renderItem={this.renderItem}
-                ListEmptyComponent={
-                  filterable && filter ? (
-                    <View style={styles.noMatches}>
-                      <Text>{Copy.couldNotFind}</Text>
-                      <Text style={styles.filterCopy}>{`"${filter}"`}</Text>
-                    </View>
-                  ) : (
-                    <NonIdealState title={emptyListTitle} message={emptyListMessage} />
-                  )
-                }
+                ListEmptyComponent={() => <SelectEmptyState {...emptyStateProps} />}
               />
             </Content>
             <Footer>
@@ -205,7 +182,7 @@ MultiSelect.defaultProps = {
   renderSelectedItems: undefined,
   filterable: false,
   filterPlaceholder: Copy.defaultSearchPlaceholder,
-  clearFilterOnToggleItem: true,
+  clearFilterOnToggleItem: false,
   emptyListTitle: Copy.nonIdealState.defaultEmptySelect.title,
   emptyListMessage: Copy.nonIdealState.defaultEmptySelect.message,
 };
