@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Header, Title, Content, Left, Body, Right } from 'native-base';
+import { Container, Content } from 'native-base';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
-import baseStyles from 'src/assets/style';
-import BackButton from 'src/components/common/BackButton';
+import AdroitHeader from 'src/components/common/AdroitHeader';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AdroitScreen from 'src/components/common/AdroitScreen';
@@ -36,15 +35,7 @@ class CameraRollScreen extends React.Component {
     return (
       <AdroitScreen>
         <Container>
-          <Header>
-            <Left style={baseStyles.headerLeft}>
-              <BackButton />
-            </Left>
-            <Body style={baseStyles.headerBody}>
-              <Title>{Copy.camRollTitle}</Title>
-            </Body>
-            <Right style={baseStyles.headerRight} />
-          </Header>
+          <AdroitHeader title={Copy.camRollTitle} />
           {hasPermission ? (
             <Content>
               <CameraRollList navigation={navigation} />

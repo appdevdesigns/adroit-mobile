@@ -8,12 +8,7 @@ import Exif from 'react-native-exif';
 import parse from 'date-fns/parse';
 import {
   Container,
-  Header,
-  Title,
   Content,
-  Left,
-  Body,
-  Right,
   Footer,
   FooterTab,
   Button,
@@ -28,8 +23,8 @@ import {
 import { MultiSelect, Select } from 'src/components/common/Select';
 import selectStyles from 'src/components/common/Select/style';
 import baseStyles, { round } from 'src/assets/style';
-import BackButton from 'src/components/common/BackButton';
 import AdroitScreen from 'src/components/common/AdroitScreen';
+import AdroitHeader from 'src/components/common/AdroitHeader';
 import UsersStore from 'src/store/UsersStore';
 import TeamsStore from 'src/store/TeamsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
@@ -254,15 +249,7 @@ class AddPhotoScreen extends React.Component {
     return (
       <AdroitScreen>
         <Container>
-          <Header>
-            <Left style={baseStyles.headerLeft}>
-              <BackButton />
-            </Left>
-            <Body style={baseStyles.headerBody}>
-              <Title>{Copy.addPhotoTitle}</Title>
-            </Body>
-            <Right style={baseStyles.headerRight} />
-          </Header>
+          <AdroitHeader title={Copy.addPhotoTitle} />
           <Content>
             <PhotoUploadPreview image={this.image()} />
             <View style={styles.main}>
