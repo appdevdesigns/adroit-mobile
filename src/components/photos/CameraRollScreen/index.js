@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Container, Content } from 'native-base';
 import { inject, observer } from 'mobx-react';
 import Copy from 'src/assets/Copy';
-import AdroitHeader from 'src/components/common/AdroitHeader';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AdroitScreen from 'src/components/common/AdroitScreen';
+import AdroitHeader from 'src/components/common/AdroitHeader';
 import NonIdealState from 'src/components/common/NonIdealState';
 import CameraRollList from './CameraRollList';
 
