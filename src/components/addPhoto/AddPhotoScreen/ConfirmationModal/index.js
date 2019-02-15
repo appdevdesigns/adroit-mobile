@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { inject, observer } from 'mobx-react';
-import { Text, Button, CheckBox, Spinner, Label, Icon } from 'native-base';
+import { Text, Button, Spinner, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import Modal from 'src/components/common/Modal';
 import Theme, { IsSmallScreen } from 'src/assets/theme';
 import baseStyles from 'src/assets/style';
+import ConfirmationItem from './ConfirmationItem';
 import styles from './style';
 
 @inject('activityImages')
@@ -68,38 +69,20 @@ class ConfirmationModal extends React.Component {
         onDismiss={this.reset}
         header={Copy.confirmationModalTitle}
       >
-        <View style={styles.item} >
-          <CheckBox
-            style={styles.checkbox}
-            checked={captionChecked}
-            onPress={this.toggleChecked('caption')}
-            disabled={isUploading}
-          />
-          <View style={styles.itemBody}>
-            <TouchableOpacity onPress={this.toggleChecked('caption')}>
-              <Text style={styles.label}>{Copy.confirmCaptionLabel}</Text>
-            </TouchableOpacity>
-            <ScrollView style={styles.scrollContainer}>
-              <Text style={styles.context}>{`"${caption}"`}</Text>
-            </ScrollView>
-          </View>
-        </View>
-        <View style={styles.item}>
-          <CheckBox
-            style={styles.checkbox}
-            checked={taggedChecked}
-            onPress={this.toggleChecked('tagged')}
-            disabled={isUploading}
-          />
-          <View style={styles.itemBody}>
-            <TouchableOpacity onPress={this.toggleChecked('tagged')}>
-              <Text style={styles.label}>{Copy.confirmTaggedLabel}</Text>
-            </TouchableOpacity>
-            <ScrollView style={styles.scrollContainer}>
-              <Text style={styles.context}>{taggedPeople}</Text>
-            </ScrollView>
-          </View>
-        </View>
+        <ConfirmationItem
+          checked={captionChecked}
+          toggleChecked={this.toggleChecked('caption')}
+          isUploading={isUploading}
+          label={Copy.confirmCaptionLabel}
+          content={`"${caption}"`}
+        />
+        <ConfirmationItem
+          checked={taggedChecked}
+          toggleChecked={this.toggleChecked('tagged')}
+          isUploading={isUploading}
+          label={Copy.confirmTaggedLabel}
+          content={taggedPeople}
+        />
         <View style={styles.footer}>
           <Button
             style={styles.cancelButton}

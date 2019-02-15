@@ -1,9 +1,8 @@
 import React from 'react';
-import { Container, Header, Title, Content, Left, Body, Right, Text } from 'native-base';
+import { Container, Content, Text } from 'native-base';
 import AdroitScreen from 'src/components/common/AdroitScreen';
-import BackButton from 'src/components/common/BackButton';
+import AdroitHeader from 'src/components/common/AdroitHeader';
 import Copy from 'src/assets/Copy';
-import baseStyles from 'src/assets/style';
 
 export default class HelpScreen extends React.PureComponent {
   constructor(props) {
@@ -15,15 +14,7 @@ export default class HelpScreen extends React.PureComponent {
     return (
       <AdroitScreen>
         <Container>
-          <Header>
-            <Left style={baseStyles.headerLeft}>
-              <BackButton />
-            </Left>
-            <Body style={baseStyles.headerBody}>
-              <Title>{Copy.helpTitle}</Title>
-            </Body>
-            <Right style={baseStyles.headerRight} />
-          </Header>
+          <AdroitHeader title={Copy.helpTitle} />
           <Content padder>
             <Text>Coming soon!</Text>
           </Content>

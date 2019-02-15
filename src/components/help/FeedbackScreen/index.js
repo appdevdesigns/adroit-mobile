@@ -1,11 +1,10 @@
 import React from 'react';
 import { Linking, View } from 'react-native';
-import { Container, Header, Title, Content, Left, Body, Right, Text, Button, Icon } from 'native-base';
+import { Container, Content, Text, Button, Icon } from 'native-base';
 import AdroitScreen from 'src/components/common/AdroitScreen';
-import BackButton from 'src/components/common/BackButton';
 import Copy from 'src/assets/Copy';
-import baseStyles from 'src/assets/style';
 import Constants from 'src/util/Constants';
+import AdroitHeader from 'src/components/common/AdroitHeader';
 import styles from './style';
 
 export default class FeedbackScreen extends React.PureComponent {
@@ -22,21 +21,11 @@ export default class FeedbackScreen extends React.PureComponent {
     return (
       <AdroitScreen>
         <Container>
-          <Header>
-            <Left style={baseStyles.headerLeft}>
-              <BackButton />
-            </Left>
-            <Body style={baseStyles.headerBody}>
-              <Title>{Copy.feedbackTitle}</Title>
-            </Body>
-            <Right style={baseStyles.headerRight} />
-          </Header>
+          <AdroitHeader title={Copy.feedbackTitle} />
           <Content>
             <View style={styles.wrapper}>
               <View style={styles.introWrapper}>
-                <Text style={styles.introText}>
-                  {Copy.feedbackIntro}
-                </Text>
+                <Text style={styles.introText}>{Copy.feedbackIntro}</Text>
               </View>
               <Text style={styles.emailText}>{Copy.feedbackEmailIntro}</Text>
               <Button iconLeft onPress={this.gotoMail} style={styles.emailButton}>

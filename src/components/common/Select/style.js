@@ -49,8 +49,8 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   filterInput: {
-    height: 20,
-    paddingTop: 0,
+    height: 24,
+    paddingTop: 4,
     paddingBottom: 0,
   },
   filterCopy: {

@@ -17,7 +17,6 @@ export const round = size => ({
   borderRadius: size / 2,
 });
 
-
 // HACK
 export const StatusBarHeight = 8;
 
@@ -168,5 +167,8 @@ export default StyleSheet.create({
     flexShrink: 1,
     flexGrow: 0,
     fontSize: 14,
+  },
+  subtleIcon: {
+    color: ThemeColor.darkTextMuted,
   },
 });
