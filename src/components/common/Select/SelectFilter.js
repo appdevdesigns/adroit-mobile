@@ -19,7 +19,7 @@ const SelectFilter = ({ value, onChangeText, placeholder, visible }) =>
       <Fade visible={!!value}>
         <Button
           small
-          style={[baseStyles.marginLeft, baseStyles.doubleMarginRight]}
+          style={[baseStyles.marginLeft, baseStyles.doubleMargin]}
           transparent
           dark
           onPress={() => onChangeText('')}
