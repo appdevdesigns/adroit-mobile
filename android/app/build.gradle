@@ -114,6 +114,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        resValue "string", "build_config_package", "com.digiserve.adroit"
     }
     signingConfigs {
         release {
