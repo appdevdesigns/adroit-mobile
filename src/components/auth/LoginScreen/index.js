@@ -131,7 +131,7 @@ class LoginScreen extends React.Component {
     const logoTransform = { height: logoHeight, width: logoWidth };
     return (
       <AdroitScreen>
-        <StatusBar hidden/>
+        <StatusBar hidden />
         <ImageBackground style={styles.bgImage} source={bgImage}>
           <View style={styles.container}>
             <Animated.Image source={logoImage} style={[styles.logo, logoTransform]} />
@@ -151,6 +151,7 @@ class LoginScreen extends React.Component {
                     value={username}
                     onChangeText={this.update('username')}
                     style={styles.input}
+                    selectionColor={Theme.inverseTextColor}
                     placeholder={Copy.usernameLabel}
                     placeholderTextColor={Color.lightTextMuted}
                     onSubmitEditing={() => {
@@ -165,10 +166,12 @@ class LoginScreen extends React.Component {
                     }}
                     blurOnSubmit
                     returnKeyType="done"
+                    textContentType="password"
                     value={password}
                     onChangeText={this.update('password')}
                     secureTextEntry
                     style={styles.input}
+                    selectionColor={Theme.inverseTextColor}
                     placeholder={Copy.passwordLabel}
                     placeholderTextColor={Color.lightTextMuted}
                     onSubmitEditing={this.login}

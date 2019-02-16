@@ -14,12 +14,12 @@ import {
   Separator,
   Footer,
   FooterTab,
-  Input,
 } from 'native-base';
 import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
-import NonIdealState from 'src/components/common/NonIdealState';
 import { filterItems } from './SelectUtil';
+import SelectFilter from './SelectFilter';
+import SelectEmptyState from './SelectEmptyState';
 import styles from './style';
 
 class Select extends React.Component {
@@ -100,6 +100,7 @@ class Select extends React.Component {
       filterable,
       displayKey,
       noMatchesCta,
+      onAddOption,
       filterPlaceholder,
       isSectioned,
       renderSectionHeader,
@@ -116,6 +117,15 @@ class Select extends React.Component {
       return allItems;
     };
 
+    const emptyStateProps = {
+      filterable,
+      filter,
+      noMatchesCta,
+      addOption: onAddOption ? this.addOption : undefined,
+      emptyListTitle,
+      emptyListMessage,
+    };
+
     const ListComponent = isSectioned ? SectionList : FlatList;
     const listProps = {
       keyboardShouldPersistTaps: 'always',
@@ -123,18 +133,7 @@ class Select extends React.Component {
       keyExtractor: this.keyExtractor,
       renderItem: this.renderItem,
       ItemSeparatorComponent: () => <View style={styles.separator} />,
-      ListEmptyComponent: filterable ? (
-        <View style={styles.noMatches}>
-          <Text>{Copy.couldNotFind}</Text>
-          <Text style={styles.filterCopy}>{`"${filter}"`}</Text>
-          <Button iconLeft style={styles.noMatchesButton} primary onPress={this.addOption}>
-            <Icon type="FontAwesome" name="plus" />
-            <Text>{noMatchesCta}</Text>
-          </Button>
-        </View>
-      ) : (
-        <NonIdealState title={emptyListTitle} message={emptyListMessage} />
-      ),
+      ListEmptyComponent: () => <SelectEmptyState {...emptyStateProps} />,
     };
     if (isSectioned) {
       listProps.sections = reduce(
@@ -167,21 +166,12 @@ class Select extends React.Component {
               </Body>
             </View>
             <Content>
-              {filterable && (
-                <View style={[baseStyles.listItem, baseStyles.unbordered]}>
-                  <Input
-                    style={styles.filterInput}
-                    placeholder={filterPlaceholder}
-                    onChangeText={this.setFilter}
-                    value={filter}
-                  />
-                  <Icon
-                    style={[baseStyles.listItemIcon, baseStyles.marginLeft, baseStyles.doubleMarginRight]}
-                    type="FontAwesome"
-                    name="search"
-                  />
-                </View>
-              )}
+              <SelectFilter
+                visible={filterable}
+                value={filter}
+                onChangeText={this.setFilter}
+                placeholder={filterPlaceholder}
+              />
               <ListComponent {...listProps} />
             </Content>
             <Footer>
