@@ -10,13 +10,13 @@ const NotificationConfig = {
 
 const Notifications = {
   init: () => {
+    if (__DEV__) {
+      OneSignal.setLogLevel(5, 1);
+    }
     if (Config.ONESIGNAL_APP_ID) {
       OneSignal.init(Config.ONESIGNAL_APP_ID, NotificationConfig);
     } else {
       Monitoring.error(`ONESIGNAL_APP_ID environment variable not set`);
-    }
-    if (__DEV__) {
-      OneSignal.setLogLevel(5, 1);
     }
   },
 
