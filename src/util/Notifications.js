@@ -11,7 +11,7 @@ const NotificationConfig = {
 const Notifications = {
   init: () => {
     if (__DEV__) {
-      OneSignal.setLogLevel(5, 1);
+      OneSignal.setLogLevel(6, 2);
     }
     if (Config.ONESIGNAL_APP_ID) {
       OneSignal.init(Config.ONESIGNAL_APP_ID, NotificationConfig);
