@@ -7,6 +7,7 @@
     "start": "react-native start",
     "postinstall": "./postinstall.sh && npm run bundle",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "android-clean": "cd android && gradlew clean && cd ..",
     "android-debug": "adb reverse tcp:8081 tcp:8010 & react-native run-android --appIdSuffix debug",
     "android-release": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant release",
     "android-staging": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant releaseStaging",
