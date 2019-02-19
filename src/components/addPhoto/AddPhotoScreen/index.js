@@ -26,7 +26,7 @@ import baseStyles, { round } from 'src/assets/style';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AdroitHeader from 'src/components/common/AdroitHeader';
 import UsersStore from 'src/store/UsersStore';
-import TeamsStore from 'src/store/TeamsStore';
+import ProjectsStore from 'src/store/ProjectsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import Copy from 'src/assets/Copy';
 import LocationsStore from 'src/store/LocationsStore';
@@ -41,7 +41,7 @@ import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-@inject('teams', 'activityImages', 'users', 'locations')
+@inject('projects', 'activityImages', 'users', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
   constructor(props) {
@@ -119,12 +119,12 @@ class AddPhotoScreen extends React.Component {
 
   initTeamActivities = async props => {
     const { team } = this.state;
-    const { teams } = props;
+    const { projects } = props;
     let initTeam = team;
-    if (!team && teams.list && teams.list.length) {
+    if (!team && projects.list && projects.list.length) {
       const lastTeamId = await AsyncStorage.getItem('last_team_id');
       if (lastTeamId) {
-        initTeam = teams.list.find(t => String(t.IDMinistry) === lastTeamId);
+        initTeam = projects.getTeam(lastTeamId);
       }
       if (initTeam) {
         this.setTeam(initTeam);
@@ -150,19 +150,20 @@ class AddPhotoScreen extends React.Component {
   };
 
   setTeam = team => {
-    const { users } = this.props;
+    const { users, projects } = this.props;
     const prevTeam = this.state.team;
     const newState = {
       team,
     };
+    const projectMembers = projects.getProjectMembersByTeam(team);
     if (!prevTeam && users && users.me) {
-      const me = team.members.slice().find(m => m.IDPerson === users.me.id);
+      const me = projectMembers.find(m => m.IDPerson === users.me.id);
       if (me) {
         newState.taggedPeople = [me];
       }
     } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
       newState.activity = undefined;
-      newState.taggedPeople = intersectionBy(this.state.taggedPeople || [], team.members.slice() || [], 'IDPerson');
+      newState.taggedPeople = intersectionBy(this.state.taggedPeople, projectMembers, 'IDPerson');
     }
     this.setState(newState);
   };
@@ -230,7 +231,7 @@ class AddPhotoScreen extends React.Component {
   );
 
   render() {
-    const { teams, activityImages, locations } = this.props;
+    const { projects, activityImages, locations } = this.props;
     const { caption, date, location, team, activity, taggedPeople, isModalOpen, isFooterVisible } = this.state;
     const isSaveEnabled = !!(
       activityImages.photo.isUploaded &&
@@ -313,7 +314,7 @@ class AddPhotoScreen extends React.Component {
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.teamLabel}</Label>
-                {teams.loading || !teams.list ? (
+                {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <Select
@@ -324,13 +325,13 @@ class AddPhotoScreen extends React.Component {
                     placeholder={Copy.teamPlaceholder}
                     selectedItem={team}
                     onSelectedItemChange={this.setTeam}
-                    items={teams.list}
+                    items={projects.allTeams}
                   />
                 )}
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.activityLabel}</Label>
-                {teams.loading || !teams.list ? (
+                {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <Select
@@ -349,13 +350,13 @@ class AddPhotoScreen extends React.Component {
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
-                {teams.loading || !teams.list ? (
+                {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <MultiSelect
                     filterable
                     style={styles.input}
-                    items={team ? team.members.slice() : []}
+                    items={team ? projects.getProjectMembersByTeam(team) : []}
                     selectedItems={taggedPeople}
                     uniqueKey="IDPerson"
                     displayKey="display_name"
@@ -401,7 +402,7 @@ AddPhotoScreen.propTypes = {
 AddPhotoScreen.defaultProps = {};
 
 AddPhotoScreen.wrappedComponent.propTypes = {
-  teams: PropTypes.instanceOf(TeamsStore).isRequired,
+  projects: PropTypes.instanceOf(ProjectsStore).isRequired,
   users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
   locations: PropTypes.instanceOf(LocationsStore).isRequired,

@@ -136,7 +136,7 @@ export default class ActivityImagesStore extends ResourceStore {
     fetchJson(url, options)
       .then(response => {
         const newActivityImage = response.json.data;
-        newActivityImage.activity = this.rootStore.teams.getActivity(newActivityImage.activity);
+        newActivityImage.activity = this.rootStore.projects.getActivity(newActivityImage.activity);
         runInAction(() => {
           if (newActivityImage.taggedPeople.includes(this.rootStore.users.me.id)) {
             this.map.set(newActivityImage.id, newActivityImage);

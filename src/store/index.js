@@ -2,7 +2,7 @@ import { configure } from 'mobx';
 import { AsyncStorage } from 'react-native';
 import { create } from 'mobx-persist';
 import AuthStore from './AuthStore';
-import TeamsStore from './TeamsStore';
+import ProjectsStore from './ProjectsStore';
 import ActivityImagesStore from './ActivityImagesStore';
 import UsersStore from './UsersStore';
 import PermissionsStore from './PermissionsStore';
@@ -20,13 +20,13 @@ export default class Store {
     this.auth = new AuthStore(this);
     this.permissions = new PermissionsStore(this);
     this.users = new UsersStore(this);
-    this.teams = new TeamsStore(this);
+    this.projects = new ProjectsStore(this);
     this.activityImages = new ActivityImagesStore(this);
     this.locations = new LocationsStore(this);
     this.deviceInfo = new DeviceInfoStore(this);
 
     this.users.initialize();
-    this.teams.initialize();
+    this.projects.initialize();
     this.activityImages.initialize();
     this.locations.initialize();
   }
