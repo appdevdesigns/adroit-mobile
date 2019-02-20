@@ -4,7 +4,7 @@ import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import SplashScreen from 'react-native-splash-screen';
 import { Animated, View, ImageBackground, Keyboard, StatusBar } from 'react-native';
-import { Button, Text, Form, Item, Input, Spinner } from 'native-base';
+import { Button, Text, Form, Item, Input, Spinner, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import Theme, { Color } from 'src/assets/theme';
 import AppScreen from 'src/components/app/AppScreen';
@@ -140,6 +140,7 @@ class LoginScreen extends React.Component {
             ) : (
               <Form>
                 <Item style={styles.item}>
+                  <Icon style={styles.inputIcon} type="FontAwesome" name="user" />
                   <Input
                     ref={input => {
                       this.inputs.username = input;
@@ -160,6 +161,7 @@ class LoginScreen extends React.Component {
                   />
                 </Item>
                 <Item style={styles.item}>
+                  <Icon style={styles.inputIcon} type="FontAwesome" name="lock" />
                   <Input
                     ref={input => {
                       this.inputs.password = input;
