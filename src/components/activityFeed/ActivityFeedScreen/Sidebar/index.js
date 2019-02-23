@@ -18,14 +18,13 @@ const logoImage = require('src/assets/img/AdroitLogo.png');
 @inject('auth', 'users', 'deviceInfo')
 @observer
 class Sidebar extends React.Component {
-
   render() {
     const { navigation, auth, users, onStartTutorial, onClose, deviceInfo } = this.props;
     const navTo = screen => () => {
       navigation.navigate(screen);
       onClose();
     };
-    const codePushLabel = deviceInfo.codePushMetaData && deviceInfo.codePushMetaData.label || 'v0';
+    const codePushLabel = (deviceInfo.codePushMetaData && deviceInfo.codePushMetaData.label) || 'v0';
     const menuItems = [
       { label: Copy.drawerMenuHelp, icon: 'question-circle', onPress: navTo(AppScreen.Help) },
       { label: Copy.drawerMenuFeedback, icon: 'comment', onPress: navTo(AppScreen.Feedback) },
@@ -33,12 +32,14 @@ class Sidebar extends React.Component {
       { label: Copy.drawerMenuEditLocations, icon: 'map-marker', onPress: navTo(AppScreen.EditLocations) },
       { label: Copy.drawerMenuLogout, icon: 'sign-out', onPress: auth.logout },
     ];
+    if (users.me.displayName) {
+      menuItems.unshift({ label: users.me.displayName, icon: 'user', onPress: navTo(AppScreen.Profile) });
+    }
     const versionString = `${version}.${codePushLabel}`;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={logoImage} style={styles.logo} />
-          {users.me.displayName ? <Text style={styles.username}>{users.me.displayName}</Text> : null}
           <Text style={styles.version}>{versionString}</Text>
         </View>
         <List>

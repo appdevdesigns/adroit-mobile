@@ -7,6 +7,7 @@ const AppScreen = {
   AddPhoto: 'AddPhoto',
   Help: 'Help',
   Feedback: 'Feedback',
+  Profile: 'Profile',
   EditLocations: 'EditLocations',
   Test: 'Test',
 };

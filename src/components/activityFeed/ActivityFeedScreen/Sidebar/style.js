@@ -10,11 +10,6 @@ export default StyleSheet.create({
     backgroundColor: Theme.toolbarDefaultBg,
     padding: GridSize,
   },
-  username: {
-    fontSize: 14,
-    alignSelf: 'center',
-    color: Color.lightTextMuted,
-  },
   menuIcon: {
     fontSize: 23,
   },
