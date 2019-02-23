@@ -25,6 +25,8 @@ target 'adroit' do
 
   pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
 
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   target 'adroitTests' do
