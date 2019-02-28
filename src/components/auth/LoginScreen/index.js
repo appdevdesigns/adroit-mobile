@@ -16,7 +16,7 @@ import { NavigationPropTypes } from 'src/util/PropTypes';
 import Toast from 'src/util/Toast';
 import styles from './style';
 
-const logoImage = require('src/assets/img/AdroitLogo.png');
+const logoImage = require('src/assets/img/AdroitLogoNew.png');
 const bgImage = require('src/assets/img/collage.jpg');
 
 const defaultLogoHeight = 146;
