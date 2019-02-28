@@ -118,9 +118,9 @@ const Monitoring = {
    */
   setUserContext: data => {
     consoleLog('Setting user context', data);
-    const { username, userId, name } = data;
-    Countly.setUserData({ username, name, custom: { userId } });
-    Sentry.setUserContext({ username, userId });
+    const { username, id, displayName } = data;
+    Countly.setUserData({ username, name: displayName, custom: { userId: id } });
+    Sentry.setUserContext({ username, userId: id });
   },
 };
 

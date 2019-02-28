@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
 import codePush from 'react-native-code-push';
-import OneSignal from 'react-native-onesignal';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -15,6 +14,7 @@ import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import Monitoring, { Event } from 'src/util/Monitoring';
+import Notifications from 'src/util/Notifications';
 import Sidebar from './Sidebar';
 import ReportingPeriodOverview from './ReportingPeriodOverview';
 import ActivityFeedList from './ActivityFeedList';
@@ -59,9 +59,7 @@ class ActivityFeedScreen extends React.Component {
     this.props.copilotEvents.on('stepChange', ({ name, order }) => {
       Monitoring.event(Event.OnboardingStepViewed, { name, order });
     });
-    OneSignal.getPermissionSubscriptionState(subscriptionState => {
-      console.log('OneSignal permission subscription state', subscriptionState);
-    });
+    Notifications.checkStatus();
   }
 
   componentWillUnmount() {

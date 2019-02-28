@@ -8,6 +8,12 @@ import Toast from 'src/util/Toast';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
+const emptyUser = {
+  id: null,
+  displayName: null,
+  username: null,
+};
+
 export default class UsersStore extends ResourceStore {
   constructor(rootStore) {
     super(rootStore, 'IDPerson', true);
@@ -23,26 +29,17 @@ export default class UsersStore extends ResourceStore {
 
   @persist('object')
   @observable
-  me = {
-    id: null,
-    displayName: null,
-  };
+  me = emptyUser;
 
   @action.bound
   clear() {
-    this.me = {
-      id: null,
-      displayName: null,
-    };
+    this.clearMe();
     super.clear();
   }
 
   @action.bound
   clearMe() {
-    this.me = {
-      id: null,
-      displayName: null,
-    };
+    this.me = emptyUser;
   }
 
   @action.bound
@@ -52,17 +49,15 @@ export default class UsersStore extends ResourceStore {
     fetchJson(url, options)
       .then(whoAmIResponse => {
         const me = whoAmIResponse.json.data;
-        Monitoring.setUserContext({
-          name: me.display_name,
-          userId: String(me.IDPerson),
+        const authUser = {
+          id: me.IDPerson,
+          displayName: me.display_name,
           username: this.rootStore.auth.username,
-        });
-        Notifications.setUserId(String(me.IDPerson));
+        };
+        Monitoring.setUserContext(authUser);
+        Notifications.setAuthUser(authUser);
         runInAction(() => {
-          this.me = {
-            id: me.IDPerson,
-            displayName: me.display_name,
-          };
+          this.me = authUser;
         });
       })
       .catch(async error => {
