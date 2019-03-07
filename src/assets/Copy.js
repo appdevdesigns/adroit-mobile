@@ -41,6 +41,7 @@ const Copy = {
 
   // Add Photo
   addPhotoTitle: 'Add a photo',
+  editPhotoTitle: 'Edit photo',
   addPhotoSaveButtonText: 'Save',
   confirmationModalTitle: 'Review your submission',
   confirmCaptionLabel: 'My caption describes how this activity is helping local Thais',

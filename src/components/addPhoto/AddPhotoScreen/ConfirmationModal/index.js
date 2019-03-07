@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { inject, observer } from 'mobx-react';
 import { Text, Button, Spinner, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
-import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import Modal from 'src/components/common/Modal';
 import Theme, { IsSmallScreen } from 'src/assets/theme';
@@ -12,8 +10,6 @@ import baseStyles from 'src/assets/style';
 import ConfirmationItem from './ConfirmationItem';
 import styles from './style';
 
-@inject('activityImages')
-@observer
 class ConfirmationModal extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +26,7 @@ class ConfirmationModal extends React.Component {
   }
 
   toggleChecked = item => e => {
-    if (this.props.activityImages.uploadStatus === PostStatus.sending) {
+    if (this.props.uploadStatus === PostStatus.sending) {
       return;
     }
     this.setState(prevState => ({ [`${item}Checked`]: !prevState[`${item}Checked`] }));
@@ -38,7 +34,7 @@ class ConfirmationModal extends React.Component {
   };
 
   confirm = () => {
-    if (this.props.activityImages.uploadStatus === PostStatus.pending) {
+    if (this.props.uploadStatus === PostStatus.pending) {
       this.props.onConfirm();
     }
   };
@@ -51,13 +47,7 @@ class ConfirmationModal extends React.Component {
   };
 
   render() {
-    const {
-      visible,
-      caption,
-      taggedPeople,
-      activityImages: { uploadStatus },
-      onCancel,
-    } = this.props;
+    const { visible, caption, taggedPeople, uploadStatus, onCancel } = this.props;
     const { captionChecked, taggedChecked } = this.state;
     const isUploading = uploadStatus === PostStatus.sending;
     return (
@@ -120,14 +110,9 @@ ConfirmationModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   caption: PropTypes.string.isRequired,
   taggedPeople: PropTypes.string.isRequired,
+  uploadStatus: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-};
-
-ConfirmationModal.defaultProps = {};
-
-ConfirmationModal.wrappedComponent.propTypes = {
-  activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
 };
 
 export default ConfirmationModal;

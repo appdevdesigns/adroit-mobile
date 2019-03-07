@@ -11,6 +11,7 @@ import baseStyles from 'src/assets/style';
 import AuthStore from 'src/store/AuthStore';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
+import DraftActivityImageStore from 'src/store/DraftActivityImageStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import Monitoring, { Event } from 'src/util/Monitoring';
@@ -20,7 +21,7 @@ import ActivityFeedList from './ActivityFeedList';
 import ActivityFeedFab from './ActivityFeedFab';
 import IntroModal from './IntroModal';
 
-@inject('auth', 'activityImages')
+@inject('auth', 'activityImages', 'draft')
 @observer
 class ActivityFeedScreen extends React.Component {
   constructor(props) {
@@ -90,6 +91,12 @@ class ActivityFeedScreen extends React.Component {
     AsyncStorage.setItem('adroit_has_viewed_onboarding', 'true');
   };
 
+  editImage = activityImage => {
+    const { draft, navigation } = this.props;
+    draft.setDraft(activityImage);
+    navigation.navigate(AppScreen.AddPhoto);
+  };
+
   render() {
     const { introModalOpen } = this.state;
     return (
@@ -121,7 +128,7 @@ class ActivityFeedScreen extends React.Component {
               <Right style={baseStyles.headerRight} />
             </Header>
             <ReportingPeriodOverview />
-            <ActivityFeedList />
+            <ActivityFeedList onEditImage={this.editImage} />
             <ActivityFeedFab />
             <IntroModal visible={introModalOpen} onCancel={this.skipTutorial} onConfirm={this.startTutorial} />
           </Container>
@@ -143,6 +150,7 @@ ActivityFeedScreen.propTypes = {
 ActivityFeedScreen.wrappedComponent.propTypes = {
   auth: PropTypes.instanceOf(AuthStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
+  draft: PropTypes.instanceOf(DraftActivityImageStore).isRequired,
 };
 
 export default copilot({

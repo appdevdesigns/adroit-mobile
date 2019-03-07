@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { square } from 'src/assets/style';
 import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export const thumbnailWidth = 80;
@@ -80,5 +81,8 @@ export default StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
     color: Color.darkTextSecondary,
+  },
+  action: {
+    // ...square()
   },
 });
