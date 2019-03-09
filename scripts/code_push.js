@@ -8,6 +8,7 @@ const EXIT_CODE = {
   RELEASE_FAILED: 2,
   HISTORY_FAILED: 3,
   TAG_FAILED: 4,
+  PUSH_FAILED: 5,
 };
 
 const os = argv.o || argv.os || 'android';
@@ -77,7 +78,7 @@ exec(historyCmd, (error, stdout, stderr) => {
 });
 
 // ############################################################################
-// 3. Tag the current git commit with the Code Push release version
+// 3. Tag the current git commit with the Code Push release version and push the tag to origin
 
 const tagCmd = `git tag -a code-push-${latestCodePushVersion}`;
 
@@ -88,5 +89,17 @@ exec(tagCmd, (error, stdout, stderr) => {
     console.log(chalk.red('Failed to create git tag'));
     console.log(chalk.red(stderr));
     process.exit(EXIT_CODE.TAG_FAILED);
+  }
+});
+
+const pushCmd = 'git push';
+
+console.log(chalk.cyan(pushCmd));
+
+exec(pushCmd, (error, stdout, stderr) => {
+  if (error) {
+    console.log(chalk.red('Failed to push tag change'));
+    console.log(chalk.red(stderr));
+    process.exit(EXIT_CODE.PUSH_FAILED);
   }
 });
