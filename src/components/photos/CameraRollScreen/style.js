@@ -4,7 +4,7 @@ import Theme, { Color, GridSize } from 'src/assets/theme';
 export const numColumns = 3;
 
 const { width } = Dimensions.get('window');
-const photoPadding = GridSize;
+const photoPadding = GridSize / 2;
 const widthWithoutPadding = width - photoPadding * (numColumns + 1);
 export const equalWidth = widthWithoutPadding / numColumns;
 
