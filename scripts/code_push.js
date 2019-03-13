@@ -3,6 +3,7 @@
 const chalk = require('chalk');
 const { exec } = require('child_process');
 const argv = require('minimist')(process.argv.slice(2));
+const { version } = require('../package.json');
 
 const EXIT_CODE = {
   MISSING_PARAM: 1,
@@ -14,7 +15,7 @@ const EXIT_CODE = {
   PUSH_FAILED: 7,
 };
 
-const { os, environment, version } = argv;
+const { os, environment } = argv;
 const plist = os === 'ios' ? '--plist-file ios/adroit/Info.plist' : '';
 
 const help = `
@@ -23,7 +24,6 @@ Creates a code push release and tags the current git commit with the release num
 node ./srcripts/code_push.js
   -h --help
   --os           Either android or ios
-  --version      The target version number
   --environment  Either Staging or Production
 `;
 
@@ -38,7 +38,6 @@ function required(param, paramName) {
   }
 }
 
-required(version, 'version');
 required(os, 'os');
 required(environment, 'env');
 
@@ -57,8 +56,8 @@ if (!['android', 'ios'].includes(os)) {
 /**
  * Executes a git push
  */
-function gitPush() {
-  const pushCmd = 'git push';
+function gitPush(tagName) {
+  const pushCmd = `git push origin ${tagName}`;
 
   console.log(chalk.cyan(pushCmd));
 
@@ -76,7 +75,8 @@ function gitPush() {
  * Tag the current git commit with the Code Push release version
  */
 function gitTag(latestCodePushVersion) {
-  const tagCmd = `git tag -a code-push-${latestCodePushVersion}`;
+  const tagName = `code-push-${os}-${environment}-${latestCodePushVersion}`;
+  const tagCmd = `git tag -a ${tagName} -m 'Code Push release (${os}/${environment})'`;
 
   console.log(chalk.cyan(tagCmd));
 
@@ -87,7 +87,7 @@ function gitTag(latestCodePushVersion) {
       console.log(chalk.red(stderr));
       process.exit(EXIT_CODE.TAG_FAILED);
     }
-    gitPush();
+    gitPush(tagName);
   });
 }
 
