@@ -16,7 +16,7 @@ export default class HelpScreen extends React.PureComponent {
         <Container>
           <AdroitHeader title={Copy.helpTitle} />
           <Content padder>
-            <Text>Coming soon!</Text>
+            <Text>Help for Adroit - coming soon!</Text>
           </Content>
         </Container>
       </AdroitScreen>
