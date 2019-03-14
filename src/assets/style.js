@@ -36,6 +36,11 @@ if (material.isIphoneX) {
   manualHeader.paddingTop = 42;
 }
 
+export const logoDim = {
+  width: 600,
+  height: 200,
+};
+
 /**
  * App-wide reusable styles
  */
