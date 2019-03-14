@@ -8,7 +8,7 @@ import baseStyles from 'src/assets/style';
 import { IsSmallScreen } from 'src/assets/theme';
 import styles from './style';
 
-const logoImage = require('src/assets/img/AdroitLogo.png');
+const logoImage = require('src/assets/img/AdroitLogoNew.png');
 const bgImage = require('src/assets/img/collage.jpg');
 
 const IntroModal = ({ visible, onConfirm, onCancel }) => (

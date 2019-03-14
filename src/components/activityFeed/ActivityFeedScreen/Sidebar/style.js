@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Theme, { GridSize, Color } from 'src/assets/theme';
+import { logoDim } from 'src/assets/style';
 
 export default StyleSheet.create({
   container: {
@@ -20,8 +21,8 @@ export default StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    width: 150,
-    height: 110,
+    width: logoDim.width / 3,
+    height: logoDim.height / 3,
     marginBottom: GridSize,
     marginTop: Theme.isIphoneX ? GridSize * 2 + Theme.Inset.portrait.topInset : GridSize * 2,
   },

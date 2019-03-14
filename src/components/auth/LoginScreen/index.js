@@ -7,6 +7,7 @@ import { Animated, View, ImageBackground, Keyboard, StatusBar } from 'react-nati
 import { Button, Text, Form, Item, Input, Spinner, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import Theme, { Color } from 'src/assets/theme';
+import { logoDim } from 'src/assets/style';
 import AppScreen from 'src/components/app/AppScreen';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AuthStore, { AuthStatus } from 'src/store/AuthStore';
@@ -16,11 +17,11 @@ import { NavigationPropTypes } from 'src/util/PropTypes';
 import Toast from 'src/util/Toast';
 import styles from './style';
 
-const logoImage = require('src/assets/img/AdroitLogo.png');
+const logoImage = require('src/assets/img/AdroitLogoNew.png');
 const bgImage = require('src/assets/img/collage.jpg');
 
-const defaultLogoHeight = 146;
-const defaultLogoWidth = 200;
+const defaultLogoHeight = logoDim.height / 2;
+const defaultLogoWidth = logoDim.width / 2;
 
 @inject('auth', 'permissions', 'deviceInfo')
 @observer

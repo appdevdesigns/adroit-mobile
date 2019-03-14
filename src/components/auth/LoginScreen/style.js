@@ -15,9 +15,7 @@ export default StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    width: 200,
-    height: 146,
-    marginBottom: 10,
+    marginBottom: 20,
     marginTop: Theme.isIphoneX ? 40 + Theme.Inset.portrait.topInset : 40,
   },
   title: {
