@@ -4,15 +4,11 @@ const chalk = require('chalk');
 const { exec } = require('child_process');
 const argv = require('minimist')(process.argv.slice(2));
 const { version } = require('../package.json');
+const util = require('./util');
 
 const EXIT_CODE = {
-  MISSING_PARAM: 1,
-  INVALID_ENV: 2,
-  INVALID_OS: 3,
-  RELEASE_FAILED: 4,
-  HISTORY_FAILED: 5,
-  TAG_FAILED: 6,
-  PUSH_FAILED: 7,
+  RELEASE_FAILED: 1,
+  HISTORY_FAILED: 2,
 };
 
 const { os, environment } = argv;
@@ -30,66 +26,11 @@ node ./srcripts/code_push.js
 // ############################################################################
 // Validate the arguments
 
-function required(param, paramName) {
-  if (!paramName) {
-    console.log(chalk.red(`${paramName} not provided`));
-    console.log(help);
-    process.exit(EXIT_CODE.MISSING_PARAM);
-  }
-}
+util.required(os, 'os', help);
+util.required(environment, 'env', help);
 
-required(os, 'os');
-required(environment, 'env');
-
-if (!['Staging', 'Production'].includes(environment)) {
-  console.log(chalk.red(`env must be either 'Staging' or 'Production'`));
-  console.log(help);
-  process.exit(EXIT_CODE.INVALID_ENV);
-}
-
-if (!['android', 'ios'].includes(os)) {
-  console.log(chalk.red(`os must be either 'android' or 'ios'`));
-  console.log(help);
-  process.exit(EXIT_CODE.INVALID_OS);
-}
-
-/**
- * Executes a git push
- */
-function gitPush(tagName) {
-  const pushCmd = `git push origin ${tagName}`;
-
-  console.log(chalk.cyan(pushCmd));
-
-  exec(pushCmd, (error, stdout, stderr) => {
-    if (error) {
-      console.log(chalk.red('Failed to push tag change'));
-      console.log(chalk.red(error));
-      console.log(chalk.red(stderr));
-      process.exit(EXIT_CODE.PUSH_FAILED);
-    }
-  });
-}
-
-/**
- * Tag the current git commit with the Code Push release version
- */
-function gitTag(latestCodePushVersion) {
-  const tagName = `code-push-${os}-${environment}-${latestCodePushVersion}`;
-  const tagCmd = `git tag -a ${tagName} -m 'Code Push release (${os}/${environment})'`;
-
-  console.log(chalk.cyan(tagCmd));
-
-  exec(tagCmd, (error, stdout, stderr) => {
-    if (error) {
-      console.log(chalk.red('Failed to create git tag'));
-      console.log(chalk.red(error));
-      console.log(chalk.red(stderr));
-      process.exit(EXIT_CODE.TAG_FAILED);
-    }
-    gitPush(tagName);
-  });
-}
+util.validateEnvironment(environment, help);
+util.validateOS(os, help);
 
 /**
  *  Fetch the corresponding Code Push deployment history and get the latest release version number.
@@ -107,7 +48,9 @@ function getHistory() {
       const history = JSON.parse(stdout);
       // eslint-disable-next-line prefer-destructuring
       const latestCodePushVersion = history[history.length - 1][0];
-      gitTag(latestCodePushVersion);
+      const tagName = `code-push-${os}-${environment}-${latestCodePushVersion}`;
+      const message = `Code Push release (${os}/${environment})`;
+      util.gitTag(tagName, message);
     } catch (err) {
       console.log(
         chalk.red(

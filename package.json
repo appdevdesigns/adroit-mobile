@@ -13,7 +13,8 @@
     "ios-debug": "react-native run-ios",
     "fix": "./postinstall.sh",
     "cp-release": "node ./scripts/code_push.js",
-    "bump_version": "./bump_version.sh"
+    "appcenter-build": "node ./scripts/appcenter_build.js",
+    "bump-version": "./bump_version.sh"
   },
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
