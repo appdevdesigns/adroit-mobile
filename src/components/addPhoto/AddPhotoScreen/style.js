@@ -1,11 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { round } from 'src/assets/style';
+import { round, centerContent } from 'src/assets/style';
 import { Color, GridSize } from 'src/assets/theme';
-
-const centerContent = {
-  alignItems: 'center',
-  justifyContent: 'center',
-};
 
 export default StyleSheet.create({
   row: {

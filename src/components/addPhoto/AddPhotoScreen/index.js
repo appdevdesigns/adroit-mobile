@@ -192,7 +192,7 @@ class AddPhotoScreen extends React.Component {
   renderTeamMember = person => (
     <View style={styles.teamMember}>
       {!person.avatar || person.avatar.startsWith('images') ? (
-        <View style={[styles.avatar, styles.avatarIconWrapper]}>
+        <View style={styles.avatarIconWrapper}>
           <Icon style={styles.avatarIcon} type="FontAwesome" name="user" />
         </View>
       ) : (

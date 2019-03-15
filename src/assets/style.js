@@ -41,6 +41,11 @@ export const logoDim = {
   height: 200,
 };
 
+export const centerContent = {
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 /**
  * App-wide reusable styles
  */
@@ -60,8 +65,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
   },
   headerBody: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...centerContent,
   },
   separator: {
     paddingTop: Theme.platform === 'ios' ? 10 : 14,
@@ -109,8 +113,7 @@ export default StyleSheet.create({
   },
   emptyContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...centerContent,
     padding: GridSize * 4,
   },
   emptyText: {
@@ -127,8 +130,7 @@ export default StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...centerContent,
   },
   actionFooter: {
     paddingLeft: GridSize + Theme.buttonPadding,
@@ -154,8 +156,7 @@ export default StyleSheet.create({
   },
   tagImageWrapper: {
     backgroundColor: Color(ThemeColor.lightBackground1).darken(0.1),
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...centerContent,
     ...round(tagHeight),
     marginRight: GridSize,
   },
