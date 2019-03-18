@@ -1,0 +1,5 @@
+# To encrypt
+.env filter=git-crypt diff=git-crypt
+
+# Never encrypt
+.gitattributes !filter !diff
