@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+
+# First install git-crypt and gpg
 brew install git-crypt
 brew install gnupg
-echo $GPG_PUBLIC_KEY > gpg.public.key
-gpg --import gpg.public.key
-git-crypt unlock
+
+# Then use the GPG key to unlock the repo
+echo "$GPG_KEY" |base64 -d |git crypt unlock /dev/stdin
