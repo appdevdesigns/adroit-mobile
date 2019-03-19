@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 brew install git-crypt
 brew install gnupg
-gpg --keyserver https://pgp.mit.edu --recv-key $GPG_KEY_ID
+echo $GPG_PUBLIC_KEY > gpg.public.key
+gpg --import gpg.public.key
 git-crypt unlock
