@@ -5,4 +5,5 @@ brew install git-crypt
 brew install gnupg
 
 # Then use the GPG key to unlock the repo
-echo "$GPG_KEY" |base64 -d |git crypt unlock /dev/stdin
+echo "$GPG_KEY" |base64 -d >temp.key 
+git crypt unlock temp.key
