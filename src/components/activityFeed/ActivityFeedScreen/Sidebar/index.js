@@ -13,19 +13,18 @@ import AppScreen from 'src/components/app/AppScreen';
 import { version } from 'package.json';
 import styles from './style';
 
-const logoImage = require('src/assets/img/AdroitLogo.png');
+const logoImage = require('src/assets/img/AdroitLogoNew.png');
 
 @inject('auth', 'users', 'deviceInfo')
 @observer
 class Sidebar extends React.Component {
-
   render() {
     const { navigation, auth, users, onStartTutorial, onClose, deviceInfo } = this.props;
     const navTo = screen => () => {
       navigation.navigate(screen);
       onClose();
     };
-    const codePushLabel = deviceInfo.codePushMetaData && deviceInfo.codePushMetaData.label || 'v0';
+    const codePushLabel = (deviceInfo.codePushMetaData && deviceInfo.codePushMetaData.label) || 'v0';
     const menuItems = [
       { label: Copy.drawerMenuHelp, icon: 'question-circle', onPress: navTo(AppScreen.Help) },
       { label: Copy.drawerMenuFeedback, icon: 'comment', onPress: navTo(AppScreen.Feedback) },

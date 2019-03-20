@@ -99,8 +99,8 @@ export default class DraftActivityImageStore {
     this.caption = activityImage.caption;
     this.date = parse(activityImage.date);
     this.location = { name: activityImage.caption_govt };
-    this.team = this.rootStore.teams.map[String(activityImage.activity.team.IDMinistry)];
-    this.activity = this.rootStore.teams.getActivity(activityImage.activity.id);
+    this.team = this.rootStore.projects.getTeam(activityImage.activity.team.IDMinistry);
+    this.activity = this.rootStore.projects.getActivity(activityImage.activity.id);
     this.taggedPeople = []; // Waiting on https://github.com/appdevdesigns/adroit-mobile/issues/24
     this.uploadedImageName = undefined;
     this.uploadStatus = PostStatus.pending;
@@ -209,7 +209,7 @@ export default class DraftActivityImageStore {
     fetchJson(url, options)
       .then(response => {
         const newActivityImage = response.json.data;
-        newActivityImage.activity = this.rootStore.teams.getActivity(newActivityImage.activity);
+        newActivityImage.activity = this.rootStore.projects.getActivity(newActivityImage.activity);
         runInAction(() => {
           if (newActivityImage.taggedPeople.includes(this.rootStore.users.me.id)) {
             this.map.set(newActivityImage.id, newActivityImage);

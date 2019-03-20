@@ -4,9 +4,15 @@ import Theme, { Color, GridSize } from 'src/assets/theme';
 export const numColumns = 3;
 
 const { width } = Dimensions.get('window');
-const photoPadding = GridSize;
+const photoPadding = GridSize / 2;
 const widthWithoutPadding = width - photoPadding * (numColumns + 1);
 export const equalWidth = widthWithoutPadding / numColumns;
+
+export const imageStyle = {
+  margin: photoPadding / 2,
+  height: equalWidth,
+  width: equalWidth,
+};
 
 export default StyleSheet.create({
   spinner: {
@@ -18,11 +24,7 @@ export default StyleSheet.create({
   placeholderContainer: {
     margin: photoPadding / 2,
   },
-  image: {
-    margin: photoPadding / 2,
-    height: equalWidth,
-    width: equalWidth,
-  },
+  image: { ...imageStyle },
   iconWrapper: {
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Usage: .\bump_version.sh #.#.#
+#
+# where #.#.# is the version number to apply
+
 if [ -z $1 ]; then 
   echo "ERROR: Version number not provided"
   exit -1

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { centerContent, square } from 'src/assets/style';
 import Theme, { Color, GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
@@ -48,8 +49,20 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  filterListItem: {
+    paddingRight: 0,
+  },
+  filterWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  filterIconWrapper: {
+    ...centerContent,
+    ...square(24),
+  },
   filterInput: {
     height: 24,
+    paddingLeft: GridSize * 1.5,
     paddingTop: 4,
     paddingBottom: 0,
   },

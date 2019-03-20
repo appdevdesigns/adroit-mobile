@@ -7,7 +7,7 @@ import Monitoring from 'src/util/Monitoring';
 import AppScreen from 'src/components/app/AppScreen';
 import CameraRollListItem, { CAMERA_ITEM } from './CameraRollListItem';
 import ImagePreview from './ImagePreview';
-import styles, { numColumns, equalWidth } from './style';
+import styles, { imageStyle, numColumns, equalWidth } from './style';
 
 const PAGE_SIZE = numColumns * 6;
 
@@ -79,7 +79,7 @@ class CameraRollList extends Component {
 
   renderPlaceholderRowItem = () => (
     <View style={styles.placeholderContainer}>
-      <Placeholder.Media size={equalWidth} style={styles.image} animate="fade" />
+      <Placeholder.Media size={equalWidth} style={imageStyle} animate="fade" />
     </View>
   );
 

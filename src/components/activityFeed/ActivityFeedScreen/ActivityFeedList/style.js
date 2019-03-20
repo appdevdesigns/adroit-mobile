@@ -10,6 +10,12 @@ export const activityFontSize = 12;
 export const captionFontSize = 12;
 const thumbnailBorderRadius = 4;
 
+export const imageWrapperStyle = {
+  backgroundColor: Color.darkBackground2,
+  borderRadius: thumbnailBorderRadius,
+  borderWidth: thumbnailBorderWidth,
+};
+
 export default StyleSheet.create({
   content: {
     flex: 1,
@@ -39,11 +45,7 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  imageWrapper: {
-    backgroundColor: Color.darkBackground2,
-    borderRadius: thumbnailBorderRadius,
-    borderWidth: thumbnailBorderWidth,
-  },
+  imageWrapper: { ...imageWrapperStyle },
   thumbnail: {
     width: thumbnailWidth,
     height: 60,

@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
 import Color from 'color';
+import { logoDim } from 'src/assets/style';
 import Theme, { GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
   bgImage: {
     flex: 0,
     width: '100%',
-    height: 200,
+    height: 170,
     marginBottom: GridSize * 2,
   },
   topContainer: {
@@ -16,8 +17,8 @@ export default StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    width: 150,
-    height: 109,
+    width: logoDim.width / 3,
+    height: logoDim.height / 3,
     marginTop: 20,
     marginBottom: 20,
   },

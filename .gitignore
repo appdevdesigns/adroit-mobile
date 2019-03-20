@@ -65,9 +65,6 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 
-# Env files
-.env
-
 # Output of react-native bundle
 **/index.android.bundle
 **/index.android.bundle.meta

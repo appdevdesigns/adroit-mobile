@@ -26,7 +26,7 @@ import baseStyles, { round } from 'src/assets/style';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AdroitHeader from 'src/components/common/AdroitHeader';
 import UsersStore from 'src/store/UsersStore';
-import TeamsStore from 'src/store/TeamsStore';
+import ProjectsStore from 'src/store/ProjectsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import DraftActivityImageStore from 'src/store/DraftActivityImageStore';
 import Copy from 'src/assets/Copy';
@@ -42,7 +42,7 @@ import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-@inject('teams', 'activityImages', 'draft', 'users', 'locations')
+@inject('projects', 'activityImages', 'draft', 'users', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
   constructor(props) {
@@ -122,12 +122,12 @@ class AddPhotoScreen extends React.Component {
   };
 
   initTeamActivities = async props => {
-    const { teams, draft } = props;
+    const { projects, draft } = props;
     let initTeam = draft.team;
-    if (!draft.team && teams.list && teams.list.length) {
+    if (!draft.team && projects.list && projects.list.length) {
       const lastTeamId = await AsyncStorage.getItem('last_team_id');
       if (lastTeamId) {
-        initTeam = teams.list.find(t => String(t.IDMinistry) === lastTeamId);
+        initTeam = projects.getTeam(lastTeamId);
       }
       if (initTeam) {
         draft.updateDraft({ team: initTeam });
@@ -145,19 +145,20 @@ class AddPhotoScreen extends React.Component {
   };
 
   setTeam = team => {
-    const { users, draft } = this.props;
+    const { users, projects, draft } = this.props;
     const prevTeam = draft.team;
     const newDraftProps = {
       team,
     };
+    const projectMembers = projects.getProjectMembersByTeam(team);
     if (!prevTeam && users && users.me) {
-      const me = team.members.slice().find(m => m.IDPerson === users.me.id);
+      const me = projectMembers.find(m => m.IDPerson === users.me.id);
       if (me) {
         newDraftProps.taggedPeople = [me];
       }
     } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
       newDraftProps.activity = undefined;
-      newDraftProps.taggedPeople = intersectionBy(draft.taggedPeople || [], team.members.slice() || [], 'IDPerson');
+      newDraftProps.taggedPeople = intersectionBy(draft.taggedPeople || [], projectMembers, 'IDPerson');
     }
     draft.updateDraft(newDraftProps);
   };
@@ -172,7 +173,7 @@ class AddPhotoScreen extends React.Component {
   renderTeamMember = person => (
     <View style={styles.teamMember}>
       {!person.avatar || person.avatar.startsWith('images') ? (
-        <View style={[styles.avatar, styles.avatarIconWrapper]}>
+        <View style={styles.avatarIconWrapper}>
           <Icon style={styles.avatarIcon} type="FontAwesome" name="user" />
         </View>
       ) : (
@@ -212,12 +213,13 @@ class AddPhotoScreen extends React.Component {
 
   render() {
     const {
-      teams,
+      projects,
       activityImages,
       locations,
       draft: { isNew, caption, date, location, team, activity, taggedPeople, postStatus },
     } = this.props;
     const { isModalOpen, isFooterVisible } = this.state;
+
     const allLocations = [
       { title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations },
       { title: Copy.fcfLocationsSection, data: locations.fcfLocations },
@@ -289,7 +291,7 @@ class AddPhotoScreen extends React.Component {
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.teamLabel}</Label>
-                {teams.loading || !teams.list ? (
+                {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <Select
@@ -300,13 +302,13 @@ class AddPhotoScreen extends React.Component {
                     placeholder={Copy.teamPlaceholder}
                     selectedItem={team}
                     onSelectedItemChange={this.setTeam}
-                    items={teams.list}
+                    items={projects.allTeams}
                   />
                 )}
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.activityLabel}</Label>
-                {teams.loading || !teams.list ? (
+                {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <Select
@@ -325,13 +327,13 @@ class AddPhotoScreen extends React.Component {
               </Item>
               <Item stackedLabel style={styles.item}>
                 <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
-                {teams.loading || !teams.list ? (
+                {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
                 ) : (
                   <MultiSelect
                     filterable
                     style={styles.input}
-                    items={team ? team.members.slice() : []}
+                    items={team ? projects.getProjectMembersByTeam(team) : []}
                     selectedItems={taggedPeople.slice()}
                     uniqueKey="IDPerson"
                     displayKey="display_name"
@@ -378,7 +380,7 @@ AddPhotoScreen.propTypes = {
 AddPhotoScreen.defaultProps = {};
 
 AddPhotoScreen.wrappedComponent.propTypes = {
-  teams: PropTypes.instanceOf(TeamsStore).isRequired,
+  projects: PropTypes.instanceOf(ProjectsStore).isRequired,
   users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
   draft: PropTypes.instanceOf(DraftActivityImageStore).isRequired,
