@@ -177,4 +177,7 @@ export default StyleSheet.create({
   subtleIcon: {
     color: ThemeColor.darkTextMuted,
   },
+  bold: {
+    fontWeight: 'bold',
+  },
 });

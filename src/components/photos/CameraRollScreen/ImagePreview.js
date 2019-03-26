@@ -52,7 +52,7 @@ class ImagePreview extends React.Component {
                       .then(resized => {
                         closePreview();
                         Monitoring.event(Event.CameraRollImageSelected);
-                        draft.initNewDraft(resized);
+                        draft.updateImage(resized);
                         navigation.navigate(AppScreen.AddPhoto);
                       })
                       .catch(err => {

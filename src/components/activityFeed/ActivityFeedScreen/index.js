@@ -99,6 +99,9 @@ class ActivityFeedScreen extends React.Component {
 
   render() {
     const { introModalOpen } = this.state;
+    const {
+      draft: { initNewDraft },
+    } = this.props;
     return (
       <AdroitScreen>
         <Drawer
@@ -129,7 +132,7 @@ class ActivityFeedScreen extends React.Component {
             </Header>
             <ReportingPeriodOverview />
             <ActivityFeedList onEditImage={this.editImage} />
-            <ActivityFeedFab />
+            <ActivityFeedFab initNewDraft={initNewDraft} />
             <IntroModal visible={introModalOpen} onCancel={this.skipTutorial} onConfirm={this.startTutorial} />
           </Container>
         </Drawer>

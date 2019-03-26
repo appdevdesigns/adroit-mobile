@@ -68,6 +68,10 @@ export default class LocationsStore extends ResourceStore {
     return this.authenticatedUsersLocations.concat(this.fcfLocations);
   }
 
+  getLocation(name) {
+    return this.orderedLocations.find(l => l.name === name) || { name };
+  }
+
   @action.bound
   async addUserLocation({ name }) {
     const newLocation = { name, userId: this.rootStore.users.me.id };

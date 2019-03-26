@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import intersectionBy from 'lodash-es/intersectionBy';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { Image, View, AsyncStorage, Keyboard } from 'react-native';
-import Exif from 'react-native-exif';
-import parse from 'date-fns/parse';
 import {
   Container,
   Content,
@@ -25,7 +22,6 @@ import selectStyles from 'src/components/common/Select/style';
 import baseStyles, { round } from 'src/assets/style';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AdroitHeader from 'src/components/common/AdroitHeader';
-import UsersStore from 'src/store/UsersStore';
 import ProjectsStore from 'src/store/ProjectsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import DraftActivityImageStore from 'src/store/DraftActivityImageStore';
@@ -33,16 +29,16 @@ import Copy from 'src/assets/Copy';
 import LocationsStore from 'src/store/LocationsStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import Monitoring from 'src/util/Monitoring';
 import { format } from 'src/util/date';
 import Api from 'src/util/api';
 import ConfirmationModal from './ConfirmationModal';
+import FeedbackModal from './FeedbackModal';
 import PhotoUploadPreview from './PhotoUploadPreview';
 import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-@inject('projects', 'activityImages', 'draft', 'users', 'locations')
+@inject('projects', 'activityImages', 'draft', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
   constructor(props) {
@@ -69,37 +65,6 @@ class AddPhotoScreen extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
-  async componentDidMount() {
-    this.initTeamActivities(this.props);
-    const { draft } = this.props;
-    const imageUri = draft.image.uri;
-    const today = new Date();
-    Exif.getExif(imageUri)
-      .then(data => {
-        if (data.exif && data.exif.DateTime) {
-          try {
-            const formattedDate = data.exif.DateTime.replace(':', '-').replace(':', '-');
-            const date = parse(formattedDate);
-            draft.updateDraft({ date });
-          } catch (err) {
-            Monitoring.exception(err, { data, problem: 'Failed to parse exif data' });
-            draft.updateDraft({ date: today });
-          }
-        } else {
-          Monitoring.debug('No exif data available');
-          draft.updateDraft({ date: today });
-        }
-      })
-      .catch(msg => {
-        Monitoring.exception(msg, { problem: 'Exif.getExif ERROR' });
-        draft.updateDraft({ date: today });
-      });
-  }
-
-  componentDidUpdate(nextProps) {
-    this.initTeamActivities(nextProps);
-  }
-
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
@@ -121,46 +86,17 @@ class AddPhotoScreen extends React.Component {
     this.setState({ isModalOpen: false });
   };
 
-  initTeamActivities = async props => {
-    const { projects, draft } = props;
-    let initTeam = draft.team;
-    if (!draft.team && projects.list && projects.list.length) {
-      const lastTeamId = await AsyncStorage.getItem('last_team_id');
-      if (lastTeamId) {
-        initTeam = projects.getTeam(lastTeamId);
-      }
-      if (initTeam) {
-        draft.updateDraft({ team: initTeam });
-      }
-    }
-  };
-
   addLocation = async location => {
     const newLocation = await this.props.locations.addUserLocation({ name: location });
     this.props.draft.updateDraft({ location: newLocation });
   };
 
-  setDraftProp = item => value => {
-    this.props.draft.updateDraft({ [item]: value });
+  hideFeedback = () => {
+    this.props.draft.updateDraft({ showFeedback: false });
   };
 
-  setTeam = team => {
-    const { users, projects, draft } = this.props;
-    const prevTeam = draft.team;
-    const newDraftProps = {
-      team,
-    };
-    const projectMembers = projects.getProjectMembersByTeam(team);
-    if (!prevTeam && users && users.me) {
-      const me = projectMembers.find(m => m.IDPerson === users.me.id);
-      if (me) {
-        newDraftProps.taggedPeople = [me];
-      }
-    } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
-      newDraftProps.activity = undefined;
-      newDraftProps.taggedPeople = intersectionBy(draft.taggedPeople || [], projectMembers, 'IDPerson');
-    }
-    draft.updateDraft(newDraftProps);
+  setDraftProp = item => value => {
+    this.props.draft.updateDraft({ [item]: value });
   };
 
   upload = async () => {
@@ -216,7 +152,26 @@ class AddPhotoScreen extends React.Component {
       projects,
       activityImages,
       locations,
-      draft: { isNew, caption, date, location, team, activity, taggedPeople, postStatus },
+      draft: {
+        isNew,
+        caption,
+        date,
+        location,
+        team,
+        activity,
+        taggedPeople,
+        postStatus,
+        fixCaption,
+        fixLocation,
+        fixDate,
+        fixTeam,
+        fixActivity,
+        fixTaggedPeople,
+        isReadyForPosting,
+        showFeedback,
+        feedback,
+        updateTeam,
+      },
     } = this.props;
     const { isModalOpen, isFooterVisible } = this.state;
 
@@ -231,7 +186,7 @@ class AddPhotoScreen extends React.Component {
           <Content>
             <PhotoUploadPreview />
             <View style={styles.main}>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixCaption}>
                 <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
                 <Label style={styles.label}>{Copy.captionLabel}</Label>
                 <Textarea
@@ -249,7 +204,7 @@ class AddPhotoScreen extends React.Component {
                   placeholderTextColor="#999"
                 />
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixDate}>
                 <Label style={styles.label}>{Copy.dateLabel}</Label>
                 {!date ? (
                   <Spinner style={styles.spinner} size="small" />
@@ -270,7 +225,7 @@ class AddPhotoScreen extends React.Component {
                   />
                 )}
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixLocation}>
                 <Label style={styles.label}>{Copy.locationLabel}</Label>
                 <Select
                   style={styles.input}
@@ -289,7 +244,7 @@ class AddPhotoScreen extends React.Component {
                   filterPlaceholder={Copy.selectLocationFilterPlaceholder}
                 />
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixTeam}>
                 <Label style={styles.label}>{Copy.teamLabel}</Label>
                 {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
@@ -301,12 +256,12 @@ class AddPhotoScreen extends React.Component {
                     modalHeader={Copy.teamModalHeader}
                     placeholder={Copy.teamPlaceholder}
                     selectedItem={team}
-                    onSelectedItemChange={this.setTeam}
+                    onSelectedItemChange={updateTeam}
                     items={projects.allTeams}
                   />
                 )}
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixActivity}>
                 <Label style={styles.label}>{Copy.activityLabel}</Label>
                 {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
@@ -325,7 +280,7 @@ class AddPhotoScreen extends React.Component {
                   />
                 )}
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixTaggedPeople}>
                 <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
                 {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
@@ -357,11 +312,12 @@ class AddPhotoScreen extends React.Component {
               onConfirm={this.upload}
               isUploading={false}
             />
+            <FeedbackModal visible={showFeedback} onRequestClose={this.hideFeedback} feedback={feedback} />
           </Content>
           {isFooterVisible && (
             <Footer>
               <FooterTab>
-                <Button active full disabled={!this.props.draft.isReadyForPosting} onPress={this.openConfirmation}>
+                <Button active full disabled={!isReadyForPosting} onPress={this.openConfirmation}>
                   <Text>{Copy.addPhotoSaveButtonText}</Text>
                 </Button>
               </FooterTab>
@@ -381,7 +337,6 @@ AddPhotoScreen.defaultProps = {};
 
 AddPhotoScreen.wrappedComponent.propTypes = {
   projects: PropTypes.instanceOf(ProjectsStore).isRequired,
-  users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
   draft: PropTypes.instanceOf(DraftActivityImageStore).isRequired,
   locations: PropTypes.instanceOf(LocationsStore).isRequired,

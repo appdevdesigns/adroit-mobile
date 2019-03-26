@@ -55,11 +55,12 @@ class CameraScreen extends React.Component {
   }
 
   takePicture = () => {
+    const { navigation, draft, permissions } = this.props;
     if (this.camera) {
       this.camera
         .takePictureAsync(PHOTO_OPTIONS)
         .then(data => {
-          if (this.props.permissions.canWriteToExternalStorage) {
+          if (permissions.canWriteToExternalStorage) {
             CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
               Monitoring.debug('Saved photo to camera roll', uri);
             });
@@ -74,8 +75,8 @@ class CameraScreen extends React.Component {
             0
           )
             .then(resized => {
-              this.props.draft.initNewDraft(resized);
-              this.props.navigation.navigate(AppScreen.AddPhoto);
+              draft.updateImage(resized);
+              navigation.navigate(AppScreen.AddPhoto);
             })
             .catch(err => {
               Monitoring.exception(err, { problem: 'Could not resize photo' });

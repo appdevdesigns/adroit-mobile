@@ -71,15 +71,23 @@ const Copy = {
   selectTaggedPeopleEmptyTitle: 'No team members to select',
   selectTaggedPeopleEmptyMessage: 'Please select a team first',
 
+  photoFeedback: {
+    title: 'Fixes required',
+    intro: ' has requested some changes:',
+    toFix: 'To fix:',
+    button: 'Got it!',
+  },
+
   // Help
   helpTitle: 'How to use Adroit',
 
   // Feedback
   feedbackTitle: 'Feedback',
   feedbackEmailSubject: 'Adroit Mobile feedback',
-  feedbackIntro: 'Questions about the Adroit mobile app? Suggestions? Need to report a bug? Or just want to tell us how much you love the app?!',
+  feedbackIntro:
+    'Questions about the Adroit mobile app? Suggestions? Need to report a bug? Or just want to tell us how much you love the app?!',
   feedbackEmailIntro: 'Send us an email at:',
-  
+
   // Edit Locations
   editLocationsTitle: 'Add/Remove Locations',
   editLocationsHelp: {
