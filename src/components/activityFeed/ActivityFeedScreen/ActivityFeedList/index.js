@@ -55,12 +55,16 @@ class ActivityFeedList extends React.Component {
                       </View>
                     </Left>
                     <Body style={styles.body}>
-                      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.activity}>
-                        {item.activity.activity_name}
-                      </Text>
-                      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.team}>
-                        {item.activity.team.MinistryDisplayName}
-                      </Text>
+                      {!!item.activity && (
+                        <Text ellipsizeMode="tail" numberOfLines={1} style={styles.activity}>
+                          {item.activity.activity_name}
+                        </Text>
+                      )}
+                      {!!item.activity && (
+                        <Text ellipsizeMode="tail" numberOfLines={1} style={styles.team}>
+                          {item.activity.team.MinistryDisplayName}
+                        </Text>
+                      )}
                       <Text ellipsizeMode="tail" numberOfLines={3} style={styles.caption}>
                         {item.caption}
                       </Text>
