@@ -50,7 +50,12 @@ const fetchJson = async (url, options = {}) => {
       }
       if (status < 200 || status >= 300) {
         const errorMessage = (json && json.message) || statusText;
-        Monitoring.error('fetch failed', status, errorMessage, json);
+        // Don't send failed login attempts to Sentry!
+        if (status === 400 && url.endsWith(Api.urls.login)) {
+          Monitoring.debug(errorMessage, json);
+        } else {
+          Monitoring.error('fetch failed', status, errorMessage, json);
+        }
         return Promise.reject(new HttpError(errorMessage, status, json));
       }
       return { status, headers, body, json };
