@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import format from 'date-fns/format';
 import { FlatList, View, Image } from 'react-native';
-import { ListItem, Text, Left, Body, Content } from 'native-base';
+import { ListItem, Text, Left, Body } from 'native-base';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import Api from 'src/util/api';
 import { CopilotView, CopilotStepPhotoList } from 'src/util/copilot';
