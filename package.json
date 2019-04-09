@@ -14,7 +14,8 @@
     "fix": "./postinstall.sh",
     "cp-release": "node ./scripts/code_push.js",
     "appcenter-build": "node ./scripts/appcenter_build.js",
-    "bump-version": "./bump_version.sh"
+    "bump-version": "./bump_version.sh",
+    "sync-date": "adb shell date -s $(date +%Y%m%d.%H%M%S)"
   },
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
