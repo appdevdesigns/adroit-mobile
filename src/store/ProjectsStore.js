@@ -65,6 +65,17 @@ export default class ProjectsStore extends ResourceStore {
     return null;
   }
 
+  taggedPeople(taggedPeople, projectId) {
+    // Just need to populate the avatar attribute for each tagged person
+    return taggedPeople.map(p => {
+      const matchingPerson = this.map.get(projectId).members.find(m => m.IDPerson === p.IDPerson);
+      return {
+        ...p,
+        avatar: matchingPerson ? matchingPerson.avatar : null,
+      };
+    });
+  }
+
   @action.bound
   listMyProjects() {
     this.fetchList(Api.urls.myProjects);

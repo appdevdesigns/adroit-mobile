@@ -184,7 +184,7 @@ export default class DraftActivityImageStore {
     this.location = this.rootStore.locations.getLocation(activityImage.caption_govt);
     this.team = this.rootStore.projects.getTeam(activityImage.activity.team.IDMinistry);
     this.activity = this.rootStore.projects.getActivity(activityImage.activity.id);
-    this.taggedPeople = activityImage.tagged_people; // Waiting on https://github.com/appdevdesigns/adroit-mobile/issues/24
+    this.taggedPeople = this.rootStore.projects.taggedPeople(activityImage.tagged_people, this.team.IDProject);
     this.uploadedImageName = activityImage.image;
     if (activityImage.image) {
       this.uploadStatus = UploadStatus.succeeded;
