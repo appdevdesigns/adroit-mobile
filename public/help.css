@@ -1,0 +1,132 @@
+html, body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  padding: 1vw;
+}
+
+h1 {
+  font-size: 8vw;
+  text-align: center;
+}
+
+h2 {
+  font-size: 6vw;
+}
+
+h3 {
+  font-size: 5vw;
+}
+
+p {
+  font-size: 4vw;
+}
+
+img {
+  margin-bottom: 8vw;
+}
+
+.screenshot {
+  border: 1px solid lightgrey;
+}
+
+.fullwidth {
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.interface-item {
+  margin-bottom: 4vw;
+}
+
+.interface-item--title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: bold;
+}
+
+.badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin-right: 2vw;
+  height: 6vw;
+  width: 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+
+.status-image {
+  padding: 0 1vw;
+  width: 40%;
+}
+
+.status-image img {
+  margin-bottom: 1vw;
+  width: 100%;
+}
+
+.status-image:first-child {
+  margin-left: 0;
+}
+
+.status-image:last-child {
+  margin-right: 0;
+}
+
+.image-box {
+  width: 8vw;
+  height: 8vw;
+  margin: 1vw 2vw 1vw 0;
+  border: 4px solid;
+  border-radius: 0.5vw;
+}
+
+.image-box.new-image {
+  border-color: #333333;
+}
+
+.image-box.approved-image {
+  border-color: #019e8b;
+}
+
+.image-box.denied-image {
+  border-color: #d9534f;
+}
+
+.aligned-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dark-text {
+  color: #1f6b8d;
+}
+
+.red-text {
+  color: #d9534f;
+}
+
+.top-link {
+  font-size: 3vw;
+  text-align: right;
+}
+
+li > ul {
+  font-size: 90%;
+}

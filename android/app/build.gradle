@@ -171,6 +171,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
     implementation project(':react-native-code-push')
     implementation project(':react-native-orientation')
     implementation project(':react-native-splash-screen')
