@@ -4,7 +4,7 @@ import ActivityFeedScreen from 'src/components/activityFeed/ActivityFeedScreen';
 import CameraRollScreen from 'src/components/photos/CameraRollScreen';
 import CameraScreen from 'src/components/photos/CameraScreen';
 import AddPhotoScreen from 'src/components/addPhoto/AddPhotoScreen';
-import HelpScreen from 'src/components/help/HelpScreen/WebHelp';
+import HelpScreen from 'src/components/help/HelpScreen';
 import FeedbackScreen from 'src/components/help/FeedbackScreen';
 import EditLocationsScreen from 'src/components/settings/EditLocationsScreen';
 import TestScreen from 'src/components/dev/TestScreen';
