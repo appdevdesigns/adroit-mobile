@@ -1,99 +1,47 @@
-html, body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+main {
+  padding: 3rem 0; 
 }
 
-body {
-  padding: 1vw;
+.fullwidth {
+  width: 100%;
+  max-width: 500px;
 }
 
-h1 {
-  font-size: 8vw;
-  text-align: center;
-}
-
-h2 {
-  font-size: 6vw;
-}
-
-h3 {
-  font-size: 5vw;
-}
-
-p {
-  font-size: 4vw;
-}
-
-img {
-  margin-bottom: 8vw;
+.fullwidth,
+.screenshot {
+  display: block;
+  margin: 0 auto 2rem auto;
 }
 
 .screenshot {
   border: 1px solid lightgrey;
 }
 
-.fullwidth {
-  width: 80%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.interface-item {
-  margin-bottom: 4vw;
-}
-
-.interface-item--title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-weight: bold;
-}
-
 .badge {
   background-color: red;
   color: white;
   border-radius: 50%;
-  border: 1px solid black;
-  margin-right: 2vw;
-  height: 6vw;
-  width: 6vw;
+  border: 2px solid black;
+  margin-right: 1rem;
+  height: 2rem;
+  width: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.status-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-}
-
-.status-image {
-  padding: 0 1vw;
-  width: 40%;
-}
-
-.status-image img {
-  margin-bottom: 1vw;
+.status-container img {
   width: 100%;
-}
-
-.status-image:first-child {
-  margin-left: 0;
-}
-
-.status-image:last-child {
-  margin-right: 0;
+  margin-bottom: 1rem;
+  max-width: 182px;
 }
 
 .image-box {
-  width: 8vw;
-  height: 8vw;
-  margin: 1vw 2vw 1vw 0;
+  width: 3rem;
+  height: 3rem;
+  margin: 1rem 1rem 1rem 0;
   border: 4px solid;
-  border-radius: 0.5vw;
+  border-radius: 0.5rem;
 }
 
 .image-box.new-image {
@@ -108,12 +56,6 @@ img {
   border-color: #d9534f;
 }
 
-.aligned-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .dark-text {
   color: #1f6b8d;
 }
@@ -122,11 +64,6 @@ img {
   color: #d9534f;
 }
 
-.top-link {
-  font-size: 3vw;
-  text-align: right;
-}
-
-li > ul {
-  font-size: 90%;
+.card-header .btn-link:hover {
+  text-decoration: none;
 }
