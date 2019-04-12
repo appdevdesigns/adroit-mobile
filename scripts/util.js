@@ -56,7 +56,7 @@ function gitPush(tagName) {
  * Tag the current git commit with the specified tag and message. The tag is then pushed to origin.
  */
 function gitTag(tagName, message) {
-  const tagCmd = `git tag -a ${tagName} -m '${message}'`;
+  const tagCmd = `git tag -m "${message}" -a ${tagName}`;
 
   console.log(chalk.cyan(tagCmd));
 

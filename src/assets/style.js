@@ -46,6 +46,8 @@ export const centerContent = {
   justifyContent: 'center',
 };
 
+export const baseFontSize = IsSmallScreen ? Theme.DefaultFontSize - 2 : Theme.DefaultFontSize;
+
 /**
  * App-wide reusable styles
  */
@@ -109,7 +111,7 @@ export default StyleSheet.create({
   },
   paragraph: {
     marginBottom: GridSize,
-    fontSize: IsSmallScreen ? Theme.DefaultFontSize - 2 : Theme.DefaultFontSize,
+    fontSize: baseFontSize,
   },
   emptyContainer: {
     flex: 1,
@@ -176,5 +178,8 @@ export default StyleSheet.create({
   },
   subtleIcon: {
     color: ThemeColor.darkTextMuted,
+  },
+  boldText: {
+    fontWeight: 'bold',
   },
 });
