@@ -23,6 +23,7 @@ export default class HelpScreen extends React.PureComponent {
               originWhitelist={['*']}
               source={{ uri: Constants.helpUrl }}
               startInLoadingState
+              cacheEnabled={false}
               renderLoading={() => <Spinner />}
             />
           </Content>
