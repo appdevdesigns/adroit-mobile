@@ -4,6 +4,7 @@ const Constants = {
   imageUploadMaxWidth: 1024,
   imageUploadMaxHeight: 1024,
   contactEmailAddress: 'adroitmobile@fcfthailand.org',
+  helpUrl: 'https://adroit.appdevdesigns.net/help/adroit-mobile.html',
 };
 
 export default Constants;

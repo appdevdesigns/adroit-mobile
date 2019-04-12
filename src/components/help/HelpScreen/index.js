@@ -1,12 +1,11 @@
 import React from 'react';
-import { Container, Content } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 import { WebView } from 'react-native-webview';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AdroitHeader from 'src/components/common/AdroitHeader';
 import Copy from 'src/assets/Copy';
-import html from 'src/../public/help.html';
+import Constants from 'src/util/Constants';
 import styles from './style';
-
 
 export default class HelpScreen extends React.PureComponent {
   constructor(props) {
@@ -20,7 +19,12 @@ export default class HelpScreen extends React.PureComponent {
         <Container>
           <AdroitHeader title={Copy.helpTitle} />
           <Content contentContainerStyle={styles.webViewWrapper}>
-            <WebView originWhitelist={['*']} source={{ html }} />
+            <WebView
+              originWhitelist={['*']}
+              source={{ uri: Constants.helpUrl }}
+              startInLoadingState
+              renderLoading={() => <Spinner />}
+            />
           </Content>
         </Container>
       </AdroitScreen>

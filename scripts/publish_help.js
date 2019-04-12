@@ -1,12 +1,12 @@
 const { deploy } = require('sftp-sync-deploy');
 
 const config = {
-  host: process.env.ADROIT_HELP_FTP_HOST,
-  port: process.env.ADROIT_HELP_FTP_PORT || 22,
-  username: process.env.ADROIT_HELP_FTP_USERNAME,
-  password: process.env.ADROIT_HELP_FTP_PASSWORD,
+  host: process.env.APPDEVDESIGNS_FTP_HOST,
+  port: 22,
+  username: process.env.APPDEVDESIGNS_FTP_USERNAME,
+  privateKey: process.env.APPDEVDESIGNS_FTP_KEY,
   localDir: './public',
-  remoteDir: '/home/public_html/adroit',
+  remoteDir: '/data/www/nodejs/live/adroit/assets/help',
 };
 
 const options = {
