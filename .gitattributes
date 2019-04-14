@@ -1,3 +1,5 @@
+*.pbxproj -text
+
 # To encrypt
 .env filter=git-crypt diff=git-crypt
 

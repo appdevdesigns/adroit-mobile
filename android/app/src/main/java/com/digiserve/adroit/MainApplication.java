@@ -17,6 +17,7 @@ import com.oblador.keychain.KeychainPackage;
 import io.sentry.RNSentryPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import io.fixd.rctlocale.RCTLocalePackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // import okhttp3.OkHttpClient;
 
 // import com.facebook.stetho.Stetho;
@@ -72,7 +73,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCameraPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-            new AppCenterReactNativePackage(MainApplication.this)
+            new AppCenterReactNativePackage(MainApplication.this),
+            new AsyncStoragePackage()
       );
     }
 

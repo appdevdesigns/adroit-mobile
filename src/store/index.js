@@ -1,5 +1,5 @@
 import { configure } from 'mobx';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { create } from 'mobx-persist';
 import AuthStore from './AuthStore';
 import ProjectsStore from './ProjectsStore';

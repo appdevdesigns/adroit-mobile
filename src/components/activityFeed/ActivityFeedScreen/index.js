@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import codePush from 'react-native-code-push';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';

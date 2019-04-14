@@ -10,7 +10,7 @@ import AuthStore from 'src/store/AuthStore';
 import UsersStore from 'src/store/UsersStore';
 import DeviceInfoStore from 'src/store/DeviceInfoStore';
 import AppScreen from 'src/components/app/AppScreen';
-import { version } from 'package.json';
+import { version } from 'src/../package.json';
 import styles from './style';
 
 const logoImage = require('src/assets/img/AdroitLogoNew.png');

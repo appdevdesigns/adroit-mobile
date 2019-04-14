@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Monitoring from 'src/util/Monitoring';
 import HttpError from './HttpError';
 import Api from './api';
@@ -39,8 +39,9 @@ const fetchJson = async (url, options = {}) => {
         body: text,
       }))
     )
-    .then(async ({ status, statusText, headers, body }) => {
-      Monitoring.debug(`${url} returned`, status, statusText, headers, body);
+    .then(async response => {
+      const { status, statusText, headers, body } = response;
+      Monitoring.debug(`${url} returned`, response, status, statusText, headers, body);
       let json;
       try {
         json = JSON.parse(body);

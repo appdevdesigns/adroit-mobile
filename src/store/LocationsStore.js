@@ -1,5 +1,5 @@
 import { observable, action, reaction, computed, runInAction } from 'mobx';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import filter from 'lodash-es/filter';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
