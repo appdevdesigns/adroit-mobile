@@ -30,7 +30,7 @@ const fetchJson = async (url, options = {}) => {
 
   Monitoring.debug('fetchJson', url, options, requestHeaders);
 
-  return fetch(absoluteUrl, { ...options, headers: requestHeaders })
+  return fetch(absoluteUrl, { ...options, credentials: 'include', headers: requestHeaders })
     .then(response =>
       response.text().then(text => ({
         status: response.status,
