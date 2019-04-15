@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import intersectionBy from 'lodash-es/intersectionBy';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { Image, View, AsyncStorage, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Image, View, Keyboard } from 'react-native';
 import Exif from 'react-native-exif';
 import parse from 'date-fns/parse';
 import {
