@@ -103,40 +103,48 @@ class CameraScreen extends React.Component {
     const {
       deviceInfo: { orientation },
     } = this.props;
-    
+
     const isPortrait = orientation !== 'LANDSCAPE';
 
-    const overlayStyle = isPortrait ? {
-      flexDirection: 'column',
-    } : {
-      flexDirection: 'row',
-    };
-    
-    const overlayItemStyle = isPortrait ? {
-      flexDirection: 'row',
-    } : {
-      flexDirection: 'column-reverse',
-    };
+    const overlayStyle = isPortrait
+      ? {
+          flexDirection: 'column',
+        }
+      : {
+          flexDirection: 'row',
+        };
 
-    const headerStyle = isPortrait ? {
-      paddingLeft: 10,
-      paddingRight: 10,
-    } : {
-      paddingBottom: 10,
-      paddingTop: 10,
-    };
+    const overlayItemStyle = isPortrait
+      ? {
+          flexDirection: 'row',
+        }
+      : {
+          flexDirection: 'column-reverse',
+        };
 
-    const footerStyle = isPortrait ? {
-      paddingBottom: GridSize * 2,
-      paddingRight: 0,
-    } : {
-      paddingBottom: 0,
-      paddingRight: GridSize * 2,
-    };
+    const headerStyle = isPortrait
+      ? {
+          paddingLeft: 10,
+          paddingRight: 10,
+        }
+      : {
+          paddingBottom: 10,
+          paddingTop: 10,
+        };
+
+    const footerStyle = isPortrait
+      ? {
+          paddingBottom: GridSize * 2,
+          paddingRight: 0,
+        }
+      : {
+          paddingBottom: 0,
+          paddingRight: GridSize * 2,
+        };
 
     return (
       <AdroitScreen orientation={null}>
-        <SafeAreaView style={{flex: 1, backgroundColor: '#000'}}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
           <Container>
             <RNCamera
               ref={ref => {
@@ -146,6 +154,12 @@ class CameraScreen extends React.Component {
               type={type}
               captureAudio={false}
               flashMode={flashModes[flashModeIndex].mode}
+              androidCameraPermissionOptions={{
+                title: Copy.perms.camera.title,
+                message: Copy.perms.camera.message,
+                buttonPositive: Copy.perms.ok,
+                buttonNegative: Copy.perms.cancel,
+              }}
               permissionDialogTitle={Copy.perms.camera.title}
               permissionDialogMessage={Copy.perms.camera.message}
             />
@@ -161,7 +175,10 @@ class CameraScreen extends React.Component {
                 </View>
                 <View style={[baseStyles.headerRight, overlayItemStyle]}>
                   <TouchableOpacity onPress={this.cycleFlashMode}>
-                    <Image source={flashModes[flashModeIndex].source} style={[styles.toolbarImage, styles.flashImage]} />
+                    <Image
+                      source={flashModes[flashModeIndex].source}
+                      style={[styles.toolbarImage, styles.flashImage]}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>

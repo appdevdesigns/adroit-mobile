@@ -115,6 +115,8 @@ android {
         versionCode 1
         versionName "1.2.0"
         resValue "string", "build_config_package", "com.digiserve.adroit"
+        missingDimensionStrategy 'react-native-camera', 'general'
+        multiDexEnabled true
     }
     signingConfigs {
         release {
