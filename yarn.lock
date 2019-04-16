@@ -1527,14 +1527,6 @@ color-support@^1.1.3:
   resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
 
-color@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/color/-/color-2.0.1.tgz#e4ed78a3c4603d0891eba5430b04b86314f4c839"
-  integrity sha512-ubUCVVKfT7r2w2D3qtHakj8mbmKms+tThR8gI8zEYCbUBl8/voqFGt3kgBqGwXAopgXybnkuOq+qMYCRrp4cXw==
-  dependencies:
-    color-convert "^1.9.1"
-    color-string "^1.5.2"
-
 color@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/color/-/color-3.1.0.tgz#d8e9fb096732875774c84bf922815df0308d0ffc"
@@ -1680,19 +1672,18 @@ cosmiconfig@^5.0.5:
     js-yaml "^3.13.0"
     parse-json "^4.0.0"
 
-countly-sdk-react-native@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/countly-sdk-react-native/-/countly-sdk-react-native-4.3.1.tgz#12e924b050ab67a15fa9bd5dc62c84f84f9cd91b"
-  integrity sha512-5BDcMs6VYC9iqCZBIdvjwSqDQLvfoR6vaLh+gOPzvDsmYPPpqBI5l/77mo0HSANiIRu3iCsoy4hVMvfyvRvHyw==
+countly-sdk-react-native@4.13.0:
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/countly-sdk-react-native/-/countly-sdk-react-native-4.13.0.tgz#128a70be297098ba56ecf61bb395dcc2611f6de8"
+  integrity sha512-g+ULvMb1WwFjTiccXc5HSf/lW7f49qv46vMtmK52hbXorttInBQLFn2dIuiCPURlBS4rbCiT+qGifoztVqLS6w==
   dependencies:
     crypto-js "^3.1.9-1"
     react-native-background-timer "^2.0.0"
     react-native-device-info "^0.15.3"
     react-native-exception-handler "^2.7.1"
-    react-native-ios-notification-actions "git+https://github.com/nodexpertsdev/react-native-ios-notification-actions.git"
+    react-native-firebase "^5.2.2"
     react-native-modal "^6.4.0"
     react-native-pinch "^0.1.0"
-    react-native-push-notification "git+https://github.com/nodexpertsdev/react-native-push-notification.git"
     react-native-restart "0.0.6"
 
 create-react-class@^15.6.3:
@@ -2019,10 +2010,10 @@ eslint-config-airbnb@^17.1.0:
     object.assign "^4.1.0"
     object.entries "^1.0.4"
 
-eslint-config-prettier@^3.1.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-3.6.0.tgz#8ca3ffac4bd6eeef623a0651f9d754900e3ec217"
-  integrity sha512-ixJ4U3uTLXwJts4rmSVW/lMXjlGwCijhBJHk8iVqKKSifeI0qgFEfWl8L63isfc8Od7EiBALF6BX3jKLluf/jQ==
+eslint-config-prettier@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-4.1.0.tgz#181364895899fff9fd3605fecb5c4f20e7d5f395"
+  integrity sha512-zILwX9/Ocz4SV2vX7ox85AsrAgXV3f2o2gpIicdMIOra48WYqgUnWNH/cR/iHtmD2Vb3dLSC3LiEJnS05Gkw7w==
   dependencies:
     get-stdin "^6.0.0"
 
@@ -3557,7 +3548,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-lodash@4.17.11, lodash@^4.0.0, lodash@^4.16.6, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
+lodash@4.17.11, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -4470,6 +4461,11 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+opencollective-postinstall@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
+  integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
+
 opn@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/opn/-/opn-3.0.3.tgz#b6d99e7399f78d65c3baaffef1fb288e9b85243a"
@@ -5033,10 +5029,10 @@ react-native-background-timer@^2.0.0:
   resolved "https://registry.yarnpkg.com/react-native-background-timer/-/react-native-background-timer-2.1.1.tgz#9a2489681ab2f8033c213c73272e9d4c47572cd5"
   integrity sha512-cuXIIv+dcG8a8qkTD8pMzeqOEZCO+UGKglZWIe1osve+yJslmCowYQff+bI9xa7NOt2w+Vtd4L3d9JonlSqODg==
 
-react-native-camera@^1.5.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-1.13.1.tgz#19277ccae0a49dbf1b96049da5b95c847ea7aff2"
-  integrity sha512-wYjMi06ygYIiHRM4dSCH914xFUay7Wplx0bAej4iBkZeh54M4AxJDcF4vVZ5vdkpuAg8zvof3l+L1VhcKziMgw==
+react-native-camera@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-2.4.0.tgz#1f3c6fc2afcc556b4f2b7b6a166f86e4a88ca95d"
+  integrity sha512-BPPcZEqnEyVjn9bwnuu9hrLErAb3OCyL9+mU/uOoejmIf/6GpdJdbGAkpP6kPDiBWo3b1ki34b7Zccv6Y3MFBA==
   dependencies:
     prop-types "^15.6.2"
 
@@ -5058,7 +5054,7 @@ react-native-config@^0.11.5:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.7.tgz#a2b323f2ecd76a4df88cbb6bc86eaa2ef9febee7"
   integrity sha512-dn5s+zhwLyE25vRT/vaEtLk/j8ZL1UZKvejORNDWakSwpOnLmFurFeaZV83IqkPlfWHXHFdsYe2IRYG1WN4WkQ==
 
-react-native-device-info@0.15.3, react-native-device-info@^0.15.3:
+react-native-device-info@^0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.15.3.tgz#c6bb5ed6cb27b9ac239d6fb1a50d20e00d95f71c"
   integrity sha512-MxNmGXPptMtrXw/vP3XhULswAyFxxHdpvbF70OOMpK9zyaXyMlso1ESdHuZFE+pNcfY/3ibPZqx3QlATK8rahw==
@@ -5102,10 +5098,18 @@ react-native-exception-handler@^2.7.1:
   resolved "https://registry.yarnpkg.com/react-native-exception-handler/-/react-native-exception-handler-2.10.7.tgz#3ce2f10d6a8add35fdc036af62c2859c4b7f505c"
   integrity sha512-e2zv0BiP9SRdr1vLDUyC2WbWHfgNV1a3BhRxK1ENjXVRY8mu+dfaaIHhFXdvYue//MEuGUQstu61NZoiO1u2KA==
 
-react-native-exif@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-exif/-/react-native-exif-0.3.0.tgz#8d2b44fe1c8d57764f1b13e96b7dc5828d2954ca"
-  integrity sha1-jStE/hyNV3ZPGxPpa33Fgo0pVMo=
+react-native-exif@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-exif/-/react-native-exif-0.4.0.tgz#70f7230e5eae2a2dfc1623b01c419d81a95620f3"
+  integrity sha512-86e4fUn2S5yW20wo/yUAzhwZZ3czHk1rJyAsVD36jcB//gxb0DQBYVNmGLowXqo83Z48AsdHua2moHyIRJKDew==
+
+react-native-firebase@^5.2.2:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.3.1.tgz#cfd295f562249f6fcf5e3fb2c62894575ece2c7f"
+  integrity sha512-eOuSqIl+DZPNmN5ivSLgkEcsl5m0sXxttoPBn3bOHfI+apEd4I8F+9fcbHerUFUvLzesXmHR9locjhR6IJ+q3w==
+  dependencies:
+    opencollective-postinstall "^2.0.0"
+    prop-types "^15.6.2"
 
 react-native-image-pan-zoom@^2.1.9:
   version "2.1.11"
@@ -5124,10 +5128,6 @@ react-native-image-zoom-viewer@^2.2.24:
   dependencies:
     react-native-image-pan-zoom "^2.1.9"
 
-"react-native-ios-notification-actions@git+https://github.com/nodexpertsdev/react-native-ios-notification-actions.git":
-  version "1.0.1"
-  resolved "git+https://github.com/nodexpertsdev/react-native-ios-notification-actions.git#2fe4b12cf0ebb1a7a1d1469b346fed8fec36a931"
-
 react-native-iphone-x-helper@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
@@ -5141,10 +5141,10 @@ react-native-keyboard-aware-scroll-view@0.8.0:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
-react-native-keychain@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.0.0.tgz#29da1dfa43c2581f76bf9420914fd38a1558cf18"
-  integrity sha512-0incABt1+aXsZvG34mDV57KKanSB+iMHmxvWv+N6lgpNLaSoqrCxazjbZdeqD4qJ7Z+Etp5CLf/4v1aI+sNLBw==
+react-native-keychain@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.1.1.tgz#119cbf734d8dceaf80de82ee979a4db268fbc380"
+  integrity sha512-+qZn6uRevd/rdyzuh4YBBhjhv/hxj+N408+vD8/otnsZ+c3mcc2FmRw3n+n2g0Z6tfgfT30jVETe6ZhfcER7yQ==
 
 react-native-linear-gradient@^2.4.3:
   version "2.5.4"
@@ -5176,10 +5176,6 @@ react-native-pinch@^0.1.0:
   dependencies:
     q "^1.4.1"
 
-"react-native-push-notification@git+https://github.com/nodexpertsdev/react-native-push-notification.git":
-  version "3.0.2"
-  resolved "git+https://github.com/nodexpertsdev/react-native-push-notification.git#8630d10513682d370fd3664e78e081c495d23031"
-
 react-native-restart@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.6.tgz#77770d078683947b2c1f2adb876f179269d8443a"
@@ -5210,14 +5206,10 @@ react-native-splash-screen@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
   integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
 
-react-native-svg@^8.0.8:
-  version "8.0.11"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-8.0.11.tgz#bf91658f3a2c5ba125b4643ca0d9660b161e2631"
-  integrity sha512-xj/2DgVt5WmvBVwc8MC3xR4MZDc/+PPTRoUe/oaL5yw+MIyuhYsY15MWm7k+Zm0UQAiqKne6TOPQ7XljpDEY1w==
-  dependencies:
-    color "^2.0.1"
-    lodash "^4.16.6"
-    pegjs "^0.10.0"
+react-native-svg@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.4.0.tgz#e428e0eae55aebd2355f1ff4f22675dad4611960"
+  integrity sha512-IVJlVbS2dAPerPr927fEi4uXzrPXzlra5ddgyJXZZ2IKA2ZygyYWFZDM+vsQs+Vj20CfL8nOWszQQV57vdQgFg==
 
 react-native-tab-view@^0.0.77:
   version "0.0.77"
