@@ -33,8 +33,12 @@ target 'adroit' do
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+  
+  pod 'react-native-gesture-handler', :path => '../node_modules/react-native-gesture-handler'
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   target 'adroitTests' do
     inherit! :search_paths

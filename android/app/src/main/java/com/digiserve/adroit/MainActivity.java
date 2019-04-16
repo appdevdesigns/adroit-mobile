@@ -2,6 +2,9 @@ package com.digiserve.adroit;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import org.devio.rn.splashscreen.SplashScreen;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -32,5 +35,18 @@ public class MainActivity extends ReactActivity {
         Intent intent = new Intent("onConfigurationChanged");
         intent.putExtra("newConfig", newConfig);
         this.sendBroadcast(intent);
+    }
+
+    /**
+     * Ref: https://reactnavigation.org/docs/en/getting-started.html#installation
+     */
+    @Override
+    protected ReactActivityDelegate createReactActivityDelegate() {
+        return new ReactActivityDelegate(this, getMainComponentName()) {
+            @Override
+            protected ReactRootView createRootView() {
+                return new RNGestureHandlerEnabledRootView(MainActivity.this);
+            }
+        };
     }
 }

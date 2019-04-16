@@ -160,8 +160,6 @@ class CameraScreen extends React.Component {
                 buttonPositive: Copy.perms.ok,
                 buttonNegative: Copy.perms.cancel,
               }}
-              permissionDialogTitle={Copy.perms.camera.title}
-              permissionDialogMessage={Copy.perms.camera.message}
             />
             <View style={[styles.overlay, overlayStyle]}>
               <View style={[styles.overlayItem, overlayItemStyle, headerStyle]}>
