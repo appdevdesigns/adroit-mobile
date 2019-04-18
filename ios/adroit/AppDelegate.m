@@ -31,11 +31,9 @@
                                                    moduleName:@"adroit"
                                             initialProperties:nil];
 
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
-
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];  // Initialize AppCenter analytics
-
   [AppCenterReactNative register];  // Initialize AppCenter 
+  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];  // Initialize AppCenter analytics
+  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
 
   [RNSentry installWithRootView:rootView];
 
