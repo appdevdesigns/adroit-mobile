@@ -10,7 +10,7 @@ const Api = {
     myActivityImages: `/fcf_activities/mobile/myactivityimages`,
     activityImageUpload: '/fcf_activities/activityimageupload',
     createActivityImage: '/fcf_activities/activityimage/create',
-    updateActivityImage: activityImageId => `/fcf_activities/activityimage/${activityImageId}`,
+    updateActivityImage: activityImageId => `/fcf_activities/activityimage/update/${activityImageId}`,
     locations: '/fcf_core/fcflocation',
     // myTeams: '/fcf_activities/mobile/myteams',
     // listUserTeams: '/fcf_activities/userteam/find',

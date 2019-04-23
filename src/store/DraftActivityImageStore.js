@@ -10,7 +10,7 @@ import xhr from 'src/util/xhr';
 import Api from 'src/util/api';
 import Toast from 'src/util/Toast';
 import { format } from 'src/util/date';
-import Monitoring from 'src/util/Monitoring';
+import Monitoring, { Event } from 'src/util/Monitoring';
 import { PostStatus } from './ResourceStore';
 
 export const UploadStatus = {
@@ -329,20 +329,23 @@ export default class DraftActivityImageStore {
 
   @action.bound
   upload() {
-    const url = this.isNew ? Api.urls.updateActivityImage(this.id) : Api.urls.createActivityImage;
+    const url = this.isNew ? Api.urls.createActivityImage : Api.urls.updateActivityImage(this.id);
     const body = new FormData();
+    if (!this.isNew) {
+      body.append('id', String(this.id));
+      body.append('status', 'new');
+    }
     body.append('activity', String(this.activity.id));
     body.append('caption', this.caption);
-    body.append('caption_govt', this.location);
+    body.append('caption_govt', this.location.name);
     body.append('date', format(this.date, 'YYYY-MM-DD'));
-    this.taggedPeople
-      .map(person => person.IDPerson)
-      .forEach(id => {
-        body.append('taggedPeople', id);
-      });
+    console.log('TaggedPeople', this.taggedPeople);
+    this.taggedPeople.forEach(person => {
+      body.append('taggedPeople', person.IDPerson);
+    });
     body.append('image', this.uploadedImageName);
     const options = {
-      method: this.isNew ? 'PUT' : 'POST',
+      method: this.isNew ? 'POST' : 'PUT',
       body,
       headers: new Headers({
         Accept: 'application/json',
@@ -357,16 +360,14 @@ export default class DraftActivityImageStore {
         newActivityImage.activity = this.rootStore.projects.getActivity(newActivityImage.activity);
         runInAction(() => {
           if (newActivityImage.taggedPeople.includes(this.rootStore.users.me.id)) {
-            this.map.set(newActivityImage.id, newActivityImage);
+            this.rootStore.activityImages.updateActivityImage(String(newActivityImage.id), newActivityImage);
           } else {
             Monitoring.debug(
               "Authenticated user not tagged in uploaded photo so it won't be displayed in the activity feed"
             );
             // Handle the corner case where the authenticated user _used_ to be tagged in the activity image
             // but is no longer tagged in it (after editing)
-            if (this.map.has(newActivityImage.id)) {
-              this.map.delete(newActivityImage.id);
-            }
+            this.rootStore.activityImages.removeActivityImage(String(newActivityImage.id));
           }
           this.postStatus = PostStatus.succeeded;
         });
@@ -375,7 +376,6 @@ export default class DraftActivityImageStore {
       })
       .catch(async error => {
         runInAction(() => {
-          this.errors.push(error);
           this.postStatus = PostStatus.failed;
         });
         Monitoring.event(Event.ActivityPhotoUploadFail);
