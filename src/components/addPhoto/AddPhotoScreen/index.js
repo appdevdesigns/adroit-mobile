@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import isBefore from 'date-fns/is_before';
 import { Image, View, AsyncStorage, Keyboard } from 'react-native';
 import {
   Container,
@@ -179,6 +180,10 @@ class AddPhotoScreen extends React.Component {
       { title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations },
       { title: Copy.fcfLocationsSection, data: locations.fcfLocations },
     ];
+
+    const activities = team
+      ? team.activities.filter(a => !a.date_end || !isBefore(a.date_end, date || Date.now()))
+      : [];
     return (
       <AdroitScreen>
         <Container>
@@ -276,7 +281,7 @@ class AddPhotoScreen extends React.Component {
                     emptyListMessage={Copy.selectActivityEmptyMessage}
                     selectedItem={activity}
                     onSelectedItemChange={this.setDraftProp('activity')}
-                    items={team ? team.activities.slice() : []}
+                    items={activities}
                   />
                 )}
               </Item>
