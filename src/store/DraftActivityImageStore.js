@@ -313,9 +313,14 @@ export default class DraftActivityImageStore {
           onUploadError();
         }
       },
-      onError: () => {
-        Monitoring.error('Failed to upload file', { url, body });
-        onUploadError();
+      onError: async status => {
+        if (status === 401) {
+          Toast.danger(Copy.toast.unauthorized);
+          await this.rootStore.auth.logout();
+        } else {
+          Monitoring.error('Failed to upload file', { url, body });
+          onUploadError();
+        }
       },
     };
 
