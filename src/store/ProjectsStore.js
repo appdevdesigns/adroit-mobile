@@ -26,7 +26,10 @@ export default class ProjectsStore extends ResourceStore {
       return [];
     }
     const project = this.map.get(team.IDProject);
-    return project ? project.members.slice() : [];
+    const projectMembers = project ? project.members.slice() : [];
+    const authUserId = this.rootStore.users.me.id;
+    // eslint-disable-next-line no-nested-ternary
+    return projectMembers.sort((x, y) => (x.IDPerson === authUserId ? -1 : y.IDPerson === authUserId ? 1 : 0));
   }
 
   getTeam(teamId) {
