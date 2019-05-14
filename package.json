@@ -10,7 +10,7 @@
     "android-debug": "adb reverse tcp:8081 tcp:8010 & react-native run-android --appIdSuffix debug",
     "android-release": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant release",
     "android-staging": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant releaseStaging",
-    "ios-debug": "react-native run-ios",
+    "ios-debug": "adb reverse tcp:8081 tcp:8010 & react-native run-ios --simulator=\"iPhone xR\"",
     "fix": "./postinstall.sh",
     "cp-release": "node ./scripts/code_push.js",
     "appcenter-build": "node ./scripts/appcenter_build.js",
