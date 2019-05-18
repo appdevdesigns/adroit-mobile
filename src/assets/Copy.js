@@ -49,19 +49,21 @@ const Copy = {
   confirmationUploadButtonText: 'Upload',
   captionLabel: 'Caption',
   captionPlaceholder: 'Describe what you did and why it helps local Thais...',
-  dateLabel: 'Date',
-  locationLabel: 'Location',
+  dateLabel: 'Date of Photo',
+  locationLabel: 'Activity Location',
   locationPlaceholder: 'Where was this photo taken...?',
-  locationModalHeader: 'Photo location',
+  locationModalHeader: 'Activity Location',
   teamLabel: 'Team',
   teamPlaceholder: 'Select Team...',
   teamModalHeader: 'Select Team',
   activityLabel: 'Activity',
   activityPlaceholder: 'Select Activity...',
   activityModalHeader: 'Select Activity',
-  taggedPeopleLabel: 'Tagged People',
+  taggedPeopleLabel: 'People in Photo',
   taggedPeoplePlaceholder: 'Tag team members...',
-  taggedPeopleModalHeader: 'Select team members',
+  taggedPeopleModalHeader: 'Who is in this photo?',
+  teamMembersSectionTitle: "My Team's Volunteers",
+  projectMembersSectionTitle: "My Project's Volunteers",
   myLocationsSection: 'My locations',
   fcfLocationsSection: 'FCF locations',
   selectLocationFilterPlaceholder: 'Search or add location...',
@@ -76,9 +78,10 @@ const Copy = {
   // Feedback
   feedbackTitle: 'Feedback',
   feedbackEmailSubject: 'Adroit Mobile feedback',
-  feedbackIntro: 'Questions about the Adroit mobile app? Suggestions? Need to report a bug? Or just want to tell us how much you love the app?!',
+  feedbackIntro:
+    'Questions about the Adroit mobile app? Suggestions? Need to report a bug? Or just want to tell us how much you love the app?!',
   feedbackEmailIntro: 'Send us an email at:',
-  
+
   // Edit Locations
   editLocationsTitle: 'Add/Remove Locations',
   editLocationsHelp: {

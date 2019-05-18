@@ -1,5 +1,8 @@
-import { action, computed, reaction } from 'mobx';
+import { observable, action, computed, reaction, runInAction } from 'mobx';
+import { persist } from 'mobx-persist';
 import reduce from 'lodash-es/reduce';
+import unionBy from 'lodash-es/unionBy';
+import keyBy from 'lodash-es/keyBy';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
@@ -16,17 +19,35 @@ export default class ProjectsStore extends ResourceStore {
     );
   }
 
+  @persist('map')
+  @observable
+  membersMap = new Map();
+
   @computed
   get allTeams() {
     return reduce(this.list, (teams, project) => teams.concat(project.teams.slice()), []);
   }
 
-  getProjectMembersByTeam(team) {
+  getTeamMembers(team) {
     if (!team) {
       return [];
     }
-    const project = this.map.get(team.IDProject);
-    return project ? project.members.slice() : [];
+    return team.memberIDs.map(id => this.membersMap.get(String(id)));
+  }
+
+  getProjectMembers(projectID) {
+    if (!projectID) {
+      return [];
+    }
+    const project = this.map.get(String(projectID));
+    return project ? project.memberIDs.map(id => this.membersMap.get(String(id))) : [];
+  }
+
+  getTaggableMembers(team) {
+    if (!team) {
+      return [];
+    }
+    return unionBy(this.getTeamMembers(team), this.getProjectMembers(team.IDProject), 'IDPerson');
   }
 
   getTeam(teamId) {
@@ -67,6 +88,24 @@ export default class ProjectsStore extends ResourceStore {
 
   @action.bound
   listMyProjects() {
-    this.fetchList(Api.urls.myProjects);
+    const onProjectsResponse = response => {
+      const projectsMap = keyBy(response.json.data.projects, i => String(i.IDProject));
+      const membersMap = keyBy(response.json.data.members, i => String(i.IDPerson));
+      runInAction(() => {
+        if (this.map.size) {
+          this.map.replace(projectsMap);
+        } else {
+          this.map.merge(projectsMap);
+        }
+        if (this.membersMap.size) {
+          this.membersMap.replace(membersMap);
+        } else {
+          this.membersMap.merge(membersMap);
+        }
+        this.isInitialized = true;
+        this.fetchCount = Math.max(this.fetchCount - 1, 0);
+      });
+    };
+    this.fetch(Api.urls.myProjectsWithMembers, onProjectsResponse);
   }
 }

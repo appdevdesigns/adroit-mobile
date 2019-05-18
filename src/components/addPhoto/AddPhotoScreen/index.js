@@ -155,15 +155,15 @@ class AddPhotoScreen extends React.Component {
     const newState = {
       team,
     };
-    const projectMembers = projects.getProjectMembersByTeam(team);
+    const allTaggable = projects.getTaggableMembers(team);
     if (!prevTeam && users && users.me) {
-      const me = projectMembers.find(m => m.IDPerson === users.me.id);
+      const me = allTaggable.find(m => m.IDPerson === users.me.id);
       if (me) {
         newState.taggedPeople = [me];
       }
     } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
       newState.activity = undefined;
-      newState.taggedPeople = intersectionBy(this.state.taggedPeople, projectMembers, 'IDPerson');
+      newState.taggedPeople = intersectionBy(this.state.taggedPeople, allTaggable, 'IDPerson');
     }
     this.setState(newState);
   };
@@ -243,10 +243,17 @@ class AddPhotoScreen extends React.Component {
       activity &&
       taggedPeople.length
     );
+
     const allLocations = [
       { title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations },
       { title: Copy.fcfLocationsSection, data: locations.fcfLocations },
     ];
+
+    const taggablePeople = [
+      { title: Copy.teamMembersSectionTitle, data: projects.getTeamMembers(team) },
+      { title: Copy.projectMembersSectionTitle, data: team ? projects.getProjectMembers(team.IDProject) : [] },
+    ];
+
     return (
       <AdroitScreen>
         <Container>
@@ -356,10 +363,11 @@ class AddPhotoScreen extends React.Component {
                   <MultiSelect
                     filterable
                     style={styles.input}
-                    items={team ? projects.getProjectMembersByTeam(team) : []}
+                    items={taggablePeople}
                     selectedItems={taggedPeople}
                     uniqueKey="IDPerson"
                     displayKey="display_name"
+                    isSectioned
                     placeholder={Copy.taggedPeoplePlaceholder}
                     modalHeader={Copy.taggedPeopleModalHeader}
                     emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}

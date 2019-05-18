@@ -1,8 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import reject from 'lodash-es/reject';
-import { View, TouchableOpacity, Modal, FlatList, Keyboard } from 'react-native';
-import { Button, Icon, Text, ListItem, Container, Title, Content, Footer, FooterTab, Right, Body } from 'native-base';
+import reduce from 'lodash-es/reduce';
+import { View, TouchableOpacity, Modal, FlatList, SectionList, Keyboard } from 'react-native';
+import {
+  Button,
+  Icon,
+  Text,
+  ListItem,
+  Container,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Right,
+  Body,
+  Separator,
+} from 'native-base';
 import baseStyles from 'src/assets/style';
 import Copy from 'src/assets/Copy';
 import { filterItems } from './SelectUtil';
@@ -63,6 +77,13 @@ class MultiSelect extends React.Component {
 
   renderPlaceholder = () => <Text style={styles.placeholder}>{this.props.placeholder}</Text>;
 
+  renderSectionHeader = ({ section: { title } }) =>
+    title ? (
+      <Separator style={baseStyles.separator} bordered>
+        <Text>{title.toUpperCase()}</Text>
+      </Separator>
+    ) : null;
+
   renderItem = ({ item }) => {
     const { uniqueKey, renderItem, displayKey } = this.props;
     const itemIcon = this.isSelected(item) ? 'check-square' : 'square-o';
@@ -89,6 +110,8 @@ class MultiSelect extends React.Component {
       items,
       filterable,
       filterPlaceholder,
+      isSectioned,
+      renderSectionHeader,
       displayKey,
       modalHeader,
       emptyListTitle,
@@ -111,6 +134,31 @@ class MultiSelect extends React.Component {
       emptyListMessage,
     };
 
+    const ListComponent = isSectioned ? SectionList : FlatList;
+    const listProps = {
+      keyboardShouldPersistTaps: 'always',
+      extraData: selectedItems,
+      keyExtractor: this.keyExtractor,
+      renderItem: this.renderItem,
+      ItemSeparatorComponent: () => <View style={styles.separator} />,
+      ListEmptyComponent: () => <SelectEmptyState {...emptyStateProps} />,
+    };
+    if (isSectioned) {
+      listProps.sections = reduce(
+        items,
+        (acc, item) => {
+          const filteredItems = filtered(item.data);
+          if (filteredItems.length) {
+            acc.push({ ...item, data: filteredItems });
+          }
+          return acc;
+        },
+        []
+      );
+      listProps.renderSectionHeader = renderSectionHeader || this.renderSectionHeader;
+    } else {
+      listProps.data = filtered(items);
+    }
     return (
       <TouchableOpacity onPress={this.openModal} style={[styles.wrapper, style]}>
         <View style={styles.selectedWrapper}>
@@ -131,14 +179,7 @@ class MultiSelect extends React.Component {
                 onChangeText={this.setFilter}
                 placeholder={filterPlaceholder}
               />
-              <FlatList
-                keyboardShouldPersistTaps="always"
-                extraData={selectedItems}
-                data={filtered(items)}
-                keyExtractor={this.keyExtractor}
-                renderItem={this.renderItem}
-                ListEmptyComponent={() => <SelectEmptyState {...emptyStateProps} />}
-              />
+              <ListComponent {...listProps} />
             </Content>
             <Footer>
               <FooterTab>
@@ -168,6 +209,8 @@ MultiSelect.propTypes = {
   filterable: PropTypes.bool,
   filterPlaceholder: PropTypes.string,
   clearFilterOnToggleItem: PropTypes.bool,
+  isSectioned: PropTypes.bool,
+  renderSectionHeader: PropTypes.func,
   emptyListTitle: PropTypes.string,
   emptyListMessage: PropTypes.string,
 };
@@ -183,6 +226,8 @@ MultiSelect.defaultProps = {
   filterable: false,
   filterPlaceholder: Copy.defaultSearchPlaceholder,
   clearFilterOnToggleItem: false,
+  isSectioned: false,
+  renderSectionHeader: undefined,
   emptyListTitle: Copy.nonIdealState.defaultEmptySelect.title,
   emptyListMessage: Copy.nonIdealState.defaultEmptySelect.message,
 };

@@ -73,22 +73,29 @@ export default class ResourceStore {
 
   @action.bound
   fetchList(url, options = defaultOptions, meta = {}) {
+    const onListResponse = response => {
+      const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
+      runInAction(() => {
+        if (this.map.size) {
+          this.map.replace(map);
+        } else {
+          this.map.merge(map);
+        }
+        this.isInitialized = true;
+        this.fetchCount = Math.max(this.fetchCount - 1, 0);
+      });
+      this.onFetchListSuccess(response.json.data, meta);
+    };
+
+    return this.fetch(url, onListResponse, options, meta);
+  }
+
+  @action.bound
+  fetch(url, onResponse, options = defaultOptions, meta = {}) {
     this.fetchCount += 1;
     this.errors = [];
     fetchJson(url, options)
-      .then(response => {
-        const map = keyBy(response.json.data, i => String(i[this.idAttribute]));
-        runInAction(() => {
-          if (this.map.size) {
-            this.map.replace(map);
-          } else {
-            this.map.merge(map);
-          }
-          this.isInitialized = true;
-          this.fetchCount = Math.max(this.fetchCount - 1, 0);
-        });
-        this.onFetchListSuccess(response.json.data, meta);
-      })
+      .then(onResponse)
       .catch(async error => {
         runInAction(() => {
           this.errors.push(error);
