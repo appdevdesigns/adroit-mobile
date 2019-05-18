@@ -32,7 +32,7 @@ export default class ProjectsStore extends ResourceStore {
     if (!team) {
       return [];
     }
-    return team.memberIDs.map(id => this.membersMap.get(String(id)));
+    return team.memberIDs.map(id => this.membersMap.get(String(id))).filter(m => m);
   }
 
   getProjectMembers(projectID) {
@@ -40,7 +40,7 @@ export default class ProjectsStore extends ResourceStore {
       return [];
     }
     const project = this.map.get(String(projectID));
-    return project ? project.memberIDs.map(id => this.membersMap.get(String(id))) : [];
+    return project ? project.memberIDs.map(id => this.membersMap.get(String(id))).filter(m => m) : [];
   }
 
   getTaggableMembers(team) {
