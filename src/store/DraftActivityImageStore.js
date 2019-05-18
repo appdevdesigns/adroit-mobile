@@ -339,7 +339,6 @@ export default class DraftActivityImageStore {
     body.append('caption', this.caption);
     body.append('caption_govt', this.location.name);
     body.append('date', format(this.date, 'YYYY-MM-DD'));
-    console.log('TaggedPeople', this.taggedPeople);
     this.taggedPeople.forEach(person => {
       body.append('taggedPeople', person.IDPerson);
     });
@@ -358,6 +357,14 @@ export default class DraftActivityImageStore {
       .then(response => {
         const newActivityImage = response.json.data;
         newActivityImage.activity = this.rootStore.projects.getActivity(newActivityImage.activity);
+        if (!this.isNew) {
+          // HACK: Need to re-populate some fields as they are not correctly populated in the PUT response
+          newActivityImage.taggedPeople = this.taggedPeople.map(p => p.IDPerson);
+          newActivityImage.uploadedBy = {
+            IDPerson: this.rootStore.users.me.id,
+          };
+          newActivityImage.displayName = this.rootStore.users.me.displayName;
+        }
         runInAction(() => {
           if (newActivityImage.taggedPeople.includes(this.rootStore.users.me.id)) {
             this.rootStore.activityImages.updateActivityImage(String(newActivityImage.id), newActivityImage);
