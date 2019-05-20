@@ -213,15 +213,15 @@ export default class DraftActivityImageStore {
   updateTeam(team) {
     const { users, projects } = this.rootStore;
     const prevTeam = this.team;
-    const projectMembers = projects.getProjectMembersByTeam(team);
+    const allTaggable = projects.getTaggableMembers(team);
     if (!prevTeam && users && users.me) {
-      const me = projectMembers.find(m => m.IDPerson === users.me.id);
+      const me = allTaggable.find(m => m.IDPerson === users.me.id);
       if (me) {
         this.taggedPeople = [me];
       }
     } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
       this.activity = undefined;
-      this.taggedPeople = intersectionBy(this.taggedPeople || [], projectMembers, 'IDPerson');
+      this.taggedPeople = intersectionBy(this.taggedPeople || [], allTaggable, 'IDPerson');
     }
     this.team = team;
   }

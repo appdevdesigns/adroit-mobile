@@ -7,6 +7,7 @@ const Api = {
     login: '/site/login',
     whoami: '/fcf_activities/activityreport/whoami',
     myProjects: '/fcf_activities/mobile/myprojects',
+    myProjectsWithMembers: '/fcf_activities/mobile/myprojectmembers',
     myActivityImages: `/fcf_activities/mobile/myactivityimages`,
     activityImageUpload: '/fcf_activities/activityimageupload',
     createActivityImage: '/fcf_activities/activityimage/create',

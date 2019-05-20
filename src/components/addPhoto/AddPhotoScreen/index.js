@@ -184,6 +184,12 @@ class AddPhotoScreen extends React.Component {
     const activities = team
       ? team.activities.filter(a => !a.date_end || !isBefore(a.date_end, date || Date.now()))
       : [];
+
+    const taggablePeople = [
+      { title: Copy.teamMembersSectionTitle, data: projects.getTeamMembers(team) },
+      { title: Copy.projectMembersSectionTitle, data: team ? projects.getProjectMembers(team.IDProject) : [] },
+    ];
+
     return (
       <AdroitScreen>
         <Container>
@@ -293,10 +299,11 @@ class AddPhotoScreen extends React.Component {
                   <MultiSelect
                     filterable
                     style={styles.input}
-                    items={team ? projects.getProjectMembersByTeam(team) : []}
+                    items={taggablePeople}
                     selectedItems={taggedPeople.slice()}
                     uniqueKey="IDPerson"
                     displayKey="display_name"
+                    isSectioned
                     placeholder={Copy.taggedPeoplePlaceholder}
                     modalHeader={Copy.taggedPeopleModalHeader}
                     emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}
