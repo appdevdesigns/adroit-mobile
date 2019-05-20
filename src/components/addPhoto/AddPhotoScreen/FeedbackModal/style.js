@@ -7,15 +7,11 @@ export default StyleSheet.create({
   },
   toFixItem: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    marginBottom: GridSize,
   },
   toFixText: {
     fontSize: 14,
-    fontWeight: 'bold',
-  },
-  toFixIcon: {
-    color: 'red',
-    marginRight: GridSize,
   },
   confirmButton: {
     marginTop: GridSize,

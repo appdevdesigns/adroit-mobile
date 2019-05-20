@@ -9,26 +9,30 @@ import styles from './style';
 
 const fields = ['Photo', 'Caption', 'Date', 'Location', 'Team', 'Activity', 'Tagged People'];
 
+const FeedbackItem = ({ text }) => (
+  <View style={styles.toFixItem}>
+    <Text style={styles.toFixText}>&bull;&nbsp;</Text>
+    <Text style={styles.toFixText}>{text}</Text>
+  </View>
+);
+
 const FeedbackModal = ({ feedback, ...restProps }) => (
   <Modal {...restProps} animationType="fade" transparent header={Copy.photoFeedback.title}>
     {!!feedback && (
       <View>
         <Text style={styles.withBottomMargin}>
-          <Text style={baseStyles.bold}>{feedback.deniedBy.display_name}</Text>
+          {feedback.deniedBy ? (
+            <Text style={baseStyles.bold}>{feedback.deniedBy.display_name}</Text>
+          ) : (
+            <Text>{Copy.photoFeedback.reviewerPlaceholder}</Text>
+          )}
           {Copy.photoFeedback.intro}
         </Text>
-        {!!feedback.customMessage && (
-          <Text style={[styles.withBottomMargin, styles.customMessage]}>&quot;{feedback.customMessage}&quot;</Text>
-        )}
-        <Text style={styles.withBottomMargin}>{Copy.photoFeedback.toFix}</Text>
-        {fields
-          .filter(f => feedback[`fix${f.replace(' ', '')}`])
-          .map(f => (
-            <View key={f} style={styles.toFixItem}>
-              <Icon style={[styles.toFixText, styles.toFixIcon]} type="FontAwesome" name="exclamation-circle" />
-              <Text style={styles.toFixText}>{f}</Text>
-            </View>
-          ))}
+        {!!feedback.customMessage && <FeedbackItem text={feedback.customMessage} />}
+        {!!feedback.fixPhoto && <FeedbackItem text={Copy.photoFeedback.fixPhoto} />}
+        {!!feedback.fixCaption && <FeedbackItem text={Copy.photoFeedback.fixCaption} />}
+        {!!feedback.fixDate && <FeedbackItem text={Copy.photoFeedback.fixDate} />}
+        {!!feedback.fixLocation && <FeedbackItem text={Copy.photoFeedback.fixLocation} />}
         <Button style={styles.confirmButton} iconLeft small primary onPress={restProps.onRequestClose}>
           <Icon type="FontAwesome" name="check-circle" />
           <Text style={styles.buttonText}>{Copy.photoFeedback.button}</Text>

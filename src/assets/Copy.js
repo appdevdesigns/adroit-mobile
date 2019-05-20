@@ -75,9 +75,14 @@ const Copy = {
 
   photoFeedback: {
     title: 'Fixes required',
+    reviewerPlaceholder: 'A reviewer',
     intro: ' has requested some changes:',
     toFix: 'To fix:',
     button: 'Got it!',
+    fixPhoto: 'Photo is not appropriate. Please use a different photo.',
+    fixCaption: 'Caption needs to be re-worded to include both WHAT you are doing and HOW it impacts Thai people.',
+    fixDate: 'Date of the photo is not within the current reporting period. Please correct.',
+    fixLocation: 'Location is too general. Please provide complete details of the location: Name, Tambon and Ampoe.',
   },
 
   // Help
