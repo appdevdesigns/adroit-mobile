@@ -1,5 +1,5 @@
 import { observable, action, runInAction, computed } from 'mobx';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import isEqual from 'lodash-es/isEqual';
 import intersectionBy from 'lodash-es/intersectionBy';
 import Exif from 'react-native-exif';
