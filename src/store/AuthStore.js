@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { observable, computed, action } from 'mobx';
 import * as Keychain from 'react-native-keychain';
 import parse from 'date-fns/parse';

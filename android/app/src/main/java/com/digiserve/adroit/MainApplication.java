@@ -3,6 +3,8 @@ package com.digiserve.adroit;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.github.yamill.orientation.OrientationPackage;
@@ -17,6 +19,7 @@ import com.oblador.keychain.KeychainPackage;
 import io.sentry.RNSentryPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import io.fixd.rctlocale.RCTLocalePackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // import okhttp3.OkHttpClient;
 
 // import com.facebook.stetho.Stetho;
@@ -53,6 +56,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNGestureHandlerPackage(),
+            new PickerPackage(),
             new RNCWebViewPackage(),
             new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG),
             new OrientationPackage(),
@@ -72,7 +77,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCameraPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-            new AppCenterReactNativePackage(MainApplication.this)
+            new AppCenterReactNativePackage(MainApplication.this),
+            new AsyncStoragePackage()
       );
     }
 

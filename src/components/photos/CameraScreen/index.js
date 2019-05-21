@@ -157,8 +157,12 @@ class CameraScreen extends React.Component {
               type={type}
               captureAudio={false}
               flashMode={flashModes[flashModeIndex].mode}
-              permissionDialogTitle={Copy.perms.camera.title}
-              permissionDialogMessage={Copy.perms.camera.message}
+              androidCameraPermissionOptions={{
+                title: Copy.perms.camera.title,
+                message: Copy.perms.camera.message,
+                buttonPositive: Copy.perms.ok,
+                buttonNegative: Copy.perms.cancel,
+              }}
             />
             <View style={[styles.overlay, overlayStyle]}>
               <View style={[styles.overlayItem, overlayItemStyle, headerStyle]}>

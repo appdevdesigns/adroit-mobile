@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Image, View, Keyboard } from 'react-native';
 import isBefore from 'date-fns/is_before';
-import { Image, View, AsyncStorage, Keyboard } from 'react-native';
 import {
   Container,
   Content,

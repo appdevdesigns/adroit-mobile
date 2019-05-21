@@ -1,7 +1,7 @@
 import { Sentry } from 'react-native-sentry';
 import Countly from 'countly-sdk-react-native';
 import Config from 'react-native-config';
-import packageJson from 'package.json';
+import packageJson from '../../package.json';
 
 export const Event = {
   PhotoTaken: 'photo-taken',

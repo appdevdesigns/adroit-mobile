@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import codePush from 'react-native-code-push';
 import { copilot } from '@okgrow/react-native-copilot';
 import { when } from 'mobx';
@@ -99,9 +99,7 @@ class ActivityFeedScreen extends React.Component {
 
   render() {
     const { introModalOpen } = this.state;
-    const {
-      draft: { initNewDraft },
-    } = this.props;
+    const { draft } = this.props;
     return (
       <AdroitScreen>
         <Drawer
@@ -132,7 +130,7 @@ class ActivityFeedScreen extends React.Component {
             </Header>
             <ReportingPeriodOverview />
             <ActivityFeedList onEditImage={this.editImage} />
-            <ActivityFeedFab initNewDraft={initNewDraft} />
+            <ActivityFeedFab draft={draft} />
             <IntroModal visible={introModalOpen} onCancel={this.skipTutorial} onConfirm={this.startTutorial} />
           </Container>
         </Drawer>

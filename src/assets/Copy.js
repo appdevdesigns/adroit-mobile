@@ -123,6 +123,8 @@ const Copy = {
       title: 'Permission to use camera',
       message: 'We need your permission to use your camera phone',
     },
+    ok: 'Ok',
+    cancel: 'Cancel',
   },
 
   // Toasts

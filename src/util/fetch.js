@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Monitoring from 'src/util/Monitoring';
 import HttpError from './HttpError';
 import Api from './api';
@@ -30,7 +30,7 @@ const fetchJson = async (url, options = {}) => {
 
   Monitoring.debug('fetchJson', url, options, requestHeaders);
 
-  return fetch(absoluteUrl, { ...options, headers: requestHeaders })
+  return fetch(absoluteUrl, { ...options, credentials: 'include', headers: requestHeaders })
     .then(response =>
       response.text().then(text => ({
         status: response.status,
@@ -39,8 +39,9 @@ const fetchJson = async (url, options = {}) => {
         body: text,
       }))
     )
-    .then(async ({ status, statusText, headers, body }) => {
-      Monitoring.debug(`${url} returned`, status, statusText, headers, body);
+    .then(async response => {
+      const { status, statusText, headers, body } = response;
+      Monitoring.debug(`${url} returned`, response, status, statusText, headers, body);
       let json;
       try {
         json = JSON.parse(body);
@@ -53,7 +54,7 @@ const fetchJson = async (url, options = {}) => {
         // Don't send failed login attempts to Sentry!
         if (status === 400 && url.endsWith(Api.urls.login)) {
           Monitoring.debug(errorMessage, json);
-        } else {
+        } else if (status !== 401) {
           Monitoring.error('fetch failed', status, errorMessage, json);
         }
         return Promise.reject(new HttpError(errorMessage, status, json));

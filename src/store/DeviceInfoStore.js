@@ -1,5 +1,5 @@
 import { observable, action, runInAction } from 'mobx';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Orientation from 'react-native-orientation';
 import codePush from 'react-native-code-push';
 import Monitoring, { Event } from 'src/util/Monitoring';
@@ -27,13 +27,13 @@ export default class DeviceInfoStore {
   }
 
   /**
-   * Update the cached Code Push meta data. 
-   * 
-   * We store the current code push label in AsyncStorage. If the label returned by 
-   * 'getUpdateMetadata' doesn't match this label, we force a logout which in turn clears 
+   * Update the cached Code Push meta data.
+   *
+   * We store the current code push label in AsyncStorage. If the label returned by
+   * 'getUpdateMetadata' doesn't match this label, we force a logout which in turn clears
    * the cached user data. This is a fairly robust way of mitigating changes to the structure
    * of the data that is cached (e.g. if the update intruduces an API change).
-   * 
+   *
    * If the user is already logged out, there is no cached data to clear!
    */
   @action.bound
@@ -43,8 +43,8 @@ export default class DeviceInfoStore {
       this.codePushMetaData = metaData;
     });
 
-    const newCodePushLabel = metaData && metaData.label || UNKNOWN_CODE_PUSH_LABEL;
-    const prevCodePushLabel = await AsyncStorage.getItem(AS_KEY_CODE_PUSH_LABEL) || UNKNOWN_CODE_PUSH_LABEL;
+    const newCodePushLabel = (metaData && metaData.label) || UNKNOWN_CODE_PUSH_LABEL;
+    const prevCodePushLabel = (await AsyncStorage.getItem(AS_KEY_CODE_PUSH_LABEL)) || UNKNOWN_CODE_PUSH_LABEL;
     await AsyncStorage.setItem(AS_KEY_CODE_PUSH_LABEL, newCodePushLabel);
     if (newCodePushLabel !== prevCodePushLabel) {
       Monitoring.event(Event.CodePushUpdateInstalled, { metaData });

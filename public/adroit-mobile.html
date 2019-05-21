@@ -2,19 +2,17 @@
   <head>
     <title>Adroit Mobile help</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1,
-      shrink-to-fit=no" />
-    <link
-      rel="stylesheet"
+    <meta content="width=device-width, initial-scale=1,
+      shrink-to-fit=no" name="viewport" />
+    <link crossorigin="anonymous"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-      />
+      rel="stylesheet" />
 
-    <link rel="stylesheet" href="./adroit-mobile.css" />
+    <link href="./adroit-mobile.css" rel="stylesheet" />
   </head>
   <body id="top">
-    <main role="main" class="container">
+    <main class="container" role="main">
       <h1>
         Welcome to Adroit Mobile!
       </h1>
@@ -40,7 +38,7 @@
       </ul>
       <p class="lead">With that said, let’s get to it!</p>
 
-      <h2 id="interface-overview" class="pb-2">Interface Overview</h2>
+      <h2 class="pb-2" id="interface-overview">Interface Overview</h2>
       <p>
         When you log in for the first time, you will be presented with the
         “Getting started with Adroit” tutorial screen
@@ -50,10 +48,10 @@
       </p>
       <div class="row">
         <div class="col-12 col-md-6">
-          <img src="img/intro.png" class="fullwidth screenshot" />
+          <img class="fullwidth screenshot" src="img/intro.png" />
         </div>
         <div class="col-12 col-md-6">
-          <img src="img/tutorial.png" class="fullwidth screenshot" />
+          <img class="fullwidth screenshot" src="img/tutorial.png" />
         </div>
       </div>
       <p>
@@ -65,49 +63,47 @@
       <h3 class="pb-2">Basics of the Interface</h3>
       <div class="row">
         <div class="col-md-4 col-sm-12">
-          <img src="img/activity_list.png" class="fullwidth screenshot" />
+          <img class="fullwidth screenshot" src="img/activity_list.png" />
         </div>
         <div class="col-md-8 col-sm-12">
           <div class="accordion pb-2" id="interface-accordion">
             <div class="card">
               <div class="card-header" id="hamburgerHeading">
-                <button type="button" class="w-100 btn btn-link d-inline-flex
+                <button aria-controls="collapseHamburger" aria-expanded="true"
+                  class="w-100 btn btn-link d-inline-flex
                   align-items-center
-                  font-weight-bold" data-toggle="collapse"
-                  data-target="#collapseHamburger"
-                  aria-expanded="true" aria-controls="collapseHamburger">
+                  font-weight-bold" data-target="#collapseHamburger"
+                  data-toggle="collapse" type="button">
                   <span class="badge">1</span>
                   <span>“Hamburger” Menu</span>
                 </button>
               </div>
-              <div id="collapseHamburger" class="collapse show"
-                aria-labelledby="hamburgerHeading"
-                data-parent="#interface-accordion">
+              <div aria-labelledby="hamburgerHeading" class="collapse show"
+                data-parent="#interface-accordion" id="collapseHamburger">
                 <div class="card-body">
                   <p>
                     This provides access to this help information, a link to
                     provide feedback to FCF and its developers, view the
                     tutorial again, manage your locations, and log out.
                   </p>
-                  <img src="img/drawer.png" class="screenshot" width="200" />
+                  <img class="screenshot" src="img/drawer.png" width="200" />
                 </div>
               </div>
             </div>
 
             <div class="card">
               <div class="card-header" id="statusBarHeading">
-                <button type="button" class="w-100 btn btn-link d-inline-flex
+                <button aria-controls="collapseStatusBar" aria-expanded="true"
+                  class="w-100 btn btn-link d-inline-flex
                   align-items-center
-                  font-weight-bold" data-toggle="collapse"
-                  data-target="#collapseStatusBar"
-                  aria-expanded="true" aria-controls="collapseStatusBar">
+                  font-weight-bold" data-target="#collapseStatusBar"
+                  data-toggle="collapse" type="button">
                   <span class="badge">2</span>
                   <span>Status Bar</span>
                 </button>
               </div>
-              <div id="collapseStatusBar" class="collapse"
-                aria-labelledby="statusBarHeading"
-                data-parent="#interface-accordion">
+              <div aria-labelledby="statusBarHeading" class="collapse"
+                data-parent="#interface-accordion" id="collapseStatusBar">
                 <div class="card-body">
                   <p>
                     This status bar provides you with details regarding the
@@ -115,12 +111,13 @@
                     of photos you have uploaded in relation to the
                     reporting period.
                   </p>
-                  <img src="img/status_bar.png" class="screenshot" width="300"
+                  <img class="screenshot" src="img/status_bar.png" width="300"
                     />
                   <p>The status bar shows...</p>
                   <ul>
                     <li>How many of your uploaded photos have been approved</li>
-                    <li> How many of your uploaded photos are new (and yet to be
+                    <li>
+                      How many of your uploaded photos are new (and yet to be
                       approved)</li>
                     <li>How many days are left in the current reporting period</li>
                     <li>A quick visual on how you are doing:</li>
@@ -161,18 +158,17 @@
 
             <div class="card">
               <div class="card-header" id="photoStreamHeading">
-                <button type="button" class="w-100 btn btn-link d-inline-flex
+                <button aria-controls="collapsePhotoStream" aria-expanded="true"
+                  class="w-100 btn btn-link d-inline-flex
                   align-items-center
-                  font-weight-bold" data-toggle="collapse"
-                  data-target="#collapsePhotoStream"
-                  aria-expanded="true" aria-controls="collapsePhotoStream">
+                  font-weight-bold" data-target="#collapsePhotoStream"
+                  data-toggle="collapse" type="button">
                   <span class="badge">3</span>
                   <span>Photo Stream</span>
                 </button>
               </div>
-              <div id="collapsePhotoStream" class="collapse"
-                aria-labelledby="photoStreamHeading"
-                data-parent="#interface-accordion">
+              <div aria-labelledby="photoStreamHeading" class="collapse"
+                data-parent="#interface-accordion" id="collapsePhotoStream">
                 <div class="card-body">
                   <p>
                     This area shows the photos you have uploaded during the
@@ -198,24 +194,23 @@
 
             <div class="card">
               <div class="card-header" id="AddPhotoHeading">
-                <button type="button" class="w-100 btn btn-link d-inline-flex
+                <button aria-controls="collapseAddPhoto" aria-expanded="true"
+                  class="w-100 btn btn-link d-inline-flex
                   align-items-center
-                  font-weight-bold" data-toggle="collapse"
-                  data-target="#collapseAddPhoto"
-                  aria-expanded="true" aria-controls="collapseAddPhoto">
+                  font-weight-bold" data-target="#collapseAddPhoto"
+                  data-toggle="collapse" type="button">
                   <span class="badge">4</span>
                   <span>Add Photo</span>
                 </button>
               </div>
-              <div id="collapseAddPhoto" class="collapse"
-                aria-labelledby="AddPhotoHeading"
-                data-parent="#interface-accordion">
+              <div aria-labelledby="AddPhotoHeading" class="collapse"
+                data-parent="#interface-accordion" id="collapseAddPhoto">
                 <div class="card-body">
                   <p>
                     Tap on the Add Photo button to add a new activity image. You
                     can
                     either select a photo from your camera roll
-                    or a new photo.
+                    or take a new photo with your device's camera.
                   </p>
                 </div>
               </div>
@@ -224,8 +219,7 @@
         </div>
       </div>
 
-
-      <a href="#top" class="btn btn-sm btn-outline-dark mb-4 mt-2">
+      <a class="btn btn-sm btn-outline-dark mb-4 mt-2" href="#top">
         Back to top
       </a>
 
@@ -234,22 +228,13 @@
 
       <ol>
         <li>
-          Click the Add Photo button (see <a href="#ug-note1">note 1</a> below).
-        </li>
-        <li>
-          On the “select a photo screen,” select a previously taken photo or
-          click the camera icon.
-          <ul>
-            <li>
-              If you select a photo, Adroit will display the photo; click Use
-              Photo (in the upper right) to upload the
-              selected photo to Adroit.
-            </li>
-            <li>
-              If you click the camera icon (see <a href="#ug-note2">note 2</a>
-              below), you can then take a new photo.
-            </li>
-          </ul>
+          Tap the Add Photo button and then either:
+          <ol>
+            <li>Tap the Pictures button to select a photo (see <a
+                href="#ug-note1">note 1</a> below) or;</li>
+            <li>Tap the Camera button to take a new photo (see <a
+                href="#ug-note2">note 2</a> below)</li>
+          </ol>
         </li>
         <li>
           After selecting a photo or taking a new one, Adroit Mobile will upload
@@ -262,13 +247,15 @@
         <li>
           Pick or enter a Location. To add a new location, type the location at
           the top and click the blue “+ Add”
-          button (see <a href="#ug-note3">note 3</a> below).
+          button (see
+          <a href="#ug-note3">note 3</a>
+          below).
         </li>
         <li>Select the Team.</li>
         <li>Select the Activity. This is the “activity container” to which you
           want the current photo connected.</li>
         <li>Tag people. Be sure to tag team members in the photo.</li>
-        <li>Click Save.</li>
+        <li>Tap Save.</li>
         <li>
           After clicking save, you will be prompted with a confirmation pop-up:
           <ul>
@@ -285,67 +272,69 @@
         </li>
       </ol>
 
-      <div id="ug-note1" class="alert alert-info" role="alert">
-        <strong>Note 1: </strong>The first time you click the Add Photo button,
+      <div class="alert alert-info" id="ug-note1" role="alert">
+        <strong>Note 1:
+        </strong>The first time you tap on the Pictures icon
         you will be asked if you’d like to let
-        Adroit to access your photos. Click OK to do so.
+        Adroit to access your photos. Tap OK to do so.
       </div>
-      <div id="ug-note2" class="alert alert-info" role="alert">
-        <strong>Note 2: </strong>The first time you click the camera icon, you
+      <div class="alert alert-info" id="ug-note2" role="alert">
+        <strong>Note 2:
+        </strong>The first time you tap on the Camera icon you
         will be asked if you’d like to let Adroit
-        access your camera. Click OK to do so.
+        access your camera. Tap OK to do so.
       </div>
-      <div id="ug-note3" class="alert alert-info" role="alert">
-        <strong>Note 3: </strong>Locations you add can be managed by clicking on
+      <div class="alert alert-info" id="ug-note3" role="alert">
+        <strong>Note 3:
+        </strong>Locations you add can be managed by clicking on
         the hamburger menu in the upper left
         and selecting “My Locations.”
       </div>
 
-      <a href="#top" class="btn btn-sm btn-outline-dark mb-4 mt-2">
+      <a class="btn btn-sm btn-outline-dark mb-4 mt-2" href="#top">
         Back to top
       </a>
 
-      <h2 id="locations" class="pb-2">Updating Locations</h2>
+      <h2 class="pb-2" id="locations">Updating Locations</h2>
 
       <div class="row">
         <div class="col-12 col-md-6">
-          <img src="img/locations.jpg" class="fullwidth screenshot" />
+          <img class="fullwidth screenshot" src="img/locations.jpg" />
         </div>
         <div class="col-12 col-md-6">
           <p>
-            To add a location, type the location at the top and click the <span
-              class="dark-text">blue plus (+) sign</span>.
+            To add a location, type the location at the top and click the
+            <span class="dark-text">blue plus (+) sign</span>.
           </p>
           <p>
-            To remove a previously added location, click the <span
-              class="red-text">red
-              trash can</span> across from the
+            To remove a previously added location, click the
+            <span class="red-text">red
+              trash can</span>
+            across from the
             location to be removed.
           </p>
           <div class="alert alert-info" role="alert">
-            <strong>Note: </strong>Take care when removing locations as there is
+            <strong>Note:
+            </strong>Take care when removing locations as there is
             no
             confirmation dialogue box upon deletion.
           </div>
         </div>
       </div>
 
-      <a href="#top" class="btn btn-sm btn-outline-dark mb-4 mt-2">
+      <a class="btn btn-sm btn-outline-dark mb-4 mt-2" href="#top">
         Back to top
       </a>
     </main>
 
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    <script crossorigin="anonymous"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
       integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"></script>
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </body>
 </html>;

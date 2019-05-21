@@ -1,5 +1,5 @@
 import forIn from 'lodash-es/forIn';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Monitoring from 'src/util/Monitoring';
 import Constants from 'src/util/Constants';
 import Api from './api';

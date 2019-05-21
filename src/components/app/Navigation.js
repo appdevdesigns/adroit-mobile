@@ -1,4 +1,4 @@
-import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import { createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import LoginScreen from 'src/components/auth/LoginScreen';
 import ActivityFeedScreen from 'src/components/activityFeed/ActivityFeedScreen';
 import CameraRollScreen from 'src/components/photos/CameraRollScreen';
@@ -22,14 +22,14 @@ const AppStack = createStackNavigator(
     [AppScreen.Test]: TestScreen,
   },
   {
-    navigationOptions: {
+    defaultNavigationOptions: {
       header: null,
     },
     headerMode: 'screen',
   }
 );
 
-export default createSwitchNavigator(
+const AppNavigator = createSwitchNavigator(
   {
     [AppScreen.App]: AppStack,
     [AppScreen.Login]: LoginScreen,
@@ -39,3 +39,5 @@ export default createSwitchNavigator(
     initialRouteName: AppScreen.Login,
   }
 );
+
+export default createAppContainer(AppNavigator);
