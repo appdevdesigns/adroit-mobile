@@ -54,7 +54,7 @@ const fetchJson = async (url, options = {}) => {
         // Don't send failed login attempts to Sentry!
         if (status === 400 && url.endsWith(Api.urls.login)) {
           Monitoring.debug(errorMessage, json);
-        } else {
+        } else if (status !== 401) {
           Monitoring.error('fetch failed', status, errorMessage, json);
         }
         return Promise.reject(new HttpError(errorMessage, status, json));
