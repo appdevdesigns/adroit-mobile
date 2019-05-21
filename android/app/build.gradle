@@ -120,6 +120,9 @@ android {
         resValue "string", "build_config_package", "com.digiserve.adroit"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
+
+        // Used by react-native-image-crop-picker
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         release {
@@ -176,6 +179,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-gesture-handler')
     implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-webview')

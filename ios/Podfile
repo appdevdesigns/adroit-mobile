@@ -33,7 +33,9 @@ target 'adroit' do
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-  
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
