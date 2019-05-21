@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import { Platform } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { Icon, Fab, Button } from 'native-base';
@@ -16,7 +17,7 @@ import Toast from 'src/util/Toast';
 import styles from './style';
 
 const imageRequest = {
-  cropping: true,
+  cropping: Platform.OS === 'android',
   includeExif: true,
   freeStyleCropEnabled: true,
   compressImageMaxWidth: Constants.imageUploadMaxWidth,
