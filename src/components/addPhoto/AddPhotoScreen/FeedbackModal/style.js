@@ -4,6 +4,7 @@ import { GridSize } from 'src/assets/theme';
 export default StyleSheet.create({
   feedbackModal: {
     flex: 1,
+    maxHeight: '90%',
   },
   feedbackContent: {
     flex: 1,
@@ -20,6 +21,7 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   confirmButton: {
+    flex: 0,
     marginTop: GridSize * 2,
     alignSelf: 'center',
   },
