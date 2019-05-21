@@ -16,6 +16,7 @@ target 'adroit' do
     'CxxBridge',
     'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
     'RCTText',
+    'RCTImage',
     'RCTNetwork',
     'RCTWebSocket', # needed for debugging
     'RCTAnimation',
