@@ -77,7 +77,6 @@ const Copy = {
     title: 'Fixes required',
     reviewerPlaceholder: 'A reviewer',
     intro: ' has requested some changes:',
-    toFix: 'To fix:',
     button: 'Got it!',
     fixPhoto: 'Photo is not appropriate. Please use a different photo.',
     fixCaption: 'Caption needs to be re-worded to include both WHAT you are doing and HOW it impacts Thai people.',

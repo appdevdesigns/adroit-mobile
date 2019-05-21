@@ -42,7 +42,7 @@ const ActivityFeedListItem = ({ item, onPress }) => {
       </Body>
       {editable && (
         <Right>
-          <Icon style={styles.action} type="FontAwesome" name="chevron-right" />
+          <Icon type="FontAwesome" name="chevron-right" />
         </Right>
       )}
     </ListItem>

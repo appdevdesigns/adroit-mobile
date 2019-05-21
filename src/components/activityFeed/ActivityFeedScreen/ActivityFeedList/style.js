@@ -84,7 +84,4 @@ export default StyleSheet.create({
     marginRight: 0,
     color: Color.darkTextSecondary,
   },
-  action: {
-    // ...square()
-  },
 });
