@@ -1,6 +1,6 @@
 {
   "name": "adroit-mobile",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "scripts": {
     "emu": "emulator -avd Custom_API_21 -gpu on -no-boot-anim",
