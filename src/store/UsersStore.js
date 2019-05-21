@@ -7,6 +7,11 @@ import Toast from 'src/util/Toast';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
+const emptyUser = () => ({
+  id: null,
+  displayName: null,
+});
+
 export default class UsersStore extends ResourceStore {
   constructor(rootStore) {
     super(rootStore, 'IDPerson', true);
@@ -22,26 +27,17 @@ export default class UsersStore extends ResourceStore {
 
   @persist('object')
   @observable
-  me = {
-    id: null,
-    displayName: null,
-  };
+  me = emptyUser();
 
   @action.bound
   clear() {
-    this.me = {
-      id: null,
-      displayName: null,
-    };
+    this.me = emptyUser();
     super.clear();
   }
 
   @action.bound
   clearMe() {
-    this.me = {
-      id: null,
-      displayName: null,
-    };
+    this.me = emptyUser();
   }
 
   @action.bound
@@ -65,10 +61,7 @@ export default class UsersStore extends ResourceStore {
       })
       .catch(async error => {
         runInAction(() => {
-          this.me = {
-            id: null,
-            displayName: null,
-          };
+          this.me = emptyUser();
         });
         if (error.status === 401) {
           await this.onUnauthorised();

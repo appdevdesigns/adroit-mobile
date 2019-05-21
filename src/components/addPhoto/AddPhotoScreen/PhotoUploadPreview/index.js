@@ -1,65 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withNavigation } from 'react-navigation';
 import { inject, observer } from 'mobx-react';
 import { Image, View, TouchableOpacity } from 'react-native';
 import { Spinner, Icon } from 'native-base';
-import ActivityImagesStore from 'src/store/ActivityImagesStore';
-import { UploadStatus } from 'src/store/FileUploadStore';
+import AppScreen from 'src/components/app/AppScreen';
+import { NavigationPropTypes } from 'src/util/PropTypes';
+import DraftActivityImageStore, { UploadStatus } from 'src/store/DraftActivityImageStore';
 import baseStyles from 'src/assets/style';
 import styles from './style';
 
-@inject('activityImages')
+@inject('draft')
 @observer
 class PhotoUploadPreview extends React.Component {
-  componentWillMount() {
-    this.initUpload();
-  }
-
-  initUpload = () => {
-    this.props.activityImages.uploadImage(this.props.image);
+  changeImage = () => {
+    this.props.navigation.navigate(AppScreen.Photos);
   };
 
   render() {
     const {
-      image,
-      activityImages: {
-        photo: { uploadProgressPercent, status },
-      },
+      draft: { image, uploadProgressPercent, uploadStatus, fixPhoto, uploadImage },
     } = this.props;
     return (
       <View style={styles.wrapper}>
         <Image resizeMode="contain" source={{ uri: image.uri }} style={styles.image} />
         <View style={baseStyles.centeredOverlay}>
-          {status === UploadStatus.failed && (
-            <TouchableOpacity style={[styles.iconBackground, styles.iconBackgroundFailed]} onPress={this.initUpload}>
+          {uploadStatus === UploadStatus.failed && (
+            <TouchableOpacity style={[styles.iconBackground, styles.iconBackgroundFailed]} onPress={uploadImage}>
               <Icon style={styles.uploadIcon} type="FontAwesome" name="repeat" />
             </TouchableOpacity>
           )}
-          {status === UploadStatus.succeeded && (
+          {!fixPhoto && uploadStatus === UploadStatus.succeeded && (
             <View style={[styles.iconBackground, styles.iconBackgroundSuccess]}>
               <Icon style={styles.uploadIcon} type="FontAwesome" name="check" />
             </View>
           )}
-          {status === UploadStatus.uploading && <Spinner style={styles.spinner} />}
+          {uploadStatus === UploadStatus.uploading && <Spinner style={styles.spinner} />}
         </View>
-        {status === UploadStatus.uploading && (
+        {uploadStatus === UploadStatus.uploading && (
           <View style={baseStyles.centeredOverlay}>
             <Icon style={styles.uploadIcon} type="FontAwesome" name="upload" />
           </View>
         )}
-        <View style={styles.progressContainer}>
-          <View style={[styles.progressBar, { width: `${uploadProgressPercent}%` }]} />
-        </View>
+        {!fixPhoto && (
+          <View style={styles.progressContainer}>
+            <View style={[styles.progressBar, { width: `${uploadProgressPercent}%` }]} />
+          </View>
+        )}
+        {fixPhoto && (
+          <View style={baseStyles.centeredOverlay}>
+            <TouchableOpacity style={[styles.iconBackground, styles.iconBackgroundFailed]} onPress={this.changeImage}>
+              <Icon style={styles.uploadIcon} type="FontAwesome" name="edit" />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
   }
 }
 
-PhotoUploadPreview.wrappedComponent.propTypes = {
-  image: PropTypes.shape({
-    uri: PropTypes.string,
-  }).isRequired,
-  activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
+PhotoUploadPreview.propTypes = {
+  navigation: NavigationPropTypes.isRequired,
 };
 
-export default PhotoUploadPreview;
+PhotoUploadPreview.wrappedComponent.propTypes = {
+  draft: PropTypes.instanceOf(DraftActivityImageStore).isRequired,
+};
+
+export default withNavigation(PhotoUploadPreview);

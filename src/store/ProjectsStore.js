@@ -32,7 +32,7 @@ export default class ProjectsStore extends ResourceStore {
     if (!team) {
       return [];
     }
-    return team.memberIDs.map(id => this.membersMap.get(String(id))).filter(m => m);
+    return this.toMembersList(team.memberIDs);
   }
 
   getProjectMembers(projectID) {
@@ -40,7 +40,7 @@ export default class ProjectsStore extends ResourceStore {
       return [];
     }
     const project = this.map.get(String(projectID));
-    return project ? project.memberIDs.map(id => this.membersMap.get(String(id))).filter(m => m) : [];
+    return project ? this.toMembersList(project.memberIDs) : [];
   }
 
   getTaggableMembers(team) {
@@ -48,6 +48,13 @@ export default class ProjectsStore extends ResourceStore {
       return [];
     }
     return unionBy(this.getTeamMembers(team), this.getProjectMembers(team.IDProject), 'IDPerson');
+  }
+
+  toMembersList(memberIDs) {
+    const authUserId = this.rootStore.users.me.id;
+    const members = memberIDs.map(id => this.membersMap.get(String(id))).filter(m => m);
+    // eslint-disable-next-line no-nested-ternary
+    return members.sort((x, y) => (x.IDPerson === authUserId ? -1 : y.IDPerson === authUserId ? 1 : 0)).slice();
   }
 
   getTeam(teamId) {
@@ -84,6 +91,17 @@ export default class ProjectsStore extends ResourceStore {
       }
     }
     return null;
+  }
+
+  taggedPeople(taggedPeople, projectId) {
+    // Just need to populate the avatar attribute for each tagged person
+    return taggedPeople.map(p => {
+      const matchingPerson = this.map.get(projectId).members.find(m => m.IDPerson === p.IDPerson);
+      return {
+        ...p,
+        avatar: matchingPerson ? matchingPerson.avatar : null,
+      };
+    });
   }
 
   @action.bound

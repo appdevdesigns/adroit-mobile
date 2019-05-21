@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import intersectionBy from 'lodash-es/intersectionBy';
 import { when } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import isBefore from 'date-fns/is_before';
 import { Image, View, AsyncStorage, Keyboard } from 'react-native';
-import Exif from 'react-native-exif';
-import parse from 'date-fns/parse';
 import {
   Container,
   Content,
@@ -25,83 +23,47 @@ import selectStyles from 'src/components/common/Select/style';
 import baseStyles, { round } from 'src/assets/style';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AdroitHeader from 'src/components/common/AdroitHeader';
-import UsersStore from 'src/store/UsersStore';
 import ProjectsStore from 'src/store/ProjectsStore';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
+import DraftActivityImageStore from 'src/store/DraftActivityImageStore';
 import Copy from 'src/assets/Copy';
 import LocationsStore from 'src/store/LocationsStore';
 import { PostStatus } from 'src/store/ResourceStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
-import Monitoring from 'src/util/Monitoring';
 import { format } from 'src/util/date';
 import Api from 'src/util/api';
 import ConfirmationModal from './ConfirmationModal';
+import FeedbackModal from './FeedbackModal';
 import PhotoUploadPreview from './PhotoUploadPreview';
 import styles from './style';
 
 const MAX_CAPTION_CHARS = 240;
 
-@inject('projects', 'activityImages', 'users', 'locations')
+@inject('projects', 'activityImages', 'draft', 'locations')
 @observer
 class AddPhotoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      caption: '',
-      date: undefined,
-      location: undefined,
-      taggedPeople: [],
-      team: undefined,
-      activity: undefined,
       isModalOpen: false,
       isFooterVisible: true,
     };
     when(
-      () => this.props.activityImages.uploadStatus === PostStatus.succeeded,
+      () => this.props.draft.postStatus === PostStatus.succeeded,
       () => {
         this.closeConfirmation();
         this.props.navigation.popToTop();
-        this.props.activityImages.initializeUpload();
+        this.props.draft.resetUpload();
       }
     );
     when(
-      () => this.props.activityImages.uploadStatus === PostStatus.failed,
+      () => this.props.draft.postStatus === PostStatus.failed,
       () => {
         this.closeConfirmation();
       }
     );
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
-  async componentDidMount() {
-    this.initTeamActivities(this.props);
-    const imageUri = this.image().uri;
-    const today = new Date();
-    Exif.getExif(imageUri)
-      .then(data => {
-        if (data.exif && data.exif.DateTime) {
-          try {
-            const formattedDate = data.exif.DateTime.replace(':', '-').replace(':', '-');
-            const date = parse(formattedDate);
-            this.setState({ date });
-          } catch (err) {
-            Monitoring.exception(err, { data, problem: 'Failed to parse exif data' });
-            this.setState({ date: today });
-          }
-        } else {
-          Monitoring.debug('No exif data available');
-          this.setState({ date: today });
-        }
-      })
-      .catch(msg => {
-        Monitoring.exception(msg, { problem: 'Exif.getExif ERROR' });
-        this.setState({ date: today });
-      });
-  }
-
-  componentDidUpdate(nextProps) {
-    this.initTeamActivities(nextProps);
   }
 
   componentWillUnmount() {
@@ -117,21 +79,6 @@ class AddPhotoScreen extends React.Component {
     this.setState({ isFooterVisible: true });
   };
 
-  initTeamActivities = async props => {
-    const { team } = this.state;
-    const { projects } = props;
-    let initTeam = team;
-    if (!team && projects.list && projects.list.length) {
-      const lastTeamId = await AsyncStorage.getItem('last_team_id');
-      if (lastTeamId) {
-        initTeam = projects.getTeam(lastTeamId);
-      }
-      if (initTeam) {
-        this.setTeam(initTeam);
-      }
-    }
-  };
-
   openConfirmation = () => {
     this.setState({ isModalOpen: true });
   };
@@ -142,52 +89,23 @@ class AddPhotoScreen extends React.Component {
 
   addLocation = async location => {
     const newLocation = await this.props.locations.addUserLocation({ name: location });
-    this.setState({ location: newLocation });
+    this.props.draft.updateDraft({ location: newLocation });
   };
 
-  setStateItem = item => value => {
-    this.setState({ [item]: value });
+  hideFeedback = () => {
+    this.props.draft.updateDraft({ showFeedback: false });
   };
 
-  setTeam = team => {
-    const { users, projects } = this.props;
-    const prevTeam = this.state.team;
-    const newState = {
-      team,
-    };
-    const allTaggable = projects.getTaggableMembers(team);
-    if (!prevTeam && users && users.me) {
-      const me = allTaggable.find(m => m.IDPerson === users.me.id);
-      if (me) {
-        newState.taggedPeople = [me];
-      }
-    } else if (prevTeam && prevTeam.IDMinistry !== team.IDMinistry) {
-      newState.activity = undefined;
-      newState.taggedPeople = intersectionBy(this.state.taggedPeople, allTaggable, 'IDPerson');
-    }
-    this.setState(newState);
+  setDraftProp = item => value => {
+    this.props.draft.updateDraft({ [item]: value });
   };
 
   upload = async () => {
-    const { team, activity, caption, location, date, taggedPeople } = this.state;
-    const { activityImages } = this.props;
+    const { draft } = this.props;
     // Persist the team for initialization next time
-    await AsyncStorage.setItem('last_team_id', String(team.IDMinistry));
-
-    const activityImage = {
-      image: this.image(),
-      activityId: activity.id,
-      caption,
-      date,
-      location: location.name,
-      taggedPeopleIds: taggedPeople.map(p => p.IDPerson),
-    };
-    activityImages.upload(activityImage);
+    await AsyncStorage.setItem('last_team_id', String(draft.team.IDMinistry));
+    draft.upload();
   };
-
-  image() {
-    return this.props.navigation.state.params.image;
-  }
 
   renderTeamMember = person => (
     <View style={styles.teamMember}>
@@ -231,23 +149,41 @@ class AddPhotoScreen extends React.Component {
   );
 
   render() {
-    const { projects, activityImages, locations } = this.props;
-    const { caption, date, location, team, activity, taggedPeople, isModalOpen, isFooterVisible } = this.state;
-    const isSaveEnabled = !!(
-      activityImages.photo.isUploaded &&
-      caption &&
-      caption.length &&
-      date &&
-      location &&
-      team &&
-      activity &&
-      taggedPeople.length
-    );
+    const {
+      projects,
+      activityImages,
+      locations,
+      draft: {
+        isNew,
+        caption,
+        date,
+        location,
+        team,
+        activity,
+        taggedPeople,
+        postStatus,
+        fixCaption,
+        fixLocation,
+        fixDate,
+        fixTeam,
+        fixActivity,
+        fixTaggedPeople,
+        isReadyForPosting,
+        showFeedback,
+        feedback,
+        updateTeam,
+      },
+    } = this.props;
+    const { isModalOpen, isFooterVisible } = this.state;
 
     const allLocations = [
       { title: Copy.myLocationsSection, data: locations.authenticatedUsersLocations },
       { title: Copy.fcfLocationsSection, data: locations.fcfLocations },
     ];
+
+    const activities = team
+      ? team.activities.filter(a => !a.date_end || !isBefore(a.date_end, date || Date.now()))
+      : [];
 
     const taggablePeople = [
       { title: Copy.teamMembersSectionTitle, data: projects.getTeamMembers(team) },
@@ -257,16 +193,16 @@ class AddPhotoScreen extends React.Component {
     return (
       <AdroitScreen>
         <Container>
-          <AdroitHeader title={Copy.addPhotoTitle} />
+          <AdroitHeader title={isNew ? Copy.addPhotoTitle : Copy.editPhotoTitle} />
           <Content>
-            <PhotoUploadPreview image={this.image()} />
+            <PhotoUploadPreview />
             <View style={styles.main}>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixCaption}>
                 <Text style={styles.charCount}>{MAX_CAPTION_CHARS - caption.length}</Text>
                 <Label style={styles.label}>{Copy.captionLabel}</Label>
                 <Textarea
                   value={caption}
-                  onChangeText={this.setStateItem('caption')}
+                  onChangeText={this.setDraftProp('caption')}
                   returnKeyType="next"
                   blurOnSubmit
                   onSubmitEditing={() => {
@@ -279,7 +215,7 @@ class AddPhotoScreen extends React.Component {
                   placeholderTextColor="#999"
                 />
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixDate}>
                 <Label style={styles.label}>{Copy.dateLabel}</Label>
                 {!date ? (
                   <Spinner style={styles.spinner} size="small" />
@@ -296,11 +232,11 @@ class AddPhotoScreen extends React.Component {
                     textStyle={styles.date}
                     animationType="fade"
                     androidMode="default"
-                    onDateChange={this.setStateItem('date')}
+                    onDateChange={this.setDraftProp('date')}
                   />
                 )}
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixLocation}>
                 <Label style={styles.label}>{Copy.locationLabel}</Label>
                 <Select
                   style={styles.input}
@@ -310,7 +246,7 @@ class AddPhotoScreen extends React.Component {
                   modalHeader={Copy.locationModalHeader}
                   placeholder={Copy.locationPlaceholder}
                   selectedItem={location}
-                  onSelectedItemChange={this.setStateItem('location')}
+                  onSelectedItemChange={this.setDraftProp('location')}
                   onAddOption={this.addLocation}
                   items={allLocations}
                   renderSelectedItem={this.renderSelectedLocation}
@@ -319,7 +255,7 @@ class AddPhotoScreen extends React.Component {
                   filterPlaceholder={Copy.selectLocationFilterPlaceholder}
                 />
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixTeam}>
                 <Label style={styles.label}>{Copy.teamLabel}</Label>
                 {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
@@ -331,12 +267,12 @@ class AddPhotoScreen extends React.Component {
                     modalHeader={Copy.teamModalHeader}
                     placeholder={Copy.teamPlaceholder}
                     selectedItem={team}
-                    onSelectedItemChange={this.setTeam}
+                    onSelectedItemChange={updateTeam}
                     items={projects.allTeams}
                   />
                 )}
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixActivity}>
                 <Label style={styles.label}>{Copy.activityLabel}</Label>
                 {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
@@ -350,12 +286,12 @@ class AddPhotoScreen extends React.Component {
                     emptyListTitle={Copy.selectActivityEmptyTitle}
                     emptyListMessage={Copy.selectActivityEmptyMessage}
                     selectedItem={activity}
-                    onSelectedItemChange={this.setStateItem('activity')}
-                    items={team ? team.activities.slice() : []}
+                    onSelectedItemChange={this.setDraftProp('activity')}
+                    items={activities}
                   />
                 )}
               </Item>
-              <Item stackedLabel style={styles.item}>
+              <Item stackedLabel style={styles.item} error={fixTaggedPeople}>
                 <Label style={styles.label}>{Copy.taggedPeopleLabel}</Label>
                 {projects.loading || !projects.list ? (
                   <Spinner style={[styles.input, styles.spinner]} size="small" />
@@ -364,7 +300,7 @@ class AddPhotoScreen extends React.Component {
                     filterable
                     style={styles.input}
                     items={taggablePeople}
-                    selectedItems={taggedPeople}
+                    selectedItems={taggedPeople.slice()}
                     uniqueKey="IDPerson"
                     displayKey="display_name"
                     isSectioned
@@ -372,7 +308,7 @@ class AddPhotoScreen extends React.Component {
                     modalHeader={Copy.taggedPeopleModalHeader}
                     emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}
                     emptyListMessage={Copy.selectTaggedPeopleEmptyMessage}
-                    onSelectedItemsChange={this.setStateItem('taggedPeople')}
+                    onSelectedItemsChange={this.setDraftProp('taggedPeople')}
                     renderItem={this.renderTeamMember}
                     renderSelectedItems={this.renderSelectedTeamMembers}
                   />
@@ -383,15 +319,17 @@ class AddPhotoScreen extends React.Component {
               visible={isModalOpen}
               caption={caption}
               taggedPeople={taggedPeople.map(m => m.display_name).join(', ')}
+              uploadStatus={postStatus}
               onCancel={this.closeConfirmation}
               onConfirm={this.upload}
               isUploading={false}
             />
+            <FeedbackModal visible={showFeedback} onRequestClose={this.hideFeedback} feedback={feedback} />
           </Content>
           {isFooterVisible && (
             <Footer>
               <FooterTab>
-                <Button active full disabled={!isSaveEnabled} onPress={this.openConfirmation}>
+                <Button active full disabled={!isReadyForPosting} onPress={this.openConfirmation}>
                   <Text>{Copy.addPhotoSaveButtonText}</Text>
                 </Button>
               </FooterTab>
@@ -411,8 +349,8 @@ AddPhotoScreen.defaultProps = {};
 
 AddPhotoScreen.wrappedComponent.propTypes = {
   projects: PropTypes.instanceOf(ProjectsStore).isRequired,
-  users: PropTypes.instanceOf(UsersStore).isRequired,
   activityImages: PropTypes.instanceOf(ActivityImagesStore).isRequired,
+  draft: PropTypes.instanceOf(DraftActivityImageStore).isRequired,
   locations: PropTypes.instanceOf(LocationsStore).isRequired,
 };
 
