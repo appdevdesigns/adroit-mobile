@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, CameraRoll, View, Image, StatusBar, SafeAreaView } from 'react-native';
+import { TouchableOpacity, CameraRoll, View, Image, SafeAreaView } from 'react-native';
 import { Container, Icon } from 'native-base';
 import ImageResizer from 'react-native-image-resizer';
 import { RNCamera } from 'react-native-camera';
@@ -12,6 +12,7 @@ import BackButton from 'src/components/common/BackButton';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AppScreen from 'src/components/app/AppScreen';
 import PermissionsStore, { Permission } from 'src/store/PermissionsStore';
+import DraftActivityImageStore from 'src/store/DraftActivityImageStore';
 import DeviceInfoStore from 'src/store/DeviceInfoStore';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import Monitoring, { Event } from 'src/util/Monitoring';
@@ -35,7 +36,7 @@ const PHOTO_OPTIONS = {
   base64: true,
 };
 
-@inject('permissions', 'deviceInfo')
+@inject('permissions', 'deviceInfo', 'draft')
 @observer
 class CameraScreen extends React.Component {
   constructor(props) {
@@ -54,11 +55,12 @@ class CameraScreen extends React.Component {
   }
 
   takePicture = () => {
+    const { navigation, draft, permissions } = this.props;
     if (this.camera) {
       this.camera
         .takePictureAsync(PHOTO_OPTIONS)
         .then(data => {
-          if (this.props.permissions.canWriteToExternalStorage) {
+          if (permissions.canWriteToExternalStorage) {
             CameraRoll.saveToCameraRoll(data.uri, 'photo').then(uri => {
               Monitoring.debug('Saved photo to camera roll', uri);
             });
@@ -73,7 +75,8 @@ class CameraScreen extends React.Component {
             0
           )
             .then(resized => {
-              this.props.navigation.navigate(AppScreen.AddPhoto, { image: resized });
+              draft.updateImage(resized);
+              navigation.navigate(AppScreen.AddPhoto);
             })
             .catch(err => {
               Monitoring.exception(err, { problem: 'Could not resize photo' });
@@ -197,16 +200,12 @@ class CameraScreen extends React.Component {
 
 CameraScreen.propTypes = {
   navigation: NavigationPropTypes.isRequired,
-  currentOrientation: PropTypes.string,
-};
-
-CameraScreen.defaultProps = {
-  currentOrientation: null,
 };
 
 CameraScreen.wrappedComponent.propTypes = {
   permissions: PropTypes.instanceOf(PermissionsStore).isRequired,
   deviceInfo: PropTypes.instanceOf(DeviceInfoStore).isRequired,
+  draft: PropTypes.instanceOf(DraftActivityImageStore).isRequired,
 };
 
 export default CameraScreen;

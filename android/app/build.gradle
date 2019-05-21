@@ -114,6 +114,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.3.0"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
         resValue "string", "build_config_package", "com.digiserve.adroit"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true

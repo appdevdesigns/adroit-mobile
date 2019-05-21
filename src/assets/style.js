@@ -179,7 +179,7 @@ export default StyleSheet.create({
   subtleIcon: {
     color: ThemeColor.darkTextMuted,
   },
-  boldText: {
+  bold: {
     fontWeight: 'bold',
   },
 });

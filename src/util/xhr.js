@@ -41,7 +41,19 @@ const xhr = async (url, options) => {
   if (options.onLoad) {
     req.onload = response => {
       Monitoring.debug(`XHR response: ${url}`, response.currentTarget.response);
-      options.onLoad(response);
+      if (response.currentTarget.status < 200 || response.currentTarget.status >= 300) {
+        if (options.onError) {
+          options.onError(response.currentTarget.status);
+        } else {
+          Monitoring.error('XHR request failed but no onError handler provided', {
+            url,
+            options,
+            response: response.currentTarget,
+          });
+        }
+      } else {
+        options.onLoad(response);
+      }
     };
   }
   if (options.onError) {

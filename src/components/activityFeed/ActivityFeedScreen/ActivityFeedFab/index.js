@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withNavigation } from 'react-navigation';
 import { Icon, Fab } from 'native-base';
 import { CopilotView, CopilotStepAddPhoto } from 'src/util/copilot';
@@ -6,8 +7,9 @@ import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import styles from './style';
 
-const ActivityFeedFab = ({ navigation }) => {
-  const goToPhotos = () => {
+const ActivityFeedFab = ({ navigation, initNewDraft }) => {
+  const goToPhotos = async () => {
+    await initNewDraft();
     navigation.navigate(AppScreen.Photos);
   };
 
@@ -24,6 +26,7 @@ const ActivityFeedFab = ({ navigation }) => {
 
 ActivityFeedFab.propTypes = {
   navigation: NavigationPropTypes.isRequired,
+  initNewDraft: PropTypes.func.isRequired,
 };
 
 export default withNavigation(ActivityFeedFab);

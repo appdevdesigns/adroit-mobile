@@ -17,7 +17,7 @@ const plist = os === 'ios' ? '--plist-file ios/adroit/Info.plist' : '';
 const help = `
 Creates a code push release and tags the current git commit with the release number
 
-node ./srcripts/code_push.js
+node ./scripts/code_push.js
   -h --help
   --os           Either android or ios
   --environment  Either Staging or Production

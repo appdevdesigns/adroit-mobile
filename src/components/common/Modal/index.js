@@ -4,7 +4,7 @@ import { Modal, View } from 'react-native';
 import { Button, Icon, Text } from 'native-base';
 import styles from './style';
 
-const DSModal = ({ children, header, hideHeader, ...props }) => (
+const DSModal = ({ children, header, hideHeader, contentStyle, ...props }) => (
   <Modal {...props}>
     <View style={styles.outerWrapper}>
       <View style={styles.wrapper}>
@@ -16,7 +16,7 @@ const DSModal = ({ children, header, hideHeader, ...props }) => (
             </Button>
           </View>
         )}
-        <View style={styles.content}>{children}</View>
+        <View style={[styles.content, contentStyle]}>{children}</View>
       </View>
     </View>
   </Modal>
@@ -27,12 +27,14 @@ DSModal.propTypes = {
   onRequestClose: PropTypes.func.isRequired,
   children: PropTypes.node,
   hideHeader: PropTypes.bool,
+  contentStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.shape()]),
 };
 
 DSModal.defaultProps = {
   children: undefined,
   header: '',
   hideHeader: false,
+  contentStyle: {},
 };
 
 export default DSModal;
