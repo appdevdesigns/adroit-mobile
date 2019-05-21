@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Text, Button, Icon } from 'native-base';
 import Copy from 'src/assets/Copy';
 import baseStyles from 'src/assets/style';
@@ -17,9 +17,15 @@ const FeedbackItem = ({ text }) => (
 );
 
 const FeedbackModal = ({ feedback, ...restProps }) => (
-  <Modal {...restProps} animationType="fade" transparent header={Copy.photoFeedback.title}>
+  <Modal
+    {...restProps}
+    animationType="fade"
+    transparent
+    header={Copy.photoFeedback.title}
+    contentStyle={styles.feedbackModal}
+  >
     {!!feedback && (
-      <View>
+      <View style={styles.feedbackContent}>
         <Text style={styles.withBottomMargin}>
           {feedback.deniedBy ? (
             <Text style={baseStyles.bold}>{feedback.deniedBy.display_name}</Text>
@@ -28,11 +34,13 @@ const FeedbackModal = ({ feedback, ...restProps }) => (
           )}
           {Copy.photoFeedback.intro}
         </Text>
-        {!!feedback.customMessage && <FeedbackItem text={feedback.customMessage} />}
-        {!!feedback.fixPhoto && <FeedbackItem text={Copy.photoFeedback.fixPhoto} />}
-        {!!feedback.fixCaption && <FeedbackItem text={Copy.photoFeedback.fixCaption} />}
-        {!!feedback.fixDate && <FeedbackItem text={Copy.photoFeedback.fixDate} />}
-        {!!feedback.fixLocation && <FeedbackItem text={Copy.photoFeedback.fixLocation} />}
+        <ScrollView style={styles.scrollView}>
+          {!!feedback.customMessage && <FeedbackItem text={feedback.customMessage} />}
+          {!!feedback.fixPhoto && <FeedbackItem text={Copy.photoFeedback.fixPhoto} />}
+          {!!feedback.fixCaption && <FeedbackItem text={Copy.photoFeedback.fixCaption} />}
+          {!!feedback.fixDate && <FeedbackItem text={Copy.photoFeedback.fixDate} />}
+          {!!feedback.fixLocation && <FeedbackItem text={Copy.photoFeedback.fixLocation} />}
+        </ScrollView>
         <Button style={styles.confirmButton} iconLeft small primary onPress={restProps.onRequestClose}>
           <Icon type="FontAwesome" name="check-circle" />
           <Text style={styles.buttonText}>{Copy.photoFeedback.button}</Text>

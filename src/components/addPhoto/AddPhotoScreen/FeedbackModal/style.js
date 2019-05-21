@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 import { GridSize } from 'src/assets/theme';
 
 export default StyleSheet.create({
+  feedbackModal: {
+    flex: 1,
+  },
+  feedbackContent: {
+    flex: 1,
+  },
   customMessage: {
     fontStyle: 'italic',
   },
@@ -14,10 +20,13 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   confirmButton: {
-    marginTop: GridSize,
+    marginTop: GridSize * 2,
     alignSelf: 'center',
   },
   withBottomMargin: {
     marginBottom: GridSize,
+  },
+  scrollView: {
+    flex: 1,
   },
 });
