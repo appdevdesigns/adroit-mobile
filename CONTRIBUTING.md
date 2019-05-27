@@ -72,6 +72,8 @@ As the main version number appears in multiple places, a helper script, `bump_ve
 > git commit -m 'Bumped version number to 1.0.0'
 ```
 
+**Don't forget to update the [CHANGELOG.md](./CHANGELOG.md) when bumping the version number.**
+
 ### 2. `v##` the Code Push version
 
 This is a single numeric version number that increments for every Code Push release. It indicates the version of the in-app Code Push update (see section on [Code Push](#code-push)).

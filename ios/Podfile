@@ -43,6 +43,10 @@ target 'adroit' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'react-native-onesignal',
+    :path => "../node_modules/react-native-onesignal/react-native-onesignal.podspec",
+    :inhibit_warnings => true
+
   target 'adroitTests' do
     inherit! :search_paths
     # Pods for testing
