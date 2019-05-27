@@ -67,6 +67,10 @@ target 'adroit-tvOS' do
 
 end
 
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 2.9.3', '< 3.0'
+end
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
