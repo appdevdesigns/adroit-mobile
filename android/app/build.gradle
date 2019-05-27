@@ -115,7 +115,7 @@ android {
         versionCode 1
         versionName "1.4.0"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
         resValue "string", "build_config_package", "com.digiserve.adroit"
         missingDimensionStrategy 'react-native-camera', 'general'
