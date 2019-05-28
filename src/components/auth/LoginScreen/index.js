@@ -91,7 +91,8 @@ class LoginScreen extends React.Component {
     await this.props.deviceInfo.checkCodePushVersion();
     const sessionIsOpen = await this.props.auth.checkSession();
     if (sessionIsOpen) {
-      this.props.auth.onLoggedIn();
+      const { username } = await AuthStore.getCachedCredentials();
+      this.props.auth.onLoggedIn(username);
       this.onAuthenticated();
       return;
     }
