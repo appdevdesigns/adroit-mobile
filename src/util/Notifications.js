@@ -1,5 +1,4 @@
 import OneSignal from 'react-native-onesignal';
-import { Platform } from 'react-native';
 import Config from 'react-native-config';
 import Monitoring from 'src/util/Monitoring';
 
@@ -20,17 +19,8 @@ const NotificationConfig = {
   kOSSettingsKeyInFocusDisplayOption: 1,
 };
 
-// Currently Notifications are only supported on Android
-// (Until testing on iOS is complete)
-const notificationsSupported = () => Platform.OS === 'android';
-
 const Notifications = {
   init: () => {
-    if (!notificationsSupported()) {
-      Monitoring.debug('Notifications: init skipped - not supported');
-      return;
-    }
-
     const logLevels = __DEV__
       ? {
           console: ONE_SIGNAL_LOG_LEVEL.Verbose,
@@ -57,12 +47,8 @@ const Notifications = {
   },
 
   setAuthUser: user => {
-    if (!notificationsSupported()) {
-      Monitoring.debug('Notifications: setAuthUser skipped - not supported');
-      return;
-    }
     try {
-      OneSignal.setExternalUserId(String(user.IDPerson));
+      OneSignal.setExternalUserId(String(user.id));
       OneSignal.sendTags({
         user_id: user.id,
         real_name: user.displayName,
@@ -74,10 +60,6 @@ const Notifications = {
   },
 
   checkStatus: () => {
-    if (!notificationsSupported()) {
-      Monitoring.debug('Notifications: checkStatus skipped - not supported');
-      return;
-    }
     try {
       OneSignal.getPermissionSubscriptionState(subscriptionState => {
         Monitoring.debug('OneSignal permission subscription state', subscriptionState);
