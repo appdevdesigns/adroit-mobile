@@ -27,7 +27,6 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.devialab.exif.RCTExifPackage;
-import org.reactnative.camera.RNCameraPackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
@@ -76,7 +75,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTLocalePackage(),
             new ReactNativeConfigPackage(),
             new RCTExifPackage(),
-            new RNCameraPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
             new AppCenterReactNativePackage(MainApplication.this),

@@ -129,7 +129,6 @@ android {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
         resValue "string", "build_config_package", "com.digiserve.adroit"
-        missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
 
         // Used by react-native-image-crop-picker
@@ -209,13 +208,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation (project(':react-native-camera')) {
-        exclude group: "com.google.android.gms"
-        implementation 'com.android.support:exifinterface:26.+'
-        implementation ('com.google.android.gms:play-services-vision:12.0.1') {
-            force = true
-        }
-    }
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-sentry')
     implementation project(':react-native-keychain')
