@@ -20,13 +20,13 @@ const NotificationConfig = {
   kOSSettingsKeyInFocusDisplayOption: 1,
 };
 
-const Notifications = {
-  // Currently Notifications are only supported on Android
-  // (Until testing on iOS is complete)
-  notificationsSupported: () => Platform.OS === 'android',
+// Currently Notifications are only supported on Android
+// (Until testing on iOS is complete)
+const notificationsSupported = () => Platform.OS === 'android';
 
+const Notifications = {
   init: () => {
-    if (!this.notificationsSupported()) {
+    if (!notificationsSupported()) {
       Monitoring.debug('Notifications: init skipped - not supported');
       return;
     }
@@ -57,7 +57,7 @@ const Notifications = {
   },
 
   setAuthUser: user => {
-    if (!this.notificationsSupported()) {
+    if (!notificationsSupported()) {
       Monitoring.debug('Notifications: setAuthUser skipped - not supported');
       return;
     }
@@ -74,7 +74,7 @@ const Notifications = {
   },
 
   checkStatus: () => {
-    if (!this.notificationsSupported()) {
+    if (!notificationsSupported()) {
       Monitoring.debug('Notifications: checkStatus skipped - not supported');
       return;
     }
