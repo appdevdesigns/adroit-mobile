@@ -5,13 +5,11 @@
   "scripts": {
     "emu": "emulator -avd Custom_API_21 -gpu on -no-boot-anim",
     "start": "react-native start",
-    "postinstall": "./postinstall.sh",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "android-debug": "adb reverse tcp:8081 tcp:8010 & react-native run-android --appIdSuffix debug",
     "android-release": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant release",
     "android-staging": "adb reverse tcp:8081 tcp:8010 & react-native run-android --variant releaseStaging",
     "ios-debug": "adb reverse tcp:8081 tcp:8010 & react-native run-ios --simulator=\"iPhone xR\"",
-    "fix": "./postinstall.sh",
     "cp-release": "node ./scripts/code_push.js",
     "appcenter-build": "node ./scripts/appcenter_build.js",
     "publish-help": "node ./scripts/publish_help.js",
