@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -26,7 +27,6 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.devialab.exif.RCTExifPackage;
-import org.reactnative.camera.RNCameraPackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
@@ -56,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeOneSignalPackage(),
             new RNGestureHandlerPackage(),
             new PickerPackage(),
             new RNCWebViewPackage(),
@@ -74,7 +75,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTLocalePackage(),
             new ReactNativeConfigPackage(),
             new RCTExifPackage(),
-            new RNCameraPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
             new AppCenterReactNativePackage(MainApplication.this),

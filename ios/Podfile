@@ -43,6 +43,10 @@ target 'adroit' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'react-native-onesignal',
+    :path => "../node_modules/react-native-onesignal/react-native-onesignal.podspec",
+    :inhibit_warnings => true
+
   target 'adroitTests' do
     inherit! :search_paths
     # Pods for testing
@@ -61,6 +65,10 @@ target 'adroit-tvOS' do
     # Pods for testing
   end
 
+end
+
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 2.9.3', '< 3.0'
 end
 
 post_install do |installer|

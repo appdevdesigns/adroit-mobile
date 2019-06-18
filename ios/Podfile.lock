@@ -21,9 +21,13 @@ PODS:
   - glog (0.3.5)
   - JWT (3.0.0-beta.11):
     - Base64 (~> 1.1.2)
+  - OneSignal (2.10.0)
   - QBImagePickerController (3.4.0)
   - React (0.59.8):
     - React/Core (= 0.59.8)
+  - react-native-onesignal (3.2.14):
+    - OneSignal (= 2.10.0)
+    - React
   - react-native-orientation (3.1.3):
     - React
   - react-native-webview (5.9.1):
@@ -93,6 +97,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-onesignal (from `../node_modules/react-native-onesignal/react-native-onesignal.podspec`)
   - react-native-orientation (from `../node_modules/react-native-orientation`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React/Core (from `../node_modules/react-native`)
@@ -116,6 +121,7 @@ SPEC REPOS:
     - Base64
     - boost-for-react-native
     - JWT
+    - OneSignal
     - QBImagePickerController
     - RSKImageCropper
     - SSZipArchive
@@ -131,6 +137,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-onesignal:
+    :path: "../node_modules/react-native-onesignal/react-native-onesignal.podspec"
   react-native-orientation:
     :path: "../node_modules/react-native-orientation"
   react-native-webview:
@@ -156,8 +164,10 @@ SPEC CHECKSUMS:
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
+  OneSignal: 0f5ff711d9f25da54885e4ab06ef0abc221a46ef
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
+  react-native-onesignal: 83c370c7381345d010f253c9f77b4e22f5cb388f
   react-native-orientation: f1caf84d65f1a4fd4511a18f2b924e634ad7a628
   react-native-webview: 6177f0aa813dad7f7d413ca7b8767af1f8f1555e
   RNCAsyncStorage: 0c3ef98facf3fecf455b518d6f52e10fc964c523
@@ -168,6 +178,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 8e859da2520142e09166bc9161967db296e9d02f
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: bd1ec0abcd8ca32c7c4cd8ed76de6e0b1b60170d
+PODFILE CHECKSUM: b05ab8a1e328cc339a080c3277ac9510121bb161
 
 COCOAPODS: 1.6.1
