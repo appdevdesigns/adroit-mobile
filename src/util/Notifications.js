@@ -1,6 +1,10 @@
 import OneSignal from 'react-native-onesignal';
 import Config from 'react-native-config';
+import { Platform } from 'react-native';
 import Monitoring from 'src/util/Monitoring';
+
+// Ignore notifications for now on Android as there's an issue with dependencies
+const notificationsDisabled = Platform.OS === 'android';
 
 // Ref: https://documentation.onesignal.com/docs/react-native-sdk#section--setloglevel-
 const ONE_SIGNAL_LOG_LEVEL = {
@@ -21,6 +25,10 @@ const NotificationConfig = {
 
 const Notifications = {
   init: () => {
+    if (notificationsDisabled) {
+      Monitoring.debug('Notifications.init() skipped');
+      return;
+    }
     const logLevels = __DEV__
       ? {
           console: ONE_SIGNAL_LOG_LEVEL.Verbose,
@@ -47,6 +55,10 @@ const Notifications = {
   },
 
   setAuthUser: user => {
+    if (notificationsDisabled) {
+      Monitoring.debug('Notifications.setAuthUser() skipped');
+      return;
+    }
     try {
       OneSignal.setExternalUserId(String(user.id));
       OneSignal.sendTags({
@@ -60,6 +72,10 @@ const Notifications = {
   },
 
   checkStatus: () => {
+    if (notificationsDisabled) {
+      Monitoring.debug('Notifications.checkStatus() skipped');
+      return;
+    }
     try {
       OneSignal.getPermissionSubscriptionState(subscriptionState => {
         Monitoring.debug('OneSignal permission subscription state', subscriptionState);
