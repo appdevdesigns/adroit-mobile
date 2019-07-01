@@ -12,7 +12,7 @@ import AuthStore from 'src/store/AuthStore';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import ActivityImagesStore from 'src/store/ActivityImagesStore';
 import DraftActivityImageStore from 'src/store/DraftActivityImageStore';
-// import Notifications from 'src/util/Notifications';
+import Notifications from 'src/util/Notifications';
 import { NavigationPropTypes } from 'src/util/PropTypes';
 import AppScreen from 'src/components/app/AppScreen';
 import Monitoring, { Event } from 'src/util/Monitoring';
@@ -60,7 +60,7 @@ class ActivityFeedScreen extends React.Component {
     this.props.copilotEvents.on('stepChange', ({ name, order }) => {
       Monitoring.event(Event.OnboardingStepViewed, { name, order });
     });
-    // Notifications.checkStatus();
+    Notifications.checkStatus();
   }
 
   componentWillUnmount() {

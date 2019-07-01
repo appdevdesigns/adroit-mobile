@@ -3,7 +3,7 @@ import { persist } from 'mobx-persist';
 import Copy from 'src/assets/Copy';
 import fetchJson from 'src/util/fetch';
 import Monitoring from 'src/util/Monitoring';
-// import Notifications from 'src/util/Notifications';
+import Notifications from 'src/util/Notifications';
 import Toast from 'src/util/Toast';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
@@ -54,7 +54,7 @@ export default class UsersStore extends ResourceStore {
           username: this.rootStore.auth.username,
         };
         Monitoring.setUserContext(authUser);
-        // Notifications.setAuthUser(authUser);
+        Notifications.setAuthUser(authUser);
         runInAction(() => {
           this.me = authUser;
         });
