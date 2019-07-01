@@ -6,11 +6,11 @@ import { StyleProvider, Root, getTheme } from 'native-base';
 import theme from 'src/assets/theme';
 import Store from 'src/store';
 import Monitoring from 'src/util/Monitoring';
-import Notifications from 'src/util/Notifications';
+// import Notifications from 'src/util/Notifications';
 import Navigation from './Navigation';
 
 Monitoring.init();
-Notifications.init();
+// Notifications.init();
 
 // Disable the 'isMounted() and MobX Provider deprecation warnings from showing up in the yellow box
 console.ignoredYellowBox = ['Warning: isMounted', 'MobX Provider:']; // eslint-disable-line
