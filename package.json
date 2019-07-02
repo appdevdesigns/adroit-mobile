@@ -3,6 +3,7 @@
   "version": "1.4.1",
   "private": true,
   "scripts": {
+    "postinstall": "./postinstall.sh",
     "emu": "emulator -avd Custom_API_21 -gpu on -no-boot-anim",
     "start": "react-native start",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
