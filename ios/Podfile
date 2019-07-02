@@ -47,6 +47,8 @@ target 'adroit' do
     :path => "../node_modules/react-native-onesignal/react-native-onesignal.podspec",
     :inhibit_warnings => true
 
+  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+
   target 'adroitTests' do
     inherit! :search_paths
     # Pods for testing
