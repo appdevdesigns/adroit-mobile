@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { Platform } from 'react-native';
+import { Platform, CameraRoll } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { Icon, Fab, Button } from 'native-base';
@@ -68,7 +68,10 @@ class ActivityFeedFab extends React.Component {
   takePhoto = async () => {
     this.setState({ isFabActive: false }, () => {
       ImagePicker.openCamera(imageRequest)
-        .then(this.usePhoto)
+        .then(image => {
+          CameraRoll.saveToCameraRoll(image.path);
+          this.usePhoto(image);
+        })
         .catch(e => {
           if (e.code !== 'E_PICKER_CANCELLED') {
             Monitoring.exception(e, { message: 'Error caught while attempting to take photo' });
