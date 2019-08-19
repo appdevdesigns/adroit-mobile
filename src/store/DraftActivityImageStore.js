@@ -285,22 +285,18 @@ export default class DraftActivityImageStore {
     const options = {
       method: 'POST',
       body,
-      headers: {
+      headers: new Headers({
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
-      },
-      onProgress: e => {
-        if (e.lengthComputable) {
-          runInAction(() => {
-            this.uploadProgressPercent = parseInt((e.loaded / e.total) * 100, 10);
-          });
-        }
-      },
-      onLoad: response => {
+      }),
+    };
+
+    fetchJson(url, options)
+      .then(response => {
         try {
-          const { data } = JSON.parse(response.currentTarget.response);
           runInAction(() => {
-            this.uploadedImageName = data.name;
+            this.uploadProgressPercent = 100;
+            this.uploadedImageName = response.json.data.name;
             this.uploadStatus = UploadStatus.succeeded;
           });
         } catch (error) {
@@ -312,19 +308,16 @@ export default class DraftActivityImageStore {
           });
           onUploadError();
         }
-      },
-      onError: async status => {
-        if (status === 401) {
+      })
+      .catch(async error => {
+        if (error.status === 401) {
           Toast.danger(Copy.toast.unauthorized);
           await this.rootStore.auth.logout();
         } else {
-          Monitoring.error('Failed to upload file', { url, body });
+          Monitoring.error('Failed to upload file', { url, body, error });
           onUploadError();
         }
-      },
-    };
-
-    xhr(url, options);
+      });
   }
 
   @action.bound
