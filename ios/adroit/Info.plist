@@ -43,15 +43,15 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Adroit needs your permission to use the Camera</string>
+	<string>This will allow you to take a photo of your FCF activity from within the app.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>In the future, Adroit may use your location to suggest a location to associate with an activity image</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>In the future, Adroit may use your location to suggest a location to associate with an activity image</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Adroit needs your permission to access the camera roll</string>
+	<string>This will let Adroit save a copy of a photo taken within the app to the camera roll so you can share it with other volunteers.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Adroit needs your permission to access the camera roll</string>
+	<string>This will allow you to select a previously-taken photo of your FCF activity.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
