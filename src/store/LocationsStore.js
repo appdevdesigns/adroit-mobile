@@ -21,7 +21,7 @@ const sortLocations = (locationA, locationB) => {
   if (locationB.priority < locationA.priority) {
     return 1;
   }
-  return locationA.name.localeCompare(locationB.name, undefined, { sensitivity: 'base' });
+  return locationA.name.localeCompare(locationB.name, 'en', { sensitivity: 'base' });
 };
 
 export default class LocationsStore extends ResourceStore {
