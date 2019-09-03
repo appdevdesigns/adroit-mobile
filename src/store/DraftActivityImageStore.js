@@ -215,7 +215,7 @@ export default class DraftActivityImageStore {
     const prevTeam = this.team;
     const allTaggable = projects.getTaggableMembers(team);
     if (!prevTeam && users && users.me) {
-      const me = allTaggable.find(m => m.IDPerson === users.me.id);
+      const me = allTaggable.find(m => String(m.IDPerson) === String(users.me.id));
       if (me) {
         this.taggedPeople = [me];
       }
@@ -354,7 +354,7 @@ export default class DraftActivityImageStore {
           // HACK: Need to re-populate some fields as they are not correctly populated in the PUT response
           newActivityImage.taggedPeople = this.taggedPeople.map(p => p.IDPerson);
           newActivityImage.uploadedBy = {
-            IDPerson: this.rootStore.users.me.id,
+            IDPerson: parseInt(this.rootStore.users.me.id, 10),
           };
           newActivityImage.displayName = this.rootStore.users.me.displayName;
         }
