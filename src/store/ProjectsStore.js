@@ -51,7 +51,7 @@ export default class ProjectsStore extends ResourceStore {
   }
 
   toMembersList(memberIDs) {
-    const authUserId = this.rootStore.users.me.id;
+    const authUserId = parseInt(this.rootStore.users.me.id, 10);
     const members = memberIDs.map(id => this.membersMap.get(String(id))).filter(m => m);
     // eslint-disable-next-line no-nested-ternary
     return members.sort((x, y) => (x.IDPerson === authUserId ? -1 : y.IDPerson === authUserId ? 1 : 0)).slice();
