@@ -359,7 +359,7 @@ export default class DraftActivityImageStore {
           newActivityImage.displayName = this.rootStore.users.me.displayName;
         }
         runInAction(() => {
-          if (newActivityImage.taggedPeople.includes(this.rootStore.users.me.id)) {
+          if (newActivityImage.taggedPeople.includes(parseInt(this.rootStore.users.me.id, 10))) {
             this.rootStore.activityImages.updateActivityImage(String(newActivityImage.id), newActivityImage);
           } else {
             Monitoring.debug(
