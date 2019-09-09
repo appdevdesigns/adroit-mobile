@@ -49,13 +49,19 @@ class App extends React.PureComponent {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  handleAppStateChange = (nextAppState) => {
+  handleAppStateChange = async (nextAppState) => {
     if (
       this.state.appState.match(/inactive|background/) &&
       nextAppState === 'active'
     ) {
+      // Whenever we come to the foreground, check if our session is still valid
+      // If it is, do a background API call. If this call fails we'll be automatically
+      // logged out.
       Monitoring.debug('App has come to the foreground - checking session');
-      store.auth.checkSession();
+      const sessionOk = await store.auth.checkSession();
+      if (sessionOk) {
+        store.users.getAuthenticatedUser();
+      }
     }
     this.setState({appState: nextAppState});
   };
