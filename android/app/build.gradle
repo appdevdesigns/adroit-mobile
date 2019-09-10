@@ -207,7 +207,7 @@ dependencies {
     implementation project(':appcenter')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.core:core:1.0.0"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.react:react-native:0.59.9"  // From node_modules
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-sentry')
     implementation project(':react-native-keychain')
