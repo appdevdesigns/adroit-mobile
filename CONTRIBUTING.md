@@ -132,3 +132,41 @@ NPM scripts are provided to create new Code Push releases. First check that all 
 # To create a production Code Push release for iOS:
 > yarn run cp-release --os=ios --environment=Production
 ```
+
+## Development Workflows
+
+### Code Push Update procedure
+
+If you have not made any changes to the `android` or `ios` folders, code changes can be deployed as a Code Push release:
+
+1. On your dev machine:
+    1. Make code changes
+    1. Commit & push changes
+    1. Create `Staging` Code Push releases for Android and iOS:
+        - `yarn run cp-release --os=android --environment=Staging`
+        - `yarn run cp-release --os=ios --environment=Staging`
+    1. Add an entry in [CHANGELOG.md](./CHANGELOG.md) with changes included in this Code Push release
+1. Test the `Staging` Code Push update on staging apps installed on (registered) Android and iOS test devices
+1. If there's no problems, **Promote** the `Staging` Code Push releases to `Production` (from the Code Push tab in App Center)
+
+## App Update procedure
+
+If you _have_ made changes to either the `android` or `ios` folders, code changes must be deployed as an App Update (bump the version number):
+
+1. On your dev machine:
+    1. Make code changes
+    1. Bump version number (`.\bump_version.sh #.#.#`)
+    1. Commit & push changes
+1. In App Center, build _staging_ builds for Android and iOS:
+    - adroit-android: Set **Build Variant** to `releaseStaging` and uncheck the 'Build status badge' option
+    - adroit-ios: Set **Shared Schema** to `adroit-staging` and uncheck the 'Build status badge' option
+1. In App Center, distribute the staging builds to the Google Play Store (**Alpha**) and App Store (**App Store Connect Users**)
+1. Install and test the new staging apps on (registered) Android and iOS test devices
+1. If there's no problems, in App Center, build production builds for Android and iOS
+    - adroit-android: Set **Build Variant** to `release` and check the 'Build status badge' option
+    - adroit-ios: Set **Shared Schema** to `adroit` and check the 'Build status badge' option
+1. (Optional) Distribute the production builds to the Google Play Store (**Beta**) and App Store (**Beta Testers**)
+    - Test the new production app on Beta test user's devices
+1. Distribute the production builds to the Google Play Store and App Store (**Production**)
+1. Wait for app review & approval
+1. Verify the new production app works on Android and iOS
