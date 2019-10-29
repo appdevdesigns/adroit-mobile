@@ -57,9 +57,6 @@ class Select extends React.Component {
     this.setState({ isAdding: false });
     if (item) {
       this.props.onSelectedItemChange(item);
-      setTimeout(() => {
-        this.closeModal();
-      }, 1000);
     }
   };
 
