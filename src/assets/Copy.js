@@ -58,6 +58,7 @@ const Copy = {
   teamPlaceholder: 'Select Team...',
   teamModalHeader: 'Select Team',
   activityLabel: 'Activity',
+  selectTeamFirst: '(Select Team first)',
   activityPlaceholder: 'Select Activity...',
   activityModalHeader: 'Select Activity',
   taggedPeopleLabel: 'People in Photo',
@@ -69,7 +70,7 @@ const Copy = {
   fcfLocationsSection: 'FCF locations',
   selectLocationFilterPlaceholder: 'Search or add location...',
   selectActivityEmptyTitle: 'No activities to select',
-  selectActivityEmptyMessage: 'Please select a team first',
+  selectActivityEmptyMessage: 'Click the \'+\' button to add an activity',
   selectTaggedPeopleEmptyTitle: 'No team members to select',
   selectTaggedPeopleEmptyMessage: 'Please select a team first',
 
@@ -82,6 +83,26 @@ const Copy = {
     fixCaption: 'Caption needs to be re-worded to include both WHAT you are doing and HOW it impacts Thai people.',
     fixDate: 'Date of the photo is not within the current reporting period. Please correct.',
     fixLocation: 'Location is too general. Please provide complete details of the location: Name, Tambon and Ampoe.',
+  },
+
+  // Add Activity
+  addActivity: {
+    screenTitle: 'Add a new Activity',
+    headingActivityName: 'Activity Name',
+    headingDuration: 'Activity Duration',
+    headingTeamObjectives: 'Team Objectives',
+    headingDescription: 'Description',
+    headingStartDate: 'Start Date',
+    headingEndDate: 'End Date',
+    descActivityName: 'Please use a name everyone associated with the activity will recognize',
+    descTeamObjectives: 'Every activity must meet at least one objective. Please choose all that apply:',
+    descDescription: 'Please describe this activity using the team objective as a guideline',
+    labelActivityName: 'Activity Name',
+    labelActivityNameGovt: 'Activity Name (Govt)',
+    labelDescription: 'Description',
+    labelDescriptionGovt: 'Description (Govt)',
+    buttonAdd: 'Save',
+    buttonCancel: 'Cancel',
   },
 
   // Help
@@ -139,6 +160,7 @@ const Copy = {
     unauthorized: 'Please login again',
     okButtonText: 'OKAY',
     appUpdated: 'App updated! Please login again.',
+    activityCreationSuccess: 'New activity added!',
   },
 
   // Non Ideal State
