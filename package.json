@@ -29,7 +29,7 @@
     "color": "^3.0.0",
     "countly-sdk-react-native": "4.14.0",
     "date-fns": "^1.29.0",
-    "lodash-es": "^4.17.11",
+    "lodash-es": "^4.17.14",
     "minimist": "^1.2.0",
     "mobx": "^4.5.0",
     "mobx-persist": "^0.4.1",
