@@ -20,6 +20,7 @@
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
     "@react-native-community/async-storage": "^1.5.0",
+    "@react-native-community/cli": "^1.12.0",
     "appcenter": "1.13.0",
     "appcenter-analytics": "1.13.0",
     "appcenter-crashes": "1.13.0",
