@@ -11,18 +11,21 @@
 1. Install **Android Studio** from [here](https://developer.android.com/studio/)
    1. If you're not going to use a physical Android device for testing, create at least one Android Virtual Device.
 1. (Mac OS only) Install **XCode** from [here](https://developer.apple.com/xcode/)
-1. Install **git-crypt** using [these instructions](https://github.com/AGWA/git-crypt/blob/master/INSTALL.md). Once you have installed `git-crypt`:
-   1. Generate a new GPG key pair: `gpg --gen-key`. Fill in the data you are asked for.
-   1. Get your hexadecimal key ID: `gpg --list-keys`.
-   1. Export your public key (`gpg --export --armor *your-key-ID*`) to a file and send it to the repo admin along with the email address you used for the key creation.
-   1. Wait for confirmation from the repo admin that you have been added to the repo's trusted users.
+1. Install **git-crypt**. 
+    * **Mac/Linux**: use [these instructions](https://github.com/AGWA/git-crypt/blob/master/INSTALL.md) 
+    * **Windows**: download a pre-build binary from [here](https://github.com/oholovko/git-crypt-windows/releases) and save it somewhere on your system `PATH`. 
+    * Once you have installed `git-crypt`:
+        1. Generate a new GPG key pair: `gpg --gen-key`. Fill in the data you are asked for.
+        1. Get your hexadecimal key ID: `gpg --list-keys`.
+        1. Export your public key (`gpg --export --armor *your-key-ID*`) to a file and send it to the repo admin along with the email address you used for the key creation.
+        1. Wait for confirmation from the repo admin that you have been added to the repo's trusted users.
 
 ### Getting started
 
 1. Clone the adroit-mobile repo: `git clone https://github.com/appdevdesigns/adroit-mobile.git && cd adroit-mobile`
 1. Unlock the encrypted files in the repo: `git-crypt unlock`
 1. Install the dependencies: `yarn`
-1. Install pods: `cd ios && pod install && cd ..`
+1. (Mac only) Install pods: `cd ios && pod install && cd ..`
 1. To debug the app, ensure your test device is connected or your Android emulator/iOS simulator is running and then run the following:
 
 ```sh
