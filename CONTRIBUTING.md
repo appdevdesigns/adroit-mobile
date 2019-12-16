@@ -8,21 +8,42 @@
 1. Install **Yarn** using [these instructions](https://yarnpkg.com/en/docs/install)
 1. Install the **App Center CLI** tool: `yarn global add appcenter-cli`
 1. Install **React Native Debugger** from [here](https://github.com/jhen0409/react-native-debugger/releases)
+1. Install **Java Development Kit** (if you don't already have it) from [here](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+    * Set the following environment variable: `JAVA_PATH=[path-to-jdk-folder]`
 1. Install **Android Studio** from [here](https://developer.android.com/studio/)
-   1. If you're not going to use a physical Android device for testing, create at least one Android Virtual Device.
-1. (Mac OS only) Install **XCode** from [here](https://developer.apple.com/xcode/)
-1. Install **git-crypt** using [these instructions](https://github.com/AGWA/git-crypt/blob/master/INSTALL.md). Once you have installed `git-crypt`:
-   1. Generate a new GPG key pair: `gpg --gen-key`. Fill in the data you are asked for.
-   1. Get your hexadecimal key ID: `gpg --list-keys`.
-   1. Export your public key (`gpg --export --armor *your-key-ID*`) to a file and send it to the repo admin along with the email address you used for the key creation.
-   1. Wait for confirmation from the repo admin that you have been added to the repo's trusted users.
+    1. If you're not going to use a physical Android device for testing, create at least one Android Virtual Device.
+    1. Go to 'SDK Manager', click on the 'SDK Tools' tab and make sure 'Google Play Services' is checked. Then click 'OK' and let Android Studio download the Google Play Services libraries (accept any licence popups!).
+    1. Go to 'Virtual Device Manager' and set up a new Virtual Device using the defaults. You will probably have to download the relevant version of Android for the emulator.
+    1. Ensure the following environment variable is set: `ANDROID_HOME=[path-to-android-skd-folder]`
+    1. Ensure the `platform-tools` folder (`C:\Users\[user]\AppData\Local\Android\sdk\platform-tools` on Windows) is added to your system `PATH`.
+    1. Add a new `android\local.properties` file with the following content (replace with correct path to Android SDK on your machine):
+        * Windows:
+        ```
+        sdk.dir=C\:\\Users\\[user]\\AppData\\Local\\Android\\Sdk     
+        ```
+        * Mac:
+        ```
+        sdk.dir=/users/[user]/Android/Skd
+        ```
+1. (Mac OS only) 
+    1. Install **XCode** from [here](https://developer.apple.com/xcode/)
+    1. Install **CocoaPods** by following the instructions [here](https://guides.cocoapods.org/using/getting-started.html)
+1. Install `gpg` from [here](https://gnupg.org/download/)
+1. Install **git-crypt**. 
+    * **Mac/Linux**: use [these instructions](https://github.com/AGWA/git-crypt/blob/master/INSTALL.md) 
+    * **Windows**: download a pre-build binary from [here](https://github.com/oholovko/git-crypt-windows/releases) and save it somewhere on your system `PATH`. 
+    * Once you have installed `git-crypt`:
+        1. Generate a new GPG key pair: `gpg --gen-key`. Fill in the data you are asked for.
+        1. Get your hexadecimal key ID: `gpg --list-keys`.
+        1. Export your public key (`gpg --export --armor *your-key-ID*`) to a file and send it to the repo admin along with the email address you used for the key creation.
+        1. Wait for confirmation from the repo admin that you have been added to the repo's trusted users.
 
 ### Getting started
 
 1. Clone the adroit-mobile repo: `git clone https://github.com/appdevdesigns/adroit-mobile.git && cd adroit-mobile`
 1. Unlock the encrypted files in the repo: `git-crypt unlock`
 1. Install the dependencies: `yarn`
-1. Install pods: `cd ios && pod install && cd ..`
+1. (Mac only) Install pods: `cd ios && pod install && cd ..`
 1. To debug the app, ensure your test device is connected or your Android emulator/iOS simulator is running and then run the following:
 
 ```sh
@@ -156,6 +177,7 @@ If you _have_ made changes to either the `android` or `ios` folders, code change
 1. On your dev machine:
     1. Make code changes
     1. Bump version number (`.\bump_version.sh #.#.#`)
+    1. Add an entry in [CHANGELOG.md](./CHANGELOG.md) with changes included in this release
     1. Commit & push changes
 1. In App Center, build _staging_ builds for Android and iOS:
     - adroit-android: Set **Build Variant** to `releaseStaging` and uncheck the 'Build status badge' option
