@@ -108,6 +108,7 @@ class MultiSelect extends React.Component {
       renderSelectedItems,
       selectedItems,
       items,
+      disabled,
       filterable,
       filterPlaceholder,
       isSectioned,
@@ -160,7 +161,7 @@ class MultiSelect extends React.Component {
       listProps.data = filtered(items);
     }
     return (
-      <TouchableOpacity onPress={this.openModal} style={[styles.wrapper, style]}>
+      <TouchableOpacity disabled={disabled} onPress={this.openModal} style={[styles.wrapper, style]}>
         <View style={styles.selectedWrapper}>
           {selectedItems.length ? renderSelected(selectedItems) : this.renderPlaceholder()}
         </View>
@@ -199,6 +200,7 @@ MultiSelect.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   uniqueKey: PropTypes.string,
   placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
   displayKey: PropTypes.string,
   modalHeader: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -221,6 +223,7 @@ MultiSelect.defaultProps = {
   placeholder: Copy.defaultSelectPlaceholder,
   uniqueKey: 'id',
   displayKey: 'name',
+  disabled: false,
   renderItem: undefined,
   renderSelectedItems: undefined,
   filterable: false,
