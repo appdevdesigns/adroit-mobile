@@ -28,10 +28,14 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAllowsArbitraryLoads</key>
-	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>codepush.azurewebsites.net</key>
@@ -40,6 +44,11 @@
 			<dict/>
 			<key>codepushupdates.azureedge.net</key>
 			<dict/>
+			<key>localhost</key>
+		    <dict>
+		      <key>NSExceptionAllowsInsecureHTTPLoads</key>
+		      <true/>
+		    </dict>	
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>

@@ -2,18 +2,19 @@ import { StyleSheet } from 'react-native';
 import { square } from 'src/assets/style';
 import Theme, { Color, GridSize } from 'src/assets/theme';
 
-export const thumbnailWidth = 80;
+export const thumbnailWidth = 100;
+export const thumbnailHeight = 100;
 export const thumbnailBorderWidth = 3;
 export const imageWrapperSize = thumbnailWidth + thumbnailBorderWidth * 2;
-export const teamFontSize = 12;
-export const activityFontSize = 12;
-export const captionFontSize = 12;
-const thumbnailBorderRadius = 4;
+export const teamFontSize = 14;
+export const activityFontSize = 18;
+export const captionFontSize = 14;
+export const thumbnailBorderRadius = 50;
 
 export const imageWrapperStyle = {
   backgroundColor: Color.darkBackground2,
   borderRadius: thumbnailBorderRadius,
-  borderWidth: thumbnailBorderWidth,
+  borderWidth: thumbnailBorderWidth
 };
 
 export default StyleSheet.create({
@@ -24,7 +25,11 @@ export default StyleSheet.create({
   date: {
     color: Theme.inverseTextColor,
     fontSize: 12,
-    marginBottom: 3.5,
+    marginTop: 2,
+    marginBottom: 4,
+    width: thumbnailWidth,
+    borderBottomLeftRadius: thumbnailBorderRadius,
+    borderBottomRightRadius: thumbnailBorderRadius
   },
   listItem: {
     flexDirection: 'row',
@@ -48,9 +53,8 @@ export default StyleSheet.create({
   imageWrapper: { ...imageWrapperStyle },
   thumbnail: {
     width: thumbnailWidth,
-    height: 60,
-    borderBottomRightRadius: thumbnailBorderRadius - 1,
-    borderBottomLeftRadius: thumbnailBorderRadius - 1,
+    height: thumbnailHeight,
+    borderRadius: thumbnailBorderRadius,
   },
   approvedImage: {
     backgroundColor: Color.approvedImage,
@@ -84,4 +88,12 @@ export default StyleSheet.create({
     marginRight: 0,
     color: Color.darkTextSecondary,
   },
+  bold: {
+    fontSize: captionFontSize,
+    lineHeight: captionFontSize + 2,
+    marginLeft: 10,
+    marginRight: 0,
+    fontWeight: 'bold',
+    color: Color.darkTextSecondary,
+  }
 });
