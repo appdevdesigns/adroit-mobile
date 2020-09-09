@@ -3,6 +3,7 @@ import { persist } from 'mobx-persist';
 import reduce from 'lodash-es/reduce';
 import unionBy from 'lodash-es/unionBy';
 import keyBy from 'lodash-es/keyBy';
+import sortBy from 'lodash-es/sortBy';
 import Api from 'src/util/api';
 import ResourceStore from './ResourceStore';
 
@@ -26,6 +27,15 @@ export default class ProjectsStore extends ResourceStore {
   @computed
   get allTeams() {
     return reduce(this.list, (teams, project) => teams.concat(project.teams.slice()), []);
+  }
+
+  @persist('map')
+  @observable
+  teamObjectives = new Map();
+
+  @computed
+  get teamObjectivesList() {
+    return sortBy(Array.from(this.teamObjectives.values()), ['id']);
   }
 
   getTeamMembers(team) {
@@ -105,6 +115,12 @@ export default class ProjectsStore extends ResourceStore {
   }
 
   @action.bound
+  addActivity(projectId, teamId, newActivity) {
+    const team = this.getTeam(teamId);
+    team.activities.unshift(newActivity);
+  }
+
+  @action.bound
   listMyProjects() {
     const onProjectsResponse = response => {
       const projectsMap = keyBy(response.json.data.projects, i => String(i.IDProject));
@@ -123,7 +139,23 @@ export default class ProjectsStore extends ResourceStore {
         this.isInitialized = true;
         this.fetchCount = Math.max(this.fetchCount - 1, 0);
       });
+      // Get the team objectives for each team in each project
+      response.json.data.projects.forEach(project => {
+        project.teams.forEach(team => {
+          this.getTeamObjectives(team.IDMinistry);
+        });
+      });
     };
     this.fetch(Api.urls.myProjectsWithMembers, onProjectsResponse);
+  }
+
+  getTeamObjectives(teamId) {
+    const teamObjectivesUrl = Api.urls.teamObjectives(teamId);
+    const onListResponse = response => {
+      runInAction(() => {
+        this.teamObjectives.set(teamId, response.json.data);
+      });
+    };
+    this.fetch(teamObjectivesUrl, onListResponse);
   }
 }

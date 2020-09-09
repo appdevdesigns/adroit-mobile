@@ -18,6 +18,9 @@ export default StyleSheet.create({
     backgroundColor: Theme.toolbarDefaultBg,
     flexDirection: 'row',
   },
+  headerIcon: {
+    color: Color.lightBackground,
+  },
   icon: {
     flex: 0,
     fontSize: 17,

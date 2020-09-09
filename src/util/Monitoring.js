@@ -13,6 +13,8 @@ export const Event = {
   ActivityPhotoUploadSuccess: 'activity-photo-upload-success',
   ActivityPhotoUploadFail: 'activity-photo-upload-fail',
   CodePushUpdateInstalled: 'code-push-update-installed',
+  ActivityCreationSuccess: 'activity-creation-success',
+  ActivityCreationFail: 'activity-creation-fail',
 };
 
 /* eslint-disable no-console */

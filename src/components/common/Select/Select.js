@@ -10,7 +10,9 @@ import {
   Container,
   Title,
   Content,
+  Left,
   Body,
+  Right,
   Separator,
   Footer,
   FooterTab,
@@ -27,6 +29,7 @@ class Select extends React.Component {
     super(props);
     this.state = {
       isModalOpen: false,
+      isAdding: false,
       filter: '',
     };
   }
@@ -47,8 +50,14 @@ class Select extends React.Component {
   };
 
   addOption = () => {
-    this.props.onAddOption(this.state.filter);
-    this.closeModal();
+    this.setState({ isAdding: true });
+  };
+
+  onAddDone = (item) => {
+    this.setState({ isAdding: false });
+    if (item) {
+      this.props.onSelectedItemChange(item);
+    }
   };
 
   keyExtractor = item => String(item[this.props.uniqueKey]);
@@ -96,18 +105,19 @@ class Select extends React.Component {
       renderSelectedItem,
       selectedItem,
       items,
+      disabled,
       modalHeader,
       filterable,
       displayKey,
       noMatchesCta,
-      onAddOption,
+      addOptionComponent,
       filterPlaceholder,
       isSectioned,
       renderSectionHeader,
       emptyListTitle,
       emptyListMessage,
     } = this.props;
-    const { isModalOpen, filter } = this.state;
+    const { isModalOpen, filter, isAdding } = this.state;
     const renderSelected = renderSelectedItem || this.renderSelectedItem;
 
     const filtered = allItems => {
@@ -121,7 +131,7 @@ class Select extends React.Component {
       filterable,
       filter,
       noMatchesCta,
-      addOption: onAddOption ? this.addOption : undefined,
+      addOption: addOptionComponent ? this.addOption : undefined,
       emptyListTitle,
       emptyListMessage,
     };
@@ -153,35 +163,47 @@ class Select extends React.Component {
     }
 
     return (
-      <TouchableOpacity onPress={this.openModal} style={[styles.wrapper, style]}>
+      <TouchableOpacity disabled={disabled} onPress={this.openModal} style={[styles.wrapper, style]}>
         <View style={styles.selectedWrapper}>
           {selectedItem ? renderSelected(selectedItem) : this.renderPlaceholder()}
         </View>
         <Icon type="FontAwesome" name="caret-down" style={styles.icon} />
         <Modal animationType="slide" visible={isModalOpen} onRequestClose={this.closeModal}>
-          <Container>
-            <View style={[baseStyles.manualHeader, styles.header]}>
-              <Body style={baseStyles.headerBody}>
-                <Title>{modalHeader}</Title>
-              </Body>
-            </View>
-            <Content>
-              <SelectFilter
-                visible={filterable}
-                value={filter}
-                onChangeText={this.setFilter}
-                placeholder={filterPlaceholder}
-              />
-              <ListComponent {...listProps} />
-            </Content>
-            <Footer>
-              <FooterTab>
-                <Button active full dark onPress={this.closeModal} style={styles.doneButton}>
-                  <Text>{Copy.done}</Text>
-                </Button>
-              </FooterTab>
-            </Footer>
-          </Container>
+          {isAdding ? (
+            React.cloneElement(addOptionComponent, { onDone: this.onAddDone })
+          ) : (
+            <Container>
+              <View style={[baseStyles.manualHeader, styles.header]}>
+                <Left style={baseStyles.headerLeft} />
+                <Body style={baseStyles.headerBody}>
+                  <Title>{modalHeader}</Title>
+                </Body>
+                <Right style={baseStyles.headerRight}>
+                  {!filterable && addOptionComponent ? (
+                    <Button transparent onPress={this.addOption}>
+                      <Icon style={styles.headerIcon} type="FontAwesome" name="plus" />
+                    </Button>
+                  ) : null}
+                </Right>
+              </View>
+              <Content>
+                <SelectFilter
+                  visible={filterable}
+                  value={filter}
+                  onChangeText={this.setFilter}
+                  placeholder={filterPlaceholder}
+                />
+                <ListComponent {...listProps} />
+              </Content>
+              <Footer>
+                <FooterTab>
+                  <Button active full dark onPress={this.closeModal} style={styles.doneButton}>
+                    <Text>{Copy.done}</Text>
+                  </Button>
+                </FooterTab>
+              </Footer>
+            </Container>
+          )}
         </Modal>
       </TouchableOpacity>
     );
@@ -192,6 +214,7 @@ Select.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   uniqueKey: PropTypes.string,
   placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
   displayKey: PropTypes.string,
   modalHeader: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -202,11 +225,11 @@ Select.propTypes = {
   filterable: PropTypes.bool,
   noMatchesCta: PropTypes.string,
   filterPlaceholder: PropTypes.string,
-  onAddOption: PropTypes.func,
   isSectioned: PropTypes.bool,
   renderSectionHeader: PropTypes.func,
   emptyListTitle: PropTypes.string,
   emptyListMessage: PropTypes.string,
+  addOptionComponent: PropTypes.node,
 };
 
 Select.defaultProps = {
@@ -215,16 +238,17 @@ Select.defaultProps = {
   placeholder: Copy.defaultSelectPlaceholder,
   uniqueKey: 'id',
   displayKey: 'name',
+  disabled: false,
   renderItem: undefined,
   renderSelectedItem: undefined,
   filterable: false,
   noMatchesCta: Copy.add,
   filterPlaceholder: Copy.defaultSearchPlaceholder,
-  onAddOption: undefined,
   isSectioned: false,
   renderSectionHeader: undefined,
   emptyListTitle: Copy.nonIdealState.defaultEmptySelect.title,
   emptyListMessage: Copy.nonIdealState.defaultEmptySelect.message,
+  addOptionComponent: undefined,
 };
 
 export default Select;

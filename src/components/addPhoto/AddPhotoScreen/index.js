@@ -22,6 +22,7 @@ import {
 import { MultiSelect, Select } from 'src/components/common/Select';
 import selectStyles from 'src/components/common/Select/style';
 import baseStyles, { round } from 'src/assets/style';
+import AddActivityView from 'src/components/addActivity/AddActivityView';
 import AdroitScreen from 'src/components/common/AdroitScreen';
 import AdroitHeader from 'src/components/common/AdroitHeader';
 import ProjectsStore from 'src/store/ProjectsStore';
@@ -282,12 +283,14 @@ class AddPhotoScreen extends React.Component {
                     style={styles.input}
                     uniqueKey="id"
                     displayKey="activity_name"
+                    disabled={!team}
                     modalHeader={Copy.activityModalHeader}
-                    placeholder={Copy.activityPlaceholder}
+                    placeholder={team ? Copy.activityPlaceholder : Copy.selectTeamFirst}
                     emptyListTitle={Copy.selectActivityEmptyTitle}
                     emptyListMessage={Copy.selectActivityEmptyMessage}
                     selectedItem={activity}
                     onSelectedItemChange={this.setDraftProp('activity')}
+                    addOptionComponent={<AddActivityView team={team} />}
                     items={activities}
                   />
                 )}
@@ -301,11 +304,12 @@ class AddPhotoScreen extends React.Component {
                     filterable
                     style={styles.input}
                     items={taggablePeople}
+                    disabled={!team}
                     selectedItems={taggedPeople.slice()}
                     uniqueKey="IDPerson"
                     displayKey="display_name"
                     isSectioned
-                    placeholder={Copy.taggedPeoplePlaceholder}
+                    placeholder={team ? Copy.taggedPeoplePlaceholder : Copy.selectTeamFirst}
                     modalHeader={Copy.taggedPeopleModalHeader}
                     emptyListTitle={Copy.selectTaggedPeopleEmptyTitle}
                     emptyListMessage={Copy.selectTaggedPeopleEmptyMessage}
