@@ -21,12 +21,13 @@ const ActivityFeedListItem = ({ item, onPress }) => {
     <ListItem key={item.id} style={styles.listItem} onPress={editable ? onPress : undefined}>
       <Left style={styles.left}>
         <View style={[styles.imageWrapper, statusStyle]}>
+          <Text style={styles.date}>{format(item.date, 'MMM Do')}</Text>
           <Image style={styles.thumbnail} source={{ uri: `${Api.urls.base}${item.image}` }} />
         </View>
       </Left>
       <Body style={styles.body}>
         {!!item.activity && (
-          <Text ellipsizeMode="tail" numberOfLines={2} style={styles.activity}>
+          <Text ellipsizeMode="tail" numberOfLines={1} style={styles.activity}>
             {item.activity.activity_name}
           </Text>
         )}
@@ -36,7 +37,7 @@ const ActivityFeedListItem = ({ item, onPress }) => {
           </Text>
         )}
         <Text ellipsizeMode="tail" numberOfLines={3} style={styles.caption}>
-          <Text style={styles.bold}>{format(item.date, 'MMM Do')}</Text> - {item.caption}
+          {item.caption}
         </Text>
       </Body>
       {editable && (
