@@ -66,7 +66,7 @@ export default class ActivityImagesStore extends ResourceStore {
 
   @action.bound
   getMyActivityImages() {
-    const fullUrl = `${Api.urls.myActivityImages}?date[>]=${format(this.currentReportingPeriod.start, 'YYYY/MM/DD')}`;
+    const fullUrl = `${Api.urls.myActivityImages}?date[>=]=${format(this.currentReportingPeriod.start, 'YYYY/MM/DD')}`;
     this.fetchList(fullUrl);
   }
 
